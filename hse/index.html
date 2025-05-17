@@ -135,7 +135,7 @@
 
     document.getElementById('manpower').addEventListener('input', function () {
       const count = parseInt(this.value, 10);
-      document.getElementById('hours').value = count > 0 ? count * 8 : '';
+      document.getElementById('hours').value = count > 0 ? count * 10 : '';
     });
 
     function submitForm(formId, payloadBuilder) {
