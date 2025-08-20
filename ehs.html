@@ -2,29 +2,122 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>EHS Audit Tool</title>
+  <title>EHS Audit Data Collection</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    form { max-width: 600px; margin: auto; }
-    label { display: block; margin-top: 10px; }
-    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
-    button { margin-top: 20px; padding: 10px; width: 100%; background: #007BFF; color: white; border: none; }
-    button:hover { background: #0056b3; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: #f8f9fa;
+      color: #333;
+    }
+    header {
+      background: #2e7d32; /* EHS green */
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+    form {
+      background: white;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      background: #2e7d32;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1b5e20;
+    }
+    .records {
+      max-width: 95%;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: #2e7d32;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    img {
+      max-width: 80px;
+      max-height: 80px;
+      border-radius: 5px;
+    }
+    /* Category colors */
+    .risk-high { background: #ffcccc !important; color: #b71c1c; font-weight: bold; }
+    .risk-medium { background: #fff3cd !important; color: #e65100; font-weight: bold; }
+    .risk-low { background: #e0f7fa !important; color: #006064; font-weight: bold; }
+    .good-practice { background: #e8f5e9 !important; color: #1b5e20; font-weight: bold; }
+    #downloadBtn {
+      background: #0277bd;
+    }
+    #downloadBtn:hover {
+      background: #01579b;
+    }
   </style>
 </head>
 <body>
-  <h2>Audit Data Collection Form</h2>
+  <header>
+    <h1><i class="fa-solid fa-helmet-safety"></i> EHS Audit Data Collection</h1>
+    <p>Ensuring Safety • Health • Environment</p>
+  </header>
+
   <form id="auditForm">
+    <h2>New Audit Entry</h2>
     <label>Audit Date:<input type="date" name="date" required></label>
     <label>Auditor Name:<input type="text" name="auditor" required></label>
     <label>Location:<input type="text" name="location" required></label>
     <label>Observation:<textarea name="observation" required></textarea></label>
     <label>Category:
       <select name="category" required>
-        <option value="High Risk">High Risk</option>
-        <option value="Medium Risk">Medium Risk</option>
-        <option value="Low Risk">Low Risk</option>
-        <option value="Good Practice">Good Practice</option>
+        <option value="High Risk">⚠️ High Risk</option>
+        <option value="Medium Risk">⚠ Medium Risk</option>
+        <option value="Low Risk">ℹ️ Low Risk</option>
+        <option value="Good Practice">✅ Good Practice</option>
       </select>
     </label>
     <label>Corrective Action:<textarea name="action"></textarea></label>
@@ -32,17 +125,102 @@
     <label>Target Date:<input type="date" name="target"></label>
     <label>Status:
       <select name="status">
-        <option value="Open">Open</option>
-        <option value="Closed">Closed</option>
+        <option value="Open">🔴 Open</option>
+        <option value="Closed">🟢 Closed</option>
       </select>
     </label>
-    <button type="submit">Submit</button>
+    <label>Photo:
+      <input type="file" name="photo" accept="image/*" capture="environment">
+    </label>
+    <button type="submit"><i class="fa-solid fa-plus-circle"></i> Add Audit Entry</button>
   </form>
 
+  <div class="records">
+    <h2>Audit Records</h2>
+    <table id="auditTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Auditor</th>
+          <th>Location</th>
+          <th>Observation</th>
+          <th>Category</th>
+          <th>Action</th>
+          <th>Responsible</th>
+          <th>Target</th>
+          <th>Status</th>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="downloadBtn"><i class="fa-solid fa-file-excel"></i> Download as Excel</button>
+  </div>
+
   <script>
-    document.getElementById("auditForm").addEventListener("submit", function(e) {
+    const form = document.getElementById("auditForm");
+    const tableBody = document.getElementById("auditTable").querySelector("tbody");
+    const downloadBtn = document.getElementById("downloadBtn");
+    let records = [];
+
+    form.addEventListener("submit", function(e) {
       e.preventDefault();
-      alert("Form submitted! (Next step: connect to Google Sheets)");
+      const formData = new FormData(form);
+      const row = [];
+
+      formData.forEach((value, key) => {
+        if (key !== "photo") row.push(value);
+      });
+
+      const file = formData.get("photo");
+      let imgUrl = "";
+      if (file && file.size > 0) {
+        imgUrl = URL.createObjectURL(file);
+        row.push(imgUrl);
+      } else {
+        row.push("");
+      }
+      records.push(row);
+
+      // Add row to table
+      const tr = document.createElement("tr");
+      row.forEach((cell, index) => {
+        const td = document.createElement("td");
+
+        if (index === 4) { // Category styling
+          td.textContent = cell;
+          if (cell.includes("High Risk")) td.classList.add("risk-high");
+          if (cell.includes("Medium Risk")) td.classList.add("risk-medium");
+          if (cell.includes("Low Risk")) td.classList.add("risk-low");
+          if (cell.includes("Good Practice")) td.classList.add("good-practice");
+        } else if (index === 9 && cell) { // Photo
+          const img = document.createElement("img");
+          img.src = cell;
+          td.appendChild(img);
+        } else {
+          td.textContent = cell;
+        }
+        tr.appendChild(td);
+      });
+      tableBody.appendChild(tr);
+
+      form.reset();
+    });
+
+    downloadBtn.addEventListener("click", function() {
+      const ws_data = [
+        ["Date", "Auditor", "Location", "Observation", "Category", "Action", "Responsible", "Target", "Status", "Photo"]
+      ];
+
+      records.forEach(r => {
+        ws_data.push(r.map((v, i) => i === 9 ? "[photo not in Excel]" : v));
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Audit Records");
+
+      XLSX.writeFile(wb, "audit_records.xlsx");
     });
   </script>
 </body>
