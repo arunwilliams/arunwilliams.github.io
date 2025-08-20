@@ -23,16 +23,19 @@ input, select, textarea {
   border-radius:6px;
   font-size:1rem;
 }
-textarea {
-  resize: vertical;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-}
+textarea { resize: vertical; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
 form button { margin-top:15px; padding:12px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
 form button:hover { background:#256628; }
-table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.9rem; text-align:left; }
-th, td { border:1px solid #ccc; padding:8px; vertical-align:middle; text-align:left; }
+table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.9rem; text-align:left; table-layout: fixed; }
+th, td {
+  border:1px solid #ccc;
+  padding:8px;
+  vertical-align:middle;
+  text-align:left;
+  word-wrap: break-word;
+  white-space: normal;
+  position: relative;
+}
 th { background:#2e7d32; color:#fff; }
 .risk-high { background:#f8d7da; border:1px solid #f5c6cb; }
 .risk-medium { background:#fff3cd; border:1px solid #ffeeba; }
@@ -44,9 +47,20 @@ th { background:#2e7d32; color:#fff; }
 .report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center;}
 label i { margin-right:6px; color:#2e7d32; }
 
-/* Toggle button for mobile */
-#toggleFormBtn { display:none; margin-bottom:10px; padding:10px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; width:100%; font-size:1rem; }
-#toggleFormBtn i { margin-right:6px; }
+/* Column widths */
+th:nth-child(1), td:nth-child(1) { width:40px; }
+th:nth-child(2), td:nth-child(2) { width:100px; }
+th:nth-child(3), td:nth-child(3) { width:120px; }
+th:nth-child(4), td:nth-child(4) { width:120px; }
+th:nth-child(5), td:nth-child(5) { width:200px; }
+th:nth-child(6), td:nth-child(6) { width:150px; }
+th:nth-child(7), td:nth-child(7) { width:120px; }
+th:nth-child(8), td:nth-child(8) { width:200px; }
+th:nth-child(9), td:nth-child(9) { width:200px; }
+th:nth-child(10), td:nth-child(10) { width:150px; }
+th:nth-child(11), td:nth-child(11) { width:100px; }
+th:nth-child(12), td:nth-child(12) { width:80px; }
+th:nth-child(13), td:nth-child(13) { width:80px; }
 
 /* Mobile responsive */
 @media(max-width:768px){
@@ -58,13 +72,29 @@ label i { margin-right:6px; color:#2e7d32; }
   .report-box{ font-size:0.95rem; padding:10px; }
 }
 
+/* Tooltip hover */
+td:hover::after {
+  content: attr(title);
+  position: absolute;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  top: 100%;
+  left: 0;
+  white-space: normal;
+  z-index: 10;
+  max-width: 250px;
+  display: block;
+}
+
 /* Print styles */
 @media print {
   body * { visibility: hidden; }
   #auditTable, #auditReport, #auditTable * { visibility: visible; }
   #auditTable, #auditReport { position: absolute; top: 0; left: 0; width: 100%; }
   #auditTable th, #auditTable td { border:1px solid #000 !important; }
-  #printBtn, #exportBtn, #toggleFormBtn, #auditFormCard { display: none !important; }
+  #printBtn, #exportBtn, #auditFormCard { display: none !important; }
 }
 </style>
 </head>
@@ -72,8 +102,6 @@ label i { margin-right:6px; color:#2e7d32; }
 <h1><i class="fas fa-hard-hat"></i> EHS Audit Dashboard</h1>
 
 <div class="container">
-
-<button id="toggleFormBtn"><i class="fas fa-chevron-down"></i> Show/Hide Audit Form</button>
 
 <div class="card" id="auditFormCard">
 <h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
@@ -154,23 +182,6 @@ function updateReport(){
     <p>✅ Good Practice: ${counts.good}</p>`;
 }
 
-function handleResponsive() {
-  if(window.innerWidth <= 768){
-    document.getElementById("toggleFormBtn").style.display = "block";
-    document.getElementById("auditFormCard").style.display = "none";
-  } else {
-    document.getElementById("toggleFormBtn").style.display = "none";
-    document.getElementById("auditFormCard").style.display = "block";
-  }
-}
-window.addEventListener("resize", handleResponsive);
-window.addEventListener("load", handleResponsive);
-
-document.getElementById("toggleFormBtn").addEventListener("click", function(){
-  const formCard = document.getElementById("auditFormCard");
-  formCard.style.display = (formCard.style.display === "none") ? "block" : "none";
-});
-
 document.getElementById("auditForm").addEventListener("submit",function(e){
   e.preventDefault();
   let photoFile=document.getElementById("photo").files[0];
@@ -200,7 +211,8 @@ function addRecord(photoData){
 }
 
 function renderTable(){
-  let tbody=document.querySelector("#auditTable tbody"); tbody.innerHTML="";
+  let tbody=document.querySelector("#auditTable tbody"); 
+  tbody.innerHTML="";
   records.forEach((r,i)=>{
     let row=document.createElement("tr");
     if(r.category==="High Risk") row.className="risk-high";
@@ -214,25 +226,35 @@ function renderTable(){
     if(r.category==="Low Risk") categoryIcon='<i class="fas fa-exclamation-triangle" style="color:green;"></i>';
     if(r.category==="Good Practice") categoryIcon='<i class="fas fa-check-circle" style="color:green;"></i>';
 
-    row.innerHTML=`<td>${i+1}</td><td>${r.date}</td><td>${r.auditor}</td><td>${r.location}</td>
-    <td>${r.observation}</td><td>${r.hazardNature}</td><td>${categoryIcon} ${r.category}</td>
-    <td>${r.recommendedAction}</td><td>${r.actionTaken}</td><td>${r.responsiblePerson}</td>
-    <td>${r.targetDate}</td><td>${r.status}</td>
-    <td>${r.photo?'<img src="'+r.photo+'" width="50">':''}</td>`;
+    const cells = [
+      i+1, r.date, r.auditor, r.location, r.observation, r.hazardNature,
+      `${categoryIcon} ${r.category}`, r.recommendedAction, r.actionTaken,
+      r.responsiblePerson, r.targetDate, r.status, r.photo ? '<img src="'+r.photo+'" width="50">' : ''
+    ];
+
+    cells.forEach(c=>{
+      const td = document.createElement("td");
+      td.innerHTML = c;
+      td.title = typeof c === "string" ? c.replace(/<[^>]+>/g,"") : ""; // tooltip
+      row.appendChild(td);
+    });
+
     tbody.appendChild(row);
   });
 }
 
-// Excel Export
+// Excel export mimicking web UI
 document.getElementById("exportBtn").addEventListener("click", async function () {
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet("Audit Report");
 
-  ws.mergeCells("A1:M1"); ws.getCell("A1").value = "Project Name: XYZ Project";
+  ws.mergeCells("A1:M1");
+  ws.getCell("A1").value = "Project Name: XYZ Project";
   ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
   ws.getCell("A1").font = { bold: true, size: 14 };
 
-  ws.mergeCells("A2:M2"); ws.getCell("A2").value = "Audit No: 001";
+  ws.mergeCells("A2:M2");
+  ws.getCell("A2").value = "Audit No: 001";
   ws.getCell("A2").alignment = { horizontal: "center", vertical: "middle" };
   ws.getCell("A2").font = { bold: true, size: 12 };
 
@@ -242,7 +264,7 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
   headerRow.eachCell((cell) => {
     cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
     cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2E7D32" } };
-    cell.alignment = { horizontal: "left", vertical: "middle", wrapText: true };
+    cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
     cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
   });
 
@@ -253,15 +275,18 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
   ];
 
   for (let i = 0; i < records.length; i++) {
-    let r = records[i];
-    let categorySymbol = "", fillColor = "";
-    if (r.category === "High Risk") { categorySymbol = "❗"; fillColor = "FFCDD2"; }
-    if (r.category === "Medium Risk") { categorySymbol = "⚠️"; fillColor = "FFF9C4"; }
-    if (r.category === "Low Risk") { categorySymbol = "⚠️"; fillColor = "C8E6C9"; }
-    if (r.category === "Good Practice") { categorySymbol = "✔️"; fillColor = "E8F5E9"; }
+    const r = records[i];
+    let fillColor = "", categoryIcon = "";
+    switch(r.category){
+      case "High Risk": fillColor="FFCDD2"; categoryIcon="❗"; break;
+      case "Medium Risk": fillColor="FFF9C4"; categoryIcon="⚠️"; break;
+      case "Low Risk": fillColor="C8E6C9"; categoryIcon="⚠️"; break;
+      case "Good Practice": fillColor="E8F5E9"; categoryIcon="✔️"; break;
+    }
 
-    const row = ws.addRow([i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,
-      `${categorySymbol} ${r.category}`,r.recommendedAction,r.actionTaken,r.responsiblePerson,
+    const row = ws.addRow([
+      i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,
+      `${categoryIcon} ${r.category}`,r.recommendedAction,r.actionTaken,r.responsiblePerson,
       r.targetDate,r.status,""
     ]);
     row.height = 50;
@@ -271,8 +296,10 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
       cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
     });
 
-    if(r.photo){ const imageId = wb.addImage({ base64:r.photo, extension:'png' }); 
-      ws.addImage(imageId,{tl:{col:12,row:row.number-1},ext:{width:50,height:50}}); }
+    if(r.photo){ 
+      const imageId = wb.addImage({ base64:r.photo, extension:'png' });
+      ws.addImage(imageId, { tl:{col:12,row:row.number-1}, ext:{width:50,height:50} });
+    }
   }
 
   ws.addRow([]);
@@ -289,10 +316,7 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
   });
 });
 
-// Print button
-document.getElementById("printBtn").addEventListener("click", function() {
-  window.print();
-});
+document.getElementById("printBtn").addEventListener("click",function(){ window.print(); });
 </script>
 </body>
 </html>
