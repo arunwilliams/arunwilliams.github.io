@@ -2,144 +2,167 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>EHS Audit Data Collection</title>
+  <title>HSE Audit Data Collection</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f5f7f5;
-      margin: 0;
-      padding: 20px;
+      margin: 20px;
+      background: #f4f9f4;
       color: #333;
     }
+
     h1 {
       text-align: center;
       color: #2e7d32;
-      margin-bottom: 20px;
     }
+
     .card {
-      background: white;
+      background: #fff;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      margin: 20px auto;
       padding: 20px;
-      max-width: 1100px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
+
     form label {
       font-weight: bold;
-      margin-top: 10px;
-      display: block;
       color: #2e7d32;
     }
+
     form input, form select, form textarea {
       width: 100%;
       padding: 8px;
-      margin: 6px 0 12px 0;
-      border-radius: 6px;
+      margin: 6px 0 15px 0;
       border: 1px solid #ccc;
+      border-radius: 6px;
     }
-    button {
+
+    form button {
       background: #2e7d32;
-      color: white;
-      padding: 10px 16px;
+      color: #fff;
+      padding: 10px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 14px;
+      font-weight: bold;
     }
-    button:hover {
-      background: #256428;
+
+    form button:hover {
+      background: #256327;
     }
-    #downloadExcel {
-      margin-top: 15px;
-      background: #1565c0;
-    }
-    #downloadExcel:hover {
-      background: #0d47a1;
-    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 15px;
     }
-    th, td {
+
+    table, th, td {
       border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-      font-size: 14px;
     }
+
     th {
       background: #2e7d32;
-      color: white;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
     }
+
+    td {
+      padding: 8px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
     td img {
-      max-width: 70px;
-      max-height: 50px;
+      max-width: 80px;
+      max-height: 60px;
       border-radius: 4px;
     }
-    /* Risk category colors */
-    .risk-high { background: #ffcccc; color: #b71c1c; font-weight: bold; }
-    .risk-medium { background: #fff3cd; color: #e65100; font-weight: bold; }
-    .risk-low { background: #e0f7fa; color: #006064; font-weight: bold; }
-    .good-practice { background: #e8f5e9; color: #1b5e20; font-weight: bold; }
+
+    .risk-high { background-color: #f28b82; font-weight: bold; }
+    .risk-medium { background-color: #fff475; font-weight: bold; }
+    .risk-low { background-color: #81c995; font-weight: bold; }
+    .good-practice { background-color: #b2f2bb; font-weight: bold; }
+
+    #downloadBtn {
+      background: #2e7d32;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      display: block;
+      margin: 15px auto;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    }
+
+    #downloadBtn i { margin-right: 6px; }
+    #downloadBtn:hover { background: #256327; }
   </style>
 </head>
 <body>
-  <h1><i class="fa-solid fa-helmet-safety"></i> EHS Audit Data Collection</h1>
 
-  <!-- Audit Form -->
+  <h1><i class="fas fa-helmet-safety"></i> HSE Audit Data Collection</h1>
+
+  <!-- Form Card -->
   <div class="card">
-    <h2><i class="fa-solid fa-clipboard-check"></i> Audit Form</h2>
     <form id="auditForm">
-      <label>Date</label>
+      <label>Date:</label>
       <input type="date" name="date" required>
 
-      <label>Auditor</label>
+      <label>Auditor:</label>
       <input type="text" name="auditor" required>
 
-      <label>Location</label>
+      <label>Location:</label>
       <input type="text" name="location" required>
 
-      <label>Observation</label>
+      <label>Observation:</label>
       <textarea name="observation" required></textarea>
 
-      <label>Category</label>
+      <label>Nature of Hazard:</label>
+      <input type="text" name="hazard" required>
+
+      <label>Category:</label>
       <select name="category" required>
         <option value="High Risk">🔴 High Risk</option>
-        <option value="Medium Risk">🟠 Medium Risk</option>
-        <option value="Low Risk">🔵 Low Risk</option>
+        <option value="Medium Risk">🟡 Medium Risk</option>
+        <option value="Low Risk">🟢 Low Risk</option>
         <option value="Good Practice">✅ Good Practice</option>
       </select>
 
-      <label>Action</label>
-      <input type="text" name="action">
+      <label>Recommended Action:</label>
+      <textarea name="action" required></textarea>
 
-      <label>Responsible</label>
-      <input type="text" name="responsible">
+      <label>Responsible Person:</label>
+      <input type="text" name="responsible" required>
 
-      <label>Target Date</label>
-      <input type="date" name="target">
+      <label>Target Date:</label>
+      <input type="date" name="target" required>
 
-      <label>Status</label>
-      <select name="status">
-        <option value="Open">⏳ Open</option>
-        <option value="Closed">✅ Closed</option>
+      <label>Status:</label>
+      <select name="status" required>
+        <option value="Open">Open</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Closed">Closed</option>
       </select>
 
-      <label>Upload Photo</label>
-      <input type="file" name="photo" accept="image/*">
+      <label>Upload Photo:</label>
+      <input type="file" name="photo" accept="image/*" capture="environment">
 
-      <button type="submit"><i class="fa-solid fa-plus"></i> Add Audit</button>
+      <button type="submit"><i class="fas fa-plus-circle"></i> Add Record</button>
     </form>
   </div>
 
-  <!-- Audit Records -->
+  <!-- Records Card -->
   <div class="card">
-    <h2><i class="fa-solid fa-table"></i> Audit Records</h2>
-    <button id="downloadExcel"><i class="fa-solid fa-file-excel"></i> Download Excel</button>
+    <h2><i class="fas fa-table"></i> Audit Records</h2>
     <table>
       <thead>
         <tr>
@@ -148,8 +171,9 @@
           <th>Auditor</th>
           <th>Location</th>
           <th>Observation</th>
+          <th>Nature of Hazard</th>
           <th>Category</th>
-          <th>Action</th>
+          <th>Recommended Action</th>
           <th>Responsible</th>
           <th>Target</th>
           <th>Status</th>
@@ -160,118 +184,121 @@
     </table>
   </div>
 
-<script>
-const form = document.getElementById("auditForm");
-const tableBody = document.getElementById("tableBody");
-const downloadBtn = document.getElementById("downloadExcel");
-let records = [];
+  <button id="downloadBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
 
-// Convert file to Base64
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-    reader.onerror = error => reject(error);
-    reader.readAsDataURL(file);
-  });
-}
+  <script>
+    const form = document.getElementById("auditForm");
+    const tableBody = document.getElementById("tableBody");
+    const downloadBtn = document.getElementById("downloadBtn");
+    let records = [];
 
-// Add record
-form.addEventListener("submit", async function(e) {
-  e.preventDefault();
-  const formData = new FormData(form);
-  const row = [];
-  row.push(records.length + 1); // S. No.
-
-  formData.forEach((value, key) => {
-    if (key !== "photo") row.push(value);
-  });
-
-  const file = formData.get("photo");
-  let base64Img = "";
-  let imgUrl = "";
-  if (file && file.size > 0) {
-    base64Img = await fileToBase64(file);
-    imgUrl = URL.createObjectURL(file);
-    row.push({ preview: imgUrl, base64: base64Img, mime: file.type });
-  } else {
-    row.push(null);
-  }
-
-  records.push(row);
-
-  // Add row to table
-  const tr = document.createElement("tr");
-  row.forEach((cell, index) => {
-    const td = document.createElement("td");
-    if (index === 5) {
-      td.textContent = cell;
-      if (cell.includes("High Risk")) td.classList.add("risk-high");
-      if (cell.includes("Medium Risk")) td.classList.add("risk-medium");
-      if (cell.includes("Low Risk")) td.classList.add("risk-low");
-      if (cell.includes("Good Practice")) td.classList.add("good-practice");
-    } else if (index === 10 && cell) {
-      const img = document.createElement("img");
-      img.src = cell.preview;
-      td.appendChild(img);
-    } else {
-      td.textContent = typeof cell === "string" || typeof cell === "number" ? cell : "";
-    }
-    tr.appendChild(td);
-  });
-  tableBody.appendChild(tr);
-  form.reset();
-});
-
-// Download Excel
-downloadBtn.addEventListener("click", async function () {
-  const workbook = new ExcelJS.Workbook();
-  const sheet = workbook.addWorksheet("Audit Records");
-
-  const header = ["S. No.","Date","Auditor","Location","Observation","Category","Action","Responsible","Target","Status","Photo"];
-  sheet.addRow(header);
-  sheet.getRow(1).font = { bold: true, color: { argb: "FFFFFFFF" } };
-  sheet.getRow(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2E7D32" } };
-
-  records.forEach((r, rowIndex) => {
-    const excelRow = sheet.addRow(r.map((v, i) => (i === 10 ? "" : v)));
-    const categoryCell = excelRow.getCell(6);
-    if (r[5].includes("High Risk")) {
-      categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFCCCC" } };
-      categoryCell.font = { bold: true, color: { argb: "FFB71C1C" } };
-    } else if (r[5].includes("Medium Risk")) {
-      categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFF3CD" } };
-      categoryCell.font = { bold: true, color: { argb: "FFE65100" } };
-    } else if (r[5].includes("Low Risk")) {
-      categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE0F7FA" } };
-      categoryCell.font = { bold: true, color: { argb: "FF006064" } };
-    } else if (r[5].includes("Good Practice")) {
-      categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE8F5E9" } };
-      categoryCell.font = { bold: true, color: { argb: "FF1B5E20" } };
-    }
-
-    if (r[10]) {
-      const imageId = workbook.addImage({
-        base64: `data:${r[10].mime};base64,${r[10].base64}`,
-        extension: r[10].mime.split("/")[1],
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = error => reject(error);
       });
-      sheet.addImage(imageId, {
-        tl: { col: 10, row: rowIndex + 1 },
-        ext: { width: 100, height: 70 },
-      });
-      sheet.getRow(rowIndex + 2).height = 55;
     }
-  });
 
-  sheet.columns = [
-    { width: 8 }, { width: 12 }, { width: 18 }, { width: 18 },
-    { width: 30 }, { width: 18 }, { width: 25 }, { width: 20 },
-    { width: 12 }, { width: 12 }, { width: 15 }
-  ];
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const row = [];
 
-  const buffer = await workbook.xlsx.writeBuffer();
-  saveAs(new Blob([buffer]), "audit_records_with_photos.xlsx");
-});
-</script>
+      row.push(records.length + 1); // S. No.
+      formData.forEach((value, key) => { if (key !== "photo") row.push(value); });
+
+      const file = formData.get("photo");
+      let base64Img = "";
+      let imgUrl = "";
+      if (file && file.size > 0) {
+        base64Img = await fileToBase64(file);
+        imgUrl = URL.createObjectURL(file);
+        row.push({ preview: imgUrl, base64: base64Img, mime: file.type });
+      } else row.push(null);
+
+      records.push(row);
+
+      const tr = document.createElement("tr");
+      row.forEach((cell, index) => {
+        const td = document.createElement("td");
+
+        if (index === 6) { // Category
+          td.textContent = cell;
+          if (cell.includes("High Risk")) td.classList.add("risk-high");
+          if (cell.includes("Medium Risk")) td.classList.add("risk-medium");
+          if (cell.includes("Low Risk")) td.classList.add("risk-low");
+          if (cell.includes("Good Practice")) td.classList.add("good-practice");
+        } else if (index === 11 && cell) {
+          const img = document.createElement("img");
+          img.src = cell.preview;
+          td.appendChild(img);
+        } else {
+          td.textContent = typeof cell === "string" || typeof cell === "number" ? cell : "";
+        }
+
+        tr.appendChild(td);
+      });
+      tableBody.appendChild(tr);
+
+      form.reset();
+    });
+
+    downloadBtn.addEventListener("click", async function () {
+      const workbook = new ExcelJS.Workbook();
+      const sheet = workbook.addWorksheet("Audit Records");
+
+      // Project Title
+      sheet.mergeCells("A1:L1");
+      sheet.getCell("A1").value = "Project: Safety Improvement | Audit No: 001";
+      sheet.getCell("A1").alignment = { horizontal: "center" };
+      sheet.getCell("A1").font = { bold: true, size: 14, color: { argb: "FFFFFFFF" } };
+      sheet.getCell("A1").fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2E7D32" } };
+
+      // Header
+      const header = ["S. No.", "Date", "Auditor", "Location", "Observation", "Nature of Hazard", "Category", "Recommended Action", "Responsible", "Target", "Status", "Photo"];
+      sheet.addRow(header);
+      sheet.getRow(2).font = { bold: true, color: { argb: "FFFFFFFF" } };
+      sheet.getRow(2).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2E7D32" } };
+
+      // Data rows
+      records.forEach((r, rowIndex) => {
+        const excelRow = sheet.addRow(r.map((v, i) => (i === 11 ? "" : v)));
+
+        const categoryCell = excelRow.getCell(7);
+        if (r[6].includes("High Risk")) {
+          categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF0000" } };
+        } else if (r[6].includes("Medium Risk")) {
+          categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFF00" } };
+        } else if (r[6].includes("Low Risk")) {
+          categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF00FF00" } };
+        } else if (r[6].includes("Good Practice")) {
+          categoryCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFB2F2BB" } };
+        }
+
+        if (r[11]) {
+          const imageId = workbook.addImage({
+            base64: `data:${r[11].mime};base64,${r[11].base64}`,
+            extension: r[11].mime.split("/")[1],
+          });
+          sheet.addImage(imageId, {
+            tl: { col: 11, row: rowIndex + 2 },
+            ext: { width: 100, height: 70 },
+          });
+          sheet.getRow(rowIndex + 3).height = 55;
+        }
+      });
+
+      sheet.columns = [
+        { width: 8 }, { width: 12 }, { width: 18 }, { width: 18 },
+        { width: 30 }, { width: 22 }, { width: 18 }, { width: 25 },
+        { width: 20 }, { width: 12 }, { width: 12 }, { width: 15 }
+      ];
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      saveAs(new Blob([buffer]), "audit_records.xlsx");
+    });
+  </script>
 </body>
 </html>
