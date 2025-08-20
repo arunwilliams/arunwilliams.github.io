@@ -32,7 +32,8 @@
       margin-bottom: 15px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-size: 20px;
     }
 
     label {
@@ -59,10 +60,18 @@
       cursor: pointer;
       font-weight: bold;
       margin-top: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     button:hover {
       background-color: #256528;
+    }
+
+    .export-btn {
+      background-color: #1d6f42;
+      font-size: 15px;
     }
 
     .table-container {
@@ -90,20 +99,25 @@
       color: white;
     }
 
+    /* Risk highlights with new scheme */
     .risk-high {
       background-color: #f8d7da;
+      border-left: 6px solid red;
     }
 
     .risk-medium {
-      background-color: #fff3cd;
+      background-color: #ffe5b4;
+      border-left: 6px solid #ff9800;
     }
 
     .risk-low {
-      background-color: #d4edda;
+      background-color: #d6eaff;
+      border-left: 6px solid #2196f3;
     }
 
     .risk-good {
-      background-color: #e8f5e9;
+      background-color: #c8e6c9;
+      border-left: 6px solid #2e7d32;
     }
 
     img {
@@ -117,31 +131,125 @@
   <div class="container">
     <!-- Audit Form -->
     <div class="card">
-      <h2><i class="fas fa-hard-hat"></i> Audit Form</h2>
+      <h2><i class="fas fa-helmet-safety"></i> Audit Form</h2>
       <form id="auditForm">
-        <label>Observation</label>
+        <label><i class="fas fa-clipboard-list"></i> Observation</label>
         <textarea id="observation" required></textarea>
 
-        <label>Nature of Hazard</label>
+        <label><i class="fas fa-exclamation-triangle"></i> Nature of the Hazard</label>
         <input type="text" id="hazard" required>
 
-        <label>Risk Level</label>
+        <label><i class="fas fa-signal"></i> Risk Level</label>
         <select id="risk" required>
           <option value="">Select Risk</option>
-          <option value="High">High Risk</option>
-          <option value="Medium">Medium Risk</option>
-          <option value="Low">Low Risk</option>
-          <option value="Good Practice">Good Practice</option>
+          <option value="High">🔴 High Risk</option>
+          <option value="Medium">🟠 Medium Risk</option>
+          <option value="Low">🔵 Low Risk</option>
+          <option value="Good Practice">✅ Good Practice</option>
         </select>
 
-        <label>Recommended Action</label>
+        <label><i class="fas fa-lightbulb"></i> Recommended Action</label>
         <textarea id="action" required></textarea>
 
-        <label>Capture/Upload Photo</label>
+        <label><i class="fas fa-camera"></i> Capture/Upload Photo</label>
         <input type="file" id="photo" accept="image/*" capture="environment">
 
         <button type="submit"><i class="fas fa-plus-circle"></i> Add Record</button>
       </form>
     </div>
 
-    <!-- Audit Reco
+    <!-- Audit Records -->
+    <div class="card">
+      <h2><i class="fas fa-table"></i> Audit Records</h2>
+      <div class="table-container">
+        <table id="auditTable">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Observation</th>
+              <th>Nature of the Hazard</th>
+              <th>Risk Level</th>
+              <th>Recommended Action</th>
+              <th>Photo</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <button class="export-btn" id="downloadBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
+    </div>
+  </div>
+
+  <script>
+    let recordCount = 0;
+    const auditData = [];
+
+    document.getElementById("auditForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      recordCount++;
+
+      const observation = document.getElementById("observation").value;
+      const hazard = document.getElementById("hazard").value;
+      const risk = document.getElementById("risk").value;
+      const action = document.getElementById("action").value;
+      const photoInput = document.getElementById("photo").files[0];
+
+      let photoURL = "";
+      if (photoInput) {
+        photoURL = URL.createObjectURL(photoInput);
+      }
+
+      const table = document.getElementById("auditTable").getElementsByTagName("tbody")[0];
+      const newRow = table.insertRow();
+
+      let riskClass = "";
+      if (risk === "High") riskClass = "risk-high";
+      else if (risk === "Medium") riskClass = "risk-medium";
+      else if (risk === "Low") riskClass = "risk-low";
+      else if (risk === "Good Practice") riskClass = "risk-good";
+
+      newRow.classList.add(riskClass);
+
+      newRow.innerHTML = `
+        <td>${recordCount}</td>
+        <td>${observation}</td>
+        <td>${hazard}</td>
+        <td>${risk}</td>
+        <td>${action}</td>
+        <td>${photoURL ? `<img src="${photoURL}" alt="photo">` : ''}</td>
+      `;
+
+      auditData.push({
+        "S.No": recordCount,
+        "Observation": observation,
+        "Nature of the Hazard": hazard,
+        "Risk Level": risk,
+        "Recommended Action": action
+      });
+
+      document.getElementById("auditForm").reset();
+    });
+
+    document.getElementById("downloadBtn").addEventListener("click", function() {
+      const wb = XLSX.utils.book_new();
+
+      const title = [["Project Name: __________", "Audit No: __________"]];
+      const ws_data = title.concat([["S.No", "Observation", "Nature of the Hazard", "Risk Level", "Recommended Action"]]);
+
+      auditData.forEach(item => {
+        ws_data.push([item["S.No"], item["Observation"], item["Nature of the Hazard"], item["Risk Level"], item["Recommended Action"]]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+      Object.keys(ws).forEach(cell => {
+        if(cell[0] === '!') return;
+        ws[cell].s = { alignment: { horizontal: "center", vertical: "center", wrapText: true } };
+      });
+
+      XLSX.utils.book_append_sheet(wb, ws, "Audit Data");
+      XLSX.writeFile(wb, "Audit_Data.xlsx");
+    });
+  </script>
+</body>
+</html>
