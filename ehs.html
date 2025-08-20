@@ -7,37 +7,47 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 body { font-family: Arial, sans-serif; background: #f4f7f6; margin:0; padding:0; }
-.container { width:100%; padding:20px; box-sizing:border-box; display:flex; flex-wrap:wrap; justify-content:space-between; }
-h1 { width:100%; text-align:center; color:#2e7d32; margin-bottom:20px; font-size:2.2rem; }
-.card { background:#fff; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+h1 { text-align:center; color:#2e7d32; font-size:2rem; margin-bottom:20px; }
+.container { display:flex; flex-wrap:wrap; justify-content:space-between; max-width:1200px; margin:auto; padding:10px; box-sizing:border-box; }
+.card { background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); margin-bottom:20px; }
 h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-items:center; }
 h2 i { margin-right:8px; }
 form { display:flex; flex-direction:column; }
 form label { font-weight:bold; margin-top:10px; display:block; }
-form input, form select, form textarea { width:100%; padding:8px; margin-top:5px; border:1px solid #ccc; border-radius:6px; text-align:center; }
-form button { margin-top:15px; padding:10px 20px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
+form input, form select, form textarea { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:6px; text-align:center; font-size:1rem; }
+form button { margin-top:15px; padding:12px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
 form button:hover { background:#256628; }
-table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.95rem; text-align:center; }
-th, td { border:1px solid #ccc; padding:8px; text-align:center; vertical-align:middle; }
+table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.9rem; text-align:center; }
+th, td { border:1px solid #ccc; padding:8px; vertical-align:middle; text-align:center; }
 th { background:#2e7d32; color:#fff; }
 .risk-high { background:#f8d7da; border:1px solid #f5c6cb; }
 .risk-medium { background:#fff3cd; border:1px solid #ffeeba; }
 .risk-low { background:#d4edda; border:1px solid #c3e6cb; }
 .risk-good { background:#e8f5e9; border:1px solid #2e7d32; }
-.export-btn { margin-top:15px; padding:10px 20px; background:#1d6f42; color:#fff; border:none; border-radius:6px; font-size:1rem; cursor:pointer; }
+.export-btn { margin-top:15px; padding:12px 20px; background:#1d6f42; color:#fff; border:none; border-radius:6px; font-size:1rem; cursor:pointer; }
 .export-btn i { margin-right:8px; }
 .export-btn:hover { background:#145c32; }
 .report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center;}
 .form-card { flex:1 1 350px; max-width:400px; margin-right:20px; }
-.table-card { flex:2 1 600px; min-width:300px; }
+.table-card { flex:2 1 600px; min-width:300px; overflow-x:auto; }
 label i { margin-right:6px; color:#2e7d32; }
-@media(max-width:768px){ .container { flex-direction:column; } .form-card { margin-right:0; margin-bottom:20px; } table{ font-size:0.8rem; } h1{ font-size:1.6rem; } }
+
+/* Mobile responsive */
+@media(max-width:768px){
+  .container { flex-direction:column; padding:10px; }
+  .form-card, .table-card { max-width:100%; margin-right:0; margin-bottom:20px; }
+  table { font-size:0.85rem; display:block; overflow-x:auto; white-space:nowrap; }
+  th, td { padding:10px 5px; }
+  input, select, textarea, button { font-size:1rem; padding:10px; }
+  h1{ font-size:1.6rem; }
+  h2{ font-size:1.3rem; }
+  .report-box{ font-size:0.95rem; padding:10px; }
+}
 </style>
 </head>
 <body>
-<div class="container">
 <h1><i class="fas fa-hard-hat"></i> EHS Audit Dashboard</h1>
-
+<div class="container">
 <div class="card form-card">
 <h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
 <form id="auditForm">
@@ -96,7 +106,7 @@ label i { margin-right:6px; color:#2e7d32; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script>
-let records = [];
+let records=[];
 function updateReport(){
   if(records.length===0){ document.getElementById("auditReport").innerHTML="<p>No data yet.</p>"; return; }
   let counts={high:0,medium:0,low:0,good:0};
@@ -113,7 +123,7 @@ function updateReport(){
     <p>✅ Good Practice: ${counts.good}</p>`;
 }
 
-document.getElementById("auditForm").addEventListener("submit", function(e){
+document.getElementById("auditForm").addEventListener("submit",function(e){
   e.preventDefault();
   let photoFile=document.getElementById("photo").files[0];
   if(photoFile){
@@ -165,10 +175,8 @@ function renderTable(){
   });
 }
 
-document.getElementById("exportBtn").addEventListener("click", async function(){
-  const wb=new ExcelJS.Workbook();
-  const ws=wb.addWorksheet("Audit Report");
-
+document.getElementById("exportBtn").addEventListener("click",async function(){
+  const wb=new ExcelJS.Workbook(); const ws=wb.addWorksheet("Audit Report");
   ws.mergeCells("A1:M1"); ws.getCell("A1").value="Project Name: XYZ Project"; ws.getCell("A1").alignment={horizontal:"center"};
   ws.mergeCells("A2:M2"); ws.getCell("A2").value="Audit No: 001"; ws.getCell("A2").alignment={horizontal:"center"};
   ws.addRow([]);
@@ -176,8 +184,7 @@ document.getElementById("exportBtn").addEventListener("click", async function(){
   ws.getRow(4).font={bold:true}; ws.getRow(4).alignment={horizontal:"center",vertical:"middle"};
 
   for(let i=0;i<records.length;i++){
-    let r = records[i];
-    let categorySymbol="", fillColor="";
+    let r = records[i]; let categorySymbol="", fillColor="";
     if(r.category==="High Risk"){ categorySymbol="❗"; fillColor="FFCDD2"; }
     if(r.category==="Medium Risk"){ categorySymbol="⚠️"; fillColor="FFF9C4"; }
     if(r.category==="Low Risk"){ categorySymbol="⚠️"; fillColor="C8E6C9"; }
@@ -192,8 +199,7 @@ document.getElementById("exportBtn").addEventListener("click", async function(){
     if(r.photo){ const imageId=wb.addImage({base64:r.photo,extension:'png'}); ws.addImage(imageId,{tl:{col:12,row:row.number-1},ext:{width:50,height:50}}); }
   }
 
-  ws.addRow([]);
-  ws.addRow(["Audit Report Summary"]); ws.getRow(ws.lastRow.number).alignment={horizontal:"center"};
+  ws.addRow([]); ws.addRow(["Audit Report Summary"]); ws.getRow(ws.lastRow.number).alignment={horizontal:"center"};
   ws.addRow(["High Risk",records.filter(r=>r.category==="High Risk").length]);
   ws.addRow(["Medium Risk",records.filter(r=>r.category==="Medium Risk").length]);
   ws.addRow(["Low Risk",records.filter(r=>r.category==="Low Risk").length]);
