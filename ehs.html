@@ -14,11 +14,11 @@ h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-it
 h2 i { margin-right:8px; }
 form { display:flex; flex-direction:column; }
 form label { font-weight:bold; margin-top:10px; display:block; }
-form input, form select, form textarea { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:6px; text-align:center; font-size:1rem; }
+form input, form select, form textarea { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:6px; font-size:1rem; text-align:left; }
 form button { margin-top:15px; padding:12px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
 form button:hover { background:#256628; }
-table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.9rem; text-align:center; }
-th, td { border:1px solid #ccc; padding:8px; vertical-align:middle; text-align:center; }
+table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.9rem; text-align:left; }
+th, td { border:1px solid #ccc; padding:8px; vertical-align:middle; text-align:left; }
 th { background:#2e7d32; color:#fff; }
 .risk-high { background:#f8d7da; border:1px solid #f5c6cb; }
 .risk-medium { background:#fff3cd; border:1px solid #ffeeba; }
@@ -59,10 +59,8 @@ label i { margin-right:6px; color:#2e7d32; }
 
 <div class="container">
 
-<!-- Collapsible Toggle Button for Mobile -->
 <button id="toggleFormBtn"><i class="fas fa-chevron-down"></i> Show/Hide Audit Form</button>
 
-<!-- Audit Form -->
 <div class="card" id="auditFormCard">
 <h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
 <form id="auditForm">
@@ -89,7 +87,6 @@ label i { margin-right:6px; color:#2e7d32; }
 </form>
 </div>
 
-<!-- Audit Records Table -->
 <div class="card">
 <h2><i class="fas fa-table"></i> Audit Records</h2>
 <table id="auditTable">
@@ -116,7 +113,6 @@ label i { margin-right:6px; color:#2e7d32; }
 <button class="export-btn" id="printBtn"><i class="fas fa-print"></i> Print Audit Report</button>
 </div>
 
-<!-- Audit Report -->
 <div class="card">
 <h2><i class="fas fa-file-alt"></i> Audit Report</h2>
 <div id="auditReport" class="report-box"><p>No data yet.</p></div>
@@ -144,7 +140,6 @@ function updateReport(){
     <p>✅ Good Practice: ${counts.good}</p>`;
 }
 
-// Collapsible form toggle
 function handleResponsive() {
   if(window.innerWidth <= 768){
     document.getElementById("toggleFormBtn").style.display = "block";
@@ -162,7 +157,6 @@ document.getElementById("toggleFormBtn").addEventListener("click", function(){
   formCard.style.display = (formCard.style.display === "none") ? "block" : "none";
 });
 
-// Form submit
 document.getElementById("auditForm").addEventListener("submit",function(e){
   e.preventDefault();
   let photoFile=document.getElementById("photo").files[0];
@@ -234,7 +228,7 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
   headerRow.eachCell((cell) => {
     cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
     cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2E7D32" } };
-    cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+    cell.alignment = { horizontal: "left", vertical: "middle", wrapText: true };
     cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
   });
 
@@ -259,7 +253,7 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
     row.height = 50;
     row.eachCell((cell) => {
       cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fillColor } };
-      cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+      cell.alignment = { horizontal: "left", vertical: "middle", wrapText: true };
       cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
     });
 
