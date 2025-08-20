@@ -111,7 +111,7 @@ td:hover::after {
 <label><i class="fas fa-map-marker-alt"></i> Location / Site</label><input type="text" id="location" required>
 <label><i class="fas fa-eye"></i> Observation</label><textarea id="observation" required></textarea>
 <label><i class="fas fa-biohazard"></i> Nature of the Hazard</label><input type="text" id="hazardNature">
-<label><i class="fas fa-exclamation-triangle"></i> Category</label>
+<label><i class="fas fa-exclamation-triangle"></i> Risk Category</label>
 <select id="category" required>
 <option value="High Risk">High Risk</option>
 <option value="Medium Risk">Medium Risk</option>
@@ -140,7 +140,7 @@ td:hover::after {
 <th><i class="fas fa-map-marker-alt"></i> Location</th>
 <th><i class="fas fa-eye"></i> Observation</th>
 <th><i class="fas fa-biohazard"></i> Nature of Hazard</th>
-<th><i class="fas fa-exclamation-triangle"></i> Category</th>
+<th><i class="fas fa-exclamation-triangle"></i> Risk Category</th>
 <th><i class="fas fa-clipboard-list"></i> Recommended Action</th>
 <th><i class="fas fa-tasks"></i> Action Taken</th>
 <th><i class="fas fa-user"></i> Responsible Person</th>
@@ -243,7 +243,7 @@ function renderTable(){
   });
 }
 
-// Excel export mimicking web UI
+// Excel export with Risk Category background color
 document.getElementById("exportBtn").addEventListener("click", async function () {
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet("Audit Report");
@@ -259,59 +259,54 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
   ws.getCell("A2").font = { bold: true, size: 12 };
 
   ws.addRow([]);
-  const header = ["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"];
+
+  const header = ["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Risk Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"];
   const headerRow = ws.addRow(header);
-  headerRow.eachCell((cell) => {
-    cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
-    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2E7D32" } };
-    cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+  headerRow.eachCell((cell)=>{
+    cell.font = { bold:true, color:{argb:"FFFFFFFF"} };
+    cell.fill = { type:"pattern", pattern:"solid", fgColor:{argb:"FF2E7D32"} };
+    cell.alignment = { horizontal:"center", vertical:"middle", wrapText:true };
     cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
   });
 
   ws.columns = [
-    { width: 6 }, { width: 12 }, { width: 15 }, { width: 15 }, { width: 25 },
-    { width: 20 }, { width: 15 }, { width: 25 }, { width: 25 }, { width: 15 },
-    { width: 12 }, { width: 10 }, { width: 15 }
+    {width:6},{width:12},{width:15},{width:15},{width:25},
+    {width:20},{width:15},{width:25},{width:25},{width:15},
+    {width:12},{width:10},{width:15}
   ];
 
-  for (let i = 0; i < records.length; i++) {
+  for(let i=0;i<records.length;i++){
     const r = records[i];
-    let fillColor = "", categoryIcon = "";
-    switch(r.category){
-      case "High Risk": fillColor="FFCDD2"; categoryIcon="❗"; break;
-      case "Medium Risk": fillColor="FFF9C4"; categoryIcon="⚠️"; break;
-      case "Low Risk": fillColor="C8E6C9"; categoryIcon="⚠️"; break;
-      case "Good Practice": fillColor="E8F5E9"; categoryIcon="✔️"; break;
-    }
-
     const row = ws.addRow([
       i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,
-      `${categoryIcon} ${r.category}`,r.recommendedAction,r.actionTaken,r.responsiblePerson,
+      r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,
       r.targetDate,r.status,""
     ]);
     row.height = 50;
-    row.eachCell((cell) => {
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fillColor } };
-      cell.alignment = { horizontal: "left", vertical: "middle", wrapText: true };
-      cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
+
+    row.eachCell((cell,colNumber)=>{
+      if(colNumber===7){
+        let fillColor="";
+        switch(r.category){
+          case "High Risk": fillColor="FFCDD2"; break;
+          case "Medium Risk": fillColor="FFF9C4"; break;
+          case "Low Risk": fillColor="C8E6C9"; break;
+          case "Good Practice": fillColor="E8F5E9"; break;
+        }
+        cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:fillColor}};
+      }
+      cell.alignment={horizontal:"left", vertical:"middle", wrapText:true};
+      cell.border={top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"}};
     });
 
-    if(r.photo){ 
+    if(r.photo){
       const imageId = wb.addImage({ base64:r.photo, extension:'png' });
-      ws.addImage(imageId, { tl:{col:12,row:row.number-1}, ext:{width:50,height:50} });
+      ws.addImage(imageId,{tl:{col:12,row:row.number-1}, ext:{width:50,height:50}});
     }
   }
 
-  ws.addRow([]);
-  const summaryTitle = ws.addRow(["Audit Report Summary"]);
-  summaryTitle.eachCell(c => { c.alignment = { horizontal: "center" }; c.font = { bold: true }; });
-  ws.addRow(["High Risk", records.filter(r=>r.category==="High Risk").length]);
-  ws.addRow(["Medium Risk", records.filter(r=>r.category==="Medium Risk").length]);
-  ws.addRow(["Low Risk", records.filter(r=>r.category==="Low Risk").length]);
-  ws.addRow(["Good Practice", records.filter(r=>r.category==="Good Practice").length]);
-
-  wb.xlsx.writeBuffer().then(function (data) {
-    const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  wb.xlsx.writeBuffer().then(function(data){
+    const blob = new Blob([data], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     saveAs(blob, "Audit_Report.xlsx");
   });
 });
