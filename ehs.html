@@ -8,7 +8,7 @@
 <style>
 body { font-family: Arial, sans-serif; background: #f4f7f6; margin:0; padding:0; }
 h1 { text-align:center; color:#2e7d32; font-size:2rem; margin-bottom:20px; }
-.container { display:flex; flex-wrap:wrap; justify-content:space-between; max-width:1200px; margin:auto; padding:10px; box-sizing:border-box; }
+.container { width:95%; max-width:1200px; margin:auto; padding:10px; box-sizing:border-box; display:flex; flex-direction:column; }
 .card { background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); margin-bottom:20px; }
 h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-items:center; }
 h2 i { margin-right:8px; }
@@ -28,14 +28,10 @@ th { background:#2e7d32; color:#fff; }
 .export-btn i { margin-right:8px; }
 .export-btn:hover { background:#145c32; }
 .report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center;}
-.form-card { flex:1 1 350px; max-width:400px; margin-right:20px; }
-.table-card { flex:2 1 600px; min-width:300px; overflow-x:auto; }
 label i { margin-right:6px; color:#2e7d32; }
 
 /* Mobile responsive */
 @media(max-width:768px){
-  .container { flex-direction:column; padding:10px; }
-  .form-card, .table-card { max-width:100%; margin-right:0; margin-bottom:20px; }
   table { font-size:0.85rem; display:block; overflow-x:auto; white-space:nowrap; }
   th, td { padding:10px 5px; }
   input, select, textarea, button { font-size:1rem; padding:10px; }
@@ -47,8 +43,11 @@ label i { margin-right:6px; color:#2e7d32; }
 </head>
 <body>
 <h1><i class="fas fa-hard-hat"></i> EHS Audit Dashboard</h1>
+
 <div class="container">
-<div class="card form-card">
+
+<!-- Audit Form on top -->
+<div class="card">
 <h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
 <form id="auditForm">
 <label><i class="fas fa-calendar-alt"></i> Audit Date</label><input type="date" id="auditDate" required>
@@ -74,7 +73,8 @@ label i { margin-right:6px; color:#2e7d32; }
 </form>
 </div>
 
-<div class="card table-card">
+<!-- Audit Records Table -->
+<div class="card">
 <h2><i class="fas fa-table"></i> Audit Records</h2>
 <table id="auditTable">
 <thead>
@@ -97,10 +97,14 @@ label i { margin-right:6px; color:#2e7d32; }
 <tbody></tbody>
 </table>
 <button class="export-btn" id="exportBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
+</div>
 
+<!-- Audit Report -->
+<div class="card">
 <h2><i class="fas fa-file-alt"></i> Audit Report</h2>
 <div id="auditReport" class="report-box"><p>No data yet.</p></div>
 </div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
@@ -175,6 +179,7 @@ function renderTable(){
   });
 }
 
+// Excel export code remains the same as previous version
 document.getElementById("exportBtn").addEventListener("click",async function(){
   const wb=new ExcelJS.Workbook(); const ws=wb.addWorksheet("Audit Report");
   ws.mergeCells("A1:M1"); ws.getCell("A1").value="Project Name: XYZ Project"; ws.getCell("A1").alignment={horizontal:"center"};
