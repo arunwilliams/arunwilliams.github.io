@@ -30,6 +30,10 @@ th { background:#2e7d32; color:#fff; }
 .report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center;}
 label i { margin-right:6px; color:#2e7d32; }
 
+/* Toggle button for mobile */
+#toggleFormBtn { display:none; margin-bottom:10px; padding:10px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; width:100%; font-size:1rem; }
+#toggleFormBtn i { margin-right:6px; }
+
 /* Mobile responsive */
 @media(max-width:768px){
   table { font-size:0.85rem; display:block; overflow-x:auto; white-space:nowrap; }
@@ -39,6 +43,15 @@ label i { margin-right:6px; color:#2e7d32; }
   h2{ font-size:1.3rem; }
   .report-box{ font-size:0.95rem; padding:10px; }
 }
+
+/* Print styles */
+@media print {
+  body * { visibility: hidden; }
+  #auditTable, #auditReport, #auditTable * { visibility: visible; }
+  #auditTable, #auditReport { position: absolute; top: 0; left: 0; width: 100%; }
+  #auditTable th, #auditTable td { border:1px solid #000 !important; }
+  #printBtn, #exportBtn, #toggleFormBtn, #auditFormCard { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -46,8 +59,11 @@ label i { margin-right:6px; color:#2e7d32; }
 
 <div class="container">
 
-<!-- Audit Form on top -->
-<div class="card">
+<!-- Collapsible Toggle Button for Mobile -->
+<button id="toggleFormBtn"><i class="fas fa-chevron-down"></i> Show/Hide Audit Form</button>
+
+<!-- Audit Form -->
+<div class="card" id="auditFormCard">
 <h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
 <form id="auditForm">
 <label><i class="fas fa-calendar-alt"></i> Audit Date</label><input type="date" id="auditDate" required>
@@ -97,6 +113,7 @@ label i { margin-right:6px; color:#2e7d32; }
 <tbody></tbody>
 </table>
 <button class="export-btn" id="exportBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
+<button class="export-btn" id="printBtn"><i class="fas fa-print"></i> Print Audit Report</button>
 </div>
 
 <!-- Audit Report -->
@@ -127,6 +144,25 @@ function updateReport(){
     <p>✅ Good Practice: ${counts.good}</p>`;
 }
 
+// Collapsible form toggle
+function handleResponsive() {
+  if(window.innerWidth <= 768){
+    document.getElementById("toggleFormBtn").style.display = "block";
+    document.getElementById("auditFormCard").style.display = "none";
+  } else {
+    document.getElementById("toggleFormBtn").style.display = "none";
+    document.getElementById("auditFormCard").style.display = "block";
+  }
+}
+window.addEventListener("resize", handleResponsive);
+window.addEventListener("load", handleResponsive);
+
+document.getElementById("toggleFormBtn").addEventListener("click", function(){
+  const formCard = document.getElementById("auditFormCard");
+  formCard.style.display = (formCard.style.display === "none") ? "block" : "none";
+});
+
+// Form submit
 document.getElementById("auditForm").addEventListener("submit",function(e){
   e.preventDefault();
   let photoFile=document.getElementById("photo").files[0];
@@ -179,41 +215,75 @@ function renderTable(){
   });
 }
 
-// Excel export code remains the same as previous version
-document.getElementById("exportBtn").addEventListener("click",async function(){
-  const wb=new ExcelJS.Workbook(); const ws=wb.addWorksheet("Audit Report");
-  ws.mergeCells("A1:M1"); ws.getCell("A1").value="Project Name: XYZ Project"; ws.getCell("A1").alignment={horizontal:"center"};
-  ws.mergeCells("A2:M2"); ws.getCell("A2").value="Audit No: 001"; ws.getCell("A2").alignment={horizontal:"center"};
+// Excel Export
+document.getElementById("exportBtn").addEventListener("click", async function () {
+  const wb = new ExcelJS.Workbook();
+  const ws = wb.addWorksheet("Audit Report");
+
+  ws.mergeCells("A1:M1"); ws.getCell("A1").value = "Project Name: XYZ Project";
+  ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
+  ws.getCell("A1").font = { bold: true, size: 14 };
+
+  ws.mergeCells("A2:M2"); ws.getCell("A2").value = "Audit No: 001";
+  ws.getCell("A2").alignment = { horizontal: "center", vertical: "middle" };
+  ws.getCell("A2").font = { bold: true, size: 12 };
+
   ws.addRow([]);
-  ws.addRow(["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"]);
-  ws.getRow(4).font={bold:true}; ws.getRow(4).alignment={horizontal:"center",vertical:"middle"};
+  const header = ["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"];
+  const headerRow = ws.addRow(header);
+  headerRow.eachCell((cell) => {
+    cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF2E7D32" } };
+    cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+    cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
+  });
 
-  for(let i=0;i<records.length;i++){
-    let r = records[i]; let categorySymbol="", fillColor="";
-    if(r.category==="High Risk"){ categorySymbol="❗"; fillColor="FFCDD2"; }
-    if(r.category==="Medium Risk"){ categorySymbol="⚠️"; fillColor="FFF9C4"; }
-    if(r.category==="Low Risk"){ categorySymbol="⚠️"; fillColor="C8E6C9"; }
-    if(r.category==="Good Practice"){ categorySymbol="✔️"; fillColor="E8F5E9"; }
+  ws.columns = [
+    { width: 6 }, { width: 12 }, { width: 15 }, { width: 15 }, { width: 25 },
+    { width: 20 }, { width: 15 }, { width: 25 }, { width: 25 }, { width: 15 },
+    { width: 12 }, { width: 10 }, { width: 15 }
+  ];
 
-    let row=ws.addRow([i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,`${categorySymbol} ${r.category}`,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,""]);
-    row.eachCell(cell=>{
-      cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:fillColor}};
-      cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};
+  for (let i = 0; i < records.length; i++) {
+    let r = records[i];
+    let categorySymbol = "", fillColor = "";
+    if (r.category === "High Risk") { categorySymbol = "❗"; fillColor = "FFCDD2"; }
+    if (r.category === "Medium Risk") { categorySymbol = "⚠️"; fillColor = "FFF9C4"; }
+    if (r.category === "Low Risk") { categorySymbol = "⚠️"; fillColor = "C8E6C9"; }
+    if (r.category === "Good Practice") { categorySymbol = "✔️"; fillColor = "E8F5E9"; }
+
+    const row = ws.addRow([i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,
+      `${categorySymbol} ${r.category}`,r.recommendedAction,r.actionTaken,r.responsiblePerson,
+      r.targetDate,r.status,""
+    ]);
+    row.height = 50;
+    row.eachCell((cell) => {
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fillColor } };
+      cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+      cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
     });
 
-    if(r.photo){ const imageId=wb.addImage({base64:r.photo,extension:'png'}); ws.addImage(imageId,{tl:{col:12,row:row.number-1},ext:{width:50,height:50}}); }
+    if(r.photo){ const imageId = wb.addImage({ base64:r.photo, extension:'png' }); 
+      ws.addImage(imageId,{tl:{col:12,row:row.number-1},ext:{width:50,height:50}}); }
   }
 
-  ws.addRow([]); ws.addRow(["Audit Report Summary"]); ws.getRow(ws.lastRow.number).alignment={horizontal:"center"};
-  ws.addRow(["High Risk",records.filter(r=>r.category==="High Risk").length]);
-  ws.addRow(["Medium Risk",records.filter(r=>r.category==="Medium Risk").length]);
-  ws.addRow(["Low Risk",records.filter(r=>r.category==="Low Risk").length]);
-  ws.addRow(["Good Practice",records.filter(r=>r.category==="Good Practice").length]);
+  ws.addRow([]);
+  const summaryTitle = ws.addRow(["Audit Report Summary"]);
+  summaryTitle.eachCell(c => { c.alignment = { horizontal: "center" }; c.font = { bold: true }; });
+  ws.addRow(["High Risk", records.filter(r=>r.category==="High Risk").length]);
+  ws.addRow(["Medium Risk", records.filter(r=>r.category==="Medium Risk").length]);
+  ws.addRow(["Low Risk", records.filter(r=>r.category==="Low Risk").length]);
+  ws.addRow(["Good Practice", records.filter(r=>r.category==="Good Practice").length]);
 
-  wb.xlsx.writeBuffer().then(function(data){
-    const blob=new Blob([data],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-    saveAs(blob,"Audit_Report.xlsx");
+  wb.xlsx.writeBuffer().then(function (data) {
+    const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    saveAs(blob, "Audit_Report.xlsx");
   });
+});
+
+// Print button
+document.getElementById("printBtn").addEventListener("click", function() {
+  window.print();
 });
 </script>
 </body>
