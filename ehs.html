@@ -9,7 +9,7 @@
 body { font-family: Arial, sans-serif; background: #f4f7f6; margin:0; padding:0; }
 h1 { text-align:center; color:#2e7d32; font-size:2rem; margin-bottom:20px; }
 .container { width:95%; max-width:1200px; margin:auto; padding:10px; box-sizing:border-box; display:flex; flex-direction:column; }
-.card { background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); margin-bottom:20px; }
+.card { background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); margin-bottom:20px; overflow:hidden; }
 h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-items:center; }
 h2 i { margin-right:8px; }
 form { display:flex; flex-direction:column; }
@@ -17,7 +17,7 @@ form label { font-weight:bold; margin-top:10px; display:block; }
 input, select, textarea {
   width:100%;
   max-width:100%;
-  box-sizing: border-box;
+  box-sizing:border-box;
   padding:10px;
   border:1px solid #ccc;
   border-radius:6px;
@@ -26,7 +26,8 @@ input, select, textarea {
 textarea { resize: vertical; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
 form button { margin-top:15px; padding:12px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
 form button:hover { background:#256628; }
-table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.9rem; text-align:left; table-layout: fixed; }
+.table-container { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; table-layout: fixed; font-size:0.9rem; text-align:left; }
 th, td {
   border:1px solid #ccc;
   padding:8px;
@@ -44,7 +45,7 @@ th { background:#2e7d32; color:#fff; }
 .export-btn { margin-top:15px; padding:12px 20px; background:#1d6f42; color:#fff; border:none; border-radius:6px; font-size:1rem; cursor:pointer; }
 .export-btn i { margin-right:8px; }
 .export-btn:hover { background:#145c32; }
-.report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center;}
+.report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center; word-wrap: break-word; }
 label i { margin-right:6px; color:#2e7d32; }
 
 /* Column widths */
@@ -61,10 +62,11 @@ th:nth-child(10), td:nth-child(10) { width:150px; }
 th:nth-child(11), td:nth-child(11) { width:100px; }
 th:nth-child(12), td:nth-child(12) { width:80px; }
 th:nth-child(13), td:nth-child(13) { width:80px; }
+td img { max-width:50px; max-height:50px; display:block; margin:auto; }
 
 /* Mobile responsive */
 @media(max-width:768px){
-  table { font-size:0.85rem; display:block; overflow-x:auto; white-space:nowrap; }
+  table { font-size:0.85rem; display:block; white-space:nowrap; }
   th, td { padding:10px 5px; }
   input, select, textarea, button { font-size:1rem; padding:10px; }
   h1{ font-size:1.6rem; }
@@ -131,6 +133,7 @@ td:hover::after {
 
 <div class="card">
 <h2><i class="fas fa-table"></i> Audit Records</h2>
+<div class="table-container">
 <table id="auditTable">
 <thead>
 <tr>
@@ -151,6 +154,7 @@ td:hover::after {
 </thead>
 <tbody></tbody>
 </table>
+</div>
 <button class="export-btn" id="exportBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
 <button class="export-btn" id="printBtn"><i class="fas fa-print"></i> Print Audit Report</button>
 </div>
@@ -236,6 +240,7 @@ function renderTable(){
       const td = document.createElement("td");
       td.innerHTML = c;
       td.title = typeof c === "string" ? c.replace(/<[^>]+>/g,"") : ""; // tooltip
+      td.style.textAlign="center"; // center in web UI
       row.appendChild(td);
     });
 
@@ -243,7 +248,7 @@ function renderTable(){
   });
 }
 
-// Excel export with Risk Category background color
+// Excel export with Risk Category background color and centered content
 document.getElementById("exportBtn").addEventListener("click", async function () {
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet("Audit Report");
@@ -285,6 +290,7 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
     row.height = 50;
 
     row.eachCell((cell,colNumber)=>{
+      // Risk Category background
       if(colNumber===7){
         let fillColor="";
         switch(r.category){
@@ -295,10 +301,12 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
         }
         cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:fillColor}};
       }
-      cell.alignment={horizontal:"left", vertical:"middle", wrapText:true};
+      // **Center all content**
+      cell.alignment={horizontal:"center", vertical:"middle", wrapText:true};
       cell.border={top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"}};
     });
 
+    // Embed photo
     if(r.photo){
       const imageId = wb.addImage({ base64:r.photo, extension:'png' });
       ws.addImage(imageId,{tl:{col:12,row:row.number-1}, ext:{width:50,height:50}});
@@ -311,6 +319,7 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
   });
 });
 
+// Print
 document.getElementById("printBtn").addEventListener("click",function(){ window.print(); });
 </script>
 </body>
