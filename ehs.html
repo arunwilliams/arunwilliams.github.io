@@ -6,28 +6,29 @@
 <title>EHS Audit Dashboard</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  body { font-family: Arial, sans-serif; background: #f4f7f6; margin:0; padding:0; display:flex; justify-content:center; }
-  .container { max-width: 1200px; width:100%; padding:20px; }
+  body { font-family: Arial, sans-serif; background: #f4f7f6; margin:0; padding:0; }
+  .container { width:100%; padding:20px; box-sizing:border-box; }
   h1 { text-align:center; color:#2e7d32; margin-bottom:20px; font-size:2.2rem; }
-  .card { background:#fff; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-  h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-items:center; }
+  .card { background:#fff; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-width:1200px; margin-left:auto; margin-right:auto;}
+  h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; justify-content:center; align-items:center; }
   h2 i { margin-right:8px; }
-  form label { font-weight:bold; margin-top:10px; display:block; }
-  form input, form select, form textarea { width:100%; padding:8px; margin-top:5px; border:1px solid #ccc; border-radius:6px;}
-  form button { margin-top:15px; padding:10px 20px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem;}
+  form { display:flex; flex-direction:column; align-items:center; }
+  form label { font-weight:bold; margin-top:10px; display:block; text-align:center; }
+  form input, form select, form textarea { width:90%; max-width:700px; padding:8px; margin-top:5px; border:1px solid #ccc; border-radius:6px; text-align:center; }
+  form button { margin-top:15px; padding:10px 20px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
   form button:hover { background:#256628; }
-  table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.95rem; }
-  th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+  table { width:100%; border-collapse:collapse; margin-top:15px; font-size:0.95rem; text-align:center; }
+  th, td { border:1px solid #ccc; padding:8px; text-align:center; vertical-align:middle; }
   th { background:#2e7d32; color:#fff; }
   .risk-high { background:#f8d7da; border:1px solid #f5c6cb; }
   .risk-medium { background:#fff3cd; border:1px solid #ffeeba; }
   .risk-low { background:#d4edda; border:1px solid #c3e6cb; }
   .risk-good { background:#e8f5e9; border:1px solid #2e7d32; }
-  .export-btn { margin-top:15px; padding:10px 20px; background:#1d6f42; color:#fff; border:none; border-radius:6px; font-size:1rem; cursor:pointer;}
+  .export-btn { margin-top:15px; padding:10px 20px; background:#1d6f42; color:#fff; border:none; border-radius:6px; font-size:1rem; cursor:pointer; display:block; margin-left:auto; margin-right:auto; }
   .export-btn i { margin-right:8px; }
   .export-btn:hover { background:#145c32; }
-  .report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem;}
-  @media(max-width:768px){ table{ font-size:0.8rem; } h1{ font-size:1.6rem; } }
+  .report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center;}
+  @media(max-width:768px){ table{ font-size:0.8rem; } h1{ font-size:1.6rem; } form input, form select, form textarea{ width:100%; } }
 </style>
 </head>
 <body>
@@ -81,12 +82,10 @@
 </div>
 </div>
 
-<!-- ExcelJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script>
 let records = [];
-
 function updateReport(){
   if(records.length===0){ document.getElementById("auditReport").innerHTML="<p>No data yet.</p>"; return; }
   let counts={high:0,medium:0,low:0,good:0};
@@ -161,7 +160,7 @@ document.getElementById("exportBtn").addEventListener("click", async function(){
   // Header
   ws.addRow(["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"]);
   const headerRow=ws.getRow(4);
-  headerRow.font={bold:true}; headerRow.alignment={horizontal:"center"};
+  headerRow.font={bold:true}; headerRow.alignment={horizontal:"center", vertical:"middle"};
 
   // Data rows
   for(let i=0;i<records.length;i++){
@@ -173,7 +172,7 @@ document.getElementById("exportBtn").addEventListener("click", async function(){
     if(r.category==="Medium Risk") fillColor="FFF9C4";
     if(r.category==="Low Risk") fillColor="C8E6C9";
     if(r.category==="Good Practice") fillColor="E8F5E9";
-    row.eachCell(cell=>{ cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:fillColor}}; cell.alignment={vertical:"middle",horizontal:"center",wrapText:true}; });
+    row.eachCell(cell=>{ cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:fillColor}}; cell.alignment={horizontal:"center",vertical:"middle",wrapText:true}; });
     // Insert photo
     if(r.photo){
       const imageId=wb.addImage({base64:r.photo,extension:'png'});
@@ -184,6 +183,7 @@ document.getElementById("exportBtn").addEventListener("click", async function(){
   // Audit Report Summary
   ws.addRow([]);
   ws.addRow(["Audit Report Summary"]);
+  ws.getRow(ws.lastRow.number).alignment={horizontal:"center"};
   ws.addRow(["High Risk",records.filter(r=>r.category==="High Risk").length]);
   ws.addRow(["Medium Risk",records.filter(r=>r.category==="Medium Risk").length]);
   ws.addRow(["Low Risk",records.filter(r=>r.category==="Low Risk").length]);
