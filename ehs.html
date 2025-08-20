@@ -2,109 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>EHS Audit Dashboard</title>
+  <title>HSE Audit Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://kit.fontawesome.com/a2d04d4a05.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f7;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #f0f4f1;
       margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #2e7d32;
+      color: white;
       padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     .container {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: auto;
+      padding: 20px;
     }
     .card {
       background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
     }
     .card h2 {
       color: #2e7d32;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-size: 22px;
     }
     label {
       display: block;
-      margin-top: 10px;
+      margin-top: 12px;
       font-weight: bold;
+      color: #444;
     }
     input, select, textarea {
       width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      border-radius: 6px;
+      padding: 10px;
+      margin-top: 5px;
       border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
     }
+    textarea { resize: vertical; }
     button {
       background-color: #2e7d32;
       color: white;
-      padding: 10px 18px;
+      padding: 12px 22px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 15px;
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      transition: background 0.2s;
     }
     button:hover {
       background-color: #256528;
-    }
-    .table-container {
-      max-height: 500px;
-      overflow-y: auto;
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 15px;
       text-align: center;
+      font-size: 14px;
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    th {
+    thead th {
       background-color: #2e7d32;
       color: white;
+      padding: 10px;
       position: sticky;
       top: 0;
       z-index: 2;
     }
-    /* Risk-based highlighting */
-    .high-risk { background-color: #f8d7da; border-left: 6px solid red; }
-    .medium-risk { background-color: #fff3cd; border-left: 6px solid orange; }
-    .low-risk { background-color: #d4edda; border-left: 6px solid green; }
-    .good-practice { background-color: #e8f5e9; border-left: 6px solid #2e7d32; }
+    table, th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+    /* Risk colors */
+    .risk-high { background-color: #f8d7da; border-left: 6px solid #d32f2f; }
+    .risk-medium { background-color: #fff3cd; border-left: 6px solid #f57c00; }
+    .risk-low { background-color: #d4edda; border-left: 6px solid #388e3c; }
+    .risk-good { background-color: #e8f5e9; border-left: 6px solid #2e7d32; }
+    /* Status badges */
+    .badge {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 12px;
+      display: inline-block;
+    }
+    .badge-open { background: #f44336; color: white; }
+    .badge-closed { background: #4caf50; color: white; }
   </style>
 </head>
 <body>
-  <div class="container">
+  <header>
+    <i class="fas fa-helmet-safety"></i> HSE Audit Dashboard
+  </header>
 
-    <!-- Audit Form -->
+  <div class="container">
     <div class="card">
-      <h2><i class="fas fa-hard-hat"></i> Audit Form</h2>
+      <h2><i class="fas fa-file-alt"></i> Audit Form</h2>
       <form id="auditForm">
         <label>Audit Date</label>
         <input type="date" id="auditDate" required>
-
+        
         <label>Auditor Name</label>
         <input type="text" id="auditorName" required>
-
+        
         <label>Location / Site</label>
         <input type="text" id="location" required>
-
+        
         <label>Observation</label>
         <textarea id="observation" required></textarea>
-
+        
         <label>Nature of the Hazard</label>
-        <input type="text" id="hazardNature">
-
+        <input type="text" id="hazard" required>
+        
         <label>Category</label>
         <select id="category" required>
           <option value="High Risk">High Risk</option>
@@ -112,154 +154,136 @@
           <option value="Low Risk">Low Risk</option>
           <option value="Good Practice">Good Practice</option>
         </select>
-
-        <label>Corrective Action Required</label>
-        <textarea id="correctiveAction"></textarea>
-
-        <label>Recommended Action</label>
-        <textarea id="recommendedAction"></textarea>
-
+        
+        <label>Action Taken</label>
+        <textarea id="actionTaken" required></textarea>
+        
         <label>Responsible Person</label>
-        <input type="text" id="responsiblePerson">
-
+        <input type="text" id="responsiblePerson" required>
+        
         <label>Target Date</label>
-        <input type="date" id="targetDate">
-
+        <input type="date" id="targetDate" required>
+        
         <label>Status</label>
-        <select id="status">
+        <select id="status" required>
           <option value="Open">Open</option>
           <option value="Closed">Closed</option>
         </select>
-
-        <label>Attach Photo</label>
-        <input type="file" id="photo" accept="image/*" capture="environment">
-
-        <button type="submit">Add Record</button>
+        
+        <button type="submit"><i class="fas fa-plus-circle"></i> Add Record</button>
       </form>
     </div>
 
-    <!-- Audit Records -->
     <div class="card">
       <h2><i class="fas fa-table"></i> Audit Records</h2>
-      <div class="table-container">
-        <table id="auditTable">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Audit Date</th>
-              <th>Auditor Name</th>
-              <th>Location / Site</th>
-              <th>Observation</th>
-              <th>Nature of the Hazard</th>
-              <th>Category</th>
-              <th>Corrective Action Required</th>
-              <th>Recommended Action</th>
-              <th>Responsible Person</th>
-              <th>Target Date</th>
-              <th>Status</th>
-              <th>Photo</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      <table id="auditTable">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Audit Date</th>
+            <th>Auditor Name</th>
+            <th>Location</th>
+            <th>Observation</th>
+            <th>Nature of Hazard</th>
+            <th>Category</th>
+            <th>Action Taken</th>
+            <th>Responsible Person</th>
+            <th>Target Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
       <button id="downloadBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
     </div>
-
   </div>
 
   <script>
     let records = [];
-    let serial = 1;
 
-    document.getElementById("auditForm").addEventListener("submit", function(e) {
+    document.getElementById("auditForm").addEventListener("submit", function(e){
       e.preventDefault();
 
-      const reader = new FileReader();
-      const file = document.getElementById("photo").files[0];
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-
-      reader.onloadend = () => {
-        const record = {
-          sno: serial++,
-          auditDate: document.getElementById("auditDate").value,
-          auditorName: document.getElementById("auditorName").value,
-          location: document.getElementById("location").value,
-          observation: document.getElementById("observation").value,
-          hazardNature: document.getElementById("hazardNature").value,
-          category: document.getElementById("category").value,
-          correctiveAction: document.getElementById("correctiveAction").value,
-          recommendedAction: document.getElementById("recommendedAction").value,
-          responsiblePerson: document.getElementById("responsiblePerson").value,
-          targetDate: document.getElementById("targetDate").value,
-          status: document.getElementById("status").value,
-          photo: file ? reader.result : ""
-        };
-
-        records.push(record);
-        appendRecord(record);
-        document.getElementById("auditForm").reset();
+      let record = {
+        date: document.getElementById("auditDate").value,
+        auditor: document.getElementById("auditorName").value,
+        location: document.getElementById("location").value,
+        observation: document.getElementById("observation").value,
+        hazard: document.getElementById("hazard").value,
+        category: document.getElementById("category").value,
+        actionTaken: document.getElementById("actionTaken").value,
+        responsible: document.getElementById("responsiblePerson").value,
+        targetDate: document.getElementById("targetDate").value,
+        status: document.getElementById("status").value
       };
 
-      if (!file) reader.onloadend();
+      records.push(record);
+      updateTable();
+      this.reset();
     });
 
-    function appendRecord(record) {
-      const tbody = document.querySelector("#auditTable tbody");
-      const tr = document.createElement("tr");
+    function updateTable(){
+      let tbody = document.querySelector("#auditTable tbody");
+      tbody.innerHTML = "";
+      records.forEach((rec, index) => {
+        let row = document.createElement("tr");
+        if (rec.category === "High Risk") row.className = "risk-high";
+        if (rec.category === "Medium Risk") row.className = "risk-medium";
+        if (rec.category === "Low Risk") row.className = "risk-low";
+        if (rec.category === "Good Practice") row.className = "risk-good";
 
-      // Risk highlighting
-      if (record.category === "High Risk") tr.classList.add("high-risk");
-      if (record.category === "Medium Risk") tr.classList.add("medium-risk");
-      if (record.category === "Low Risk") tr.classList.add("low-risk");
-      if (record.category === "Good Practice") tr.classList.add("good-practice");
+        let statusBadge = rec.status === "Open" 
+          ? `<span class="badge badge-open"><i class="fas fa-exclamation-circle"></i> Open</span>`
+          : `<span class="badge badge-closed"><i class="fas fa-check-circle"></i> Closed</span>`;
 
-      tr.innerHTML = `
-        <td>${record.sno}</td>
-        <td>${record.auditDate}</td>
-        <td>${record.auditorName}</td>
-        <td>${record.location}</td>
-        <td>${record.observation}</td>
-        <td>${record.hazardNature}</td>
-        <td>${record.category}</td>
-        <td>${record.correctiveAction}</td>
-        <td>${record.recommendedAction}</td>
-        <td>${record.responsiblePerson}</td>
-        <td>${record.targetDate}</td>
-        <td>${record.status}</td>
-        <td>${record.photo ? `<img src="${record.photo}" width="60">` : ""}</td>
-      `;
-      tbody.appendChild(tr);
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${rec.date}</td>
+          <td>${rec.auditor}</td>
+          <td>${rec.location}</td>
+          <td>${rec.observation}</td>
+          <td>${rec.hazard}</td>
+          <td>${rec.category}</td>
+          <td>${rec.actionTaken}</td>
+          <td>${rec.responsible}</td>
+          <td>${rec.targetDate}</td>
+          <td>${statusBadge}</td>
+        `;
+        tbody.appendChild(row);
+      });
     }
 
-    document.getElementById("downloadBtn").addEventListener("click", function() {
-      const ws_data = [
-        ["Project Name: __________", "Audit No: __________"],
+    document.getElementById("downloadBtn").addEventListener("click", function(){
+      let ws_data = [
+        ["Project Name: _____________", "Audit No: _____________"],
         [],
-        ["S.No","Audit Date","Auditor Name","Location / Site","Observation","Nature of the Hazard",
-         "Category","Corrective Action Required","Recommended Action","Responsible Person",
-         "Target Date","Status","Photo"]
+        ["S.No", "Audit Date", "Auditor Name", "Location", "Observation", "Nature of Hazard", "Category", "Action Taken", "Responsible Person", "Target Date", "Status"]
       ];
 
-      records.forEach(r => {
+      records.forEach((rec, index) => {
         ws_data.push([
-          r.sno, r.auditDate, r.auditorName, r.location, r.observation, r.hazardNature,
-          r.category, r.correctiveAction, r.recommendedAction, r.responsiblePerson,
-          r.targetDate, r.status, r.photo ? "[Photo Attached]" : ""
+          index + 1,
+          rec.date,
+          rec.auditor,
+          rec.location,
+          rec.observation,
+          rec.hazard,
+          rec.category,
+          rec.actionTaken,
+          rec.responsible,
+          rec.targetDate,
+          rec.status
         ]);
       });
 
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+      let wb = XLSX.utils.book_new();
+      let ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-      ws["!merges"] = [{ s: {r:0,c:0}, e: {r:0,c:11} }];
-      ws["!cols"] = Array(12).fill({ wch: 20 });
+      ws["!merges"] = [{ s: { r:0, c:0 }, e: { r:0, c:10 } }];
+      ws["!merges"].push({ s: { r:0, c:1 }, e: { r:0, c:10 } });
 
-      XLSX.utils.book_append_sheet(wb, ws, "Audit Data");
-      XLSX.writeFile(wb, "Audit_Data.xlsx");
+      XLSX.utils.book_append_sheet(wb, ws, "Audit Records");
+      XLSX.writeFile(wb, "Audit_Records.xlsx");
     });
   </script>
 </body>
