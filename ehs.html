@@ -53,13 +53,13 @@ th:nth-child(1), td:nth-child(1) { width:40px; }
 th:nth-child(2), td:nth-child(2) { width:100px; }
 th:nth-child(3), td:nth-child(3) { width:120px; }
 th:nth-child(4), td:nth-child(4) { width:120px; }
-th:nth-child(5), td:nth-child(5) { width:200px; }
-th:nth-child(6), td:nth-child(6) { width:150px; }
+th:nth-child(5), td:nth-child(5) { width:120px; }
+th:nth-child(6), td:nth-child(6) { width:120px; }
 th:nth-child(7), td:nth-child(7) { width:120px; }
-th:nth-child(8), td:nth-child(8) { width:200px; }
-th:nth-child(9), td:nth-child(9) { width:200px; }
-th:nth-child(10), td:nth-child(10) { width:150px; }
-th:nth-child(11), td:nth-child(11) { width:100px; }
+th:nth-child(8), td:nth-child(8) { width:150px; }
+th:nth-child(9), td:nth-child(9) { width:150px; }
+th:nth-child(10), td:nth-child(10) { width:120px; }
+th:nth-child(11), td:nth-child(11) { width:120px; }
 th:nth-child(12), td:nth-child(12) { width:80px; }
 th:nth-child(13), td:nth-child(13) { width:80px; }
 td img { max-width:50px; max-height:50px; display:block; margin:auto; }
@@ -182,10 +182,11 @@ function updateReport(){
 
 document.getElementById("auditForm").addEventListener("submit",function(e){
   e.preventDefault();
-  // Persist auditor, location, date
-  persistentAuditor=document.getElementById("auditorName").value;
-  persistentLocation=document.getElementById("location").value;
-  persistentDate=document.getElementById("auditDate").value;
+
+  // Save persistent fields
+  persistentAuditor = document.getElementById("auditorName").value;
+  persistentLocation = document.getElementById("location").value;
+  persistentDate = document.getElementById("auditDate").value;
 
   let photoFile=document.getElementById("photo").files[0];
   if(photoFile){
@@ -210,7 +211,18 @@ function addRecord(photoData){
     status:document.getElementById("status").value,
     photo:photoData
   };
-  records.push(rec); renderTable(); updateReport(); document.getElementById("auditForm").reset();
+  records.push(rec); renderTable(); updateReport();
+
+  // Reset only non-persistent fields
+  document.getElementById("observation").value="";
+  document.getElementById("hazardNature").value="";
+  document.getElementById("category").selectedIndex=0;
+  document.getElementById("recommendedAction").value="";
+  document.getElementById("actionTaken").value="";
+  document.getElementById("responsiblePerson").value="";
+  document.getElementById("targetDate").value="";
+  document.getElementById("status").selectedIndex=0;
+  document.getElementById("photo").value="";
 }
 
 function renderTable(){
