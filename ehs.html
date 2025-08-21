@@ -14,29 +14,13 @@ h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-it
 h2 i { margin-right:8px; }
 form { display:flex; flex-direction:column; }
 form label { font-weight:bold; margin-top:10px; display:block; }
-input, select, textarea {
-  width:100%;
-  max-width:100%;
-  box-sizing:border-box;
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:1rem;
-}
+input, select, textarea { width:100%; max-width:100%; box-sizing:border-box; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem; }
 textarea { resize: vertical; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
 form button { margin-top:15px; padding:12px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
 form button:hover { background:#256628; }
 .table-container { overflow-x:auto; }
 table { width:100%; border-collapse:collapse; table-layout: fixed; font-size:0.9rem; text-align:left; }
-th, td {
-  border:1px solid #ccc;
-  padding:8px;
-  vertical-align:middle;
-  text-align:center;
-  word-wrap: break-word;
-  white-space: normal;
-  position: relative;
-}
+th, td { border:1px solid #ccc; padding:8px; vertical-align:middle; text-align:center; word-wrap: break-word; white-space: normal; position: relative; }
 th { background:#2e7d32; color:#fff; }
 .risk-high { background:#f8d7da; border:1px solid #f5c6cb; }
 .risk-medium { background:#fff3cd; border:1px solid #ffeeba; }
@@ -75,19 +59,30 @@ td img { max-width:50px; max-height:50px; display:block; margin:auto; }
 }
 
 /* Tooltip hover */
-td:hover::after {
-  content: attr(title);
-  position: absolute;
-  background: rgba(0,0,0,0.8);
+td:hover::after { content: attr(title); position: absolute; background: rgba(0,0,0,0.8); color: #fff; padding: 5px 8px; border-radius: 4px; top: 100%; left: 0; white-space: normal; z-index: 10; max-width: 250px; display: block; }
+
+/* Footer */
+footer#footer {
+  background: rgba(46, 125, 50, 0.85);
   color: #fff;
-  padding: 5px 8px;
-  border-radius: 4px;
-  top: 100%;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  position: fixed;
+  bottom: 0;
   left: 0;
-  white-space: normal;
-  z-index: 10;
-  max-width: 250px;
-  display: block;
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+footer#footer:hover { background: rgba(46, 125, 50, 1); }
+footer#footer .footer-content { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
+footer#footer .footer-content span { display: inline-block; }
+footer#footer .footer-content .developer { font-style: italic; }
+@media(max-width:768px){
+  footer#footer { font-size: 0.8rem; padding: 10px 5px; }
+  footer#footer .footer-content { flex-direction: column; gap: 4px; }
 }
 </style>
 </head>
@@ -96,6 +91,7 @@ td:hover::after {
 
 <div class="container">
 
+<!-- Audit Form -->
 <div class="card" id="auditFormCard">
 <h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
 <form id="auditForm">
@@ -122,6 +118,7 @@ td:hover::after {
 </form>
 </div>
 
+<!-- Audit Table -->
 <div class="card">
 <h2><i class="fas fa-table"></i> Audit Records</h2>
 <div class="table-container">
@@ -141,6 +138,7 @@ td:hover::after {
 <th><i class="fas fa-calendar-check"></i> Target Date</th>
 <th><i class="fas fa-info-circle"></i> Status</th>
 <th><i class="fas fa-camera"></i> Photo</th>
+<th>Edit</th>
 </tr>
 </thead>
 <tbody></tbody>
@@ -149,6 +147,7 @@ td:hover::after {
 <button class="export-btn" id="exportBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
 </div>
 
+<!-- Audit Summary -->
 <div class="card">
 <h2><i class="fas fa-file-alt"></i> Audit Report</h2>
 <div id="auditReport" class="report-box"><p>No data yet.</p></div>
@@ -156,113 +155,207 @@ td:hover::after {
 
 </div>
 
+<!-- Footer -->
+<footer id="footer">
+  <div class="footer-content">
+    <span id="visitorCount">Visitors: 0</span>
+    <span class="developer">| Developed by Arun Williams</span>
+  </div>
+</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script>
-let records = JSON.parse(localStorage.getItem("auditRecords")) || [];
+let records = [];
+let editIndex = null;
 
-// Render table with records
-function renderTable() {
-  const tbody = document.querySelector("#recordsTable tbody");
-  tbody.innerHTML = "";
+// Persistent fields
+let persistentAuditor=document.getElementById("auditorName").value;
+let persistentLocation=document.getElementById("location").value;
+let persistentDate=document.getElementById("auditDate").value;
 
-  records.forEach((record, index) => {
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-      <td>${record.date}</td>
-      <td>${record.auditor}</td>
-      <td>${record.project}</td>
-      <td>${record.location}</td>
-      <td>${record.observation}</td>
-      <td class="category ${record.category}">${record.category}</td>
-      <td>${record.photo ? `<img src="${record.photo}" class="tooltip" width="50" height="50" />` : ""}</td>
-      <td>
-        <button onclick="editRecord(${index})">✏️ Edit</button>
-        <button onclick="deleteRecord(${index})">❌ Delete</button>
-      </td>
-    `;
-    tbody.appendChild(row);
+function updateReport(){
+  if(records.length===0){ document.getElementById("auditReport").innerHTML="<p>No data yet.</p>"; return; }
+  let counts={high:0,medium:0,low:0,good:0};
+  records.forEach(r=>{
+    if(r.category==="High Risk") counts.high++;
+    if(r.category==="Medium Risk") counts.medium++;
+    if(r.category==="Low Risk") counts.low++;
+    if(r.category==="Good Practice") counts.good++;
   });
-
-  updateAuditReport();
-  localStorage.setItem("auditRecords", JSON.stringify(records));
+  document.getElementById("auditReport").innerHTML=`
+    <p>🔴 High Risk: ${counts.high}</p>
+    <p>🟠 Medium Risk: ${counts.medium}</p>
+    <p>🟢 Low Risk: ${counts.low}</p>
+    <p>✅ Good Practice: ${counts.good}</p>`;
 }
 
-// Add record
-document.getElementById("auditForm").addEventListener("submit", function(event) {
-  event.preventDefault();
+document.getElementById("auditForm").addEventListener("submit", function(e){
+  e.preventDefault();
 
-  const record = {
-    date: document.getElementById("auditDate").value,
-    auditor: document.getElementById("auditorName").value,
-    project: document.getElementById("projectName").value,
-    location: document.getElementById("projectLocation").value,
-    observation: document.getElementById("observation").value,
-    category: document.getElementById("category").value,
-    photo: ""
-  };
+  persistentAuditor = document.getElementById("auditorName").value;
+  persistentLocation = document.getElementById("location").value;
+  persistentDate = document.getElementById("auditDate").value;
 
-  const photoFile = document.getElementById("photo").files[0];
-  if (photoFile) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      record.photo = e.target.result;
-      records.push(record);
-      renderTable();
-      document.getElementById("auditForm").reset();
-    };
+  let photoFile=document.getElementById("photo").files[0];
+  if(photoFile){
+    let reader=new FileReader();
+    reader.onload=function(ev){ addRecord(ev.target.result); };
     reader.readAsDataURL(photoFile);
-  } else {
-    records.push(record);
-    renderTable();
-    document.getElementById("auditForm").reset();
-  }
+  } else { addRecord(""); }
 });
 
-// Edit record
-function editRecord(index) {
-  const record = records[index];
-  document.getElementById("auditDate").value = record.date;
-  document.getElementById("auditorName").value = record.auditor;
-  document.getElementById("projectName").value = record.project;
-  document.getElementById("projectLocation").value = record.location;
-  document.getElementById("observation").value = record.observation;
-  document.getElementById("category").value = record.category;
-
-  // Remove the record temporarily (re-added when resubmitted)
-  records.splice(index, 1);
-  renderTable();
-}
-
-// Delete record
-function deleteRecord(index) {
-  if (confirm("Are you sure you want to delete this record?")) {
-    records.splice(index, 1);
-    renderTable();
+function addRecord(photoData){
+  const rec={
+    date:persistentDate,
+    auditor:persistentAuditor,
+    location:persistentLocation,
+    observation:document.getElementById("observation").value,
+    hazardNature:document.getElementById("hazardNature").value,
+    category:document.getElementById("category").value,
+    recommendedAction:document.getElementById("recommendedAction").value,
+    actionTaken:document.getElementById("actionTaken").value,
+    responsiblePerson:document.getElementById("responsiblePerson").value,
+    targetDate:document.getElementById("targetDate").value,
+    status:document.getElementById("status").value,
+    photo:photoData
+  };
+  if(editIndex!==null){
+    records[editIndex] = rec;
+    editIndex = null;
+  } else {
+    records.push(rec);
   }
+  renderTable();
+  updateReport();
+
+  document.getElementById("observation").value="";
+  document.getElementById("hazardNature").value="";
+  document.getElementById("category").selectedIndex=0;
+  document.getElementById("recommendedAction").value="";
+  document.getElementById("actionTaken").value="";
+  document.getElementById("responsiblePerson").value="";
+  document.getElementById("targetDate").value="";
+  document.getElementById("status").selectedIndex=0;
+  document.getElementById("photo").value="";
 }
 
-// Update Audit Report box
-function updateAuditReport() {
-  const counts = { high: 0, medium: 0, low: 0, good: 0 };
+function renderTable(){
+  let tbody=document.querySelector("#auditTable tbody"); 
+  tbody.innerHTML="";
+  records.forEach((r,i)=>{
+    let row=document.createElement("tr");
+    if(r.category==="High Risk") row.className="risk-high";
+    if(r.category==="Medium Risk") row.className="risk-medium";
+    if(r.category==="Low Risk") row.className="risk-low";
+    if(r.category==="Good Practice") row.className="risk-good";
 
-  records.forEach(record => {
-    if (record.category === "High Risk") counts.high++;
-    else if (record.category === "Medium Risk") counts.medium++;
-    else if (record.category === "Low Risk") counts.low++;
-    else if (record.category === "Good Practice") counts.good++;
+    const cells = [
+      i+1, r.date, r.auditor, r.location, r.observation, r.hazardNature,
+      r.category, r.recommendedAction, r.actionTaken,
+      r.responsiblePerson, r.targetDate, r.status, r.photo ? '<img src="'+r.photo+'" width="50">' : ''
+    ];
+
+    cells.forEach(c=>{
+      const td = document.createElement("td");
+      td.innerHTML = c;
+      td.title = typeof c === "string" ? c.replace(/<[^>]+>/g,"") : "";
+      td.style.textAlign="center";
+      td.style.verticalAlign="middle";
+      row.appendChild(td);
+    });
+
+    // Edit button
+    const editTd = document.createElement("td");
+    const editBtn = document.createElement("button");
+    editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+    editBtn.style.cursor = "pointer";
+    editBtn.addEventListener("click", ()=> editRecord(i));
+    editTd.appendChild(editBtn);
+    row.appendChild(editTd);
+
+    tbody.appendChild(row);
   });
-
-  document.getElementById("auditReport").innerHTML =
-    `<p>🔴 High Risk: ${counts.high}</p>
-     <p>🟠 Medium Risk: ${counts.medium}</p>
-     <p>🟢 Low Risk: ${counts.low}</p>
-     <p>✅ Good Practice: ${counts.good}</p>`;
 }
 
-// Initial render
-renderTable();
+function editRecord(index){
+  const r = records[index];
+  editIndex = index;
+  document.getElementById("auditDate").value = r.date;
+  document.getElementById("auditorName").value = r.auditor;
+  document.getElementById("location").value = r.location;
+  document.getElementById("observation").value = r.observation;
+  document.getElementById("hazardNature").value = r.hazardNature;
+  document.getElementById("category").value = r.category;
+  document.getElementById("recommendedAction").value = r.recommendedAction;
+  document.getElementById("actionTaken").value = r.actionTaken;
+  document.getElementById("responsiblePerson").value = r.responsiblePerson;
+  document.getElementById("targetDate").value = r.targetDate;
+  document.getElementById("status").value = r.status;
+}
+
+// Excel export
+document.getElementById("exportBtn").addEventListener("click", async function () {
+  const wb = new ExcelJS.Workbook();
+  const ws = wb.addWorksheet("Audit Report");
+  ws.mergeCells("A1:M1");
+  ws.getCell("A1").value = "Project Name: XYZ Project";
+  ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
+  ws.getCell("A1").font = { bold: true, size: 14 };
+  ws.mergeCells("A2:M2");
+  ws.getCell("A2").value = "Audit No: 001";
+  ws.getCell("A2").alignment = { horizontal: "center", vertical: "middle" };
+  ws.getCell("A2").font = { bold: true, size: 12 };
+  ws.addRow([]);
+  const header = ["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Risk Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"];
+  const headerRow = ws.addRow(header);
+  headerRow.eachCell((cell)=>{ cell.font={bold:true,color:{argb:"FFFFFFFF"}}; cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF2E7D32"}}; cell.alignment={horizontal:"center",vertical:"middle",wrapText:true}; cell.border={top:{style:"thin"},left:{style:"thin"},bottom:{style:"thin"},right:{style:"thin"}}; });
+  ws.columns = [{width:6},{width:12},{width:15},{width:15},{width:25},{width:20},{width:15},{width:25},{width:25},{width:15},{width:12},{width:10},{width:15}];
+  for(let i=0;i<records.length;i++){
+    const r = records[i];
+    const row = ws.addRow([i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,""]);
+    row.height=50;
+    row.eachCell((cell,colNumber)=>{
+      if(colNumber===7){
+        let fillColor="";
+        switch(r.category){
+          case "High Risk": fillColor="FFCDD2"; break;
+          case "Medium Risk": fillColor="FFF9C4"; break;
+          case "Low Risk": fillColor="C8E6C9"; break;
+          case "Good Practice": fillColor="E8F5E9"; break;
+        }
+        cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:fillColor}};
+      }
+      cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};
+      cell.border={top:{style:"thin"},left:{style:"thin"},bottom:{style:"thin"},right:{style:"thin"}};
+    });
+    if(r.photo){
+      const imageId = wb.addImage({ base64:r.photo, extension:'png' });
+      ws.addImage(imageId,{tl:{col:12,row:row.number-1}, ext:{width:50,height:50}});
+    }
+  }
+  wb.xlsx.writeBuffer().then(function(data){
+    const blob = new Blob([data], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    saveAs(blob, "Audit_Report.xlsx");
+  });
+});
+
+// Visitor count
+fetch('https://api.countapi.xyz/hit/ehs-dashboard/arunvisits')
+  .then(res => res.json())
+  .then(data => { document.getElementById("visitorCount").textContent = "Visitors: " + data.value; })
+  .catch(err => { console.error("Visitor count error:", err); });
+
+// Footer auto-hide on scroll
+let lastScrollTop = 0;
+const footer = document.getElementById("footer");
+window.addEventListener("scroll", function() {
+  let st = window.pageYOffset || document.documentElement.scrollTop;
+  if(st > lastScrollTop){ footer.style.transform = "translateY(100%)"; } 
+  else { footer.style.transform = "translateY(0)"; }
+  lastScrollTop = st <= 0 ? 0 : st;
+});
+footer.style.transition = "transform 0.3s ease";
 </script>
 </body>
 </html>
