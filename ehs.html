@@ -1,203 +1,135 @@
-<!DOCTYPE html>
+update the fix in <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HSE Audit Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1 { text-align: center; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    table, th, td { border: 1px solid #333; }
-    th, td { padding: 8px; text-align: center; vertical-align: middle; }
-    .btn { padding: 6px 12px; margin: 5px; cursor: pointer; }
-    #visitorCount { margin-top: 20px; text-align: center; font-weight: bold; }
-    footer { margin-top: 20px; text-align: center; font-size: 14px; color: gray; }
-    canvas { margin-top: 30px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EHS Audit Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body { font-family: Arial, sans-serif; background: #f4f7f6; margin:0; padding:0; }
+h1 { text-align:center; color:#2e7d32; font-size:2rem; margin-bottom:20px; }
+.container { width:95%; max-width:1200px; margin:auto; padding:10px; box-sizing:border-box; display:flex; flex-direction:column; }
+.card { background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); margin-bottom:20px; overflow:hidden; }
+h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-items:center; }
+h2 i { margin-right:8px; }
+form { display:flex; flex-direction:column; }
+form label { font-weight:bold; margin-top:10px; display:block; }
+input, select, textarea { width:100%; max-width:100%; box-sizing:border-box; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem; }
+textarea { resize: vertical; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
+form button { margin-top:15px; padding:12px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
+form button:hover { background:#256628; }
+.table-container { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; table-layout: fixed; font-size:0.9rem; text-align:left; }
+th, td { border:1px solid #ccc; padding:8px; vertical-align:middle; text-align:center; word-wrap: break-word; white-space: normal; position: relative; }
+th { background:#2e7d32; color:#fff; }
+.risk-high { background:#f8d7da; border:1px solid #f5c6cb; }
+.risk-medium { background:#fff3cd; border:1px solid #ffeeba; }
+.risk-low { background:#d4edda; border:1px solid #c3e6cb; }
+.risk-good { background:#e8f5e9; border:1px solid #2e7d32; }
+.export-btn { margin-top:15px; padding:12px 20px; background:#1d6f42; color:#fff; border:none; border-radius:6px; font-size:1rem; cursor:pointer; }
+.export-btn i { margin-right:8px; }
+.export-btn:hover { background:#145c32; }
+.report-box { border:2px solid #2e7d32; padding:15px; background:#f9fff9; border-radius:8px; font-size:1rem; text-align:center; word-wrap: break-word; }
+label i { margin-right:6px; color:#2e7d32; }
+#footer { background:#2e7d32; color:#fff; padding:10px; text-align:center; position:sticky; bottom:0; width:100%; font-size:0.9rem; }
+@media(max-width:768px){
+  table { font-size:0.85rem; display:block; white-space:nowrap; }
+  th, td { padding:10px 5px; }
+  input, select, textarea, button { font-size:1rem; padding:10px; }
+  h1{ font-size:1.6rem; }
+  h2{ font-size:1.3rem; }
+  .report-box{ font-size:0.95rem; padding:10px; }
+}
+</style>
 </head>
 <body>
-  <h1>HSE Audit Dashboard</h1>
+<h1><i class="fas fa-hard-hat"></i> EHS Audit Dashboard</h1>
 
-  <div>
-    <label>Date: <input type="date" id="date"></label>
-    <label>Auditor Name: <input type="text" id="auditor"></label>
-    <label>Project Name: <input type="text" id="project"></label>
-    <label>Location: <input type="text" id="location"></label>
-    <label>Observation: <input type="text" id="observation"></label>
-    <label>Risk Level: 
-      <select id="risk">
-        <option>High</option>
-        <option>Medium</option>
-        <option>Low</option>
-        <option>Good Practice</option>
-      </select>
-    </label>
-    <label>Photo: <input type="file" id="photo" accept="image/*"></label>
-    <button class="btn" onclick="addRecord()">Add Record</button>
-    <button class="btn" onclick="exportExcel()">Export to Excel</button>
-  </div>
+<div class="container">
 
-  <table id="auditTable">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Auditor</th>
-        <th>Project</th>
-        <th>Location</th>
-        <th>Observation</th>
-        <th>Risk Level</th>
-        <th>Photo</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+<!-- Audit Form -->
+<div class="card" id="auditFormCard">
+<h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
+<form id="auditForm">
+<label><i class="fas fa-calendar-alt"></i> Audit Date</label><input type="date" id="auditDate" required>
+<label><i class="fas fa-user-check"></i> Auditor Name</label><input type="text" id="auditorName" required>
+<label><i class="fas fa-map-marker-alt"></i> Location / Site</label><input type="text" id="location" required>
+<label><i class="fas fa-eye"></i> Observation</label><textarea id="observation" required></textarea>
+<label><i class="fas fa-biohazard"></i> Nature of the Hazard</label><input type="text" id="hazardNature">
+<label><i class="fas fa-exclamation-triangle"></i> Risk Category</label>
+<select id="category" required>
+<option value="High Risk">High Risk</option>
+<option value="Medium Risk">Medium Risk</option>
+<option value="Low Risk">Low Risk</option>
+<option value="Good Practice">Good Practice</option>
+</select>
+<label><i class="fas fa-clipboard-list"></i> Recommended Action</label><textarea id="recommendedAction"></textarea>
+<label><i class="fas fa-tasks"></i> Action Taken</label><textarea id="actionTaken"></textarea>
+<label><i class="fas fa-user"></i> Responsible Person</label><input type="text" id="responsiblePerson">
+<label><i class="fas fa-calendar-check"></i> Target Date</label><input type="date" id="targetDate">
+<label><i class="fas fa-info-circle"></i> Status</label>
+<select id="status"><option value="Open">Open</option><option value="Closed">Closed</option></select>
+<label><i class="fas fa-camera"></i> Photo</label><input type="file" id="photo" accept="image/*">
+<button type="submit"><i class="fas fa-plus-circle"></i> Add Record</button>
+</form>
+</div>
 
-  <canvas id="summaryChart" width="400" height="200"></canvas>
+<!-- Audit Records Table -->
+<div class="card">
+<h2><i class="fas fa-table"></i> Audit Records</h2>
+<div class="table-container">
+<table id="auditTable">
+<thead>
+<tr>
+<th>S.No</th>
+<th>Audit Date</th>
+<th>Auditor</th>
+<th>Location</th>
+<th>Observation</th>
+<th>Nature of Hazard</th>
+<th>Risk Category</th>
+<th>Recommended Action</th>
+<th>Action Taken</th>
+<th>Responsible Person</th>
+<th>Target Date</th>
+<th>Status</th>
+<th>Photo</th>
+<th>Edit</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<button class="export-btn" id="exportBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
+</div>
 
-  <div id="visitorCount">Visitors: Loading...</div>
-  <footer>Developed by Arun Williams</footer>
+<!-- Audit Report Summary -->
+<div class="card">
+<h2>Audit Report</h2>
+<div id="auditReport" class="report-box"><p>No data yet.</p></div>
+</div>
 
+</div>
+
+<!-- Footer with Visitor Count -->
+<div id="footer">
+<span id="visitorCount">Visitors: 0</span> | Developed by Arun Williams
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script>
-let records = [];
-let editIndex = -1;
+let records=[];
+let editIndex = null;
+let persistentAuditor=document.getElementById("auditorName").value;
+let persistentLocation=document.getElementById("location").value;
+let persistentDate=document.getElementById("auditDate").value;
 
-// Handle photo as Base64
-document.getElementById("photo").addEventListener("change", function(event){
-  const file = event.target.files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      document.getElementById("photo").dataset.base64 = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-function addRecord() {
-  const date = document.getElementById("date").value;
-  const auditor = document.getElementById("auditor").value;
-  const project = document.getElementById("project").value;
-  const location = document.getElementById("location").value;
-  const observation = document.getElementById("observation").value;
-  const risk = document.getElementById("risk").value;
-  const photo = document.getElementById("photo").dataset.base64 || "";
-
-  const record = {date, auditor, project, location, observation, risk, photo};
-
-  if (editIndex === -1) {
-    records.push(record);
-  } else {
-    records[editIndex] = record;
-    editIndex = -1;
-  }
-
-  document.getElementById("photo").value = "";
-  document.getElementById("photo").dataset.base64 = "";
-  renderTable();
-  updateChart();
-}
-
-function renderTable() {
-  const tbody = document.querySelector("#auditTable tbody");
-  tbody.innerHTML = "";
-  records.forEach((r, index) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${r.date}</td>
-      <td>${r.auditor}</td>
-      <td>${r.project}</td>
-      <td>${r.location}</td>
-      <td>${r.observation}</td>
-      <td>${r.risk}</td>
-      <td>${r.photo ? '<img src="'+r.photo+'" width="60">' : ''}</td>
-      <td><button class="btn" onclick="editRecord(${index})">Edit</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function editRecord(index) {
-  const r = records[index];
-  document.getElementById("date").value = r.date;
-  document.getElementById("auditor").value = r.auditor;
-  document.getElementById("project").value = r.project;
-  document.getElementById("location").value = r.location;
-  document.getElementById("observation").value = r.observation;
-  document.getElementById("risk").value = r.risk;
-  document.getElementById("photo").dataset.base64 = r.photo;
-  editIndex = index;
-}
-
-async function exportExcel() {
-  const wb = new ExcelJS.Workbook();
-  const ws = wb.addWorksheet("Audit Data");
-
-  ws.addRow(["Audit Report"]);
-  ws.addRow([`Date: ${new Date().toLocaleDateString()}`]);
-  ws.addRow([`Auditor: ${records[0]?.auditor || ''}`]);
-  ws.addRow([`Project: ${records[0]?.project || ''}`]);
-  ws.addRow([`Location: ${records[0]?.location || ''}`]);
-  ws.addRow([]);
-
-  ws.addRow(["Date","Auditor","Project","Location","Observation","Risk","Photo"]);
-
-  records.forEach((r, i) => {
-    const row = ws.addRow([r.date, r.auditor, r.project, r.location, r.observation, r.risk, ""]);
-    if (r.photo) {
-      const imageId = wb.addImage({ base64: r.photo, extension: 'png' });
-      const img = new Image();
-      img.src = r.photo;
-      img.onload = function () {
-        const width = img.width;
-        const height = img.height;
-        ws.getColumn(7).width = Math.max(ws.getColumn(7).width || 15, width / 7);
-        ws.getRow(row.number).height = Math.max(ws.getRow(row.number).height || 20, height * 0.75);
-
-        ws.addImage(imageId, {
-          tl: { col: 6, row: row.number - 1 },
-          ext: { width, height },
-          editAs: 'oneCell'
-        });
-      };
-    }
-  });
-
-  const buf = await wb.xlsx.writeBuffer();
-  saveAs(new Blob([buf]), "Audit_Report.xlsx");
-}
-
-// Chart Summary
-function updateChart() {
-  const ctx = document.getElementById("summaryChart").getContext("2d");
-  const counts = {High:0, Medium:0, Low:0, "Good Practice":0};
-  records.forEach(r => counts[r.risk]++);
-  if (window.chart) window.chart.destroy();
-  window.chart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: Object.keys(counts),
-      datasets: [{label: "Observations", data: Object.values(counts)}]
-    }
-  });
-}
-
-// Visitor Counter
+// Visitor Count using CountAPI
 const namespace = "ehs_dashboard_arun";
 const key = "visitor_count";
-
 function updateVisitorCount() {
-  fetch(`https://api.countapi.xyz/get/${namespace}/${key}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === 404) {
-        return fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`);
-      }
-    })
-    .then(() => fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`))
+  fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
     .then(res => res.json())
     .then(data => {
       document.getElementById("visitorCount").textContent = "Visitors: " + data.value;
@@ -207,8 +139,165 @@ function updateVisitorCount() {
       document.getElementById("visitorCount").textContent = "Visitors: N/A";
     });
 }
-
 updateVisitorCount();
+
+// Audit Report update
+function updateReport(){
+  if(records.length===0){ document.getElementById("auditReport").innerHTML="<p>No data yet.</p>"; return; }
+  let counts={high:0,medium:0,low:0,good:0};
+  records.forEach(r=>{
+    if(r.category==="High Risk") counts.high++;
+    if(r.category==="Medium Risk") counts.medium++;
+    if(r.category==="Low Risk") counts.low++;
+    if(r.category==="Good Practice") counts.good++;
+  });
+  document.getElementById("auditReport").innerHTML=`
+    <p>🔴 High Risk: ${counts.high}</p>
+    <p>🟠 Medium Risk: ${counts.medium}</p>
+    <p>🟢 Low Risk: ${counts.low}</p>
+    <p>✅ Good Practice: ${counts.good}</p>`;
+}
+
+// Form submit
+document.getElementById("auditForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  persistentAuditor = document.getElementById("auditorName").value;
+  persistentLocation = document.getElementById("location").value;
+  persistentDate = document.getElementById("auditDate").value;
+
+  let photoFile=document.getElementById("photo").files[0];
+  if(photoFile){
+    let reader=new FileReader();
+    reader.onload=function(ev){ addRecord(ev.target.result); };
+    reader.readAsDataURL(photoFile);
+  } else { addRecord(""); }
+});
+
+function addRecord(photoData){
+  const rec={
+    date:persistentDate,
+    auditor:persistentAuditor,
+    location:persistentLocation,
+    observation:document.getElementById("observation").value,
+    hazardNature:document.getElementById("hazardNature").value,
+    category:document.getElementById("category").value,
+    recommendedAction:document.getElementById("recommendedAction").value,
+    actionTaken:document.getElementById("actionTaken").value,
+    responsiblePerson:document.getElementById("responsiblePerson").value,
+    targetDate:document.getElementById("targetDate").value,
+    status:document.getElementById("status").value,
+    photo:photoData
+  };
+
+  if(editIndex!==null){
+    records[editIndex]=rec;
+    editIndex=null;
+  } else {
+    records.push(rec);
+  }
+
+  renderTable(); updateReport();
+
+  document.getElementById("observation").value="";
+  document.getElementById("hazardNature").value="";
+  document.getElementById("category").selectedIndex=0;
+  document.getElementById("recommendedAction").value="";
+  document.getElementById("actionTaken").value="";
+  document.getElementById("responsiblePerson").value="";
+  document.getElementById("targetDate").value="";
+  document.getElementById("status").selectedIndex=0;
+  document.getElementById("photo").value="";
+}
+
+// Render Table
+function renderTable(){
+  let tbody=document.querySelector("#auditTable tbody"); 
+  tbody.innerHTML="";
+  records.forEach((r,i)=>{
+    let row=document.createElement("tr");
+    if(r.category==="High Risk") row.className="risk-high";
+    if(r.category==="Medium Risk") row.className="risk-medium";
+    if(r.category==="Low Risk") row.className="risk-low";
+    if(r.category==="Good Practice") row.className="risk-good";
+
+    const cells = [i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,r.photo ? '<img src="'+r.photo+'" width="50">' : ''];
+    cells.forEach(c=>{
+      const td=document.createElement("td");
+      td.innerHTML=c;
+      td.title=typeof c==="string"?c.replace(/<[^>]+>/g,""):"";
+      td.style.textAlign="center"; td.style.verticalAlign="middle";
+      row.appendChild(td);
+    });
+
+    const editTd=document.createElement("td");
+    const editBtn=document.createElement("button");
+    editBtn.innerHTML='<i class="fas fa-edit"></i>';
+    editBtn.style.cursor="pointer";
+    editBtn.addEventListener("click",()=>editRecord(i));
+    editTd.appendChild(editBtn);
+    row.appendChild(editTd);
+
+    tbody.appendChild(row);
+  });
+}
+
+// Edit record
+function editRecord(index){
+  const r=records[index];
+  editIndex=index;
+  document.getElementById("auditDate").value=r.date;
+  document.getElementById("auditorName").value=r.auditor;
+  document.getElementById("location").value=r.location;
+  document.getElementById("observation").value=r.observation;
+  document.getElementById("hazardNature").value=r.hazardNature;
+  document.getElementById("category").value=r.category;
+  document.getElementById("recommendedAction").value=r.recommendedAction;
+  document.getElementById("actionTaken").value=r.actionTaken;
+  document.getElementById("responsiblePerson").value=r.responsiblePerson;
+  document.getElementById("targetDate").value=r.targetDate;
+  document.getElementById("status").value=r.status;
+}
+
+// Excel export
+document.getElementById("exportBtn").addEventListener("click", async function () {
+  const wb = new ExcelJS.Workbook();
+  const ws = wb.addWorksheet("Audit Report");
+  ws.mergeCells("A1:M1");
+  ws.getCell("A1").value = "Project Name: XYZ Project";
+  ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
+  ws.getCell("A1").font = { bold: true, size: 14 };
+  ws.mergeCells("A2:M2");
+  ws.getCell("A2").value = "Audit No: 001";
+  ws.getCell("A2").alignment = { horizontal: "center", vertical: "middle" };
+  ws.getCell("A2").font = { bold: true, size: 12 };
+  ws.addRow([]);
+  const header = ["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Risk Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"];
+  const headerRow = ws.addRow(header);
+  headerRow.eachCell((cell)=>{ cell.font={bold:true,color:{argb:"FFFFFFFF"}}; cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF2E7D32"}}; cell.alignment={horizontal:"center", vertical:"middle", wrapText:true}; cell.border={top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"}}; });
+  ws.columns=[{width:6},{width:12},{width:15},{width:15},{width:25},{width:20},{width:15},{width:25},{width:25},{width:15},{width:12},{width:10},{width:15}];
+  for(let i=0;i<records.length;i++){
+    const r = records[i];
+    const row = ws.addRow([i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,""]);
+    row.height = 50;
+    row.eachCell((cell,colNumber)=>{
+      if(colNumber===7){
+        let fillColor="";
+        switch(r.category){ case "High Risk": fillColor="FFCDD2"; break; case "Medium Risk": fillColor="FFF9C4"; break; case "Low Risk": fillColor="C8E6C9"; break; case "Good Practice": fillColor="E8F5E9"; break;}
+        cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:fillColor}};
+      }
+      cell.alignment={horizontal:"center", vertical:"middle", wrapText:true};
+      cell.border={top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"}};
+    });
+    if(r.photo){
+      const imageId = wb.addImage({ base64:r.photo, extension:'png' });
+      ws.addImage(imageId,{tl:{col:12,row:row.number-1}, ext:{width:50,height:50}});
+    }
+  }
+  wb.xlsx.writeBuffer().then(function(data){
+    const blob = new Blob([data], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    saveAs(blob, "Audit_Report.xlsx");
+  });
+});
 </script>
 </body>
 </html>
