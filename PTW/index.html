@@ -3,190 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSHA-Compliant Permit-to-Work Dashboard</title>
+<title>EHS Permit-to-Work System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
-h1 { text-align: center; }
-.container { max-width: 1000px; margin: auto; }
-input, select, button, textarea { padding: 6px; margin: 2px; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
-th { background: #eee; }
-.status-Draft { background: #eee; color: #555; }
-.status-Pending { background: #ffecb3; color: #b36b00; }
-.status-Approved { background: #cce5ff; color: #004085; }
-.status-Active { background: #d4edda; color: #155724; }
-.status-Closed { background: #f8f9fa; color: #6c757d; }
-.status-Rejected { background: #f8d7da; color: #721c24; }
-.expiring { background: #ffe6e6 !important; }
-.qr { width: 60px; height: 60px; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin:0; color:#333; }
+header { text-align:center; padding:15px; background:#0d6efd; color:white; font-size:1.5em; }
+nav { display:flex; justify-content:center; margin:10px 0; }
+nav button { margin:0 5px; padding:10px 15px; border:none; border-radius:5px; background:#e9ecef; cursor:pointer; transition:0.3s;}
+nav button.active, nav button:hover { background:#0d6efd; color:#fff;}
+.container { max-width: 1200px; margin:auto; padding:10px;}
+.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:10px; box-shadow:0 3px 6px rgba(0,0,0,0.1); transition:0.3s; }
+.card:hover { box-shadow:0 6px 12px rgba(0,0,0,0.2); }
+input, select, textarea, button { padding:6px; margin:4px 0; border-radius:5px; border:1px solid #ccc; width:100%; }
+button { cursor:pointer; background:#0d6efd; color:#fff; border:none; transition:0.3s; }
+button:hover { background:#0b5ed7; }
+label { font-weight:bold; margin-top:5px; display:block; }
+.badge { padding:4px 8px; border-radius:5px; color:white; font-size:0.8em; font-weight:bold; }
+.badge-Draft { background:#6c757d; }
+.badge-Pending { background:#ffc107; color:#212529; }
+.badge-Approved { background:#0d6efd; }
+.badge-Active { background:#198754; }
+.badge-Closed { background:#6c757d; }
+.badge-Rejected { background:#dc3545; }
+.badge-Suspended { background:#fd7e14; }
+.permit-header { display:flex; justify-content: space-between; align-items:center; margin-bottom:10px; }
+.permit-title { font-size:1.1em; font-weight:bold; }
+.permit-icons i { margin-left:5px; color:#0d6efd; }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
+<header><i class="fas fa-hard-hat"></i> EHS Permit-to-Work System</header>
+<nav>
+<button class="active" onclick="showPage('create')">Create Permit</button>
+<button onclick="showPage('dashboard')">Dashboard</button>
+</nav>
+
 <div class="container">
-  <h1>OSHA-Compliant Permit-to-Work Dashboard</h1>
+<!-- Create Permit Page -->
+<div id="create" class="page">
+<div class="card">
+<h2><i class="fas fa-plus-circle"></i> Create New Permit</h2>
+<label>Work Location</label><input type="text" id="workLocation" placeholder="Location">
+<label>Date & Time</label><input type="datetime-local" id="workDateTime">
+<label>Permit Holder Name</label><input type="text" id="permitHolder">
+<label>Safety Contact Name</label><input type="text" id="safetyContactName">
+<label>Safety Contact Number</label><input type="text" id="safetyContactNumber">
+<label>Work Description</label><textarea id="workDescription" rows="4" placeholder="Describe work & hazards"></textarea>
+<label>Reviewer Name</label><input type="text" id="reviewerName">
+<label>Issuer Name</label><input type="text" id="issuerName">
+<label>Holder Acknowledgment</label>
+<select id="holderAcknowledgment">
+<option value="Pending">Pending</option>
+<option value="Accepted">Accepted</option>
+<option value="Suspended">Suspended</option>
+</select>
+<button onclick="addPermit()"><i class="fas fa-save"></i> Save Permit</button>
+</div>
+</div>
 
-  <div>
-    <label for="role">Select Role:</label>
-    <select id="role" onchange="renderTable()">
-      <option value="Issuer">Permit Issuer</option>
-      <option value="Approver">Authorized Approver</option>
-    </select>
-  </div>
+<!-- Dashboard Page -->
+<div id="dashboard" class="page" style="display:none;"></div>
 
-  <div id="newPermitDiv">
-    <h2>Create New Work Permit</h2>
-    <select id="permitType">
-      <option value="">Select Activity</option>
-      <option>Hot Work (Welding, Cutting)</option>
-      <option>Confined Space Entry</option>
-      <option>Electrical Work</option>
-      <option>Work at Height</option>
-      <option>General Work / Cold Work</option>
-    </select>
-    <textarea id="permitDesc" placeholder="Describe hazards, precautions, and controls"></textarea>
-    <div>
-      <label>PPE Confirmed:</label>
-      <select id="ppeConfirmed">
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-    </div>
-    <input type="datetime-local" id="permitStart" placeholder="Start Time">
-    <input type="datetime-local" id="permitEnd" placeholder="End Time">
-    <button onclick="addPermit()">Submit Permit</button>
-    <button onclick="exportExcel()">Export Excel</button>
-  </div>
-
-  <div>
-    <h2>All Permits</h2>
-    <table id="permitTable">
-      <thead>
-        <tr>
-          <th>Activity</th>
-          <th>Hazards & Controls</th>
-          <th>PPE Confirmed</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Status</th>
-          <th>Change Status</th>
-          <th>QR</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
 </div>
 
 <script>
-const STATUS = ['Draft','Pending','Approved','Active','Closed','Rejected'];
-let permits = JSON.parse(localStorage.getItem('permits') || '[]');
+let permits = JSON.parse(localStorage.getItem('permits')||'[]');
 
-function savePermits() {
-  localStorage.setItem('permits', JSON.stringify(permits));
+function showPage(page){
+document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+document.getElementById(page).style.display='block';
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+event.target.classList.add('active');
+if(page==='dashboard') renderDashboard();
 }
 
-// Highlight permits expiring within 4 hours
-function isExpiring(endISO) {
-  if(!endISO) return false;
-  const end = new Date(endISO);
-  const now = new Date();
-  const diffHours = (end - now)/1000/60/60;
-  return diffHours <= 4 && diffHours > 0;
+function savePermits(){localStorage.setItem('permits', JSON.stringify(permits));}
+
+function addPermit(){
+const p={id:Date.now(),
+location: document.getElementById('workLocation').value,
+dateTime: document.getElementById('workDateTime').value,
+holder: document.getElementById('permitHolder').value,
+safetyName: document.getElementById('safetyContactName').value,
+safetyNumber: document.getElementById('safetyContactNumber').value,
+description: document.getElementById('workDescription').value,
+reviewer: document.getElementById('reviewerName').value,
+issuer: document.getElementById('issuerName').value,
+acknowledgment: document.getElementById('holderAcknowledgment').value,
+status:'Draft'};
+permits.push(p); savePermits(); alert('Permit saved!');
+document.querySelectorAll('#create input, #create textarea').forEach(i=>i.value='');
+document.getElementById('holderAcknowledgment').value='Pending';
+showPage('dashboard');
 }
 
-// Auto-close Active permits after end time
-function autoClosePermits() {
-  const now = new Date();
-  permits.forEach(p => {
-    if(p.status === 'Active' && p.end && new Date(p.end) <= now) {
-      p.status = 'Closed';
-    }
-  });
-  savePermits();
+function renderDashboard(){
+const container=document.getElementById('dashboard'); container.innerHTML='';
+permits.forEach(p=>{
+const card=document.createElement('div'); card.className='card';
+card.innerHTML=`
+<div class="permit-header">
+<div class="permit-title"><i class="fas fa-map-marker-alt"></i> ${p.location} <span class="badge badge-${p.status}">${p.status}</span></div>
+<div class="permit-icons">
+<i class="fas fa-user"></i> ${p.holder} 
+<i class="fas fa-phone-alt"></i> ${p.safetyNumber} 
+</div>
+</div>
+<p><i class="fas fa-calendar-alt"></i> ${p.dateTime}</p>
+<p><i class="fas fa-clipboard-list"></i> ${p.description}</p>
+<p><i class="fas fa-user-check"></i> Reviewer: ${p.reviewer} | Issuer: ${p.issuer}</p>
+<p><i class="fas fa-handshake"></i> Holder Acknowledgment: ${p.acknowledgment}</p>
+<div>
+<button onclick="editPermit(${p.id})"><i class="fas fa-edit"></i> Edit</button>
+<button onclick="updateAck(${p.id},'Accepted')"><i class="fas fa-check"></i> Accept</button>
+<button onclick="updateAck(${p.id},'Suspended')"><i class="fas fa-pause-circle"></i> Suspend</button>
+<button onclick="downloadPDF(${p.id})"><i class="fas fa-download"></i> PDF</button>
+</div>`;
+container.appendChild(card);
+});
 }
 
-// Render table based on role
-function renderTable() {
-  autoClosePermits();
-  const role = document.getElementById('role').value;
-  document.getElementById('newPermitDiv').style.display = role === 'Issuer' ? 'block' : 'none';
-
-  const tbody = document.querySelector('#permitTable tbody');
-  tbody.innerHTML = '';
-  permits.forEach(p => {
-    const tr = document.createElement('tr');
-    if(isExpiring(p.end) && p.status !== 'Closed') tr.classList.add('expiring');
-
-    const tdType = document.createElement('td'); tdType.textContent = p.type; tr.appendChild(tdType);
-    const tdDesc = document.createElement('td'); tdDesc.textContent = p.description; tr.appendChild(tdDesc);
-    const tdPPE = document.createElement('td'); tdPPE.textContent = p.ppe; tr.appendChild(tdPPE);
-    const tdStart = document.createElement('td'); tdStart.textContent = p.start ? new Date(p.start).toLocaleString() : ''; tr.appendChild(tdStart);
-    const tdEnd = document.createElement('td'); tdEnd.textContent = p.end ? new Date(p.end).toLocaleString() : ''; tr.appendChild(tdEnd);
-    const tdStatus = document.createElement('td'); tdStatus.textContent = p.status; tdStatus.className = 'status-' + p.status; tr.appendChild(tdStatus);
-
-    const tdChange = document.createElement('td');
-    const select = document.createElement('select');
-
-    let allowedStatus = [];
-    if(role === 'Issuer') allowedStatus = ['Draft','Pending'];
-    if(role === 'Approver') allowedStatus = ['Approved','Active','Closed','Rejected'];
-
-    allowedStatus.forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s;
-      opt.textContent = s;
-      if(s===p.status) opt.selected=true;
-      select.appendChild(opt);
-    });
-
-    select.onchange = e => { p.status = e.target.value; savePermits(); renderTable(); };
-    tdChange.appendChild(select); tr.appendChild(tdChange);
-
-    const tdQR = document.createElement('td');
-    const qrDiv = document.createElement('div'); qrDiv.className = 'qr';
-    tdQR.appendChild(qrDiv);
-    QRCode.toCanvas(qrDiv, `Permit: ${p.type}\nHazards: ${p.description}\nPPE: ${p.ppe}\nStatus: ${p.status}`, { width: 60 }, function(error){if(error) console.error(error);});
-    tr.appendChild(tdQR);
-
-    tbody.appendChild(tr);
-  });
+function editPermit(id){
+const p=permits.find(x=>x.id===id);
+document.getElementById('workLocation').value=p.location;
+document.getElementById('workDateTime').value=p.dateTime;
+document.getElementById('permitHolder').value=p.holder;
+document.getElementById('safetyContactName').value=p.safetyName;
+document.getElementById('safetyContactNumber').value=p.safetyNumber;
+document.getElementById('workDescription').value=p.description;
+document.getElementById('reviewerName').value=p.reviewer;
+document.getElementById('issuerName').value=p.issuer;
+document.getElementById('holderAcknowledgment').value=p.acknowledgment;
+permits=permits.filter(x=>x.id!==id);
+showPage('create');
 }
 
-// Add new permit
-function addPermit() {
-  const type = document.getElementById('permitType').value;
-  const desc = document.getElementById('permitDesc').value;
-  const ppe = document.getElementById('ppeConfirmed').value;
-  const start = document.getElementById('permitStart').value;
-  const end = document.getElementById('permitEnd').value;
-  if(!type || !start || !end) { alert('Select activity and specify start/end times'); return; }
-  permits.push({ id: Date.now(), type, description: desc, ppe, start, end, status: 'Draft' });
-  savePermits();
-  renderTable();
-  document.getElementById('permitType').value = '';
-  document.getElementById('permitDesc').value = '';
-  document.getElementById('ppeConfirmed').value = 'Yes';
-  document.getElementById('permitStart').value = '';
-  document.getElementById('permitEnd').value = '';
+function updateAck(id, value){
+const p=permits.find(x=>x.id===id); if(p){p.acknowledgment=value; savePermits(); renderDashboard();}
 }
 
-// Export permits to Excel
-function exportExcel() {
-  const ws_data = [['Activity','Hazards & Controls','PPE Confirmed','Start Time','End Time','Status']];
-  permits.forEach(p => ws_data.push([p.type,p.description,p.ppe,p.start,p.end,p.status]));
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet(ws_data);
-  XLSX.utils.book_append_sheet(wb, ws, 'Permits');
-  XLSX.writeFile(wb, 'osha_permits.xlsx');
+function downloadPDF(id){
+const { jsPDF } = window.jspdf; const p=permits.find(x=>x.id===id); if(!p) return;
+const doc=new jsPDF(); doc.setFontSize(18); doc.text("EHS Permit-to-Work",105,20,null,null,"center");
+doc.setFontSize(12);
+doc.text(`Work Location: ${p.location}`,20,40);
+doc.text(`Date & Time: ${p.dateTime}`,20,50);
+doc.text(`Permit Holder: ${p.holder}`,20,60);
+doc.text(`Safety Contact: ${p.safetyName} (${p.safetyNumber})`,20,70);
+doc.text("Work Description:",20,80);
+doc.text(doc.splitTextToSize(p.description,170),20,90);
+doc.text(`Reviewer: ${p.reviewer}`,20,120);
+doc.text(`Issuer: ${p.issuer}`,20,130);
+doc.text(`Holder Acknowledgment: ${p.acknowledgment}`,20,140);
+doc.text(`Status: ${p.status}`,20,150);
+doc.save(`Permit_${p.holder}_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
-// Refresh every minute to auto-close permits
-setInterval(renderTable, 60000);
-
-renderTable();
+renderDashboard();
 </script>
 </body>
 </html>
