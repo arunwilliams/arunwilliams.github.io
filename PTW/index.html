@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EHS Permit-to-Work System</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f7f6; margin:0; color:#333; }
-header { text-align:center; padding:15px; background:#0d6efd; color:white; font-size:1.5em; }
-nav { display:flex; justify-content:center; margin:10px 0; }
-nav button { margin:0 5px; padding:10px 15px; border:none; border-radius:5px; background:#e9ecef; cursor:pointer; transition:0.3s;}
+header { display:flex; align-items:center; justify-content:center; padding:10px; background:#0d6efd; color:white; font-size:1.5em; position:relative; }
+header img { height:40px; margin-right:10px; border-radius:5px; }
+nav { display:flex; justify-content:center; margin:10px 0; flex-wrap:wrap; }
+nav button { margin:5px; padding:10px 15px; border:none; border-radius:5px; background:#e9ecef; cursor:pointer; transition:0.3s;}
 nav button.active, nav button:hover { background:#0d6efd; color:#fff;}
 .container { max-width:1200px; margin:auto; padding:10px; }
 input, select, button, textarea { padding:8px; margin:5px 0; border-radius:5px; border:1px solid #ccc; width:100%; }
@@ -27,22 +30,25 @@ label { font-weight:bold; display:block; margin-top:5px; }
 .badge-Closed { background:#6c757d; }
 .badge-Rejected { background:#dc3545; }
 .badge-Suspended { background:#fd7e14; }
+.badge-Comments { background:#17a2b8; }
 .summary-card { display:inline-block; width:23%; margin:1%; padding:15px; background:#fff; border-radius:10px; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
 .summary-card h3 { margin:5px 0; }
-.permit-header { display:flex; justify-content: space-between; align-items:center; margin-bottom:10px; }
-.permit-title { font-size:1.1em; font-weight:bold; }
-.permit-icons i { margin-left:5px; color:#0d6efd; }
-.page { display:block; }
 table { width:100%; border-collapse: collapse; margin-top:10px;}
-th, td { border:1px solid #ccc; padding:8px; text-align:left; }
+th, td { border:1px solid #ccc; padding:8px; text-align:left; vertical-align: top; }
 th { background:#0d6efd; color:white; }
+.page { display:block; }
+.comment-box { background:#e9ecef; padding:5px; border-radius:5px; margin:3px 0; font-size:0.9em; }
+#toolbar button { margin-right:5px; }
+[contenteditable]{ min-height:80px; border:1px solid #ccc; padding:5px; border-radius:5px; background:#fff;}
 </style>
 </head>
 <body>
-<header><i class="fas fa-hard-hat"></i> EHS Permit-to-Work System</header>
+<header>
+  <img id="companyLogo" src="" alt="" style="display:none;">
+  <span><i class="fas fa-hard-hat"></i> EHS Permit-to-Work System</span>
+</header>
 
 <div class="container">
-<!-- Login Page -->
 <div id="loginPage" class="page">
 <div class="card">
 <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
@@ -52,7 +58,6 @@ th { background:#0d6efd; color:white; }
 </div>
 </div>
 
-<!-- Dashboard Page -->
 <div id="dashboardPage" class="page" style="display:none;">
 <div class="card">
 <h2>Welcome, <span id="userDisplay"></span></h2>
@@ -69,10 +74,9 @@ th { background:#0d6efd; color:white; }
 let users = JSON.parse(localStorage.getItem('users')||'[]');
 let permits = JSON.parse(localStorage.getItem('permits')||'[]');
 let currentUser = null;
-
-// Default admin
+let logoSrc = localStorage.getItem('logoSrc') || '';
 if(!users.some(u=>u.role==='admin')) 
-    users.push({username:'ptwadmin', password:'ptwadmin', role:'admin'});
+    users.push({username:'ptwadmin', password:'ptwadmin', role:'admin', email:''});
 localStorage.setItem('users', JSON.stringify(users));
 
 // Login
@@ -86,39 +90,43 @@ function login(){
   document.getElementById('roleDisplay').innerText=user.role;
   document.getElementById('loginPage').style.display='none';
   document.getElementById('dashboardPage').style.display='block';
+  if(logoSrc) { document.getElementById('companyLogo').src = logoSrc; document.getElementById('companyLogo').style.display='inline-block'; }
   renderNav();
   showSection(currentUser.role==='admin'?'userManagement':'permitManagement');
 }
+function logout(){ currentUser=null; document.getElementById('loginPage').style.display='block'; document.getElementById('dashboardPage').style.display='none'; }
 
-// Logout
-function logout(){
-  currentUser=null;
-  document.getElementById('loginPage').style.display='block';
-  document.getElementById('dashboardPage').style.display='none';
-}
-
-// Render navigation
 function renderNav(){
   const nav=document.getElementById('roleNav'); nav.innerHTML='';
   if(currentUser.role==='admin'){
     nav.innerHTML=`<button onclick="showSection('userManagement')">User Management</button>
-                   <button onclick="showSection('permitManagement')">Permit Management</button>`;
+                   <button onclick="showSection('permitManagement')">Permit Management</button>
+                   <button onclick="showSection('uploadLogo')">Upload Logo</button>`;
   }else nav.innerHTML=`<button onclick="showSection('permitManagement')">Permit Management</button>`;
 }
 
-// Show section
-function showSection(section){
-  renderContent(section);
-}
+function showSection(section){ renderContent(section); }
 
-// Render content
 function renderContent(section){
   const content=document.getElementById('contentSection'); content.innerHTML='';
-  if(section==='userManagement' && currentUser.role==='admin'){
+  if(section==='userManagement' && currentUser.role==='admin') renderUserManagement(content);
+  else if(section==='permitManagement') renderPermitManagement(content);
+  else if(section==='uploadLogo' && currentUser.role==='admin'){
     const card=document.createElement('div'); card.className='card';
-    card.innerHTML=`<h3>User Management</h3>
+    card.innerHTML=`<h3>Upload Company Logo</h3>
+      <input type="file" id="logoInput" accept="image/*">
+      <button onclick="uploadLogo()">Upload & Save</button>`;
+    content.appendChild(card);
+  }
+}
+
+// User Management
+function renderUserManagement(container){
+  const card=document.createElement('div'); card.className='card';
+  card.innerHTML=`<h3>User Management</h3>
       <label>Username</label><input type="text" id="newUsername">
       <label>Password</label><input type="text" id="newPassword">
+      <label>Email</label><input type="email" id="newEmail">
       <label>Role</label>
       <select id="newRole">
         <option value="holder">Permit Holder</option>
@@ -126,63 +134,93 @@ function renderContent(section){
         <option value="issuer">Issuer</option>
         <option value="admin">Admin</option>
       </select>
-      <button onclick="addUser()"><i class="fas fa-user-plus"></i> Add User</button>
+      <button onclick="addUser()">Add User</button>
       <h4>Existing Users</h4><div id="userList"></div>`;
-    content.appendChild(card);
-    renderUserList();
-  } else if(section==='permitManagement'){
-    renderPermitManagement(content);
-  }
+  container.appendChild(card); renderUserList();
 }
-
-// User Management
 function addUser(){
   const username=document.getElementById('newUsername').value;
   const password=document.getElementById('newPassword').value;
+  const email=document.getElementById('newEmail').value;
   const role=document.getElementById('newRole').value;
   if(!username || !password){ alert('Enter username & password'); return; }
   if(users.some(u=>u.username===username)){ alert('User exists'); return; }
-  users.push({username,password,role});
+  users.push({username,password,role,email});
   localStorage.setItem('users', JSON.stringify(users));
-  alert('User added!');
-  document.getElementById('newUsername').value='';
-  document.getElementById('newPassword').value='';
+  alert('User added!'); document.getElementById('newUsername').value='';
+  document.getElementById('newPassword').value=''; document.getElementById('newEmail').value='';
   renderUserList();
 }
-
 function renderUserList(){
   const ul=document.getElementById('userList'); ul.innerHTML='';
   users.forEach(u=>{
     const div=document.createElement('div'); 
-    div.innerHTML=`${u.username} [${u.role}] <button onclick="removeUser('${u.username}')"><i class="fas fa-trash"></i> Remove</button>`;
+    div.innerHTML=`${u.username} [${u.role}] Email: ${u.email} 
+      <button onclick="editUser('${u.username}')">Edit</button>
+      <button onclick="removeUser('${u.username}')">Remove</button>`;
     ul.appendChild(div);
   });
 }
-
 function removeUser(username){
   if(!confirm(`Delete user ${username}?`)) return;
   users=users.filter(u=>u.username!==username);
   localStorage.setItem('users', JSON.stringify(users));
   renderUserList();
 }
+function editUser(username){
+  const user=users.find(u=>u.username===username); if(!user) return;
+  const newUsername = prompt("Edit Username", user.username);
+  const newPassword = prompt("Edit Password", user.password);
+  const newEmail = prompt("Edit Email", user.email);
+  if(newUsername) user.username=newUsername;
+  if(newPassword) user.password=newPassword;
+  if(newEmail) user.email=newEmail;
+  localStorage.setItem('users', JSON.stringify(users));
+  renderUserList();
+}
 
-// Permit Management
+// Logo
+function uploadLogo(){
+  const input=document.getElementById('logoInput');
+  if(input.files.length===0){ alert('Select a file'); return; }
+  const reader=new FileReader();
+  reader.onload=function(e){
+    logoSrc=e.target.result;
+    localStorage.setItem('logoSrc', logoSrc);
+    document.getElementById('companyLogo').src=logoSrc;
+    document.getElementById('companyLogo').style.display='inline-block';
+    alert('Logo uploaded!');
+  }
+  reader.readAsDataURL(input.files[0]);
+}
+
+// Permit Management (with rich-text PDF export)
 function renderPermitManagement(container){
-  // Summary cards
+  container.innerHTML='';
+  renderPermitSummary(container);
+  if(currentUser.role==='issuer') renderPermitCreation(container);
+  renderPermitTable(container);
+  renderGraphs(container);
+}
+
+function renderPermitSummary(container){
   const total = permits.length;
   const active = permits.filter(p=>p.status==='Active').length;
   const suspended = permits.filter(p=>p.status==='Suspended').length;
   const rejected = permits.filter(p=>p.status==='Rejected').length;
+  const pending = permits.filter(p=>p.status==='Pending').length;
   const summaryHtml = `<div class="summary-card"><h3>Total</h3><p>${total}</p></div>
                        <div class="summary-card"><h3>Active</h3><p>${active}</p></div>
                        <div class="summary-card"><h3>Suspended</h3><p>${suspended}</p></div>
-                       <div class="summary-card"><h3>Rejected</h3><p>${rejected}</p></div>`;
-  container.innerHTML = summaryHtml;
+                       <div class="summary-card"><h3>Rejected</h3><p>${rejected}</p></div>
+                       <div class="summary-card"><h3>Pending</h3><p>${pending}</p></div>`;
+  container.innerHTML+=summaryHtml;
+}
 
-  // Permit creation for issuer
-  if(currentUser.role==='issuer'){
-    const addPermitCard = document.createElement('div'); addPermitCard.className='card';
-    addPermitCard.innerHTML=`<h3><i class="fas fa-plus-circle"></i> Create Permit</h3>
+// Permit Creation with Rich Text Editor
+function renderPermitCreation(container){
+  const card=document.createElement('div'); card.className='card';
+  card.innerHTML=`<h3>Create Permit</h3>
       <label>PTW Number</label><input type="text" id="ptwNumber">
       <label>Permit Type</label><select id="permitType">
         <option value="Cold Work">Cold Work</option>
@@ -195,7 +233,17 @@ function renderPermitManagement(container){
       <label>Permit Holder</label><input type="text" id="permitHolder">
       <label>Safety Contact</label><input type="text" id="safetyContactName">
       <label>Safety Number</label><input type="text" id="safetyContactNumber">
-      <label>Work Description</label><textarea id="workDescription" rows="3"></textarea>
+      <label>Work Description</label>
+      <div id="toolbar">
+        <button onclick="formatDoc('bold')"><i class="fas fa-bold"></i></button>
+        <button onclick="formatDoc('italic')"><i class="fas fa-italic"></i></button>
+        <button onclick="formatDoc('underline')"><i class="fas fa-underline"></i></button>
+        <button onclick="formatDoc('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+        <button onclick="formatDoc('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+        <button onclick="formatDoc('undo')"><i class="fas fa-rotate-left"></i></button>
+        <button onclick="formatDoc('redo')"><i class="fas fa-rotate-right"></i></button>
+      </div>
+      <div id="workDescription" contenteditable="true"></div>
       <label>Reviewer</label><input type="text" id="reviewerName">
       <label>Issuer</label><input type="text" id="issuerName" value="${currentUser.username}">
       <label>Upload JSA / Documents</label><input type="file" id="permFiles" multiple>
@@ -205,110 +253,47 @@ function renderPermitManagement(container){
         <option value="Suspended">Suspended</option>
       </select>
       <button onclick="addPermit()"><i class="fas fa-save"></i> Save Permit</button>`;
-    container.appendChild(addPermitCard);
-  }
-
-  // Permit table
-  const table = document.createElement('table');
-  table.innerHTML=`<tr>
-    <th>PTW #</th><th>Type</th><th>Location</th><th>Holder</th><th>Issuer</th><th>Status</th><th>Actions</th>
-  </tr>`;
-  permits.forEach(p=>{
-    // Role-based filter
-    if(currentUser.role==='issuer' && p.issuer!==currentUser.username) return;
-    if(currentUser.role==='verifier' && p.status!=='Pending' && p.status!=='Approved') return;
-
-    let actions='';
-    if(currentUser.role==='issuer'){ actions=`<button onclick="editPermit(${p.id})"><i class="fas fa-edit"></i> Edit</button>`; }
-    else if(currentUser.role==='verifier'){ actions=`<button onclick="approvePermit(${p.id})"><i class="fas fa-check"></i> Approve</button>
-      <button onclick="rejectPermit(${p.id})"><i class="fas fa-times"></i> Reject</button>`; }
-    else if(currentUser.role==='holder' && currentUser.username===p.holder){ actions=`<button onclick="updateAck(${p.id},'Accepted')"><i class="fas fa-check"></i> Accept</button>
-      <button onclick="updateAck(${p.id},'Suspended')"><i class="fas fa-pause-circle"></i> Suspend</button>`; }
-
-    const filesLinks = p.files ? p.files.map(f=>`<a href="${f.data}" download="${f.name}">${f.name}</a>`).join('<br>') : '';
-
-    table.innerHTML+=`<tr>
-      <td>${p.ptwNumber}</td>
-      <td>${p.type}</td>
-      <td>${p.location}</td>
-      <td>${p.holder}</td>
-      <td>${p.issuer}</td>
-      <td><span class="badge badge-${p.status}">${p.status}</span></td>
-      <td>${actions} <button onclick="downloadPDF(${p.id})"><i class="fas fa-download"></i> PDF</button><br>${filesLinks}</td>
-    </tr>`;
-  });
-  container.appendChild(table);
+  container.appendChild(card);
 }
+function formatDoc(cmd){ document.execCommand(cmd,false,null); }
 
-// Permit actions
-function addPermit(){
-  const fileInput = document.getElementById('permFiles');
-  const filesArr = [];
-  if(fileInput.files.length>0){
-    for(let f of fileInput.files){
-      const reader = new FileReader();
-      reader.onload = function(e){
-        filesArr.push({name:f.name,data:e.target.result});
-        if(filesArr.length===fileInput.files.length){
-          savePermit(filesArr);
-        }
-      };
-      reader.readAsDataURL(f);
-    }
-  } else savePermit([]);
-
-  function savePermit(filesArr){
-    const p={id:Date.now(),
-      ptwNumber: document.getElementById('ptwNumber').value,
-      type: document.getElementById('permitType').value,
-      location: document.getElementById('workLocation').value,
-      dateTime: document.getElementById('workDateTime').value,
-      holder: document.getElementById('permitHolder').value,
-      safetyName: document.getElementById('safetyContactName').value,
-      safetyNumber: document.getElementById('safetyContactNumber').value,
-      description: document.getElementById('workDescription').value,
-      reviewer: document.getElementById('reviewerName').value,
-      issuer: document.getElementById('issuerName').value,
-      acknowledgment: document.getElementById('holderAcknowledgment').value,
-      status:'Draft',
-      files: filesArr};
-    permits.push(p); localStorage.setItem('permits', JSON.stringify(permits));
-    alert('Permit saved!'); showSection('permitManagement');
-  }
-}
-
-function updateAck(id,value){ const p=permits.find(x=>x.id===id); if(p){p.acknowledgment=value; localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement'); } }
-function approvePermit(id){ const p=permits.find(x=>x.id===id); if(p){p.status='Approved'; localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement'); } }
-function rejectPermit(id){ const p=permits.find(x=>x.id===id); if(p){p.status='Rejected'; localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement'); } }
-function editPermit(id){ const p=permits.find(x=>x.id===id); if(!p) return;
-  const loc=prompt("Edit Work Location", p.location); if(loc) p.location=loc;
-  const desc=prompt("Edit Work Description", p.description); if(desc) p.description=desc;
-  localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement');
-}
-
-// PDF download
+// The PDF download function now preserves rich-text formatting
 function downloadPDF(id){
-  const { jsPDF } = window.jspdf; const p=permits.find(x=>x.id===id); if(!p) return;
-  const doc=new jsPDF();
-  doc.setFontSize(18); doc.text("EHS Permit-to-Work",105,20,null,null,"center");
-  doc.setFontSize(12);
-  doc.text(`PTW Number: ${p.ptwNumber}`,20,40);
-  doc.text(`Permit Type: ${p.type}`,20,50);
-  doc.text(`Work Location: ${p.location}`,20,60);
-  doc.text(`Date & Time: ${p.dateTime}`,20,70);
-  doc.text(`Permit Holder: ${p.holder}`,20,80);
-  doc.text(`Safety Contact: ${p.safetyName} (${p.safetyNumber})`,20,90);
-  doc.text("Work Description:",20,100);
-  doc.text(doc.splitTextToSize(p.description,170),20,110);
-  doc.text(`Reviewer: ${p.reviewer}`,20,150);
-  doc.text(`Issuer: ${p.issuer}`,20,160);
-  doc.text(`Acknowledgment: ${p.acknowledgment}`,20,170);
-  doc.text(`Status: ${p.status}`,20,180);
-  if(p.files && p.files.length>0){
-    doc.text("Attached Files:",20,190);
-    p.files.forEach((f,i)=>doc.text(`${i+1}. ${f.name}`,25,200+(i*10)));
-  }
-  doc.save(`Permit_${p.ptwNumber}_${new Date().toISOString().slice(0,10)}.pdf`);
+  const p = permits.find(p=>p.id===id);
+  if(!p) return;
+
+  const tempDiv = document.createElement('div');
+  tempDiv.style.width = "800px";
+  tempDiv.style.background = "#fff";
+  tempDiv.style.padding = "20px";
+  tempDiv.innerHTML = `
+    ${logoSrc ? `<img src="${logoSrc}" style="width:100px;"><br>` : ''}
+    <h2>PTW Number: ${p.ptwNumber}</h2>
+    <p><b>Type:</b> ${p.type}</p>
+    <p><b>Location:</b> ${p.location}</p>
+    <p><b>Date & Time:</b> ${p.date}</p>
+    <p><b>Permit Holder:</b> ${p.holder}</p>
+    <p><b>Safety Contact:</b> ${p.safetyName} (${p.safetyNumber})</p>
+    <h3>Work Description</h3>
+    ${p.description}
+    <p><b>Reviewer:</b> ${p.reviewer}</p>
+    <p><b>Issuer:</b> ${p.issuer}</p>
+    <p><b>Acknowledgment:</b> ${p.acknowledgment}</p>
+    <p><b>Status:</b> ${p.status}</p>
+    ${p.files && p.files.length>0 ? `<h4>Attachments:</h4><ul>${p.files.map(f=>`<li>${f.name}</li>`).join('')}</ul>` : ''}
+    ${p.comments && p.comments.length>0 ? `<h4>Comments:</h4><ul>${p.comments.map(c=>`<li>${c.user} (${c.time}): ${c.text}</li>`).join('')}</ul>` : ''}
+  `;
+  document.body.appendChild(tempDiv);
+  html2canvas(tempDiv).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'pt', 'a4');
+    const imgProps= pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`Permit_${p.ptwNumber}_${new Date().toISOString().slice(0,10)}.pdf`);
+    document.body.removeChild(tempDiv);
+  });
 }
 </script>
 </body>
