@@ -2,182 +2,139 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Audit Dashboard</title>
+  <title>Audit Report Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 20px;
-      background: #f9fafb;
-      color: #333;
+      background: #f4f6f9;
     }
-    h2 {
+    h1 {
       text-align: center;
-      font-size: 26px;
-      margin-bottom: 20px;
-      text-decoration: underline;
-      color: #222;
+      color: #2E7D32;
     }
-    .form-section {
-      background: #fff;
+    form, table {
+      background: white;
       padding: 15px;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       margin-bottom: 20px;
     }
-    .form-section label {
-      display: flex;
-      flex-direction: column;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .form-section input, .form-section select {
-      padding: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-top: 3px;
-    }
-    .form-section button {
-      grid-column: 1 / -1;
-      padding: 10px 15px;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
+    label {
+      display: block;
+      margin-top: 10px;
       font-weight: bold;
-      transition: 0.2s;
     }
-    .form-section button:hover {
-      background: #1d4ed8;
-    }
-    table {
-      border-collapse: collapse;
+    input, select, textarea {
       width: 100%;
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #2E7D32;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover { background: #1b5e20; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
     th, td {
-      border: 1px solid #e5e7eb;
-      padding: 8px 10px;
-      text-align: left;
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+      vertical-align: middle;
     }
-    th {
-      background: #f3f4f6;
-      font-weight: bold;
-      font-size: 14px;
-    }
-    tbody tr:nth-child(even) {
-      background: #f9fafb;
-    }
-    tbody tr:hover {
-      background: #eef2ff;
-    }
-    img {
-      max-width: 80px;
-      max-height: 80px;
-      display: block;
-      margin: auto;
-      border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .summary {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-around;
-      font-size: 15px;
-      font-weight: bold;
-    }
-    .summary p {
-      margin: 0;
-      padding: 8px 14px;
-      border-radius: 20px;
-      color: #fff;
-    }
-    .summary .high { background: #dc2626; }
-    .summary .medium { background: #f97316; }
-    .summary .low { background: #16a34a; }
-    .summary .good { background: #2563eb; }
-    .actions button {
-      border: none;
-      background: none;
+    th { background: #2E7D32; color: white; }
+    .actions i {
       cursor: pointer;
+      margin: 0 5px;
       font-size: 18px;
-      margin: 0 4px;
-      transition: 0.2s;
     }
-    .actions button:hover {
-      transform: scale(1.2);
+    .actions .edit { color: #1976d2; }
+    .actions .delete { color: #d32f2f; }
+    #auditReport {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
-    .download-btn {
+    #visitorCount {
+      text-align: center;
       margin-top: 20px;
-      display: block;
-      padding: 10px 18px;
-      background: #059669;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
       font-weight: bold;
-      transition: 0.2s;
     }
-    .download-btn:hover {
-      background: #047857;
+    footer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: gray;
     }
   </style>
 </head>
 <body>
-  <h2>Audit Dashboard</h2>
-  <div class="form-section">
-    <label>Date: <input type="date" id="date"></label>
-    <label>Auditor: <input type="text" id="auditor"></label>
-    <label>Location: <input type="text" id="location"></label>
-    <label>Observation: <input type="text" id="observation"></label>
-    <label>Hazard Nature: <input type="text" id="hazardNature"></label>
-    <label>Category:
-      <select id="category">
+  <h1>Audit Report Dashboard</h1>
+
+  <form id="auditForm">
+    <label>Audit Date:<input type="date" id="date" required></label>
+    <label>Auditor:<input type="text" id="auditor" required></label>
+    <label>Location:<input type="text" id="location" required></label>
+    <label>Observation:<textarea id="observation" required></textarea></label>
+    <label>Nature of Hazard:<input type="text" id="hazardNature" required></label>
+    <label>Risk Category:
+      <select id="category" required>
         <option>High Risk</option>
         <option>Medium Risk</option>
         <option>Low Risk</option>
         <option>Good Practice</option>
       </select>
     </label>
-    <label>Recommended Action: <input type="text" id="recommendedAction"></label>
-    <label>Action Taken: <input type="text" id="actionTaken"></label>
-    <label>Responsible Person: <input type="text" id="responsiblePerson"></label>
-    <label>Target Date: <input type="date" id="targetDate"></label>
+    <label>Recommended Action:<textarea id="recommendedAction" required></textarea></label>
+    <label>Action Taken:<textarea id="actionTaken"></textarea></label>
+    <label>Responsible Person:<input type="text" id="responsiblePerson" required></label>
+    <label>Target Date:<input type="date" id="targetDate" required></label>
     <label>Status:
-      <select id="status">
+      <select id="status" required>
         <option>Open</option>
         <option>Closed</option>
+        <option>In Progress</option>
       </select>
     </label>
-    <label>Photo: <input type="file" id="photo" accept="image/*"></label>
-    <button onclick="addRecord()">Add Record</button>
-  </div>
+    <label>Upload Photo:<input type="file" id="photo"></label>
+    <button type="submit">Add Audit Record</button>
+  </form>
 
-  <table id="recordsTable">
+  <div id="auditReport"></div>
+
+  <canvas id="riskChart" height="100"></canvas>
+
+  <table id="auditTable">
     <thead>
       <tr>
+        <th>S.No</th>
         <th>Date</th>
         <th>Auditor</th>
         <th>Location</th>
         <th>Observation</th>
-        <th>Hazard Nature</th>
-        <th>Category</th>
-        <th>Recommended Action</th>
-        <th>Action Taken</th>
-        <th>Responsible Person</th>
-        <th>Target Date</th>
+        <th>Hazard</th>
+        <th>Risk</th>
+        <th>Action</th>
+        <th>Taken</th>
+        <th>Responsible</th>
+        <th>Target</th>
         <th>Status</th>
         <th>Photo</th>
         <th>Actions</th>
@@ -186,136 +143,185 @@
     <tbody></tbody>
   </table>
 
-  <div id="auditReport" class="summary"></div>
+  <button id="exportBtn">Export to Excel</button>
 
-  <button class="download-btn" onclick="downloadExcel()">⬇ Download Excel</button>
+  <div id="visitorCount"></div>
+  <footer>Developed by Arun Williams</footer>
 
   <script>
     let records = [];
+    let editIndex = -1;
 
-    function addRecord() {
+    document.getElementById("auditForm").addEventListener("submit", function(e) {
+      e.preventDefault();
       const record = {
-        date: document.getElementById("date").value,
-        auditor: document.getElementById("auditor").value,
-        location: document.getElementById("location").value,
-        observation: document.getElementById("observation").value,
-        hazardNature: document.getElementById("hazardNature").value,
-        category: document.getElementById("category").value,
-        recommendedAction: document.getElementById("recommendedAction").value,
-        actionTaken: document.getElementById("actionTaken").value,
-        responsiblePerson: document.getElementById("responsiblePerson").value,
-        targetDate: document.getElementById("targetDate").value,
-        status: document.getElementById("status").value,
+        date: date.value,
+        auditor: auditor.value,
+        location: location.value,
+        observation: observation.value,
+        hazardNature: hazardNature.value,
+        category: category.value,
+        recommendedAction: recommendedAction.value,
+        actionTaken: actionTaken.value,
+        responsiblePerson: responsiblePerson.value,
+        targetDate: targetDate.value,
+        status: status.value,
         photo: ""
       };
-
-      const photoInput = document.getElementById("photo");
-      if (photoInput.files && photoInput.files[0]) {
+      const file = document.getElementById("photo").files[0];
+      if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
-          record.photo = e.target.result;
-          records.push(record);
-          renderTable();
-          updateDashboard();
+        reader.onload = function(event) {
+          record.photo = event.target.result;
+          saveRecord(record);
         };
-        reader.readAsDataURL(photoInput.files[0]);
-      } else {
-        records.push(record);
-        renderTable();
-        updateDashboard();
-      }
+        reader.readAsDataURL(file);
+      } else { saveRecord(record); }
+      this.reset();
+    });
+
+    function saveRecord(record) {
+      if(editIndex === -1) records.push(record);
+      else { records[editIndex] = record; editIndex = -1; }
+      renderTable();
+      updateReport();
     }
 
     function renderTable() {
-      const tbody = document.querySelector("#recordsTable tbody");
+      const tbody = document.querySelector("#auditTable tbody");
       tbody.innerHTML = "";
-      records.forEach((r, i) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${r.date}</td>
-          <td>${r.auditor}</td>
-          <td>${r.location}</td>
-          <td>${r.observation}</td>
-          <td>${r.hazardNature}</td>
-          <td>${r.category}</td>
-          <td>${r.recommendedAction}</td>
-          <td>${r.actionTaken}</td>
-          <td>${r.responsiblePerson}</td>
-          <td>${r.targetDate}</td>
-          <td>${r.status}</td>
-          <td>${r.photo ? `<img src="${r.photo}" alt="photo">` : ""}</td>
+      records.forEach((r,i)=>{
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${i+1}</td><td>${r.date}</td><td>${r.auditor}</td>
+          <td>${r.location}</td><td>${r.observation}</td><td>${r.hazardNature}</td>
+          <td>${r.category}</td><td>${r.recommendedAction}</td><td>${r.actionTaken}</td>
+          <td>${r.responsiblePerson}</td><td>${r.targetDate}</td><td>${r.status}</td>
+          <td>${r.photo?`<img src="${r.photo}" width="50">`:""}</td>
           <td class="actions">
-            <button onclick="editRecord(${i})" title="Edit">✎</button>
-            <button onclick="deleteRecord(${i})" title="Delete">🗑</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
+            <i class="fas fa-edit edit" onclick="editRecord(${i})"></i>
+            <i class="fas fa-trash delete" onclick="deleteRecord(${i})"></i>
+          </td>`;
+        tbody.appendChild(row);
       });
     }
 
-    function editRecord(index) {
-      const r = records[index];
-      document.getElementById("date").value = r.date;
-      document.getElementById("auditor").value = r.auditor;
-      document.getElementById("location").value = r.location;
-      document.getElementById("observation").value = r.observation;
-      document.getElementById("hazardNature").value = r.hazardNature;
-      document.getElementById("category").value = r.category;
-      document.getElementById("recommendedAction").value = r.recommendedAction;
-      document.getElementById("actionTaken").value = r.actionTaken;
-      document.getElementById("responsiblePerson").value = r.responsiblePerson;
-      document.getElementById("targetDate").value = r.targetDate;
-      document.getElementById("status").value = r.status;
-      records.splice(index, 1);
-      renderTable();
-      updateDashboard();
+    function editRecord(i){
+      const r = records[i]; editIndex = i;
+      date.value=r.date; auditor.value=r.auditor; location.value=r.location;
+      observation.value=r.observation; hazardNature.value=r.hazardNature;
+      category.value=r.category; recommendedAction.value=r.recommendedAction;
+      actionTaken.value=r.actionTaken; responsiblePerson.value=r.responsiblePerson;
+      targetDate.value=r.targetDate; status.value=r.status;
     }
 
-    function deleteRecord(index) {
-      records.splice(index, 1);
-      renderTable();
-      updateDashboard();
-    }
+    function deleteRecord(i){ records.splice(i,1); renderTable(); updateReport(); }
 
-    function updateDashboard() {
+    function updateReport() {
       const counts = { high:0, medium:0, low:0, good:0 };
-      records.forEach(r => {
-        if(r.category === "High Risk") counts.high++;
-        else if(r.category === "Medium Risk") counts.medium++;
-        else if(r.category === "Low Risk") counts.low++;
-        else if(r.category === "Good Practice") counts.good++;
+      records.forEach(r=>{
+        if(r.category==="High Risk") counts.high++;
+        else if(r.category==="Medium Risk") counts.medium++;
+        else if(r.category==="Low Risk") counts.low++;
+        else if(r.category==="Good Practice") counts.good++;
       });
-
-      document.getElementById("auditReport").innerHTML = `
-        <p class="high">🔴 High Risk: ${counts.high}</p>
-        <p class="medium">🟠 Medium Risk: ${counts.medium}</p>
-        <p class="low">🟢 Low Risk: ${counts.low}</p>
-        <p class="good">✅ Good Practice: ${counts.good}</p>
-      `;
+      document.getElementById("auditReport").innerHTML =
+        `<p>🔴 High Risk: ${counts.high}</p>
+         <p>🟠 Medium Risk: ${counts.medium}</p>
+         <p>🟢 Low Risk: ${counts.low}</p>
+         <p>✅ Good Practice: ${counts.good}</p>`;
+      renderChart(counts);
     }
 
-    async function downloadExcel() {
+    function renderChart(counts) {
+      const ctx=document.getElementById("riskChart").getContext("2d");
+      if(window.riskChart) window.riskChart.destroy();
+      window.riskChart=new Chart(ctx,{
+        type:"pie",
+        data:{labels:["High","Medium","Low","Good"],
+          datasets:[{data:[counts.high,counts.medium,counts.low,counts.good]}]}
+      });
+    }
+
+    // Export to Excel with centered photos
+    document.getElementById("exportBtn").addEventListener("click", async function () {
       const wb = new ExcelJS.Workbook();
-      const ws = wb.addWorksheet("Audit Records");
+      const ws = wb.addWorksheet("Audit Report");
 
-      ws.addRow(["Date","Auditor","Location","Observation","Hazard Nature","Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"]);
+      ws.mergeCells("A1:M1");
+      ws.getCell("A1").value = "Project Name: XYZ Project";
+      ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
+      ws.getCell("A1").font = { bold: true, size: 14 };
 
-      for (const r of records) {
-        const row = ws.addRow([r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,""]);
-        if (r.photo) {
-          const imgId = wb.addImage({ base64: r.photo, extension: 'png' });
-          ws.addImage(imgId, {
-            tl: { col: 11, row: row.number-1 },
-            ext: { width: 100, height: 100 }
+      ws.mergeCells("A2:M2");
+      ws.getCell("A2").value = "Audit No: 001";
+      ws.getCell("A2").alignment = { horizontal: "center", vertical: "middle" };
+      ws.getCell("A2").font = { bold: true, size: 12 };
+
+      ws.addRow([]);
+
+      const header=["S.No","Audit Date","Auditor","Location","Observation",
+        "Nature of Hazard","Risk Category","Recommended Action","Action Taken",
+        "Responsible Person","Target Date","Status","Photo"];
+      const headerRow=ws.addRow(header);
+      headerRow.eachCell(c=>{
+        c.font={bold:true,color:{argb:"FFFFFFFF"}};
+        c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF2E7D32"}};
+        c.alignment={horizontal:"center",vertical:"middle",wrapText:true};
+      });
+
+      ws.columns=[
+        {width:6},{width:12},{width:15},{width:15},{width:25},
+        {width:20},{width:15},{width:25},{width:25},{width:15},
+        {width:12},{width:10},{width:15}
+      ];
+
+      for(let i=0;i<records.length;i++){
+        const r=records[i];
+        const row=ws.addRow([
+          i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,
+          r.category,r.recommendedAction,r.actionTaken,
+          r.responsiblePerson,r.targetDate,r.status,""
+        ]);
+        row.height=55;
+
+        row.eachCell((cell,col)=>{
+          if(col===7){
+            let fillColor="";
+            switch(r.category){
+              case "High Risk": fillColor="FFCDD2"; break;
+              case "Medium Risk": fillColor="FFF9C4"; break;
+              case "Low Risk": fillColor="C8E6C9"; break;
+              case "Good Practice": fillColor="E8F5E9"; break;
+            }
+            cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:fillColor}};
+          }
+          cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};
+        });
+
+        if(r.photo){
+          const imageId=wb.addImage({base64:r.photo,extension:"png"});
+          ws.addImage(imageId,{
+            tl:{col:12.2,row:row.number-0.8},
+            ext:{width:45,height:45},
+            editAs:"oneCell"
           });
-          ws.getRow(row.number).height = 80;
-          ws.getColumn(12).width = 20;
+          ws.getCell("M"+row.number).alignment={horizontal:"center",vertical:"middle"};
         }
       }
 
-      const buf = await wb.xlsx.writeBuffer();
-      saveAs(new Blob([buf]), "AuditRecords.xlsx");
-    }
+      wb.xlsx.writeBuffer().then(data=>{
+        const blob=new Blob([data],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        saveAs(blob,"Audit_Report.xlsx");
+      });
+    });
+
+    // Visitor counter using CountAPI
+    fetch("https://api.countapi.xyz/hit/audit-dashboard/visits")
+      .then(res=>res.json())
+      .then(data=>{
+        document.getElementById("visitorCount").innerText = "Visitor Count: " + data.value;
+      });
   </script>
 </body>
 </html>
