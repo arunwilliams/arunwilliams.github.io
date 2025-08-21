@@ -1,212 +1,203 @@
-<script>
-let records=[];
-let editIndex = null;
-let persistentAuditor=document.getElementById("auditorName").value;
-let persistentLocation=document.getElementById("location").value;
-let persistentDate=document.getElementById("auditDate").value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audit Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin:20px; }
+    table { border-collapse: collapse; width: 100%; margin-top:20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
+    th { background-color: #f2f2f2; }
+    img { max-width: 100px; max-height: 100px; display: block; margin: auto; }
+    .form-section { margin-bottom: 20px; }
+    .summary { margin-top: 20px; font-weight: bold; }
+    .actions button { border:none; background:none; cursor:pointer; font-size:16px; margin: 0 4px; }
+  </style>
+</head>
+<body>
+  <h2>Audit Dashboard</h2>
+  <div class="form-section">
+    <label>Date: <input type="date" id="date"></label>
+    <label>Auditor: <input type="text" id="auditor"></label>
+    <label>Location: <input type="text" id="location"></label>
+    <label>Observation: <input type="text" id="observation"></label>
+    <label>Hazard Nature: <input type="text" id="hazardNature"></label>
+    <label>Category:
+      <select id="category">
+        <option>High Risk</option>
+        <option>Medium Risk</option>
+        <option>Low Risk</option>
+        <option>Good Practice</option>
+      </select>
+    </label>
+    <label>Recommended Action: <input type="text" id="recommendedAction"></label>
+    <label>Action Taken: <input type="text" id="actionTaken"></label>
+    <label>Responsible Person: <input type="text" id="responsiblePerson"></label>
+    <label>Target Date: <input type="date" id="targetDate"></label>
+    <label>Status:
+      <select id="status">
+        <option>Open</option>
+        <option>Closed</option>
+      </select>
+    </label>
+    <label>Photo: <input type="file" id="photo" accept="image/*"></label>
+    <button onclick="addRecord()">Add Record</button>
+  </div>
 
-// Visitor Count
-const namespace = "ehs_dashboard_arun";
-const key = "visitor_count";
-function updateVisitorCount() {
-  fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("visitorCount").textContent = "Visitors: " + data.value;
-    })
-    .catch(err => {
-      console.error("Visitor count error:", err);
-      document.getElementById("visitorCount").textContent = "Visitors: N/A";
-    });
-}
-updateVisitorCount();
+  <table id="recordsTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Auditor</th>
+        <th>Location</th>
+        <th>Observation</th>
+        <th>Hazard Nature</th>
+        <th>Category</th>
+        <th>Recommended Action</th>
+        <th>Action Taken</th>
+        <th>Responsible Person</th>
+        <th>Target Date</th>
+        <th>Status</th>
+        <th>Photo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-// Audit Report update function
-function updateReport(){
-  if(records.length===0){
-    document.getElementById("auditReport").innerHTML="<p>No data yet.</p>";
-    return;
-  }
-  let counts={high:0,medium:0,low:0,good:0};
-  records.forEach(r=>{
-    if(r.category==="High Risk") counts.high++;
-    if(r.category==="Medium Risk") counts.medium++;
-    if(r.category==="Low Risk") counts.low++;
-    if(r.category==="Good Practice") counts.good++;
-  });
-  document.getElementById("auditReport").innerHTML=`
-    <p>🔴 High Risk: ${counts.high}</p>
-    <p>🟠 Medium Risk: ${counts.medium}</p>
-    <p>🟢 Low Risk: ${counts.low}</p>
-    <p>✅ Good Practice: ${counts.good}</p>
-  `;
-}
+  <div id="auditReport" class="summary"></div>
 
-// Form submit
-document.getElementById("auditForm").addEventListener("submit", function(e){
-  e.preventDefault();
-  persistentAuditor = document.getElementById("auditorName").value;
-  persistentLocation = document.getElementById("location").value;
-  persistentDate = document.getElementById("auditDate").value;
-  let photoFile=document.getElementById("photo").files[0];
-  if(photoFile){
-    let reader=new FileReader();
-    reader.onload=function(ev){ addRecord(ev.target.result); };
-    reader.readAsDataURL(photoFile);
-  } else {
-    addRecord("");
-  }
-});
+  <button onclick="downloadExcel()">Download Excel</button>
 
-function addRecord(photoData){
-  const rec={ 
-    date:persistentDate, auditor:persistentAuditor, location:persistentLocation,
-    observation:document.getElementById("observation").value,
-    hazardNature:document.getElementById("hazardNature").value,
-    category:document.getElementById("category").value,
-    recommendedAction:document.getElementById("recommendedAction").value,
-    actionTaken:document.getElementById("actionTaken").value,
-    responsiblePerson:document.getElementById("responsiblePerson").value,
-    targetDate:document.getElementById("targetDate").value,
-    status:document.getElementById("status").value,
-    photo:photoData 
-  };
-  if(editIndex!==null){ records[editIndex]=rec; editIndex=null; }
-  else { records.push(rec); }
-  renderTable();
-  updateReport();
-  // reset form (except persistent fields)
-  document.getElementById("observation").value="";
-  document.getElementById("hazardNature").value="";
-  document.getElementById("category").selectedIndex=0;
-  document.getElementById("recommendedAction").value="";
-  document.getElementById("actionTaken").value="";
-  document.getElementById("responsiblePerson").value="";
-  document.getElementById("targetDate").value="";
-  document.getElementById("status").selectedIndex=0;
-  document.getElementById("photo").value="";
-}
+  <script>
+    let records = [];
 
-// Render Table
-function renderTable(){
-  let tbody=document.querySelector("#auditTable tbody");
-  tbody.innerHTML="";
-  records.forEach((r,i)=>{
-    let row=document.createElement("tr");
-    if(r.category==="High Risk") row.className="risk-high";
-    if(r.category==="Medium Risk") row.className="risk-medium";
-    if(r.category==="Low Risk") row.className="risk-low";
-    if(r.category==="Good Practice") row.className="risk-good";
+    function addRecord() {
+      const record = {
+        date: document.getElementById("date").value,
+        auditor: document.getElementById("auditor").value,
+        location: document.getElementById("location").value,
+        observation: document.getElementById("observation").value,
+        hazardNature: document.getElementById("hazardNature").value,
+        category: document.getElementById("category").value,
+        recommendedAction: document.getElementById("recommendedAction").value,
+        actionTaken: document.getElementById("actionTaken").value,
+        responsiblePerson: document.getElementById("responsiblePerson").value,
+        targetDate: document.getElementById("targetDate").value,
+        status: document.getElementById("status").value,
+        photo: ""
+      };
 
-    const cells = [
-      i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,
-      r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,
-      r.photo ? '<img src="'+r.photo+'" width="50">' : ''
-    ];
-    cells.forEach(c=>{
-      const td=document.createElement("td");
-      td.innerHTML=c;
-      td.title=typeof c==="string"?c.replace(/<[^>]+>/g,""):"";
-      td.style.textAlign="center";
-      td.style.verticalAlign="middle";
-      row.appendChild(td);
-    });
-
-    // Actions
-    const editTd=document.createElement("td");
-    const editBtn=document.createElement("button");
-    editBtn.innerHTML='<i class="fas fa-edit"></i>';
-    editBtn.style.cursor="pointer";
-    editBtn.addEventListener("click",()=>editRecord(i));
-    editTd.appendChild(editBtn);
-
-    const delBtn=document.createElement("button");
-    delBtn.innerHTML='<i class="fas fa-trash"></i>';
-    delBtn.style.cursor="pointer";
-    delBtn.addEventListener("click",()=>{ records.splice(i,1); renderTable(); updateReport(); });
-    editTd.appendChild(delBtn);
-
-    row.appendChild(editTd);
-    tbody.appendChild(row);
-  });
-}
-
-// Edit record
-function editRecord(index){
-  const r=records[index];
-  editIndex=index;
-  document.getElementById("auditDate").value=r.date;
-  document.getElementById("auditorName").value=r.auditor;
-  document.getElementById("location").value=r.location;
-  document.getElementById("observation").value=r.observation;
-  document.getElementById("hazardNature").value=r.hazardNature;
-  document.getElementById("category").value=r.category;
-  document.getElementById("recommendedAction").value=r.recommendedAction;
-  document.getElementById("actionTaken").value=r.actionTaken;
-  document.getElementById("responsiblePerson").value=r.responsiblePerson;
-  document.getElementById("targetDate").value=r.targetDate;
-  document.getElementById("status").value=r.status;
-}
-
-// Excel export
-document.getElementById("exportBtn").addEventListener("click", async function () {
-  const wb = new ExcelJS.Workbook();
-  const ws = wb.addWorksheet("Audit Report");
-
-  ws.mergeCells("A1:M1");
-  ws.getCell("A1").value = "Project Name: XYZ Project";
-  ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
-  ws.getCell("A1").font = { bold: true, size: 14 };
-
-  ws.mergeCells("A2:M2");
-  ws.getCell("A2").value = "Audit No: 001";
-  ws.getCell("A2").alignment = { horizontal: "center", vertical: "middle" };
-  ws.getCell("A2").font = { bold: true, size: 12 };
-
-  ws.addRow([]);
-
-  const header = ["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Risk Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"];
-  const headerRow = ws.addRow(header);
-  headerRow.eachCell((cell)=>{
-    cell.font={bold:true,color:{argb:"FFFFFFFF"}};
-    cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF2E7D32"}};
-    cell.alignment={horizontal:"center", vertical:"middle", wrapText:true};
-    cell.border={top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"}};
-  });
-
-  ws.columns=[{width:6},{width:12},{width:15},{width:15},{width:25},{width:20},{width:15},{width:25},{width:25},{width:15},{width:12},{width:10},{width:15}];
-
-  for(let i=0;i<records.length;i++){
-    const r = records[i];
-    const row = ws.addRow([i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,""]);
-    row.height = 50;
-    row.eachCell((cell,colNumber)=>{
-      if(colNumber===7){
-        let fillColor="";
-        switch(r.category){
-          case "High Risk": fillColor="FFCDD2"; break;
-          case "Medium Risk": fillColor="FFF9C4"; break;
-          case "Low Risk": fillColor="C8E6C9"; break;
-          case "Good Practice": fillColor="E8F5E9"; break;
-        }
-        cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:fillColor}};
+      const photoInput = document.getElementById("photo");
+      if (photoInput.files && photoInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          record.photo = e.target.result;
+          records.push(record);
+          renderTable();
+          updateDashboard();
+        };
+        reader.readAsDataURL(photoInput.files[0]);
+      } else {
+        records.push(record);
+        renderTable();
+        updateDashboard();
       }
-      cell.alignment={horizontal:"center", vertical:"middle", wrapText:true};
-      cell.border={top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"}};
-    });
+    }
 
-    if(r.photo){
-      const imageId = wb.addImage({ base64:r.photo, extension:'png' });
-      ws.addImage(imageId, {
-        tl:{ col:12.2, row:row.number-0.7 }, // slight shift to center
-        ext:{ width:50, height:50 }
+    function renderTable() {
+      const tbody = document.querySelector("#recordsTable tbody");
+      tbody.innerHTML = "";
+      records.forEach((r, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.date}</td>
+          <td>${r.auditor}</td>
+          <td>${r.location}</td>
+          <td>${r.observation}</td>
+          <td>${r.hazardNature}</td>
+          <td>${r.category}</td>
+          <td>${r.recommendedAction}</td>
+          <td>${r.actionTaken}</td>
+          <td>${r.responsiblePerson}</td>
+          <td>${r.targetDate}</td>
+          <td>${r.status}</td>
+          <td>${r.photo ? `<img src="${r.photo}" alt="photo">` : ""}</td>
+          <td class="actions">
+            <button onclick="editRecord(${i})" title="Edit">✎</button>
+            <button onclick="deleteRecord(${i})" title="Delete">🗑</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
     }
-  }
 
-  wb.xlsx.writeBuffer().then(function(data){
-    const blob = new Blob([data], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    saveAs(blob, "Audit_Report.xlsx");
-  });
-});
-</script>
+    function editRecord(index) {
+      const r = records[index];
+      document.getElementById("date").value = r.date;
+      document.getElementById("auditor").value = r.auditor;
+      document.getElementById("location").value = r.location;
+      document.getElementById("observation").value = r.observation;
+      document.getElementById("hazardNature").value = r.hazardNature;
+      document.getElementById("category").value = r.category;
+      document.getElementById("recommendedAction").value = r.recommendedAction;
+      document.getElementById("actionTaken").value = r.actionTaken;
+      document.getElementById("responsiblePerson").value = r.responsiblePerson;
+      document.getElementById("targetDate").value = r.targetDate;
+      document.getElementById("status").value = r.status;
+      records.splice(index, 1);
+      renderTable();
+      updateDashboard();
+    }
+
+    function deleteRecord(index) {
+      records.splice(index, 1);
+      renderTable();
+      updateDashboard();
+    }
+
+    function updateDashboard() {
+      const counts = { high:0, medium:0, low:0, good:0 };
+      records.forEach(r => {
+        if(r.category === "High Risk") counts.high++;
+        else if(r.category === "Medium Risk") counts.medium++;
+        else if(r.category === "Low Risk") counts.low++;
+        else if(r.category === "Good Practice") counts.good++;
+      });
+
+      document.getElementById("auditReport").innerHTML = `
+        <p>🔴 High Risk: ${counts.high}</p>
+        <p>🟠 Medium Risk: ${counts.medium}</p>
+        <p>🟢 Low Risk: ${counts.low}</p>
+        <p>✅ Good Practice: ${counts.good}</p>
+      `;
+    }
+
+    async function downloadExcel() {
+      const wb = new ExcelJS.Workbook();
+      const ws = wb.addWorksheet("Audit Records");
+
+      ws.addRow(["Date","Auditor","Location","Observation","Hazard Nature","Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"]);
+
+      for (const r of records) {
+        const row = ws.addRow([r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,""]);
+        if (r.photo) {
+          const imgId = wb.addImage({ base64: r.photo, extension: 'png' });
+          ws.addImage(imgId, {
+            tl: { col: 11, row: row.number-1 },
+            ext: { width: 100, height: 100 }
+          });
+          ws.getRow(row.number).height = 80;
+          ws.getColumn(12).width = 20;
+        }
+      }
+
+      const buf = await wb.xlsx.writeBuffer();
+      saveAs(new Blob([buf]), "AuditRecords.xlsx");
+    }
+  </script>
+</body>
+</html>
