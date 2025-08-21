@@ -1,5 +1,192 @@
-<html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSHA-Compliant Permit-to-Work Dashboard</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+h1 { text-align: center; }
+.container { max-width: 1000px; margin: auto; }
+input, select, button, textarea { padding: 6px; margin: 2px; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
+th { background: #eee; }
+.status-Draft { background: #eee; color: #555; }
+.status-Pending { background: #ffecb3; color: #b36b00; }
+.status-Approved { background: #cce5ff; color: #004085; }
+.status-Active { background: #d4edda; color: #155724; }
+.status-Closed { background: #f8f9fa; color: #6c757d; }
+.status-Rejected { background: #f8d7da; color: #721c24; }
+.expiring { background: #ffe6e6 !important; }
+.qr { width: 60px; height: 60px; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
 <body>
-  <center> Under Developement </center>
+<div class="container">
+  <h1>OSHA-Compliant Permit-to-Work Dashboard</h1>
+
+  <div>
+    <label for="role">Select Role:</label>
+    <select id="role" onchange="renderTable()">
+      <option value="Issuer">Permit Issuer</option>
+      <option value="Approver">Authorized Approver</option>
+    </select>
+  </div>
+
+  <div id="newPermitDiv">
+    <h2>Create New Work Permit</h2>
+    <select id="permitType">
+      <option value="">Select Activity</option>
+      <option>Hot Work (Welding, Cutting)</option>
+      <option>Confined Space Entry</option>
+      <option>Electrical Work</option>
+      <option>Work at Height</option>
+      <option>General Work / Cold Work</option>
+    </select>
+    <textarea id="permitDesc" placeholder="Describe hazards, precautions, and controls"></textarea>
+    <div>
+      <label>PPE Confirmed:</label>
+      <select id="ppeConfirmed">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+    <input type="datetime-local" id="permitStart" placeholder="Start Time">
+    <input type="datetime-local" id="permitEnd" placeholder="End Time">
+    <button onclick="addPermit()">Submit Permit</button>
+    <button onclick="exportExcel()">Export Excel</button>
+  </div>
+
+  <div>
+    <h2>All Permits</h2>
+    <table id="permitTable">
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th>Hazards & Controls</th>
+          <th>PPE Confirmed</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+          <th>Change Status</th>
+          <th>QR</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const STATUS = ['Draft','Pending','Approved','Active','Closed','Rejected'];
+let permits = JSON.parse(localStorage.getItem('permits') || '[]');
+
+function savePermits() {
+  localStorage.setItem('permits', JSON.stringify(permits));
+}
+
+// Highlight permits expiring within 4 hours
+function isExpiring(endISO) {
+  if(!endISO) return false;
+  const end = new Date(endISO);
+  const now = new Date();
+  const diffHours = (end - now)/1000/60/60;
+  return diffHours <= 4 && diffHours > 0;
+}
+
+// Auto-close Active permits after end time
+function autoClosePermits() {
+  const now = new Date();
+  permits.forEach(p => {
+    if(p.status === 'Active' && p.end && new Date(p.end) <= now) {
+      p.status = 'Closed';
+    }
+  });
+  savePermits();
+}
+
+// Render table based on role
+function renderTable() {
+  autoClosePermits();
+  const role = document.getElementById('role').value;
+  document.getElementById('newPermitDiv').style.display = role === 'Issuer' ? 'block' : 'none';
+
+  const tbody = document.querySelector('#permitTable tbody');
+  tbody.innerHTML = '';
+  permits.forEach(p => {
+    const tr = document.createElement('tr');
+    if(isExpiring(p.end) && p.status !== 'Closed') tr.classList.add('expiring');
+
+    const tdType = document.createElement('td'); tdType.textContent = p.type; tr.appendChild(tdType);
+    const tdDesc = document.createElement('td'); tdDesc.textContent = p.description; tr.appendChild(tdDesc);
+    const tdPPE = document.createElement('td'); tdPPE.textContent = p.ppe; tr.appendChild(tdPPE);
+    const tdStart = document.createElement('td'); tdStart.textContent = p.start ? new Date(p.start).toLocaleString() : ''; tr.appendChild(tdStart);
+    const tdEnd = document.createElement('td'); tdEnd.textContent = p.end ? new Date(p.end).toLocaleString() : ''; tr.appendChild(tdEnd);
+    const tdStatus = document.createElement('td'); tdStatus.textContent = p.status; tdStatus.className = 'status-' + p.status; tr.appendChild(tdStatus);
+
+    const tdChange = document.createElement('td');
+    const select = document.createElement('select');
+
+    let allowedStatus = [];
+    if(role === 'Issuer') allowedStatus = ['Draft','Pending'];
+    if(role === 'Approver') allowedStatus = ['Approved','Active','Closed','Rejected'];
+
+    allowedStatus.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s;
+      if(s===p.status) opt.selected=true;
+      select.appendChild(opt);
+    });
+
+    select.onchange = e => { p.status = e.target.value; savePermits(); renderTable(); };
+    tdChange.appendChild(select); tr.appendChild(tdChange);
+
+    const tdQR = document.createElement('td');
+    const qrDiv = document.createElement('div'); qrDiv.className = 'qr';
+    tdQR.appendChild(qrDiv);
+    QRCode.toCanvas(qrDiv, `Permit: ${p.type}\nHazards: ${p.description}\nPPE: ${p.ppe}\nStatus: ${p.status}`, { width: 60 }, function(error){if(error) console.error(error);});
+    tr.appendChild(tdQR);
+
+    tbody.appendChild(tr);
+  });
+}
+
+// Add new permit
+function addPermit() {
+  const type = document.getElementById('permitType').value;
+  const desc = document.getElementById('permitDesc').value;
+  const ppe = document.getElementById('ppeConfirmed').value;
+  const start = document.getElementById('permitStart').value;
+  const end = document.getElementById('permitEnd').value;
+  if(!type || !start || !end) { alert('Select activity and specify start/end times'); return; }
+  permits.push({ id: Date.now(), type, description: desc, ppe, start, end, status: 'Draft' });
+  savePermits();
+  renderTable();
+  document.getElementById('permitType').value = '';
+  document.getElementById('permitDesc').value = '';
+  document.getElementById('ppeConfirmed').value = 'Yes';
+  document.getElementById('permitStart').value = '';
+  document.getElementById('permitEnd').value = '';
+}
+
+// Export permits to Excel
+function exportExcel() {
+  const ws_data = [['Activity','Hazards & Controls','PPE Confirmed','Start Time','End Time','Status']];
+  permits.forEach(p => ws_data.push([p.type,p.description,p.ppe,p.start,p.end,p.status]));
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(ws_data);
+  XLSX.utils.book_append_sheet(wb, ws, 'Permits');
+  XLSX.writeFile(wb, 'osha_permits.xlsx');
+}
+
+// Refresh every minute to auto-close permits
+setInterval(renderTable, 60000);
+
+renderTable();
+</script>
 </body>
-  ></html>
+</html>
