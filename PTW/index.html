@@ -7,18 +7,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin:0; color:#333; }
+body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f7f6; margin:0; color:#333; }
 header { text-align:center; padding:15px; background:#0d6efd; color:white; font-size:1.5em; }
 nav { display:flex; justify-content:center; margin:10px 0; }
 nav button { margin:0 5px; padding:10px 15px; border:none; border-radius:5px; background:#e9ecef; cursor:pointer; transition:0.3s;}
 nav button.active, nav button:hover { background:#0d6efd; color:#fff;}
-.container { max-width: 1200px; margin:auto; padding:10px;}
-.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:10px; box-shadow:0 3px 6px rgba(0,0,0,0.1); transition:0.3s; }
-.card:hover { box-shadow:0 6px 12px rgba(0,0,0,0.2); }
-input, select, textarea, button { padding:6px; margin:4px 0; border-radius:5px; border:1px solid #ccc; width:100%; }
+.container { max-width:1200px; margin:auto; padding:10px; }
+input, select, button, textarea { padding:8px; margin:5px 0; border-radius:5px; border:1px solid #ccc; width:100%; }
 button { cursor:pointer; background:#0d6efd; color:#fff; border:none; transition:0.3s; }
 button:hover { background:#0b5ed7; }
-label { font-weight:bold; margin-top:5px; display:block; }
+label { font-weight:bold; display:block; margin-top:5px; }
+.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:10px; box-shadow:0 3px 6px rgba(0,0,0,0.1); transition:0.3s; }
+.card:hover { box-shadow:0 6px 12px rgba(0,0,0,0.2); }
 .badge { padding:4px 8px; border-radius:5px; color:white; font-size:0.8em; font-weight:bold; }
 .badge-Draft { background:#6c757d; }
 .badge-Pending { background:#ffc107; color:#212529; }
@@ -30,137 +30,224 @@ label { font-weight:bold; margin-top:5px; display:block; }
 .permit-header { display:flex; justify-content: space-between; align-items:center; margin-bottom:10px; }
 .permit-title { font-size:1.1em; font-weight:bold; }
 .permit-icons i { margin-left:5px; color:#0d6efd; }
+.page { display:block; }
 </style>
 </head>
 <body>
 <header><i class="fas fa-hard-hat"></i> EHS Permit-to-Work System</header>
-<nav>
-<button class="active" onclick="showPage('create')">Create Permit</button>
-<button onclick="showPage('dashboard')">Dashboard</button>
-</nav>
 
 <div class="container">
-<!-- Create Permit Page -->
-<div id="create" class="page">
+<!-- Login Page -->
+<div id="loginPage" class="page">
 <div class="card">
-<h2><i class="fas fa-plus-circle"></i> Create New Permit</h2>
-<label>Work Location</label><input type="text" id="workLocation" placeholder="Location">
-<label>Date & Time</label><input type="datetime-local" id="workDateTime">
-<label>Permit Holder Name</label><input type="text" id="permitHolder">
-<label>Safety Contact Name</label><input type="text" id="safetyContactName">
-<label>Safety Contact Number</label><input type="text" id="safetyContactNumber">
-<label>Work Description</label><textarea id="workDescription" rows="4" placeholder="Describe work & hazards"></textarea>
-<label>Reviewer Name</label><input type="text" id="reviewerName">
-<label>Issuer Name</label><input type="text" id="issuerName">
-<label>Holder Acknowledgment</label>
-<select id="holderAcknowledgment">
-<option value="Pending">Pending</option>
-<option value="Accepted">Accepted</option>
-<option value="Suspended">Suspended</option>
-</select>
-<button onclick="addPermit()"><i class="fas fa-save"></i> Save Permit</button>
+<h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+<label>Username</label><input type="text" id="username" placeholder="Username">
+<label>Password</label><input type="password" id="password" placeholder="Password">
+<button onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
 </div>
 </div>
 
 <!-- Dashboard Page -->
-<div id="dashboard" class="page" style="display:none;"></div>
-
+<div id="dashboardPage" class="page" style="display:none;">
+<div class="card">
+<h2>Welcome, <span id="userDisplay"></span></h2>
+<p>Your role: <b id="roleDisplay"></b></p>
+<button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+</div>
+<nav id="roleNav"></nav>
+<div id="contentSection"></div>
+</div>
 </div>
 
 <script>
+// Initialize data
+let users = JSON.parse(localStorage.getItem('users')||'[]');
 let permits = JSON.parse(localStorage.getItem('permits')||'[]');
+let currentUser = null;
 
-function showPage(page){
-document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-document.getElementById(page).style.display='block';
-document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-event.target.classList.add('active');
-if(page==='dashboard') renderDashboard();
+// Default admin with credentials as requested
+if(!users.some(u=>u.role==='admin')) 
+    users.push({username:'ptwadmin', password:'ptwadmin', role:'admin'});
+localStorage.setItem('users', JSON.stringify(users));
+
+// Login
+function login(){
+  const username=document.getElementById('username').value;
+  const password=document.getElementById('password').value;
+  const user=users.find(u=>u.username===username && u.password===password);
+  if(!user){ alert("Invalid credentials"); return; }
+  currentUser=user;
+  document.getElementById('userDisplay').innerText=user.username;
+  document.getElementById('roleDisplay').innerText=user.role;
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('dashboardPage').style.display='block';
+  renderNav();
+  showSection(currentUser.role==='admin'?'userManagement':'permitManagement');
 }
 
-function savePermits(){localStorage.setItem('permits', JSON.stringify(permits));}
+// Logout
+function logout(){
+  currentUser=null;
+  document.getElementById('loginPage').style.display='block';
+  document.getElementById('dashboardPage').style.display='none';
+}
 
+// Render navigation
+function renderNav(){
+  const nav=document.getElementById('roleNav'); nav.innerHTML='';
+  if(currentUser.role==='admin'){
+    nav.innerHTML=`<button onclick="showSection('userManagement')">User Management</button>
+                   <button onclick="showSection('permitManagement')">Permit Management</button>`;
+  }else nav.innerHTML=`<button onclick="showSection('permitManagement')">Permit Management</button>`;
+}
+
+// Show section
+function showSection(section){
+  renderContent(section);
+}
+
+// Render content
+function renderContent(section){
+  const content=document.getElementById('contentSection'); content.innerHTML='';
+  if(section==='userManagement' && currentUser.role==='admin'){
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML=`<h3>User Management</h3>
+      <label>Username</label><input type="text" id="newUsername">
+      <label>Password</label><input type="text" id="newPassword">
+      <label>Role</label>
+      <select id="newRole">
+        <option value="holder">Permit Holder</option>
+        <option value="verifier">Verifier</option>
+        <option value="issuer">Issuer</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button onclick="addUser()"><i class="fas fa-user-plus"></i> Add User</button>
+      <h4>Existing Users</h4><div id="userList"></div>`;
+    content.appendChild(card);
+    renderUserList();
+  } else if(section==='permitManagement'){
+    renderPermitManagement(content);
+  }
+}
+
+// User Management
+function addUser(){
+  const username=document.getElementById('newUsername').value;
+  const password=document.getElementById('newPassword').value;
+  const role=document.getElementById('newRole').value;
+  if(!username || !password){ alert('Enter username & password'); return; }
+  if(users.some(u=>u.username===username)){ alert('User exists'); return; }
+  users.push({username,password,role});
+  localStorage.setItem('users', JSON.stringify(users));
+  alert('User added!');
+  document.getElementById('newUsername').value='';
+  document.getElementById('newPassword').value='';
+  renderUserList();
+}
+
+function renderUserList(){
+  const ul=document.getElementById('userList'); ul.innerHTML='';
+  users.forEach(u=>{
+    const div=document.createElement('div'); 
+    div.innerHTML=`${u.username} [${u.role}] <button onclick="removeUser('${u.username}')"><i class="fas fa-trash"></i> Remove</button>`;
+    ul.appendChild(div);
+  });
+}
+
+function removeUser(username){
+  if(!confirm(`Delete user ${username}?`)) return;
+  users=users.filter(u=>u.username!==username);
+  localStorage.setItem('users', JSON.stringify(users));
+  renderUserList();
+}
+
+// Permit Management
+function renderPermitManagement(container){
+  const addPermitCard = document.createElement('div'); addPermitCard.className='card';
+  if(currentUser.role==='issuer'){
+    addPermitCard.innerHTML=`<h3><i class="fas fa-plus-circle"></i> Create Permit</h3>
+      <label>Work Location</label><input type="text" id="workLocation">
+      <label>Date & Time</label><input type="datetime-local" id="workDateTime">
+      <label>Permit Holder</label><input type="text" id="permitHolder">
+      <label>Safety Contact</label><input type="text" id="safetyContactName">
+      <label>Safety Number</label><input type="text" id="safetyContactNumber">
+      <label>Work Description</label><textarea id="workDescription" rows="3"></textarea>
+      <label>Reviewer</label><input type="text" id="reviewerName">
+      <label>Issuer</label><input type="text" id="issuerName" value="${currentUser.username}">
+      <label>Acknowledgment</label><select id="holderAcknowledgment">
+        <option value="Pending">Pending</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Suspended">Suspended</option>
+      </select>
+      <button onclick="addPermit()"><i class="fas fa-save"></i> Save Permit</button>`;
+    container.appendChild(addPermitCard);
+  }
+
+  permits.forEach(p=>{
+    const card=document.createElement('div'); card.className='card';
+    let actions='';
+    if(currentUser.role==='issuer'){ actions=`<button onclick="editPermit(${p.id})"><i class="fas fa-edit"></i> Edit</button>`; }
+    else if(currentUser.role==='verifier'){ actions=`<button onclick="approvePermit(${p.id})"><i class="fas fa-check"></i> Approve</button>
+      <button onclick="rejectPermit(${p.id})"><i class="fas fa-times"></i> Reject</button>`; }
+    else if(currentUser.role==='holder' && currentUser.username===p.holder){ actions=`<button onclick="updateAck(${p.id},'Accepted')"><i class="fas fa-check"></i> Accept</button>
+      <button onclick="updateAck(${p.id},'Suspended')"><i class="fas fa-pause-circle"></i> Suspend</button>`; }
+
+    card.innerHTML=`<div class="permit-header"><div class="permit-title"><i class="fas fa-map-marker-alt"></i> ${p.location} <span class="badge badge-${p.status}">${p.status}</span></div></div>
+      <p><i class="fas fa-calendar-alt"></i> ${p.dateTime}</p>
+      <p><i class="fas fa-user"></i> Holder: ${p.holder}</p>
+      <p><i class="fas fa-phone-alt"></i> Safety: ${p.safetyName} (${p.safetyNumber})</p>
+      <p>${p.description}</p>
+      <p>Reviewer: ${p.reviewer} | Issuer: ${p.issuer}</p>
+      <p>Acknowledgment: ${p.acknowledgment}</p>
+      ${actions} <button onclick="downloadPDF(${p.id})"><i class="fas fa-download"></i> PDF</button>`;
+    container.appendChild(card);
+  });
+}
+
+// Permit actions
 function addPermit(){
-const p={id:Date.now(),
-location: document.getElementById('workLocation').value,
-dateTime: document.getElementById('workDateTime').value,
-holder: document.getElementById('permitHolder').value,
-safetyName: document.getElementById('safetyContactName').value,
-safetyNumber: document.getElementById('safetyContactNumber').value,
-description: document.getElementById('workDescription').value,
-reviewer: document.getElementById('reviewerName').value,
-issuer: document.getElementById('issuerName').value,
-acknowledgment: document.getElementById('holderAcknowledgment').value,
-status:'Draft'};
-permits.push(p); savePermits(); alert('Permit saved!');
-document.querySelectorAll('#create input, #create textarea').forEach(i=>i.value='');
-document.getElementById('holderAcknowledgment').value='Pending';
-showPage('dashboard');
+  const p={id:Date.now(),
+    location: document.getElementById('workLocation').value,
+    dateTime: document.getElementById('workDateTime').value,
+    holder: document.getElementById('permitHolder').value,
+    safetyName: document.getElementById('safetyContactName').value,
+    safetyNumber: document.getElementById('safetyContactNumber').value,
+    description: document.getElementById('workDescription').value,
+    reviewer: document.getElementById('reviewerName').value,
+    issuer: document.getElementById('issuerName').value,
+    acknowledgment: document.getElementById('holderAcknowledgment').value,
+    status:'Draft'};
+  permits.push(p); localStorage.setItem('permits', JSON.stringify(permits));
+  alert('Permit saved!'); showSection('permitManagement');
 }
 
-function renderDashboard(){
-const container=document.getElementById('dashboard'); container.innerHTML='';
-permits.forEach(p=>{
-const card=document.createElement('div'); card.className='card';
-card.innerHTML=`
-<div class="permit-header">
-<div class="permit-title"><i class="fas fa-map-marker-alt"></i> ${p.location} <span class="badge badge-${p.status}">${p.status}</span></div>
-<div class="permit-icons">
-<i class="fas fa-user"></i> ${p.holder} 
-<i class="fas fa-phone-alt"></i> ${p.safetyNumber} 
-</div>
-</div>
-<p><i class="fas fa-calendar-alt"></i> ${p.dateTime}</p>
-<p><i class="fas fa-clipboard-list"></i> ${p.description}</p>
-<p><i class="fas fa-user-check"></i> Reviewer: ${p.reviewer} | Issuer: ${p.issuer}</p>
-<p><i class="fas fa-handshake"></i> Holder Acknowledgment: ${p.acknowledgment}</p>
-<div>
-<button onclick="editPermit(${p.id})"><i class="fas fa-edit"></i> Edit</button>
-<button onclick="updateAck(${p.id},'Accepted')"><i class="fas fa-check"></i> Accept</button>
-<button onclick="updateAck(${p.id},'Suspended')"><i class="fas fa-pause-circle"></i> Suspend</button>
-<button onclick="downloadPDF(${p.id})"><i class="fas fa-download"></i> PDF</button>
-</div>`;
-container.appendChild(card);
-});
+function updateAck(id,value){ const p=permits.find(x=>x.id===id); if(p){p.acknowledgment=value; localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement'); } }
+function approvePermit(id){ const p=permits.find(x=>x.id===id); if(p){p.status='Approved'; localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement'); } }
+function rejectPermit(id){ const p=permits.find(x=>x.id===id); if(p){p.status='Rejected'; localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement'); } }
+function editPermit(id){ const p=permits.find(x=>x.id===id); if(!p) return;
+  const loc=prompt("Edit Work Location", p.location); if(loc) p.location=loc;
+  const desc=prompt("Edit Work Description", p.description); if(desc) p.description=desc;
+  localStorage.setItem('permits', JSON.stringify(permits)); showSection('permitManagement');
 }
 
-function editPermit(id){
-const p=permits.find(x=>x.id===id);
-document.getElementById('workLocation').value=p.location;
-document.getElementById('workDateTime').value=p.dateTime;
-document.getElementById('permitHolder').value=p.holder;
-document.getElementById('safetyContactName').value=p.safetyName;
-document.getElementById('safetyContactNumber').value=p.safetyNumber;
-document.getElementById('workDescription').value=p.description;
-document.getElementById('reviewerName').value=p.reviewer;
-document.getElementById('issuerName').value=p.issuer;
-document.getElementById('holderAcknowledgment').value=p.acknowledgment;
-permits=permits.filter(x=>x.id!==id);
-showPage('create');
-}
-
-function updateAck(id, value){
-const p=permits.find(x=>x.id===id); if(p){p.acknowledgment=value; savePermits(); renderDashboard();}
-}
-
+// PDF download
 function downloadPDF(id){
-const { jsPDF } = window.jspdf; const p=permits.find(x=>x.id===id); if(!p) return;
-const doc=new jsPDF(); doc.setFontSize(18); doc.text("EHS Permit-to-Work",105,20,null,null,"center");
-doc.setFontSize(12);
-doc.text(`Work Location: ${p.location}`,20,40);
-doc.text(`Date & Time: ${p.dateTime}`,20,50);
-doc.text(`Permit Holder: ${p.holder}`,20,60);
-doc.text(`Safety Contact: ${p.safetyName} (${p.safetyNumber})`,20,70);
-doc.text("Work Description:",20,80);
-doc.text(doc.splitTextToSize(p.description,170),20,90);
-doc.text(`Reviewer: ${p.reviewer}`,20,120);
-doc.text(`Issuer: ${p.issuer}`,20,130);
-doc.text(`Holder Acknowledgment: ${p.acknowledgment}`,20,140);
-doc.text(`Status: ${p.status}`,20,150);
-doc.save(`Permit_${p.holder}_${new Date().toISOString().slice(0,10)}.pdf`);
+  const { jsPDF } = window.jspdf; const p=permits.find(x=>x.id===id); if(!p) return;
+  const doc=new jsPDF();
+  doc.setFontSize(18); doc.text("EHS Permit-to-Work",105,20,null,null,"center");
+  doc.setFontSize(12);
+  doc.text(`Work Location: ${p.location}`,20,40);
+  doc.text(`Date & Time: ${p.dateTime}`,20,50);
+  doc.text(`Permit Holder: ${p.holder}`,20,60);
+  doc.text(`Safety Contact: ${p.safetyName} (${p.safetyNumber})`,20,70);
+  doc.text("Work Description:",20,80);
+  doc.text(doc.splitTextToSize(p.description,170),20,90);
+  doc.text(`Reviewer: ${p.reviewer}`,20,120);
+  doc.text(`Issuer: ${p.issuer}`,20,130);
+  doc.text(`Acknowledgment: ${p.acknowledgment}`,20,140);
+  doc.text(`Status: ${p.status}`,20,150);
+  doc.save(`Permit_${p.holder}_${new Date().toISOString().slice(0,10)}.pdf`);
 }
-
-renderDashboard();
 </script>
 </body>
 </html>
