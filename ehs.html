@@ -14,29 +14,13 @@ h2 { color:#2e7d32; font-size:1.5rem; margin-bottom:15px; display:flex; align-it
 h2 i { margin-right:8px; }
 form { display:flex; flex-direction:column; }
 form label { font-weight:bold; margin-top:10px; display:block; }
-input, select, textarea {
-  width:100%;
-  max-width:100%;
-  box-sizing:border-box;
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:1rem;
-}
+input, select, textarea { width:100%; max-width:100%; box-sizing:border-box; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem; }
 textarea { resize: vertical; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
 form button { margin-top:15px; padding:12px; background:#2e7d32; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:1rem; }
 form button:hover { background:#256628; }
 .table-container { overflow-x:auto; }
 table { width:100%; border-collapse:collapse; table-layout: fixed; font-size:0.9rem; text-align:left; }
-th, td {
-  border:1px solid #ccc;
-  padding:8px;
-  vertical-align:middle;
-  text-align:center;
-  word-wrap: break-word;
-  white-space: normal;
-  position: relative;
-}
+th, td { border:1px solid #ccc; padding:8px; vertical-align:middle; text-align:center; word-wrap: break-word; white-space: normal; position: relative; }
 th { background:#2e7d32; color:#fff; }
 .risk-high { background:#f8d7da; border:1px solid #f5c6cb; }
 .risk-medium { background:#fff3cd; border:1px solid #ffeeba; }
@@ -75,19 +59,30 @@ td img { max-width:50px; max-height:50px; display:block; margin:auto; }
 }
 
 /* Tooltip hover */
-td:hover::after {
-  content: attr(title);
-  position: absolute;
-  background: rgba(0,0,0,0.8);
+td:hover::after { content: attr(title); position: absolute; background: rgba(0,0,0,0.8); color: #fff; padding: 5px 8px; border-radius: 4px; top: 100%; left: 0; white-space: normal; z-index: 10; max-width: 250px; display: block; }
+
+/* Footer */
+footer#footer {
+  background: rgba(46, 125, 50, 0.85);
   color: #fff;
-  padding: 5px 8px;
-  border-radius: 4px;
-  top: 100%;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 0.9rem;
+  position: fixed;
+  bottom: 0;
   left: 0;
-  white-space: normal;
-  z-index: 10;
-  max-width: 250px;
-  display: block;
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+footer#footer:hover { background: rgba(46, 125, 50, 1); }
+footer#footer .footer-content { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
+footer#footer .footer-content span { display: inline-block; }
+footer#footer .footer-content .developer { font-style: italic; }
+@media(max-width:768px){
+  footer#footer { font-size: 0.8rem; padding: 10px 5px; }
+  footer#footer .footer-content { flex-direction: column; gap: 4px; }
 }
 </style>
 </head>
@@ -96,6 +91,7 @@ td:hover::after {
 
 <div class="container">
 
+<!-- Audit Form -->
 <div class="card" id="auditFormCard">
 <h2><i class="fas fa-clipboard-check"></i> Audit Form</h2>
 <form id="auditForm">
@@ -122,6 +118,7 @@ td:hover::after {
 </form>
 </div>
 
+<!-- Audit Table -->
 <div class="card">
 <h2><i class="fas fa-table"></i> Audit Records</h2>
 <div class="table-container">
@@ -141,6 +138,7 @@ td:hover::after {
 <th><i class="fas fa-calendar-check"></i> Target Date</th>
 <th><i class="fas fa-info-circle"></i> Status</th>
 <th><i class="fas fa-camera"></i> Photo</th>
+<th>Edit</th>
 </tr>
 </thead>
 <tbody></tbody>
@@ -149,6 +147,7 @@ td:hover::after {
 <button class="export-btn" id="exportBtn"><i class="fas fa-file-excel"></i> Export to Excel</button>
 </div>
 
+<!-- Audit Summary -->
 <div class="card">
 <h2><i class="fas fa-file-alt"></i> Audit Report</h2>
 <div id="auditReport" class="report-box"><p>No data yet.</p></div>
@@ -156,10 +155,21 @@ td:hover::after {
 
 </div>
 
+<!-- Footer -->
+<footer id="footer">
+  <div class="footer-content">
+    <span id="visitorCount">Visitors: 0</span>
+    <span class="developer">| Developed by Arun Williams</span>
+  </div>
+</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script>
-let records=[];
+let records = [];
+let editIndex = null;
+
+// Persistent fields
 let persistentAuditor=document.getElementById("auditorName").value;
 let persistentLocation=document.getElementById("location").value;
 let persistentDate=document.getElementById("auditDate").value;
@@ -180,10 +190,9 @@ function updateReport(){
     <p>✅ Good Practice: ${counts.good}</p>`;
 }
 
-document.getElementById("auditForm").addEventListener("submit",function(e){
+document.getElementById("auditForm").addEventListener("submit", function(e){
   e.preventDefault();
 
-  // Save persistent fields
   persistentAuditor = document.getElementById("auditorName").value;
   persistentLocation = document.getElementById("location").value;
   persistentDate = document.getElementById("auditDate").value;
@@ -197,7 +206,7 @@ document.getElementById("auditForm").addEventListener("submit",function(e){
 });
 
 function addRecord(photoData){
-  let rec={
+  const rec={
     date:persistentDate,
     auditor:persistentAuditor,
     location:persistentLocation,
@@ -211,9 +220,15 @@ function addRecord(photoData){
     status:document.getElementById("status").value,
     photo:photoData
   };
-  records.push(rec); renderTable(); updateReport();
+  if(editIndex!==null){
+    records[editIndex] = rec;
+    editIndex = null;
+  } else {
+    records.push(rec);
+  }
+  renderTable();
+  updateReport();
 
-  // Reset only non-persistent fields
   document.getElementById("observation").value="";
   document.getElementById("hazardNature").value="";
   document.getElementById("category").selectedIndex=0;
@@ -250,51 +265,56 @@ function renderTable(){
       row.appendChild(td);
     });
 
+    // Edit button
+    const editTd = document.createElement("td");
+    const editBtn = document.createElement("button");
+    editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+    editBtn.style.cursor = "pointer";
+    editBtn.addEventListener("click", ()=> editRecord(i));
+    editTd.appendChild(editBtn);
+    row.appendChild(editTd);
+
     tbody.appendChild(row);
   });
+}
+
+function editRecord(index){
+  const r = records[index];
+  editIndex = index;
+  document.getElementById("auditDate").value = r.date;
+  document.getElementById("auditorName").value = r.auditor;
+  document.getElementById("location").value = r.location;
+  document.getElementById("observation").value = r.observation;
+  document.getElementById("hazardNature").value = r.hazardNature;
+  document.getElementById("category").value = r.category;
+  document.getElementById("recommendedAction").value = r.recommendedAction;
+  document.getElementById("actionTaken").value = r.actionTaken;
+  document.getElementById("responsiblePerson").value = r.responsiblePerson;
+  document.getElementById("targetDate").value = r.targetDate;
+  document.getElementById("status").value = r.status;
 }
 
 // Excel export
 document.getElementById("exportBtn").addEventListener("click", async function () {
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet("Audit Report");
-
   ws.mergeCells("A1:M1");
   ws.getCell("A1").value = "Project Name: XYZ Project";
   ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
   ws.getCell("A1").font = { bold: true, size: 14 };
-
   ws.mergeCells("A2:M2");
   ws.getCell("A2").value = "Audit No: 001";
   ws.getCell("A2").alignment = { horizontal: "center", vertical: "middle" };
   ws.getCell("A2").font = { bold: true, size: 12 };
-
   ws.addRow([]);
-
   const header = ["S.No","Audit Date","Auditor","Location","Observation","Nature of Hazard","Risk Category","Recommended Action","Action Taken","Responsible Person","Target Date","Status","Photo"];
   const headerRow = ws.addRow(header);
-  headerRow.eachCell((cell)=>{
-    cell.font = { bold:true, color:{argb:"FFFFFFFF"} };
-    cell.fill = { type:"pattern", pattern:"solid", fgColor:{argb:"FF2E7D32"} };
-    cell.alignment = { horizontal:"center", vertical:"middle", wrapText:true };
-    cell.border = { top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"} };
-  });
-
-  ws.columns = [
-    {width:6},{width:12},{width:15},{width:15},{width:25},
-    {width:20},{width:15},{width:25},{width:25},{width:15},
-    {width:12},{width:10},{width:15}
-  ];
-
+  headerRow.eachCell((cell)=>{ cell.font={bold:true,color:{argb:"FFFFFFFF"}}; cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF2E7D32"}}; cell.alignment={horizontal:"center",vertical:"middle",wrapText:true}; cell.border={top:{style:"thin"},left:{style:"thin"},bottom:{style:"thin"},right:{style:"thin"}}; });
+  ws.columns = [{width:6},{width:12},{width:15},{width:15},{width:25},{width:20},{width:15},{width:25},{width:25},{width:15},{width:12},{width:10},{width:15}];
   for(let i=0;i<records.length;i++){
     const r = records[i];
-    const row = ws.addRow([
-      i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,
-      r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,
-      r.targetDate,r.status,""
-    ]);
-    row.height = 50;
-
+    const row = ws.addRow([i+1,r.date,r.auditor,r.location,r.observation,r.hazardNature,r.category,r.recommendedAction,r.actionTaken,r.responsiblePerson,r.targetDate,r.status,""]);
+    row.height=50;
     row.eachCell((cell,colNumber)=>{
       if(colNumber===7){
         let fillColor="";
@@ -306,21 +326,36 @@ document.getElementById("exportBtn").addEventListener("click", async function ()
         }
         cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:fillColor}};
       }
-      cell.alignment={horizontal:"center", vertical:"middle", wrapText:true};
-      cell.border={top:{style:"thin"}, left:{style:"thin"}, bottom:{style:"thin"}, right:{style:"thin"}};
+      cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};
+      cell.border={top:{style:"thin"},left:{style:"thin"},bottom:{style:"thin"},right:{style:"thin"}};
     });
-
     if(r.photo){
       const imageId = wb.addImage({ base64:r.photo, extension:'png' });
       ws.addImage(imageId,{tl:{col:12,row:row.number-1}, ext:{width:50,height:50}});
     }
   }
-
   wb.xlsx.writeBuffer().then(function(data){
     const blob = new Blob([data], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     saveAs(blob, "Audit_Report.xlsx");
   });
 });
+
+// Visitor count
+fetch('https://api.countapi.xyz/hit/ehs-dashboard/arunvisits')
+  .then(res => res.json())
+  .then(data => { document.getElementById("visitorCount").textContent = "Visitors: " + data.value; })
+  .catch(err => { console.error("Visitor count error:", err); });
+
+// Footer auto-hide on scroll
+let lastScrollTop = 0;
+const footer = document.getElementById("footer");
+window.addEventListener("scroll", function() {
+  let st = window.pageYOffset || document.documentElement.scrollTop;
+  if(st > lastScrollTop){ footer.style.transform = "translateY(100%)"; } 
+  else { footer.style.transform = "translateY(0)"; }
+  lastScrollTop = st <= 0 ? 0 : st;
+});
+footer.style.transition = "transform 0.3s ease";
 </script>
 </body>
 </html>
