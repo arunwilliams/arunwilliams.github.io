@@ -1,140 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EHS PTW System</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EHS PTW System (Single Page)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-body { font-family:'Segoe UI', sans-serif; background:#f4f7f6; margin:0; color:#333; }
-header { display:flex; align-items:center; justify-content:center; padding:10px; background:#0d6efd; color:white; font-size:1.5em; position:relative; }
-header img { height:40px; margin-right:10px; border-radius:5px; }
-nav { display:flex; justify-content:center; margin:10px 0; flex-wrap:wrap; }
-nav button { margin:5px; padding:10px 15px; border:none; border-radius:5px; background:#e9ecef; cursor:pointer; transition:0.3s;}
-nav button.active, nav button:hover { background:#0d6efd; color:#fff;}
-.container { max-width:1200px; margin:auto; padding:10px; }
-input, select, button, textarea { padding:8px; margin:5px 0; border-radius:5px; border:1px solid #ccc; width:100%; }
-button { cursor:pointer; background:#0d6efd; color:#fff; border:none; transition:0.3s; }
-button:hover { background:#0b5ed7; }
-label { font-weight:bold; display:block; margin-top:5px; }
-.card { background:#fff; padding:15px; margin-bottom:15px; border-radius:10px; box-shadow:0 3px 6px rgba(0,0,0,0.1); transition:0.3s; }
-.card:hover { box-shadow:0 6px 12px rgba(0,0,0,0.2); }
-.badge { padding:4px 8px; border-radius:5px; color:white; font-size:0.8em; font-weight:bold; display:inline-flex; align-items:center; }
-.badge-Draft { background:#6c757d; }
-.badge-Preparing { background:#6c757d; }
-.badge-UnderReview { background:#ffc107; color:#212529; }
-.badge-Approved { background:#198754; }
-.badge-Suspended { background:#fd7e14; }
-.badge-Rejected { background:#dc3545; }
-.summary-card { display:inline-block; width:23%; margin:1%; padding:15px; background:#fff; border-radius:10px; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-table { width:100%; border-collapse: collapse; margin-top:10px;}
-th, td { border:1px solid #ccc; padding:8px; text-align:left; vertical-align: top; }
-th { background:#0d6efd; color:white; }
-[contenteditable]{ min-height:80px; border:1px solid #ccc; padding:5px; border-radius:5px; background:#fff;}
-#toolbar button { margin-right:5px; }
-.comment-box { background:#e9ecef; padding:5px; border-radius:5px; margin:3px 0; font-size:0.9em; }
-.file-list { font-size:0.9em; margin-top:5px;}
+  :root{
+    --pri:#0d6efd; --pri-600:#0b5ed7; --ok:#198754; --warn:#fd7e14; --rej:#dc3545; --pend:#ffc107; --muted:#6c757d;
+    --bg:#f4f7f6; --card:#fff; --ink:#333;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);margin:0}
+  header{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;background:var(--pri);color:#fff;font-size:1.25rem;position:sticky;top:0;z-index:5}
+  header img{height:40px;border-radius:8px;display:none}
+  .container{max-width:1200px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border-radius:14px;padding:16px;margin:10px 0;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+  .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+  .col-6{grid-column:span 6} .col-4{grid-column:span 4} .col-3{grid-column:span 3} .col-8{grid-column:span 8} .col-12{grid-column:span 12}
+  label{font-weight:600;font-size:.92rem;margin-top:6px;display:block}
+  input,select,textarea{width:100%;padding:9px 10px;border:1px solid #d0d7de;border-radius:10px;background:#fff}
+  textarea{min-height:96px}
+  button{display:inline-flex;align-items:center;gap:8px;border:none;background:var(--pri);color:#fff;padding:9px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+  button.ghost{background:#e9ecef;color:#111}
+  button.linky{background:transparent;color:var(--pri);padding:5px}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  button:hover{background:var(--pri-600)}
+  nav .tab{margin:6px;padding:9px 12px;border-radius:10px;background:#e9ecef;border:none;cursor:pointer}
+  nav .tab.active,nav .tab:hover{background:var(--pri);color:#fff}
+  table{width:100%;border-collapse:collapse}
+  th,td{border:1px solid #e5e7eb;padding:8px;vertical-align:top}
+  th{background:var(--pri);color:#fff;text-align:left}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.8rem;color:#fff;border-radius:999px;padding:4px 8px}
+  .b-prep{background:var(--muted)} .b-ur{background:var(--pend);color:#222} .b-ok{background:var(--ok)} .b-sus{background:var(--warn)} .b-rej{background:var(--rej)}
+  .toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+  .toolbar button{background:#eef2ff;color:#111;border:1px solid #d0d7de}
+  .editor[contenteditable]{background:#fff;border:1px solid #d0d7de;border-radius:10px;min-height:120px;padding:10px}
+  .summary{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .summary .card{display:flex;align-items:center;justify-content:space-between}
+  .summary .big{font-size:1.4rem;font-weight:800}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;background:#eef2ff;border:1px solid #d0d7de}
+  .muted{color:#6b7280}
+  .file-list{font-size:.9rem}
+  .comment{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:10px;padding:8px;margin:6px 0}
+  .right{justify-content:flex-end}
+  .flex{display:flex;gap:8px;align-items:center}
+  .space{height:6px}
+  .hidden{display:none}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .notice{font-size:.9rem;color:#374151}
+  @media (max-width:900px){.row{grid-template-columns:repeat(6,1fr)}.col-6{grid-column:span 6}.col-4{grid-column:span 6}.col-3{grid-column:span 6}.col-8{grid-column:span 6}.summary{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 <header>
-  <img id="companyLogo" src="" alt="" style="display:none;">
-  <span><i class="fas fa-hard-hat"></i> EHS Permit-to-Work System</span>
+  <img id="companyLogo" alt="Logo" />
+  <span><i class="fa-solid fa-helmet-safety"></i> EHS Permit‑to‑Work System</span>
 </header>
-
 <div class="container">
-<!-- LOGIN PAGE -->
-<div id="loginPage">
-<div class="card">
-<h2><i class="fas fa-sign-in-alt"></i> Login</h2>
-<label>Username</label><input type="text" id="username" placeholder="Username">
-<label>Password</label><input type="password" id="password" placeholder="Password">
-<button onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
-</div>
-</div>
+  <!-- LOGIN -->
+  <div id="loginPage" class="card">
+    <h2><i class="fa-solid fa-right-to-bracket"></i> Login</h2>
+    <div class="row">
+      <div class="col-6"><label>Username</label><input id="username"/></div>
+      <div class="col-6"><label>Password</label><input id="password" type="password"/></div>
+      <div class="col-12"><button onclick="login()"><i class="fa-solid fa-right-to-bracket"></i> Login</button></div>
+      <div class="col-12 notice">Default admin: <b>ptwadmin / ptwadmin</b></div>
+    </div>
+  </div>
 
-<!-- DASHBOARD -->
-<div id="dashboardPage" style="display:none;">
-<div class="card">
-<h2>Welcome, <span id="userDisplay"></span></h2>
-<p>Your role: <b id="roleDisplay"></b></p>
-<button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-</div>
-<nav id="roleNav"></nav>
-<div id="contentSection"></div>
-</div>
+  <!-- DASHBOARD -->
+  <div id="app" class="hidden">
+    <div class="card flex right">
+      <div class="flex" style="margin-right:auto">
+        <div>Welcome, <b id="who"></b> — role: <span class="pill" id="rolePill"></span></div>
+      </div>
+      <button class="ghost" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+    </div>
+
+    <nav id="tabs" class="flex"></nav>
+    <div id="view"></div>
+  </div>
 </div>
 
 <script>
-// ====== INITIALIZATION ======
-let users=JSON.parse(localStorage.getItem('users')||'[]');
-let permits=JSON.parse(localStorage.getItem('permits')||'[]');
-let currentUser=null;
-let logoSrc=localStorage.getItem('logoSrc')||'';
-if(!users.some(u=>u.role==='admin')) users.push({username:'ptwadmin',password:'ptwadmin',role:'admin',email:''});
-localStorage.setItem('users',JSON.stringify(users));
+// ------------------ Storage & Seed ------------------
+const LS = {
+  usersKey: 'ptw_users',
+  permitsKey: 'ptw_permits',
+  logoKey: 'ptw_logo'
+};
+let users = JSON.parse(localStorage.getItem(LS.usersKey) || '[]');
+let permits = JSON.parse(localStorage.getItem(LS.permitsKey) || '[]');
+if (!users.some(u=>u.role==='admin')) users.push({username:'ptwadmin', password:'ptwadmin', role:'admin', email:'', id: cid()});
+localStorage.setItem(LS.usersKey, JSON.stringify(users));
+let currentUser = null;
+let logoSrc = localStorage.getItem(LS.logoKey)||'';
+if (logoSrc) { const img=document.getElementById('companyLogo'); img.src=logoSrc; img.style.display='block'; }
 
-// ====== LOGIN / LOGOUT ======
+function saveUsers(){ localStorage.setItem(LS.usersKey, JSON.stringify(users)); }
+function savePermits(){ localStorage.setItem(LS.permitsKey, JSON.stringify(permits)); }
+function cid(){ return Math.random().toString(36).slice(2)+Date.now().toString(36); }
+function today(){ const d=new Date(); return d.toISOString().slice(0,10); }
+function now(){ return new Date().toLocaleString(); }
+
+// ------------------ Auth ------------------
 function login(){
-  const username=document.getElementById('username').value;
-  const password=document.getElementById('password').value;
-  const user=users.find(u=>u.username===username && u.password===password);
-  if(!user){ alert("Invalid credentials"); return; }
-  currentUser=user;
-  document.getElementById('userDisplay').innerText=user.username;
-  document.getElementById('roleDisplay').innerText=user.role;
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('dashboardPage').style.display='block';
-  if(logoSrc){ document.getElementById('companyLogo').src=logoSrc; document.getElementById('companyLogo').style.display='inline-block'; }
-  renderNav(); showSection(currentUser.role==='admin'?'userManagement':'permitManagement');
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  const found = users.find(x=>x.username===u && x.password===p);
+  if(!found) return alert('Invalid credentials');
+  currentUser = found;
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('who').textContent = currentUser.username;
+  document.getElementById('rolePill').textContent = currentUser.role;
+  renderTabs();
 }
-function logout(){ currentUser=null; document.getElementById('loginPage').style.display='block'; document.getElementById('dashboardPage').style.display='none';}
+function logout(){ currentUser=null; document.getElementById('app').classList.add('hidden'); document.getElementById('loginPage').classList.remove('hidden'); }
 
-// ====== NAVIGATION ======
-function renderNav(){ const nav=document.getElementById('roleNav'); nav.innerHTML=''; 
-if(currentUser.role==='admin'){ nav.innerHTML=`<button onclick="showSection('userManagement')">User Management</button><button onclick="showSection('permitManagement')">Permit Management</button><button onclick="showSection('uploadLogo')">Upload Logo</button>`; } 
-else nav.innerHTML=`<button onclick="showSection('permitManagement')">Permit Management</button>`;}
-function showSection(section){ renderContent(section);}
+// ------------------ Tabs ------------------
+function renderTabs(){
+  const tabs=document.getElementById('tabs');
+  tabs.innerHTML='';
+  const addTab=(id,icon,label)=>{ const b=document.createElement('button'); b.className='tab'; b.id='tab_'+id; b.innerHTML=`<i class="${icon}"></i> ${label}`; b.onclick=()=>show(id); tabs.appendChild(b); };
+  if(currentUser.role==='admin') addTab('users','fa-solid fa-user-gear','Admin');
+  addTab('permits','fa-solid fa-file-signature','Permits');
+  addTab('dashboard','fa-solid fa-gauge-high','Dashboard');
+  addTab('branding','fa-solid fa-image','Branding');
+  show(currentUser.role==='admin'?'users':'permits');
+}
+function activateTab(id){ [...document.querySelectorAll('.tab')].forEach(b=>b.classList.remove('active')); const t=document.getElementById('tab_'+id); if(t) t.classList.add('active'); }
+function show(id){ activateTab(id); const v=document.getElementById('view'); v.innerHTML=''; if(id==='users') viewUsers(v); if(id==='permits') viewPermits(v); if(id==='dashboard') viewDashboard(v); if(id==='branding') viewBranding(v); }
 
-// ====== TOOLBAR ======
-function formatDoc(cmd,value=null){ document.execCommand(cmd,false,value); }
-function insertLink(){ const url=prompt("Enter URL:"); if(url) document.execCommand('createLink', false, url);}
-function insertTable(){ const rows=parseInt(prompt("Rows","2")); const cols=parseInt(prompt("Columns","2")); if(rows>0 && cols>0){ let t="<table border='1' style='border-collapse:collapse;width:100%;'>"; for(let r=0;r<rows;r++){ t+="<tr>"; for(let c=0;c<cols;c++){ t+="<td>&nbsp;</td>"; } t+="</tr>"; } t+="</table>"; document.execCommand('insertHTML', false, t); } 
+// ------------------ Admin: Users ------------------
+function viewUsers(root){ if(currentUser.role!=='admin'){ root.innerHTML='<div class="card">Not authorized.</div>'; return; }
+  const card=document.createElement('div'); card.className='card';
+  card.innerHTML=`<h3><i class="fa-solid fa-user-gear"></i> User Management</h3>
+  <div class="row">
+    <div class="col-3"><label>Username</label><input id="u_name"></div>
+    <div class="col-3"><label>Password</label><input id="u_pass"></div>
+    <div class="col-3"><label>Email</label><input id="u_mail"></div>
+    <div class="col-3"><label>Role</label>
+      <select id="u_role"><option value="holder">Permit Holder</option><option value="issuer">Issuer</option><option value="verifier">Verifier</option><option value="admin">Admin</option></select>
+    </div>
+    <div class="col-12"><button onclick="addUser()"><i class="fa-solid fa-user-plus"></i> Add User</button></div>
+  </div>`;
+  root.appendChild(card);
 
-// ====== STATUS BADGE ======
-function getStatusBadge(status){
-  switch(status){
-    case 'Preparing': return `<span class="badge badge-Preparing"><i class="fas fa-cog"></i> Preparing</span>`;
-    case 'Under Review': return `<span class="badge badge-UnderReview"><i class="fas fa-hourglass-half"></i> Under Review</span>`;
-    case 'Approved': return `<span class="badge badge-Approved"><i class="fas fa-check"></i> Approved</span>`;
-    case 'Suspended': return `<span class="badge badge-Suspended"><i class="fas fa-exclamation-triangle"></i> Suspended</span>`;
-    case 'Rejected': return `<span class="badge badge-Rejected"><i class="fas fa-times"></i> Rejected</span>`;
-    default: return `<span class="badge badge-Draft">${status}</span>`;
+  const list=document.createElement('div'); list.className='card';
+  list.innerHTML='<h3><i class="fa-solid fa-users"></i> Existing Users</h3>';
+  const tbl=document.createElement('table');
+  tbl.innerHTML='<thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead><tbody id="u_tbody"></tbody>';
+  list.appendChild(tbl); root.appendChild(list);
+  refreshUserRows();
+}
+function addUser(){ const n=v('u_name'), p=v('u_pass'), m=v('u_mail'), r=v('u_role'); if(!n||!p) return alert('Enter username & password'); if(users.some(x=>x.username===n)) return alert('Username exists'); users.push({id:cid(),username:n,password:p,email:m||'',role:r}); saveUsers(); clear('u_name','u_pass','u_mail'); refreshUserRows(); }
+function refreshUserRows(){ const tb=document.getElementById('u_tbody'); if(!tb) return; tb.innerHTML=''; users.forEach(u=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${u.username}</td><td>${u.email||''}</td><td>${u.role}</td><td>
+  <button class="ghost" onclick="editUser('${u.id}')"><i class='fa-solid fa-pen'></i></button>
+  <button class="ghost" onclick="delUser('${u.id}')"><i class='fa-solid fa-trash'></i></button></td>`; tb.appendChild(tr); }); }
+function editUser(id){ const u=users.find(x=>x.id===id); if(!u) return; const nu=prompt('Username',u.username)||u.username; const np=prompt('Password',u.password)||u.password; const nm=prompt('Email',u.email||'')||u.email; const nr=prompt('Role [holder|issuer|verifier|admin]',u.role)||u.role; u.username=nu; u.password=np; u.email=nm; u.role=nr; saveUsers(); refreshUserRows(); }
+function delUser(id){ if(!confirm('Delete this user?')) return; users=users.filter(x=>x.id!==id); saveUsers(); refreshUserRows(); }
+
+// ------------------ Branding (Logo) ------------------
+function viewBranding(root){ const card=document.createElement('div'); card.className='card'; card.innerHTML=`<h3><i class="fa-solid fa-image"></i> Company Branding</h3>
+  <input type="file" id="logoInput" accept="image/*" />
+  <div class="space"></div>
+  <button onclick="uploadLogo()"><i class="fa-solid fa-upload"></i> Upload Logo</button>
+  <p class='notice'>Logo appears in header and exported PDFs.</p>`; root.appendChild(card); }
+function uploadLogo(){ const f=document.getElementById('logoInput'); if(!f.files||!f.files[0]) return alert('Choose a logo image'); const r=new FileReader(); r.onload=e=>{ logoSrc=e.target.result; localStorage.setItem(LS.logoKey,logoSrc); const img=document.getElementById('companyLogo'); img.src=logoSrc; img.style.display='block'; alert('Logo saved'); }; r.readAsDataURL(f.files[0]); }
+
+// ------------------ Permits ------------------
+const STAT = { PREP:'Preparing', UR:'Under Review', OK:'Approved', SUS:'Suspended', REJ:'Rejected' };
+const TYPES = ['Cold Work (General)','Hot Work','Electrical','Confined Space','Work at Height','Excavation'];
+
+function viewPermits(root){
+  // Creator / editor panel for Permit Holder
+  if(currentUser.role==='holder') root.appendChild(permitEditorCard());
+
+  // Filters & Table
+  const list=new DOMParser().parseFromString(`<div class="card" id="permList">
+    <h3><i class="fa-solid fa-table-list"></i> Permits</h3>
+    <div class="grid-2">
+      <div>
+        <label>Search</label><input id="f_q" placeholder="PTW number, holder, location, description..." oninput="renderPermitRows()" />
+      </div>
+      <div class="row">
+        <div class="col-4"><label>Status</label><select id="f_status" onchange="renderPermitRows()"><option value="">All</option><option>Preparing</option><option>Under Review</option><option>Approved</option><option>Suspended</option><option>Rejected</option></select></div>
+        <div class="col-4"><label>Type</label><select id="f_type" onchange="renderPermitRows()"><option value="">All</option>${TYPES.map(t=>`<option>${t}</option>`).join('')}</select></div>
+        <div class="col-4"><label>Holder</label><select id="f_holder" onchange="renderPermitRows()"><option value="">All</option>${users.filter(u=>u.role==='holder').map(u=>`<option>${u.username}</option>`).join('')}</select></div>
+      </div>
+    </div>
+    <div class="space"></div>
+    <table>
+      <thead><tr><th>PTW #</th><th>Type</th><th>Location</th><th>Date & Time</th><th>Holder</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="permRows"></tbody>
+    </table>
+  </div>`, 'text/html').body.firstChild;
+  root.appendChild(list);
+  renderPermitRows();
+}
+
+function badge(status){
+  if(status===STAT.PREP) return `<span class='badge b-prep'><i class="fa-solid fa-gear"></i> ${status}</span>`;
+  if(status===STAT.UR) return `<span class='badge b-ur'><i class="fa-solid fa-hourglass-half"></i> ${status}</span>`;
+  if(status===STAT.OK) return `<span class='badge b-ok'><i class="fa-solid fa-check"></i> ${status}</span>`;
+  if(status===STAT.SUS) return `<span class='badge b-sus'><i class="fa-solid fa-triangle-exclamation"></i> ${status}</span>`;
+  if(status===STAT.REJ) return `<span class='badge b-rej'><i class="fa-solid fa-xmark"></i> ${status}</span>`;
+  return status;
+}
+
+function renderPermitRows(){
+  const tb=document.getElementById('permRows'); if(!tb) return; tb.innerHTML='';
+  const q=(v('f_q')||'').toLowerCase();
+  const fs=v('f_status'); const ft=v('f_type'); const fh=v('f_holder');
+  let view = permits.slice().filter(p=>{
+    let ok=true;
+    if(fs && p.status!==fs) ok=false;
+    if(ft && p.type!==ft) ok=false;
+    if(fh && p.holder!==fh) ok=false;
+    if(q){ const blob=(p.number+' '+p.holder+' '+p.location+' '+strip(p.descriptionHTML)).toLowerCase(); if(!blob.includes(q)) ok=false; }
+    // role-based visibility
+    if(currentUser.role==='holder' && p.createdBy!==currentUser.id) ok=false;
+    return ok;
+  });
+  view.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  view.forEach(p=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${p.number}</td><td>${p.type}</td><td>${p.location}</td><td>${p.date} ${p.time}</td><td>${p.holder}</td><td>${badge(p.status)}</td>
+    <td class='flex'>
+      <button class='ghost' onclick="openPermit('${p.id}')"><i class='fa-solid fa-eye'></i></button>
+      <button class='ghost' onclick="exportPDF('${p.id}')"><i class='fa-solid fa-file-pdf'></i></button>
+      ${ currentUser.role==='admin' ? `<button class='ghost' onclick="deletePermit('${p.id}')"><i class='fa-solid fa-trash'></i></button>`:''}
+    </td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function deletePermit(id){ if(!confirm('Delete this permit?')) return; permits = permits.filter(p=>p.id!==id); savePermits(); renderPermitRows(); refreshDashboard(); }
+
+// ------------------ Permit Editor (Holder) ------------------
+function permitEditorCard(){
+  const wrap=document.createElement('div'); wrap.className='card';
+  wrap.innerHTML=`<h3><i class="fa-solid fa-file-circle-plus"></i> Create / Edit Permit</h3>
+    <div class='row'>
+      <div class='col-4'><label>PTW Number</label><input id='ptw_no' placeholder='Auto' disabled></div>
+      <div class='col-4'><label>Permit Type</label><select id='ptw_type'>${TYPES.map(t=>`<option>${t}</option>`).join('')}</select></div>
+      <div class='col-4'><label>Work Location</label><input id='ptw_loc' placeholder='Area / Unit / Coordinates'></div>
+      <div class='col-3'><label>Date</label><input id='ptw_date' type='date' value='${today()}'></div>
+      <div class='col-3'><label>Time</label><input id='ptw_time' type='time'></div>
+      <div class='col-3'><label>Permit Holder</label><input id='ptw_holder' value='${currentUser.username}'></div>
+      <div class='col-3'><label>Safety Contact #</label><input id='ptw_contact' placeholder='+91-...'></div>
+      <div class='col-12'><label>Work Description / JSA Notes</label>
+        <div class='toolbar'>
+          <button onclick="fmt('bold')"><i class='fa-solid fa-bold'></i></button>
+          <button onclick="fmt('italic')"><i class='fa-solid fa-italic'></i></button>
+          <button onclick="fmt('underline')"><i class='fa-solid fa-underline'></i></button>
+          <button onclick="fmt('insertUnorderedList')"><i class='fa-solid fa-list-ul'></i></button>
+          <button onclick="fmt('insertOrderedList')"><i class='fa-solid fa-list-ol'></i></button>
+          <button onclick="insertLink()"><i class='fa-solid fa-link'></i></button>
+          <button onclick="insertTable()"><i class='fa-solid fa-table-cells'></i></button>
+          <button onclick="fmt('undo')"><i class='fa-solid fa-rotate-left'></i></button>
+          <button onclick="fmt('redo')"><i class='fa-solid fa-rotate-right'></i></button>
+          <button onclick="clearFormat()"><i class='fa-solid fa-eraser'></i></button>
+        </div>
+        <div id='ptw_desc' class='editor' contenteditable></div>
+      </div>
+      <div class='col-6'>
+        <label>Upload JSA (PDF/Image/Doc)</label>
+        <input id='ptw_jsa' type='file' multiple onchange='captureFiles(this, "jsa")'>
+        <div id='jsa_list' class='file-list muted'></div>
+      </div>
+      <div class='col-6'>
+        <label>Supporting Documents</label>
+        <input id='ptw_files' type='file' multiple onchange='captureFiles(this, "files")'>
+        <div id='file_list' class='file-list muted'></div>
+      </div>
+      <div class='col-12 flex right'>
+        <button class='ghost' onclick='resetEditor()'><i class="fa-solid fa-broom"></i> Reset</button>
+        <button onclick='saveDraft()'><i class="fa-solid fa-floppy-disk"></i> Save Draft</button>
+        <button onclick='submitForReview()'><i class="fa-solid fa-paper-plane"></i> Submit for Review</button>
+      </div>
+    </div>`;
+  return wrap;
+}
+
+let tempUploads = {jsa:[], files:[]};
+function captureFiles(input, kind){
+  const files=[...input.files];
+  const promises = files.map(f=> new Promise(res=>{ const r=new FileReader(); r.onload=e=>res({name:f.name, data:e.target.result, size:f.size}); r.readAsDataURL(f); }));
+  Promise.all(promises).then(list=>{ tempUploads[kind] = tempUploads[kind].concat(list); renderUploadList(); input.value=''; });
+}
+function renderUploadList(){ document.getElementById('jsa_list').innerHTML = tempUploads.jsa.map(f=>`<div><i class='fa-regular fa-file-lines'></i> ${f.name} (${fmtSize(f.size)})</div>`).join('')||'None'; document.getElementById('file_list').innerHTML = tempUploads.files.map(f=>`<div><i class='fa-regular fa-file'></i> ${f.name} (${fmtSize(f.size)})</div>`).join('')||'None'; }
+function fmtSize(b){ if(!b&&b!==0) return ''; const u=['B','KB','MB','GB']; let i=0; while(b>1024&&i<u.length-1){b/=1024;i++} return b.toFixed(1)+' '+u[i]; }
+
+function fmt(cmd){ document.execCommand(cmd,false,null); }
+function insertLink(){ const url=prompt('URL'); if(url) document.execCommand('createLink',false,url); }
+function insertTable(){ const r=+prompt('Rows',2)||2; const c=+prompt('Columns',2)||2; let html='<table style="width:100%;border-collapse:collapse" border="1">'; for(let i=0;i<r;i++){ html+='<tr>'; for(let j=0;j<c;j++) html+='<td>&nbsp;</td>'; html+='</tr>'; } html+='</table>'; document.execCommand('insertHTML',false,html); }
+function clearFormat(){ document.execCommand('removeFormat'); }
+
+function genPTWNumber(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); const seq = (permits.filter(p=>p.number.startsWith(`PTW-${y}${m}${day}`)).length+1).toString().padStart(3,'0'); return `PTW-${y}${m}${day}-${seq}`; }
+
+function collectEditor(){
+  return {
+    number: document.getElementById('ptw_no').value || genPTWNumber(),
+    type: v('ptw_type'),
+    location: v('ptw_loc'),
+    date: v('ptw_date')||today(),
+    time: v('ptw_time')||'08:00',
+    holder: v('ptw_holder')||currentUser.username,
+    safetyContact: v('ptw_contact')||'',
+    descriptionHTML: document.getElementById('ptw_desc').innerHTML.trim(),
+    jsa: tempUploads.jsa,
+    files: tempUploads.files
   }
 }
 
-// ====== PLACEHOLDER FUNCTIONS ======
-function renderContent(section){ const c=document.getElementById('contentSection'); c.innerHTML=''; 
-if(section==='userManagement' && currentUser.role==='admin') renderUserManagement(c);
-else if(section==='permitManagement') renderPermitManagement(c);
-else if(section==='uploadLogo' && currentUser.role==='admin'){ const card=document.createElement('div'); card.className='card'; card.innerHTML=`<h3>Upload Logo</h3><input type="file" id="logoInput" accept="image/*"><button onclick="uploadLogo()">Upload & Save</button>`; c.appendChild(card);}}
+function resetEditor(){ ['ptw_loc','ptw_time','ptw_contact'].forEach(id=>document.getElementById(id).value=''); document.getElementById('ptw_desc').innerHTML=''; tempUploads={jsa:[],files:[]}; renderUploadList(); document.getElementById('ptw_no').value=''; document.getElementById('ptw_date').value=today(); }
 
-// ====== ADMIN USER MANAGEMENT ======
-function renderUserManagement(c){ const card=document.createElement('div'); card.className='card';
-card.innerHTML=`<h3>User Management</h3><label>Username</label><input type="text" id="newUsername"><label>Password</label><input type="text" id="newPassword"><label>Email</label><input type="email" id="newEmail"><label>Role</label><select id="newRole"><option value="holder">Permit Holder</option><option value="verifier">Verifier</option><option value="issuer">Issuer</option><option value="admin">Admin</option></select><button onclick="addUser()">Add User</button><h4>Existing Users</h4><div id="userList"></div>`; c.appendChild(card); renderUserList();}
-function addUser(){ const username=document.getElementById('newUsername').value; const password=document.getElementById('newPassword').value; const email=document.getElementById('newEmail').value; const role=document.getElementById('newRole').value; if(!username||!password){ alert('Enter username & password'); return;} if(users.some(u=>u.username===username)){ alert('User exists'); return;} users.push({username,password,role,email}); localStorage.setItem('users',JSON.stringify(users)); alert('User added!'); document.getElementById('newUsername').value=''; document.getElementById('newPassword').value=''; document.getElementById('newEmail').value=''; renderUserList();}
-function renderUserList(){ const ul=document.getElementById('userList'); ul.innerHTML=''; users.forEach(u=>{ const div=document.createElement('div'); div.innerHTML=`${u.username} [${u.role}] Email: ${u.email} <button onclick="editUser('${u.username}')">Edit</button> <button onclick="removeUser('${u.username}')">Remove</button>`; ul.appendChild(div);});}
-function removeUser(username){ if(!confirm(`Delete user ${username}?`)) return; users=users.filter(u=>u.username!==username); localStorage.setItem('users',JSON.stringify(users)); renderUserList();}
-function editUser(username){ const u=users.find(u=>u.username===username); if(!u) return; const newUsername=prompt("Edit Username",u.username); const newPassword=prompt("Edit Password",u.password); const newEmail=prompt("Edit Email",u.email); if(newUsername) u.username=newUsername; if(newPassword) u.password=newPassword; if(newEmail) u.email=newEmail; localStorage.setItem('users',JSON.stringify(users)); renderUserList();}
+function saveDraft(){
+  const data=collectEditor();
+  if(!data.location || !data.type){ return alert('Type and Location are required'); }
+  const obj={
+    id: cid(), number:data.number, type:data.type, location:data.location, date:data.date, time:data.time,
+    holder:data.holder, safetyContact:data.safetyContact, descriptionHTML:data.descriptionHTML,
+    jsa:data.jsa, files:data.files, status: STAT.PREP, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+    createdBy: currentUser.id, comments:[], history:[{at:now(), by:currentUser.username, action:'Created draft'}]
+  };
+  permits.push(obj); savePermits(); alert('Draft saved: '+obj.number); resetEditor(); renderPermitRows(); refreshDashboard(); }
 
-// ====== LOGO UPLOAD ======
-function uploadLogo(){ const input=document.getElementById('logoInput'); if(input.files.length===0){alert('Select file'); return;} const reader=new FileReader(); reader.onload=function(e){ logoSrc=e.target.result; localStorage.setItem('logoSrc',logoSrc); document.getElementById('companyLogo').src=logoSrc; document.getElementById('companyLogo').style.display='inline-block'; alert('Logo uploaded!');}; reader.readAsDataURL(input.files[0]);}
+function submitForReview(){
+  const data=collectEditor();
+  if(!data.location || !data.type || !data.descriptionHTML){ return alert('Type, Location and Description are required'); }
+  const obj={
+    id: cid(), number:data.number, type:data.type, location:data.location, date:data.date, time:data.time,
+    holder:data.holder, safetyContact:data.safetyContact, descriptionHTML:data.descriptionHTML,
+    jsa:data.jsa, files:data.files, status: STAT.UR, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+    createdBy: currentUser.id, comments:[{by:currentUser.username, role:'holder', text:'Submitted for review', at:now()}],
+    history:[{at:now(), by:currentUser.username, action:'Submitted for review'}]
+  };
+  permits.push(obj); savePermits(); alert('Submitted: '+obj.number); resetEditor(); renderPermitRows(); refreshDashboard(); }
 
-// ====== PERMIT MANAGEMENT PLACEHOLDER ======
-function renderPermitManagement(c){ c.innerHTML='<div class="card"><h3>Permit Management Dashboard</h3><p>Full permit creation, review, comments, attachments, and PDF export will be implemented here.</p></div>'; }
+// ------------------ View / Action on Permit ------------------
+function openPermit(id){ const p=permits.find(x=>x.id===id); if(!p) return alert('Not found');
+  const dlg=document.createElement('div'); dlg.className='card';
+  const canEdit = (currentUser.role==='holder' && p.createdBy===currentUser.id && (p.status===STAT.PREP || p.status===STAT.REJ));
+  const actionBar = actionButtons(p);
+  dlg.innerHTML=`<h3><i class='fa-solid fa-file'></i> Permit ${p.number} ${badge(p.status)}</h3>
+  <div class='row'>
+    <div class='col-3'><b>Type:</b> ${p.type}</div>
+    <div class='col-3'><b>Location:</b> ${p.location}</div>
+    <div class='col-3'><b>Date:</b> ${p.date}</div>
+    <div class='col-3'><b>Time:</b> ${p.time}</div>
+    <div class='col-3'><b>Holder:</b> ${p.holder}</div>
+    <div class='col-3'><b>Safety #:</b> ${p.safetyContact||'-'}</div>
+    <div class='col-6 right'>
+      ${actionBar}
+      <button class='ghost' onclick="exportPDF('${p.id}')"><i class='fa-solid fa-file-pdf'></i> PDF</button>
+    </div>
+    <div class='col-12'><div class='card'><h4><i class='fa-solid fa-clipboard-list'></i> Work Description / JSA Notes</h4><div>${p.descriptionHTML||'<em>None</em>'}</div></div></div>
+    <div class='col-6'><div class='card'><h4><i class='fa-regular fa-file-lines'></i> JSA</h4>${filesList(p.jsa)}</div></div>
+    <div class='col-6'><div class='card'><h4><i class='fa-regular fa-file'></i> Attachments</h4>${filesList(p.files)}</div></div>
+    <div class='col-12'><div class='card'>
+      <h4><i class='fa-solid fa-comments'></i> Review & Comments</h4>
+      <div id='c_list'>${p.comments.map(c=>commentHTML(c)).join('')||'<div class="muted">No comments</div>'}</div>
+      <div class='flex'>
+        <input id='c_text' placeholder='Add a comment to collaborate'>
+        <button onclick="addComment('${p.id}')"><i class='fa-solid fa-paper-plane'></i> Post</button>
+      </div>
+    </div></div>
+    ${ canEdit? `<div class='col-12'><div class='card'>${editSection(p)}</div></div>`:''}
+  </div>`;
+
+  const v=document.getElementById('view'); v.innerHTML=''; v.appendChild(dlg);
+}
+
+function actionButtons(p){
+  if(currentUser.role==='issuer' || currentUser.role==='verifier'){
+    return `<div class='flex right'>
+      <button class='ghost' onclick="setStatus('${p.id}','${STAT.OK}')"><i class='fa-solid fa-check'></i> Approve</button>
+      <button class='ghost' onclick="setStatus('${p.id}','${STAT.SUS}')"><i class='fa-solid fa-pause'></i> Suspend</button>
+      <button class='ghost' onclick="setStatus('${p.id}','${STAT.REJ}')"><i class='fa-solid fa-xmark'></i> Reject</button>
+    </div>`;
+  }
+  if(currentUser.role==='holder' && p.createdBy===currentUser.id && (p.status===STAT.PREP||p.status===STAT.REJ)){
+    return `<div class='flex right'>
+      <button class='ghost' onclick="resubmit('${p.id}')"><i class='fa-solid fa-paper-plane'></i> Resubmit</button>
+    </div>`;
+  }
+  return '';
+}
+
+function resubmit(id){ const p=permits.find(x=>x.id===id); if(!p) return; p.status=STAT.UR; p.history.push({at:now(), by:currentUser.username, action:'Resubmitted for review'}); p.comments.push({by:currentUser.username,role:'holder',text:'Resubmitted after revisions',at:now()}); p.updatedAt=new Date().toISOString(); savePermits(); openPermit(id); renderPermitRows(); refreshDashboard(); }
+
+function setStatus(id,status){ const p=permits.find(x=>x.id===id); if(!p) return; const action = status===STAT.OK?'Approved': status===STAT.SUS?'Suspended':'Rejected'; p.status=status; p.history.push({at:now(), by:currentUser.username, action}); p.comments.push({by:currentUser.username, role:currentUser.role, text:action, at:now()}); p.updatedAt=new Date().toISOString(); savePermits(); openPermit(id); renderPermitRows(); refreshDashboard(); }
+
+function addComment(id){ const p=permits.find(x=>x.id===id); if(!p) return; const t=v('c_text'); if(!t) return; p.comments.push({by:currentUser.username, role:currentUser.role, text:t, at:now()}); p.updatedAt=new Date().toISOString(); savePermits(); openPermit(id); }
+
+function editSection(p){
+  return `<h4><i class='fa-solid fa-pen-to-square'></i> Edit (Permit Holder)</h4>
+    <div class='row'>
+      <div class='col-4'><label>Type</label><select id='e_type'>${TYPES.map(t=>`<option ${p.type===t?'selected':''}>${t}</option>`).join('')}</select></div>
+      <div class='col-4'><label>Location</label><input id='e_loc' value='${esc(p.location)}'></div>
+      <div class='col-2'><label>Date</label><input id='e_date' type='date' value='${p.date}'></div>
+      <div class='col-2'><label>Time</label><input id='e_time' type='time' value='${p.time}'></div>
+      <div class='col-4'><label>Safety Contact</label><input id='e_contact' value='${esc(p.safetyContact||'')}'></div>
+      <div class='col-12'><label>Description</label><div id='e_desc' class='editor' contenteditable>${p.descriptionHTML||''}</div></div>
+      <div class='col-6'>
+        <label>Add JSA</label><input type='file' multiple onchange="editAddFiles(event,'${p.id}','jsa')">
+        <div class='file-list'>${filesList(p.jsa)}</div>
+      </div>
+      <div class='col-6'>
+        <label>Add Attachments</label><input type='file' multiple onchange="editAddFiles(event,'${p.id}','files')">
+        <div class='file-list'>${filesList(p.files)}</div>
+      </div>
+      <div class='col-12 right'>
+        <button onclick="saveEdits('${p.id}')"><i class='fa-solid fa-floppy-disk'></i> Save Changes</button>
+      </div>
+    </div>`;
+}
+
+function editAddFiles(ev,id,kind){ const files=[...ev.target.files]; const promises=files.map(f=>new Promise(res=>{ const r=new FileReader(); r.onload=e=>res({name:f.name, data:e.target.result, size:f.size}); r.readAsDataURL(f);})); Promise.all(promises).then(list=>{ const p=permits.find(x=>x.id===id); if(!p) return; p[kind]=p[kind].concat(list); p.updatedAt=new Date().toISOString(); savePermits(); openPermit(id); }); }
+
+function saveEdits(id){ const p=permits.find(x=>x.id===id); if(!p) return; p.type=v('e_type'); p.location=v('e_loc'); p.date=v('e_date'); p.time=v('e_time'); p.safetyContact=v('e_contact'); p.descriptionHTML=document.getElementById('e_desc').innerHTML; p.updatedAt=new Date().toISOString(); p.history.push({at:now(), by:currentUser.username, action:'Edited permit'}); savePermits(); alert('Saved'); openPermit(id); renderPermitRows(); refreshDashboard(); }
+
+function filesList(arr){ if(!arr||!arr.length) return '<div class="muted">None</div>'; return `<ul>${arr.map(f=>`<li><a href='${f.data}' download='${f.name}'>${f.name}</a> <span class='muted'>(${fmtSize(f.size)})</span></li>`).join('')}</ul>`; }
+
+// ------------------ PDF Export ------------------
+async function exportPDF(id){ const p=permits.find(x=>x.id===id); if(!p) return; const { jsPDF } = window.jspdf; const doc=new jsPDF({unit:'pt',format:'a4'});
+  let y=40; if(logoSrc){ const img = new Image(); img.src=logoSrc; await img.decode().catch(()=>{}); try{ doc.addImage(logoSrc,'PNG',40,y,80,40);}catch(e){} }
+  doc.setFontSize(16); doc.text('Permit to Work (PTW)', 140, 60);
+  doc.setFontSize(10);
+  doc.text(`PTW #: ${p.number}`, 40, 100);
+  doc.text(`Type: ${p.type}`, 40, 115);
+  doc.text(`Location: ${p.location}`, 40, 130);
+  doc.text(`Date/Time: ${p.date} ${p.time}`, 40, 145);
+  doc.text(`Holder: ${p.holder}`, 40, 160);
+  doc.text(`Safety Contact: ${p.safetyContact||'-'}`, 40, 175);
+  doc.text(`Status: ${p.status}`, 40, 190);
+  // Description: render HTML -> canvas -> image
+  const temp=document.createElement('div'); temp.style.width='500px'; temp.innerHTML=`<div style="font-family:sans-serif;font-size:12px;"><b>Description / JSA:</b><div>${p.descriptionHTML||''}</div></div>`; document.body.appendChild(temp);
+  const canv = await html2canvas(temp,{scale:1}); const imgData=canv.toDataURL('image/png'); document.body.removeChild(temp);
+  doc.addImage(imgData,'PNG',40,210,515,Math.min(400, (canv.height/canv.width)*515));
+  let yy=630; doc.setFontSize(12); doc.text('Attachments',40,yy); yy+=14; doc.setFontSize(10);
+  const list=[...(p.jsa||[]),...(p.files||[])]; if(!list.length){ doc.text('None',40,yy); } else { list.forEach((f,i)=>{ if(yy>780){ doc.addPage(); yy=40; } doc.text(`• ${f.name} (${fmtSize(f.size)})`, 40, yy); yy+=14; }); }
+  doc.save(`${p.number}.pdf`);
+}
+
+// ------------------ Dashboard ------------------
+function viewDashboard(root){ const card=document.createElement('div'); card.className='card'; card.innerHTML=`<h3><i class='fa-solid fa-gauge-high'></i> Live Overview</h3><div class='summary' id='sumCards'></div>`; root.appendChild(card);
+  const charts=document.createElement('div'); charts.className='row'; charts.innerHTML=`
+    <div class='col-6'><div class='card'><canvas id='chStatus'></canvas></div></div>
+    <div class='col-6'><div class='card'><canvas id='chType'></canvas></div></div>
+    <div class='col-12'><div class='card'><canvas id='chLoc'></canvas></div></div>`; root.appendChild(charts);
+  refreshDashboard();
+}
+
+let _chStatus,_chType,_chLoc;
+function refreshDashboard(){
+  const sum=document.getElementById('sumCards'); if(sum){ const all=permits.slice(); const byS=(s)=>all.filter(p=>p.status===s).length; sum.innerHTML=''; const blocks=[
+    {label:'Total', val:all.length, icon:'fa-layer-group'},
+    {label:STAT.UR, val:byS(STAT.UR), icon:'fa-hourglass-half'},
+    {label:STAT.OK, val:byS(STAT.OK), icon:'fa-check'},
+    {label:STAT.SUS, val:byS(STAT.SUS), icon:'fa-triangle-exclamation'},
+    {label:STAT.REJ, val:byS(STAT.REJ), icon:'fa-xmark'},
+  ];
+  blocks.forEach(b=>{ const c=document.createElement('div'); c.className='card'; c.innerHTML=`<div>${b.label}</div><div class='big'><i class='fa-solid ${b.icon}'></i> ${b.val}</div>`; sum.appendChild(c); }); }
+
+  const ctxS=document.getElementById('chStatus'); if(ctxS){ const counts=groupCount(permits,p=>p.status); const labels=Object.keys(counts); const data=Object.values(counts); _chStatus && _chStatus.destroy(); _chStatus=new Chart(ctxS,{type:'doughnut', data:{labels, datasets:[{data}]}, options:{plugins:{legend:{position:'bottom'}}}}); }
+  const ctxT=document.getElementById('chType'); if(ctxT){ const counts=groupCount(permits,p=>p.type); const labels=Object.keys(counts); const data=Object.values(counts); _chType && _chType.destroy(); _chType=new Chart(ctxT,{type:'bar', data:{labels, datasets:[{data}]}, options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}}); }
+  const ctxL=document.getElementById('chLoc'); if(ctxL){ const counts=groupCount(permits,p=>p.location); const labels=Object.keys(counts); const data=Object.values(counts); _chLoc && _chLoc.destroy(); _chLoc=new Chart(ctxL,{type:'bar', data:{labels, datasets:[{data}]}, options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}}); }
+}
+function groupCount(arr, key){ const m={}; arr.forEach(x=>{ const k=key(x)||'Unknown'; m[k]=(m[k]||0)+1; }); return m; }
+
+// ------------------ Helpers ------------------
+function v(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+function clear(){ [...arguments].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; }); }
+function strip(html){ const tmp=document.createElement('div'); tmp.innerHTML=html||''; return tmp.textContent||tmp.innerText||''; }
+function esc(s){ return (s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;'); }
+
+// Initial render if already logged (debug)
 </script>
 </body>
 </html>
