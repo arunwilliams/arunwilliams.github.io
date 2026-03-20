@@ -62,14 +62,18 @@ nav.solid{background:rgba(10,10,8,.96);backdrop-filter:blur(22px);border-color:v
 .h-bg-slide{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
-  filter:brightness(.62) saturate(.82);
+  filter:brightness(.42) saturate(.7);
   opacity:0;
   animation:bgCycle 32s ease-in-out infinite;
 }
-.h-bg-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=85');animation-delay:0s;}
-.h-bg-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1509390874189-a80a4bde941f?w=1800&q=85');animation-delay:8s;}
-.h-bg-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=1800&q=85');animation-delay:16s;}
-.h-bg-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1800&q=85');animation-delay:24s;}
+/* 1: HSE workers in hi-vis on industrial site */
+.h-bg-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1800&q=80');background-position:center 40%;animation-delay:0s;}
+/* 2: Oil refinery at night with flares */
+.h-bg-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1800&q=80');background-position:center;animation-delay:8s;}
+/* 3: Construction cranes and highrise buildings */
+.h-bg-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=80');background-position:center;animation-delay:16s;}
+/* 4: Dubai Marina skyline at dusk */
+.h-bg-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1800&q=80');background-position:center 60%;animation-delay:24s;}
 
 /* ── SUN / MOON / FIREWORKS / SNOW KEYFRAMES ── */
 /* Sun arc across sky */
@@ -114,8 +118,8 @@ nav.solid{background:rgba(10,10,8,.96);backdrop-filter:blur(22px);border-color:v
 .h-ov{
   position:absolute;inset:0;z-index:4;
   background:
-    linear-gradient(to right, rgba(10,10,8,.90) 0%, rgba(10,10,8,.60) 38%, rgba(10,10,8,.22) 62%, rgba(10,10,8,.08) 100%),
-    linear-gradient(to top, rgba(10,10,8,.88) 0%, rgba(10,10,8,.18) 30%, transparent 55%);
+    linear-gradient(to right, rgba(10,10,8,.82) 0%, rgba(10,10,8,.5) 38%, rgba(10,10,8,.18) 62%, rgba(10,10,8,.04) 100%),
+    linear-gradient(to top, rgba(10,10,8,.78) 0%, rgba(10,10,8,.12) 28%, transparent 50%);
 }
 
 /* ── HERO THEMED ANIMATIONS ── */
@@ -170,74 +174,78 @@ nav.solid{background:rgba(10,10,8,.96);backdrop-filter:blur(22px);border-color:v
 .h-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(232,92,26,.14);border:1px solid var(--bordero);padding:5px 14px;border-radius:100px;font-family:var(--f-m);font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ore);margin-bottom:1.2rem;opacity:0;animation:ru .7s .2s var(--ease) forwards;}
 .h-tag .d{width:6px;height:6px;border-radius:50%;background:var(--ore);animation:blip 1.8s infinite;}
 @keyframes blip{0%,100%{opacity:1}50%{opacity:.15}}
-.h-title{font-family:var(--f-d);font-size:clamp(3.5rem,10vw,9rem);font-weight:900;line-height:.88;letter-spacing:-1px;text-transform:uppercase;color:var(--w);margin-bottom:1.8rem;opacity:0;animation:ru .8s .3s var(--ease) forwards;}
+/* h-title defined below */
 .h-title .g{-webkit-text-stroke:1.5px rgba(255,255,255,.22);color:transparent;}
-/* ── HERO TITLE — ATTRACTIVE SPACED LAYOUT ── */
+/* ── HERO TITLE — THREE-LINE CINEMATIC LAYOUT ── */
 .h-title{
-  display:flex;flex-direction:column;gap:.18em;
+  display:flex;flex-direction:column;
+  gap:.12em;
   margin-bottom:1.8rem;
   opacity:0;animation:ru .8s .3s var(--ease) forwards;
 }
 .h-title-get{
-  font-family:var(--f-d);font-size:clamp(3.5rem,10vw,9rem);
-  font-weight:300;line-height:.9;letter-spacing:.12em;
-  text-transform:uppercase;color:rgba(255,255,255,.55);
+  font-family:var(--f-d);
+  font-size:clamp(2.4rem,6vw,6rem);
+  font-weight:300;line-height:1;letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.45);
   display:block;
 }
-/* Middle word slot — tallest, most prominent */
+/* Middle word — the hero element */
 .typed-wrap{
-  display:flex;align-items:center;gap:.2em;
-  font-family:var(--f-d);font-size:clamp(4rem,12vw,10.5rem);
-  font-weight:900;line-height:.88;letter-spacing:-2px;text-transform:uppercase;
-  position:relative;height:1.1em;overflow:hidden;
-  min-width:0;
+  display:block;
+  position:relative;
+  height:clamp(4.2rem,13vw,11rem);
+  overflow:hidden;
 }
 .flip-word{
   position:absolute;left:0;top:0;
-  display:flex;align-items:center;gap:.15em;white-space:nowrap;
-  opacity:0;transform:translateY(80px) scale(.93);
-  transition:opacity 1.5s cubic-bezier(.22,1,.36,1),transform 1.5s cubic-bezier(.22,1,.36,1);
+  display:flex;align-items:center;gap:.18em;white-space:nowrap;
+  font-family:var(--f-d);
+  font-size:clamp(4rem,12vw,10.5rem);
+  font-weight:900;line-height:1;letter-spacing:-1px;
   text-transform:uppercase;
+  opacity:0;transform:translateY(70px) scale(.94);
+  transition:opacity 1.5s cubic-bezier(.22,1,.36,1),transform 1.5s cubic-bezier(.22,1,.36,1);
 }
-/* Reset text-transform on emoji so it renders correctly */
+/* Reset text-transform/stroke on emoji children */
 .flip-word .flip-flag{
   text-transform:none !important;
   -webkit-text-stroke:0 !important;
+  letter-spacing:0 !important;
   font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif !important;
 }
 /* Country-specific colours */
-.flip-word:nth-child(1){color:#E85C1A;text-shadow:0 0 60px rgba(232,92,26,.5);}
-.flip-word:nth-child(2){color:#FFD700;text-shadow:0 0 60px rgba(255,215,0,.55);}
-.flip-word:nth-child(3){color:#74C69D;text-shadow:0 0 60px rgba(116,198,157,.45);}
-.flip-word:nth-child(4){color:#CF101A;text-shadow:0 0 60px rgba(207,16,26,.5);}
-.flip-word:nth-child(5){color:#60A5FA;text-shadow:0 0 60px rgba(96,165,250,.5);}
-.flip-word:nth-child(6){color:#FF9933;text-shadow:0 0 60px rgba(255,153,51,.5);}
+.flip-word:nth-child(1){color:#E85C1A;text-shadow:0 0 60px rgba(232,92,26,.45);}  /* Interview */
+.flip-word:nth-child(2){color:#FFD700;text-shadow:0 0 60px rgba(255,215,0,.5);}   /* Gulf */
+.flip-word:nth-child(3){color:#74C69D;text-shadow:0 0 55px rgba(116,198,157,.4);} /* Career */
+.flip-word:nth-child(4){color:#CF101A;text-shadow:0 0 60px rgba(207,16,26,.45);}  /* UK */
+.flip-word:nth-child(5){color:#60A5FA;text-shadow:0 0 60px rgba(96,165,250,.45);} /* Australia */
+.flip-word:nth-child(6){color:#FF9933;text-shadow:0 0 55px rgba(255,153,51,.45);} /* India */
 .flip-word.active{opacity:1;transform:translateY(0) scale(1);}
-.flip-word.exit{opacity:0;transform:translateY(-80px) scale(1.06);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1);}
-/* Flag emoji next to word */
+.flip-word.exit{opacity:0;transform:translateY(-70px) scale(1.05);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1);}
+/* Flag next to word */
 .flip-flag{
-  font-size:.72em;line-height:1;
-  display:inline-block;
+  font-size:.6em;line-height:1;display:inline-flex;align-items:center;
   font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif;
-  font-style:normal;font-weight:normal;
-  text-transform:none;letter-spacing:0;
+  font-style:normal;font-weight:normal;text-transform:none;letter-spacing:0;
   -webkit-text-stroke:0;color:initial;
-  filter:drop-shadow(0 0 10px rgba(255,255,255,.35));
-  animation:flagBounce 2.5s ease-in-out infinite;
-  vertical-align:middle;
+  animation:flagBounce 2.8s ease-in-out infinite;
+  flex-shrink:0;
 }
-@keyframes flagBounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+@keyframes flagBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 /* "Ready." line */
 .h-title-ready{
-  font-family:var(--f-d);font-size:clamp(3.5rem,10vw,9rem);
-  font-weight:800;line-height:.9;letter-spacing:.06em;
+  font-family:var(--f-d);
+  font-size:clamp(2.4rem,6vw,6rem);
+  font-weight:800;line-height:1;letter-spacing:.18em;
   text-transform:uppercase;
-  -webkit-text-stroke:1.8px rgba(255,255,255,.28);
+  -webkit-text-stroke:1.8px rgba(255,255,255,.3);
   color:transparent;
   display:block;
   animation:readyPulse 5s ease-in-out infinite;
 }
-@keyframes readyPulse{0%,100%{-webkit-text-stroke:1.8px rgba(255,255,255,.28);letter-spacing:.06em}50%{-webkit-text-stroke:1.8px rgba(255,255,255,.55);letter-spacing:.14em}}
+@keyframes readyPulse{0%,100%{-webkit-text-stroke:1.8px rgba(255,255,255,.3);letter-spacing:.18em}50%{-webkit-text-stroke:1.8px rgba(255,255,255,.6);letter-spacing:.26em}}
 .h-desc{font-size:1rem;color:rgba(255,255,255,.6);line-height:1.75;max-width:480px;margin-bottom:1.8rem;opacity:0;animation:ru .8s .5s var(--ease) forwards;}
 .h-btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:ru .8s .65s var(--ease) forwards;}
 .btn-p{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--ore),var(--ore3));color:var(--w);font-family:var(--f-d);font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:14px 30px;border:none;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--t),box-shadow var(--t);}
@@ -669,8 +677,9 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
   .d-grid2{grid-template-columns:1fr;}
 }
 @media(max-width:640px){
-  .h-title,.typed-wrap{font-size:clamp(2.8rem,13vw,5rem);}
-  .typed-wrap{height:1.05em;}
+  .h-title-get,.h-title-ready{font-size:clamp(1.8rem,8vw,3rem);}
+  .typed-wrap{height:clamp(4rem,15vw,6rem);}
+  .flip-word{font-size:clamp(3.5rem,13vw,5.5rem);}
   .h-stats{flex-wrap:wrap;}
   .hs{flex:1 1 45%;border-bottom:1px solid var(--border);}
   .hs:nth-child(2){border-right:none;}
@@ -1431,12 +1440,12 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <div class="h-title">
       <span class="h-title-get">Get</span>
       <span class="typed-wrap">
-        <span class="flip-word active" id="fword0">Interview<span class="flip-flag">🎯</span></span>
-        <span class="flip-word"        id="fword1"><span class="flip-flag">🇦🇪</span>Gulf</span>
-        <span class="flip-word"        id="fword2">Career<span class="flip-flag">🌍</span></span>
-        <span class="flip-word"        id="fword3"><span class="flip-flag">🇬🇧</span>UK</span>
-        <span class="flip-word"        id="fword4"><span class="flip-flag" style="font-family:unset;filter:none;animation:none;"><svg width="52" height="34" viewBox="0 0 52 34" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;border-radius:3px;box-shadow:0 0 12px rgba(0,0,139,.5);animation:flagWave 2.5s ease-in-out infinite;transform-origin:left center;overflow:hidden"><defs><style>@keyframes flagWave{0%,100%{transform:perspective(120px) rotateY(-2deg) skewY(.5deg)}50%{transform:perspective(120px) rotateY(2deg) skewY(-.5deg)}}</style></defs><!-- Blue background --><rect width="52" height="34" fill="#00247D"/><!-- Union Jack in top-left quarter --><g><rect x="0" y="0" width="26" height="17" fill="#00247D"/><!-- White diagonals --><line x1="0" y1="0" x2="26" y2="17" stroke="white" stroke-width="5"/><line x1="26" y1="0" x2="0" y2="17" stroke="white" stroke-width="5"/><!-- Red diagonals (St Patrick) --><line x1="0" y1="0" x2="26" y2="17" stroke="#CF101A" stroke-width="2.5"/><line x1="26" y1="0" x2="0" y2="17" stroke="#CF101A" stroke-width="2.5"/><!-- White cross --><rect x="11" y="0" width="4" height="17" fill="white"/><rect x="0" y="7" width="26" height="3" fill="white"/><!-- Red cross --><rect x="12" y="0" width="2" height="17" fill="#CF101A"/><rect x="0" y="8" width="26" height="1" fill="#CF101A"/></g><!-- Commonwealth star (bottom-left) --><g fill="white" transform="translate(7,24)"><polygon points="0,-4 .9,-1.2 3.8,-1.2 1.5,.5 2.4,3.2 0,1.5 -2.4,3.2 -1.5,.5 -3.8,-1.2 -.9,-1.2"/></g><!-- Southern Cross stars --><g fill="white"><!-- Alpha --><polygon points="39,7 39.7,9.2 42,9.2 40.2,10.5 40.9,12.7 39,11.4 37.1,12.7 37.8,10.5 36,9.2 38.3,9.2" transform="scale(.9)"/><!-- Beta --><polygon points="46,3 46.5,4.6 48,4.6 46.8,5.5 47.3,7.1 46,6.2 44.7,7.1 45.2,5.5 44,4.6 45.5,4.6" transform="scale(.8)"/><!-- Gamma --><polygon points="46,17 46.5,18.6 48,18.6 46.8,19.5 47.3,21.1 46,20.2 44.7,21.1 45.2,19.5 44,18.6 45.5,18.6" transform="scale(.8)"/><!-- Delta --><polygon points="39,21 39.5,22.4 41,22.4 39.8,23.1 40.3,24.5 39,23.8 37.7,24.5 38.2,23.1 37,22.4 38.5,22.4" transform="scale(.82)"/><!-- Epsilon (small) --><polygon points="42,14 42.3,15 43.4,15 42.5,15.5 42.8,16.5 42,16 41.2,16.5 41.5,15.5 40.6,15 41.7,15" transform="scale(.75)"/></g></svg></span>Australia</span>
-        <span class="flip-word"        id="fword5"><span class="flip-flag">🇮🇳</span>India</span>
+        <span class="flip-word active" id="fword0">Interview <span class="flip-flag">🎯</span></span>
+        <span class="flip-word"        id="fword1"><span class="flip-flag">🇦🇪</span> Gulf</span>
+        <span class="flip-word"        id="fword2"><span class="flip-flag">🇨🇦</span> Canada</span>
+        <span class="flip-word"        id="fword3"><span class="flip-flag">🇬🇧</span> UK</span>
+        <span class="flip-word"        id="fword4"><span class="flip-flag">🇦🇺</span> Australia</span>
+        <span class="flip-word"        id="fword5"><span class="flip-flag">🇮🇳</span> India</span>
       </span>
       <span class="h-title-ready">Ready.</span>
     </div>
