@@ -2734,10 +2734,10 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <div class="rv-r">
       <p>We're onboarding our first cohort of candidates and interviewers now. Join the waitlist and be first when we go live.</p>
       <div class="cta-btns">
-        <a href="mailto:hello@proprep.in" class="btn-p" style="justify-content:center;">Join Waitlist as Candidate ↗</a>
-        <a href="mailto:expert@proprep.in" class="btn-o" style="justify-content:center;border-color:rgba(255,255,255,.22);">Apply as an Interviewer</a>
+        <a href="/cdn-cgi/l/email-protection#345c5158585b7444465b444651441a5d5a" class="btn-p" style="justify-content:center;">Join Waitlist as Candidate ↗</a>
+        <a href="/cdn-cgi/l/email-protection#d2b7aaa2b7a0a692a2a0bda2a0b7a2fcbbbc" class="btn-o" style="justify-content:center;border-color:rgba(255,255,255,.22);">Apply as an Interviewer</a>
       </div>
-      <div class="cta-email">Questions? <a href="mailto:hello@proprep.in">hello@proprep.in</a></div>
+      <div class="cta-email">Questions? <a href="/cdn-cgi/l/email-protection#254d4049494a6555574a555740550b4c4b"><span class="__cf_email__" data-cfemail="a1c9c4cdcdcee1d1d3ced1d3c4d18fc8cf">[email&#160;protected]</span></a></div>
     </div>
   </div>
 </section>
@@ -2748,9 +2748,9 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <div>
       <div class="ft-logo">Pro<em>Prep</em></div>
       <div class="ft-about">India's niche interview prep platform for HSE, Oil &amp; Gas and Construction professionals targeting domestic and international careers.</div>
-      <div class="ft-c">Candidates: <a href="mailto:hello@proprep.in">hello@proprep.in</a></div>
-      <div class="ft-c">Experts: <a href="mailto:expert@proprep.in">expert@proprep.in</a></div>
-      <div class="ft-c">Institutions: <a href="mailto:institutes@proprep.in">institutes@proprep.in</a></div>
+      <div class="ft-c">Candidates: <a href="/cdn-cgi/l/email-protection#721a171e1e1d3202001d020017025c1b1c"><span class="__cf_email__" data-cfemail="e48c8188888ba494968b94968194ca8d8a">[email&#160;protected]</span></a></div>
+      <div class="ft-c">Experts: <a href="/cdn-cgi/l/email-protection#84e1fcf4e1f6f0c4f4f6ebf4f6e1f4aaedea"><span class="__cf_email__" data-cfemail="35504d455047417545475a454750451b5c5b">[email&#160;protected]</span></a></div>
+      <div class="ft-c">Institutions: <a href="/cdn-cgi/l/email-protection#c2abacb1b6abb6b7b6a7b182b2b0adb2b0a7b2ecabac"><span class="__cf_email__" data-cfemail="533a3d20273a27262736201323213c232136237d3a3d">[email&#160;protected]</span></a></div>
     </div>
     <div>
       <div class="ft-col-h">Platform</div>
@@ -3086,6 +3086,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
             <div class="wr-title">Ready for Your Session?</div>
             <div class="wr-sub">Check your camera and microphone before joining</div>
             <div class="cam-preview" onclick="toggleCandCamPreview(this)">
+              <video id="candPreviewVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:6px;" autoplay muted playsinline></video>
               <div class="cam-preview-label" id="camPreviewLabel">
                 <span style="font-size:1.5rem">📷</span>
                 <span>Click to enable camera</span>
@@ -3124,6 +3125,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
               </div>
               <!-- Candidate feed -->
               <div class="vid-cell cam-on" id="candSelfCell">
+                <video id="candSelfVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;border-radius:6px;" autoplay muted playsinline></video>
                 <div class="vid-feed active" style="animation-delay:1.3s"></div>
                 <div class="vid-person"><div class="vid-silhouette" style="background:linear-gradient(180deg,#1e2030 0%,#252838 35%,#111520 100%)"></div></div>
                 <div class="vid-avatar" id="candAvatar">RM</div>
@@ -3340,7 +3342,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
           <div class="pd-card">
             <div class="pd-card-title">Personal Details</div>
             <label class="a-lbl">Full Name</label><input class="a-inp" value="Arun Kumar" type="text">
-            <label class="a-lbl">Email</label><input class="a-inp" value="expert@proprep.in" type="email">
+            <label class="a-lbl">Email</label><input class="a-inp" value="arun.kumar.hse@gmail.com" type="email">
             <label class="a-lbl">Current Position</label><input class="a-inp" value="Senior HSE Manager, ADNOC" type="text">
             <label class="a-lbl">LinkedIn</label><input class="a-inp" value="linkedin.com/in/arunkumar" type="url">
             <button class="a-btn e" style="margin-top:1rem">Save Changes</button>
@@ -3365,6 +3367,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
             <div class="wr-title">Start Your Session</div>
             <div class="wr-sub">Review candidate details, then join when ready</div>
             <div class="cam-preview" onclick="toggleExpCamPreview(this)">
+              <video id="expPreviewVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:6px;" autoplay muted playsinline></video>
               <div class="cam-preview-label" id="expCamPreviewLabel">
                 <span style="font-size:1.5rem">📷</span>
                 <span>Click to enable camera</span>
@@ -3391,6 +3394,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
             <div class="vid-grid">
               <!-- Expert feed (self) -->
               <div class="vid-cell cam-on" id="expSelfCell">
+                <video id="expSelfVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;border-radius:6px;" autoplay muted playsinline></video>
                 <div class="vid-feed active" style="animation-delay:0.5s"></div>
                 <div class="vid-person"><div class="vid-silhouette" style="background:linear-gradient(180deg,#1a2030 0%,#202838 35%,#0f1420 100%)"></div></div>
                 <div class="vid-avatar" id="expAvatar">AK</div>
@@ -3526,85 +3530,145 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
 </div><!-- end portalOverlay -->
 
 <script>
-/* Cursor */
+/* ══════════════════════════════════════════════════════════════════════
+   PROPREP — FULLY FUNCTIONAL JAVASCRIPT
+   Storage: localStorage  |  Video: WebRTC  |  Auth: client-side
+══════════════════════════════════════════════════════════════════════ */
+
+/* ── CURSOR ── */
 const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
 if(window.innerWidth>900){
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+  (function curLoop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(curLoop);})();
   document.querySelectorAll('a,button').forEach(el=>{
     el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
     el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
   });
 }
 
-/* Particle Canvas */
+/* ── PARTICLE CANVAS ── */
 const canvas=document.getElementById('pCanvas'),ctx=canvas.getContext('2d');
 let W,H,parts=[];
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=document.getElementById('hero').offsetHeight;}
-resize();window.addEventListener('resize',resize);
+function resizeCv(){W=canvas.width=window.innerWidth;H=canvas.height=document.getElementById('hero').offsetHeight;}
+resizeCv();window.addEventListener('resize',resizeCv);
 class P{constructor(){this.r();}r(){this.x=Math.random()*W;this.y=Math.random()*H;this.rad=Math.random()*1.3+.3;this.vx=(Math.random()-.5)*.3;this.vy=(Math.random()-.5)*.3;this.a=Math.random()*.28+.06;this.col=Math.random()>.65?'232,92,26':'255,255,255';}u(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.r();}d(){ctx.beginPath();ctx.arc(this.x,this.y,this.rad,0,Math.PI*2);ctx.fillStyle='rgba('+this.col+','+this.a+')';ctx.fill();}}
 const pCount=window.innerWidth<640?35:75;
 for(let i=0;i<pCount;i++)parts.push(new P());
 function drawLines(){for(let i=0;i<parts.length;i++)for(let j=i+1;j<parts.length;j++){const dx=parts[i].x-parts[j].x,dy=parts[i].y-parts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<90){ctx.beginPath();ctx.moveTo(parts[i].x,parts[i].y);ctx.lineTo(parts[j].x,parts[j].y);ctx.strokeStyle='rgba(232,92,26,'+(0.06*(1-d/90))+')';ctx.lineWidth=.5;ctx.stroke();}}}
-(function anim(){ctx.clearRect(0,0,W,H);parts.forEach(p=>{p.u();p.d();});drawLines();requestAnimationFrame(anim);})();
+(function animParts(){ctx.clearRect(0,0,W,H);parts.forEach(p=>{p.u();p.d();});drawLines();requestAnimationFrame(animParts);})();
 
-/* Hero bg zoom + parallax */
-/* Hero bg - crossfade handled by CSS, no JS needed */
-
-/* Slow phrase flip — each country word rises in gently */
-const flipWords = document.querySelectorAll('.flip-word');
-let flipIdx = 0;
-function nextFlip() {
-  const current = flipWords[flipIdx];
-  current.classList.remove('active');
-  current.classList.add('exit');
-  flipIdx = (flipIdx + 1) % flipWords.length;
-  const next = flipWords[flipIdx];
-  next.classList.remove('exit');
-  setTimeout(() => { next.classList.add('active'); }, 180);
-  setTimeout(() => { current.classList.remove('exit'); }, 1400);
-}
-// Start cycling after initial 3.5s hold, then every 4.5s
-setTimeout(() => { setInterval(nextFlip, 4500); }, 3500);
-
-/* Nav */
+/* ── NAV ── */
 const nav=document.getElementById('mainNav');
 window.addEventListener('scroll',()=>nav.classList.toggle('solid',window.scrollY>30));
 function toggleNav(){const mn=document.getElementById('mobNav'),b=document.getElementById('burger');mn.classList.toggle('open');b.classList.toggle('open');document.body.style.overflow=mn.classList.contains('open')?'hidden':'';}
 function closeNav(){document.getElementById('mobNav').classList.remove('open');document.getElementById('burger').classList.remove('open');document.body.style.overflow='';}
 
-/* Scroll reveal */
+/* ── WORD FLIP ── */
+const flipWords=document.querySelectorAll('.flip-word');
+let flipIdx=0;
+function nextFlip(){const cur2=flipWords[flipIdx];cur2.classList.remove('active');cur2.classList.add('exit');flipIdx=(flipIdx+1)%flipWords.length;const next=flipWords[flipIdx];next.classList.remove('exit');setTimeout(()=>next.classList.add('active'),180);setTimeout(()=>cur2.classList.remove('exit'),1400);}
+setTimeout(()=>setInterval(nextFlip,4500),3500);
+
+/* ── SCROLL REVEAL ── */
 const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.07});
 document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
 
-/* Counters */
+/* ── COUNTERS ── */
 function animCount(el){const target=parseFloat(el.dataset.target),dec=el.dataset.dec?1:0,dur=2200;const s=performance.now();(function step(now){const p=Math.min((now-s)/dur,1),ease=1-Math.pow(1-p,4),val=target*ease;el.textContent=dec?val.toFixed(1):Math.floor(val);if(p<1)requestAnimationFrame(step);else el.textContent=dec?target.toFixed(1):target;})(performance.now());}
 const cio=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animCount(e.target);cio.unobserve(e.target);}});},{threshold:.5});
 document.querySelectorAll('.ct-n').forEach(el=>cio.observe(el));
 
-/* Demo progress */
+/* ── DEMO PROGRESS BAR ── */
 const dFill=document.getElementById('dFill'),dPct=document.getElementById('dPct');
 const sc1=document.getElementById('sc1'),sc2=document.getElementById('sc2'),sc3=document.getElementById('sc3');
 let demoGo=false;
-const dio=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting&&!demoGo){demoGo=true;setTimeout(()=>{dFill.classList.add('go');let p=0;const iv=setInterval(()=>{p=Math.min(p+1,72);dPct.textContent=p+'%';if(p>=72){clearInterval(iv);[sc1,sc2,sc3].forEach((el,i)=>{const targets=[7.8,7.2,7.6];const t=targets[i];let v=0;const si=setInterval(()=>{v=Math.min(v+.1,t);el.textContent=v.toFixed(1);if(v>=t)clearInterval(si);},30);});}},30);},500);dio.unobserve(e.target);}});},{threshold:.3});
+const dio=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting&&!demoGo){demoGo=true;setTimeout(()=>{dFill&&dFill.classList.add('go');let p=0;const iv=setInterval(()=>{p=Math.min(p+1,72);if(dPct)dPct.textContent=p+'%';if(p>=72){clearInterval(iv);[sc1,sc2,sc3].forEach((el,i)=>{if(!el)return;const targets=[7.8,7.2,7.6];const t=targets[i];let v=0;const si=setInterval(()=>{v=Math.min(v+.1,t);el.textContent=v.toFixed(1);if(v>=t)clearInterval(si);},30);});}},30);},500);dio.unobserve(e.target);}});},{threshold:.3});
 if(dFill)dio.observe(dFill);
 
-/* Testimonials */
+/* ── TESTIMONIALS ── */
 let ti=0;
-function scrollTesti(idx){const r=document.getElementById('testiRail');const card=r.children[idx];if(card)r.scrollTo({left:card.offsetLeft-16,behavior:'smooth'});document.querySelectorAll('.tndot').forEach((d,i)=>d.classList.toggle('active',i===idx));ti=idx;}
+function scrollTesti(idx){const r=document.getElementById('testiRail');const card=r&&r.children[idx];if(card)r.scrollTo({left:card.offsetLeft-16,behavior:'smooth'});document.querySelectorAll('.tndot').forEach((d,i)=>d.classList.toggle('active',i===idx));ti=idx;}
 setInterval(()=>{ti=(ti+1)%6;scrollTesti(ti);},4500);
 const tRail=document.getElementById('testiRail');
 if(tRail){let ts=0;tRail.addEventListener('touchstart',e=>{ts=e.touches[0].clientX;},{passive:true});tRail.addEventListener('touchend',e=>{const delta=ts-e.changedTouches[0].clientX;if(Math.abs(delta)>50){ti=delta>0?Math.min(ti+1,5):Math.max(ti-1,0);scrollTesti(ti);}},{passive:true});}
 
-/* Draggable industry track */
+/* ── DRAGGABLE INDUSTRY TRACK ── */
 const iT=document.getElementById('indTrack');
 if(iT){let drag=false,sx,sl;iT.addEventListener('mousedown',e=>{drag=true;sx=e.pageX-iT.offsetLeft;sl=iT.scrollLeft;});iT.addEventListener('mousemove',e=>{if(!drag)return;e.preventDefault();iT.scrollLeft=sl-(e.pageX-iT.offsetLeft-sx)*1.3;});['mouseup','mouseleave'].forEach(ev=>iT.addEventListener(ev,()=>drag=false));}
 
-/* Admin */
+/* ── AVAILABILITY DAYS ── */
+document.querySelectorAll('.avail-day').forEach(d=>{
+  d.addEventListener('click',()=>{
+    d.classList.toggle('on');
+    saveAvailability();
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   USER STORE — localStorage persistence
+═══════════════════════════════════════════════════ */
+const USERS_KEY='pp_users';
+const SESSION_KEY='pp_session';
+
+function getUsers(){
+  try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch{return {};}
+}
+function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u));}
+function getSession(){
+  try{return JSON.parse(localStorage.getItem(SESSION_KEY)||'null');}catch{return null;}
+}
+function setSession(s){
+  if(s)localStorage.setItem(SESSION_KEY,JSON.stringify(s));
+  else localStorage.removeItem(SESSION_KEY);
+}
+
+/* Seed demo accounts on first load */
+(function seedDemoAccounts(){
+  const users=getUsers();
+  const demos=[
+    {email:'rahul.mehta@gmail.com',   pass:'Gulf@2025',   role:'candidate',fname:'Rahul',  lname:'Mehta',  target:'HSE Officer',country:'🇦🇪 UAE / Gulf',exp:'2–5 years'},
+    {email:'arun.kumar.hse@gmail.com',pass:'Expert@2025', role:'expert',   fname:'Arun',   lname:'Kumar',  pos:'Senior HSE Manager, ADNOC',ind:'HSE/EHS — 10+ yrs',country:'UAE',linkedin:'linkedin.com/in/arunkumar'},
+    {email:'admin.proprep@gmail.com', pass:'Admin@2025',  role:'admin',    fname:'Admin',  lname:'ProPrep'}
+  ];
+  demos.forEach(d=>{if(!users[d.email])users[d.email]=d;});
+  saveUsers(users);
+})();
+
+function saveAvailability(){
+  const days=[];
+  document.querySelectorAll('.avail-day').forEach((d,i)=>{if(d.classList.contains('on'))days.push(i);});
+  const sess=getSession();
+  if(sess){sess.availability=days;setSession(sess);}
+}
+function loadAvailability(){
+  const sess=getSession();
+  if(!sess||!sess.availability)return;
+  document.querySelectorAll('.avail-day').forEach((d,i)=>{
+    d.classList.toggle('on',sess.availability.includes(i));
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   ADMIN MODAL (hidden triple-tap footer)
+═══════════════════════════════════════════════════ */
 function openAdmin(){document.getElementById('adminModal').classList.add('open');setTimeout(()=>document.getElementById('aUser').focus(),100);}
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');document.getElementById('aErr').classList.remove('show');}
-function doLogin(){const u=document.getElementById('aUser').value.trim(),p=document.getElementById('aPass').value;if(u==='admin'&&p==='admin123'){closeAdmin();document.getElementById('adminDash').classList.add('open');document.body.style.overflow='hidden';}else{document.getElementById('aErr').classList.add('show');document.getElementById('aPass').value='';document.getElementById('aPass').focus();}}
+function doLogin(){
+  const u=document.getElementById('aUser').value.trim();
+  const p=document.getElementById('aPass').value;
+  const users=getUsers();
+  const user=users[u];
+  if(user&&user.role==='admin'&&user.pass===p){
+    closeAdmin();
+    document.getElementById('adminDash').classList.add('open');
+    document.body.style.overflow='hidden';
+  }else{
+    document.getElementById('aErr').classList.add('show');
+    document.getElementById('aPass').value='';
+    document.getElementById('aPass').focus();
+  }
+}
 function doLogout(){document.getElementById('adminDash').classList.remove('open');document.body.style.overflow='';document.getElementById('aUser').value='';document.getElementById('aPass').value='';}
 document.getElementById('aPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('aUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('aPass').focus();});
@@ -3613,513 +3677,495 @@ document.getElementById('adminModal').addEventListener('click',e=>{if(e.target==
 let tapCount=0,tapTimer;
 document.getElementById('ftAdmin').addEventListener('click',()=>{tapCount++;clearTimeout(tapTimer);tapTimer=setTimeout(()=>tapCount=0,800);if(tapCount>=3){tapCount=0;openAdmin();}});
 
-/* ══════════════════════════════════════
-   ROLE-BASED PORTAL SYSTEM — JS
-══════════════════════════════════════ */
-let _pRole = '';
+/* ═══════════════════════════════════════════════════
+   ROLE-BASED PORTAL — FULLY FUNCTIONAL
+═══════════════════════════════════════════════════ */
+let _pRole='';
 
 function openPortal(e){
-  if(e) e.preventDefault();
+  if(e)e.preventDefault();
+  // If already logged in, go directly to dashboard
+  const sess=getSession();
+  if(sess){
+    document.getElementById('portalOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+    _pLoginSuccess(sess.role,sess.fname,true);
+    return;
+  }
   document.getElementById('portalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
   _pShowView('portalSelect');
 }
 function closePortal(){
   document.getElementById('portalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
+  stopAllStreams();
 }
 function _pShowView(id){
   ['portalSelect','portalAuth','candDash','expertDash'].forEach(v=>{
-    const el = document.getElementById(v);
-    if(!el) return;
-    if(v === 'portalAuth'){
-      el.classList.toggle('show', v===id);
-    } else {
-      el.style.display = v===id ? '' : 'none';
+    const el=document.getElementById(v);
+    if(!el)return;
+    if(v==='portalAuth'){
+      el.classList.toggle('show',v===id);
+    }else{
+      el.style.display=v===id?'':'none';
     }
   });
 }
 function showPortalAuth(role){
-  _pRole = role;
-  const cfg = {
-    candidate: {ico:'🎓', label:'Candidate', cls:'c', demo:'candidate@proprep.in / cand123'},
-    expert:    {ico:'👷', label:'Expert Interviewer', cls:'e', demo:'expert@proprep.in / exp123'},
-    admin:     {ico:'🔐', label:'Administrator', cls:'a', demo:'admin@proprep.in / admin123'}
+  _pRole=role;
+  const cfg={
+    candidate:{ico:'🎓',label:'Candidate',        cls:'c',demo:'rahul.mehta@gmail.com / Gulf@2025'},
+    expert:   {ico:'👷',label:'Expert Interviewer',cls:'e',demo:'arun.kumar.hse@gmail.com / Expert@2025'},
+    admin:    {ico:'🔐',label:'Administrator',     cls:'a',demo:'admin.proprep@gmail.com / Admin@2025'}
   }[role];
-  document.getElementById('authIco').textContent    = cfg.ico;
-  document.getElementById('authLabel').textContent  = cfg.label;
-  const pill = document.getElementById('authPill');
-  pill.textContent = cfg.label; pill.className = 'auth-pill '+cfg.cls;
-  document.getElementById('authStripe').className = 'auth-stripe '+cfg.cls;
-  // Style buttons
-  ['si-btn','rg-btn'].forEach(id=>{
-    const b=document.getElementById(id); if(b) b.className='a-btn '+cfg.cls;
-  });
-  // Tabs
+  document.getElementById('authIco').textContent=cfg.ico;
+  document.getElementById('authLabel').textContent=cfg.label;
+  const pill=document.getElementById('authPill');
+  pill.textContent=cfg.label;pill.className='auth-pill '+cfg.cls;
+  document.getElementById('authStripe').className='auth-stripe '+cfg.cls;
+  ['si-btn','rg-btn'].forEach(id=>{const b=document.getElementById(id);if(b)b.className='a-btn '+cfg.cls;});
   const tabSI=document.getElementById('tabSI'),tabReg=document.getElementById('tabReg');
   tabSI.className='auth-tab on '+cfg.cls;
-  tabReg.style.display = role==='admin' ? 'none' : '';
-  // Show/hide role-specific register fields
-  document.getElementById('rg-cand').style.display = role==='candidate' ? '' : 'none';
-  document.getElementById('rg-exp').style.display  = role==='expert'    ? '' : 'none';
-  // Demo creds
-  document.getElementById('siDemoText').textContent = cfg.demo;
+  tabReg.style.display=role==='admin'?'none':'';
+  document.getElementById('rg-cand').style.display=role==='candidate'?'':'none';
+  document.getElementById('rg-exp').style.display=role==='expert'?'':'none';
+  document.getElementById('siDemoText').textContent=cfg.demo;
+  document.getElementById('si-err').classList.remove('on');
+  document.getElementById('rg-err').classList.remove('on');
   pSwitchTab('signin');
   _pShowView('portalAuth');
 }
-function backToRoles(){
-  _pShowView('portalSelect');
-}
+function backToRoles(){_pShowView('portalSelect');}
 function pSwitchTab(tab){
-  const cfg = {candidate:'c',expert:'e',admin:'a'}[_pRole] || 'c';
-  document.getElementById('formSI').classList.toggle('show', tab==='signin');
-  document.getElementById('formReg').classList.toggle('show', tab==='register');
-  const si=document.getElementById('tabSI'), reg=document.getElementById('tabReg');
-  si.className  = 'auth-tab '+(tab==='signin'  ? 'on '+cfg : '');
-  reg.className = 'auth-tab '+(tab==='register'? 'on '+cfg : '');
+  const cls={candidate:'c',expert:'e',admin:'a'}[_pRole]||'c';
+  document.getElementById('formSI').classList.toggle('show',tab==='signin');
+  document.getElementById('formReg').classList.toggle('show',tab==='register');
+  const si=document.getElementById('tabSI'),reg=document.getElementById('tabReg');
+  si.className='auth-tab '+(tab==='signin'?'on '+cls:'');
+  reg.className='auth-tab '+(tab==='register'?'on '+cls:'');
 }
+
 function doSignIn(){
-  const email=document.getElementById('si-email').value.trim();
-  const pass =document.getElementById('si-pass').value;
-  const err  =document.getElementById('si-err');
+  const email=document.getElementById('si-email').value.trim().toLowerCase();
+  const pass=document.getElementById('si-pass').value;
+  const err=document.getElementById('si-err');
   err.classList.remove('on');
   if(!email||!pass){err.textContent='Please enter your email and password.';err.classList.add('on');return;}
-  const creds={
-    candidate:{e:'candidate@proprep.in',p:'cand123'},
-    expert:   {e:'expert@proprep.in',   p:'exp123'},
-    admin:    {e:'admin@proprep.in',    p:'admin123'}
-  }[_pRole];
-  if(creds && email===creds.e && pass===creds.p){
-    _pLoginSuccess(_pRole,'Demo User');
-  } else {
-    err.textContent='Invalid credentials — see demo credentials below.';
-    err.classList.add('on');
+  const users=getUsers();
+  const user=users[email];
+  if(!user){err.textContent='No account found with this email.';err.classList.add('on');return;}
+  if(user.pass!==pass){err.textContent='Incorrect password. Please try again.';err.classList.add('on');return;}
+  if(user.role!==_pRole&&_pRole!=='admin'){
+    err.textContent='This account is registered as '+user.role+', not '+_pRole+'.';
+    err.classList.add('on');return;
   }
+  if(user.role==='admin'&&_pRole==='admin'&&user.pass!==pass){
+    err.textContent='Invalid admin credentials.';err.classList.add('on');return;
+  }
+  setSession({email,role:user.role,fname:user.fname,lname:user.lname,target:user.target||'',country:user.country||''});
+  _pLoginSuccess(user.role,user.fname);
 }
+
 function doRegister(){
   const fn=document.getElementById('rg-fn').value.trim();
-  const em=document.getElementById('rg-email').value.trim();
+  const ln=document.getElementById('rg-ln').value.trim();
+  const email=document.getElementById('rg-email').value.trim().toLowerCase();
+  const mob=document.getElementById('rg-mob').value.trim();
+  const pass=document.getElementById('rg-pass').value;
   const err=document.getElementById('rg-err');
   err.classList.remove('on');
-  if(!fn||!em){err.textContent='Please fill all required fields.';err.classList.add('on');return;}
-  _pLoginSuccess(_pRole, fn);
+  if(!fn||!email||!pass){err.textContent='First name, email and password are required.';err.classList.add('on');return;}
+  if(pass.length<6){err.textContent='Password must be at least 6 characters.';err.classList.add('on');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Please enter a valid email address.';err.classList.add('on');return;}
+  const users=getUsers();
+  if(users[email]){err.textContent='An account with this email already exists.';err.classList.add('on');return;}
+  const newUser={email,pass,role:_pRole,fname:fn,lname:ln,mob};
+  if(_pRole==='candidate'){
+    newUser.target=document.getElementById('rg-trole').value;
+    newUser.country=document.getElementById('rg-tcountry').value;
+    newUser.exp=document.getElementById('rg-yrs').value;
+  } else if(_pRole==='expert'){
+    newUser.pos=document.getElementById('rg-pos').value;
+    newUser.ind=document.getElementById('rg-ind').value;
+    newUser.country=document.getElementById('rg-country').value;
+    newUser.linkedin=document.getElementById('rg-li').value;
+  }
+  users[email]=newUser;
+  saveUsers(users);
+  setSession({email,role:_pRole,fname:fn,lname:ln,target:newUser.target||'',country:newUser.country||''});
+  _pLoginSuccess(_pRole,fn);
 }
-function _pLoginSuccess(role, name){
+
+function _pLoginSuccess(role,name,fromCache){
   if(role==='admin'){
-    closePortal();
-    document.getElementById('adminDash').classList.add('open');
-    document.body.style.overflow='hidden';
+    if(!fromCache){
+      closePortal();
+      document.getElementById('adminDash').classList.add('open');
+      document.body.style.overflow='hidden';
+    }
     return;
   }
+  const sess=getSession();
   if(role==='candidate'){
-    document.getElementById('candName').textContent = name;
+    const nameEl=document.getElementById('candName');
+    if(nameEl)nameEl.textContent=name;
     const tl=document.getElementById('candTargetLine');
-    const tc=document.getElementById('rg-tcountry'); const tr=document.getElementById('rg-trole');
-    if(tc&&tc.value) tl.textContent='Target: '+(tr&&tr.value?tr.value:'HSE Officer')+' · '+tc.value;
+    if(tl&&sess){
+      const parts=[];
+      if(sess.target)parts.push(sess.target);
+      if(sess.country)parts.push(sess.country);
+      if(parts.length)tl.textContent='Target: '+parts.join(' · ');
+    }
+    // Load saved progress from localStorage
+    loadCandidateData();
     _pShowView('candDash');
     pTab('cand','home',null);
-  } else {
-    document.getElementById('expName').textContent = name;
+  } else if(role==='expert'){
+    const nameEl=document.getElementById('expName');
+    if(nameEl)nameEl.textContent=name;
+    loadAvailability();
     _pShowView('expertDash');
     pTab('exp','home',null);
   }
 }
+
 function portalLogout(){
+  setSession(null);
+  stopAllStreams();
   closePortal();
-  setTimeout(()=>_pShowView('portalSelect'),300);
+  setTimeout(()=>{
+    _pShowView('portalSelect');
+    // Reset form fields
+    ['si-email','si-pass','rg-fn','rg-ln','rg-email','rg-mob','rg-pass'].forEach(id=>{
+      const el=document.getElementById(id);if(el)el.value='';
+    });
+  },300);
 }
-function pTab(dash, page, btn){
-  const prefix = dash==='cand' ? 'cand' : 'exp';
+
+function loadCandidateData(){
+  const sess=getSession();
+  if(!sess)return;
+  const key='pp_cand_'+sess.email;
+  try{
+    const data=JSON.parse(localStorage.getItem(key)||'{}');
+    if(data.scores){
+      ['tech','comm','norm','cv'].forEach(k=>{
+        const el=document.querySelector(`.prog-fill[data-key="${k}"]`);
+        if(el)el.style.width=(data.scores[k]||0)+'%';
+      });
+    }
+  }catch(e){}
+}
+
+function pTab(dash,page,btn){
+  const prefix=dash==='cand'?'cand':'exp';
   document.querySelectorAll('#'+prefix+'Dash .pd-page').forEach(p=>p.classList.remove('show'));
-  const pg = document.getElementById(prefix+'-'+page);
-  if(pg) pg.classList.add('show');
+  const pg=document.getElementById(prefix+'-'+page);
+  if(pg)pg.classList.add('show');
   if(btn){
     document.querySelectorAll('#'+prefix+'Dash .pd-tab').forEach(t=>t.classList.remove('on'));
     btn.classList.add('on');
   }
 }
-// Escape key
+
+/* Escape to close */
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
-    if(document.getElementById('portalOverlay').classList.contains('open')) closePortal();
+    if(document.getElementById('portalOverlay').classList.contains('open'))closePortal();
+    if(document.getElementById('adminModal').classList.contains('open'))closeAdmin();
   }
 });
-// Toggle availability days
-document.querySelectorAll('.avail-day').forEach(d=>d.addEventListener('click',()=>d.classList.toggle('on')));
 
-document.addEventListener('DOMContentLoaded',()=>_pShowView('portalSelect'));
-
-/* ══════════════════════════════════════════
-   MILKY WAY + FULL-PAGE STARFIELD — REDESIGNED
-   Beautiful cosmic canvas covering every section
-══════════════════════════════════════════ */
-(function(){
-  const sc = document.getElementById('starCanvas');
-  if(!sc) return;
-  const cx = sc.getContext('2d');
-  let W, H, t = 0;
-
-  function resize(){
-    W = sc.width  = window.innerWidth;
-    H = sc.height = window.innerHeight;
+/* Auto-login on page load */
+document.addEventListener('DOMContentLoaded',()=>{
+  _pShowView('portalSelect');
+  const sess=getSession();
+  if(sess&&sess.role!=='admin'){
+    // Silently pre-load session state so "Sign In" goes straight to dashboard
   }
-  resize();
-  window.addEventListener('resize', resize);
+});
 
-  /* ── Star class ── */
-  class Star {
-    constructor(){ this.init(true); }
-    init(random){
-      this.x = Math.random() * W;
-      this.y = random ? Math.random() * H : -4;
-      this.size = Math.pow(Math.random(), 3) * 2.2 + 0.2;
-      this.drift = (Math.random() - 0.5) * 0.04;
-      this.fall  = Math.random() * 0.08 + 0.02;
-      this.phase = Math.random() * Math.PI * 2;
-      this.speed = Math.random() * 0.012 + 0.005;
-      // Type: 0=white, 1=gold, 2=blue-white, 3=warm, 4=purple
-      const r = Math.random();
-      this.type = r<.06?1 : r<.12?2 : r<.16?3 : r<.19?4 : 0;
-      const cols = [
-        [255,255,255], [255,215,80], [180,210,255], [255,240,200], [210,170,255]
-      ];
-      this.rgb = cols[this.type];
-    }
-    update(){
-      this.y += this.fall;
-      this.x += this.drift;
-      this.phase += this.speed;
-      if(this.y > H + 4 || this.x < -4 || this.x > W + 4) this.init(false);
-    }
-    draw(){
-      const alpha = (0.4 + 0.6 * Math.sin(this.phase)) *
-                    (this.type === 0 ? 0.7 : 0.85);
-      const [r,g,b] = this.rgb;
-      // Glow for larger stars
-      if(this.size > 1.2){
-        const g2 = cx.createRadialGradient(this.x,this.y,0, this.x,this.y, this.size*4);
-        g2.addColorStop(0, `rgba(${r},${g},${b},${alpha*0.5})`);
-        g2.addColorStop(1, `rgba(${r},${g},${b},0)`);
-        cx.beginPath(); cx.arc(this.x,this.y,this.size*4,0,Math.PI*2);
-        cx.fillStyle = g2; cx.fill();
-      }
-      cx.beginPath(); cx.arc(this.x,this.y,this.size,0,Math.PI*2);
-      cx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
-      cx.fill();
-    }
+/* ═══════════════════════════════════════════════════
+   WebRTC — REAL CAMERA & MICROPHONE
+═══════════════════════════════════════════════════ */
+let _streams={cand:null,exp:null};
+let _micOn={cand:true,exp:true};
+let _camOn={cand:true,exp:true};
+
+async function requestMedia(role){
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1280},height:{ideal:720},facingMode:'user'},audio:true});
+    _streams[role]=stream;
+    return stream;
+  }catch(err){
+    console.warn('Camera/mic access denied:',err.message);
+    return null;
   }
+}
 
-  /* ── Milky Way dust particle ── */
-  class DustParticle {
-    constructor(){ this.init(true); }
-    init(random){
-      // Particles drift along a broad diagonal band
-      const t0 = Math.random();
-      // Band goes from bottom-left to upper-right
-      const bx0 = W * 0.0,  by0 = H * 0.95;
-      const bx1 = W * 1.0,  by1 = H * 0.05;
-      this.x = bx0 + t0*(bx1-bx0) + (Math.random()-0.5)*W*0.28;
-      this.y = random
-        ? by0 + t0*(by1-by0) + (Math.random()-0.5)*H*0.28
-        : by0 + (Math.random()-0.5)*H*0.15;
-      this.r    = Math.random() * 0.85 + 0.1;
-      this.vx   =  0.04 + Math.random()*0.06;
-      this.vy   = -(0.03 + Math.random()*0.05);
-      this.alpha= Math.random() * 0.18 + 0.04;
-      this.phase= Math.random() * Math.PI * 2;
-      this.ps   = Math.random() * 0.006 + 0.003;
-      // Warm whites, blue-whites, faint purples
-      const p = Math.random();
-      this.rgb = p<0.25 ? [200,190,255] : p<0.55 ? [220,235,255] : [255,252,235];
-    }
-    update(){
-      this.x += this.vx; this.y += this.vy; this.phase += this.ps;
-      if(this.x > W+5 || this.y < -5) this.init(false);
-    }
-    draw(){
-      const a = this.alpha * (0.55 + 0.45 * Math.sin(this.phase));
-      const [r,g,b] = this.rgb;
-      cx.beginPath(); cx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-      cx.fillStyle = `rgba(${r},${g},${b},${a})`; cx.fill();
+function attachStream(videoEl,stream){
+  if(!videoEl||!stream)return;
+  videoEl.srcObject=stream;
+  videoEl.autoplay=true;
+  videoEl.muted=true;
+  videoEl.playsInline=true;
+  videoEl.play().catch(()=>{});
+}
+
+function stopAllStreams(){
+  Object.values(_streams).forEach(s=>{
+    if(s)s.getTracks().forEach(t=>t.stop());
+  });
+  _streams={cand:null,exp:null};
+  // Clear video elements
+  ['candSelfVideo','expSelfVideo','candPreviewVideo','expPreviewVideo'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.srcObject=null;}
+  });
+}
+
+/* ── Cam preview (waiting room) ── */
+async function toggleCandCamPreview(el){
+  const lbl=document.getElementById('camPreviewLabel');
+  const videoEl=document.getElementById('candPreviewVideo');
+  if(_streams.cand){
+    stopStream('cand');
+    el.dataset.camon='0';
+    if(videoEl)videoEl.style.display='none';
+    lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';
+  }else{
+    lbl.innerHTML='<span style="font-size:1.5rem">⏳</span><span>Requesting camera...</span>';
+    const stream=await requestMedia('cand');
+    if(stream&&videoEl){
+      videoEl.style.display='block';
+      attachStream(videoEl,stream);
+      lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';
+      el.dataset.camon='1';
+    }else{
+      lbl.innerHTML='<span style="font-size:1.5rem">❌</span><span style="color:#f87171">Camera denied — check browser permissions</span>';
+      el.dataset.camon='0';
     }
   }
+}
 
-  /* ── Shooting star ── */
-  class Shoot {
-    constructor(delay){ this.countdown = delay || Math.random()*400+100; this.active=false; }
-    fire(){
-      this.active = true;
-      this.x = Math.random() * W * 0.75;
-      this.y = Math.random() * H * 0.38;
-      this.angle = 0.18 + Math.random()*0.22;
-      this.len   = Math.random() * 90 + 45;
-      this.spd   = Math.random() * 5.5 + 4;
-      this.progress = 0;
-      this.alpha = 0.9;
-      // Colour
-      const p = Math.random();
-      this.trail = p<0.3 ? [255,210,100] : p<0.5 ? [180,210,255] : [255,255,255];
-    }
-    update(){
-      if(!this.active){ if(--this.countdown <= 0) this.fire(); return; }
-      this.progress += this.spd;
-      this.alpha -= 0.028;
-      if(this.alpha <= 0){ this.active=false; this.countdown=Math.random()*300+80; }
-    }
-    draw(){
-      if(!this.active) return;
-      const ex = this.x + Math.cos(this.angle)*this.progress;
-      const ey = this.y + Math.sin(this.angle)*this.progress;
-      const sx = ex - Math.cos(this.angle)*this.len;
-      const sy = ey - Math.sin(this.angle)*this.len;
-      const g = cx.createLinearGradient(sx,sy,ex,ey);
-      const [r,gb,b] = this.trail;
-      g.addColorStop(0, `rgba(${r},${gb},${b},0)`);
-      g.addColorStop(0.7, `rgba(${r},${gb},${b},${this.alpha*0.6})`);
-      g.addColorStop(1, `rgba(${r},${gb},${b},${this.alpha})`);
-      cx.beginPath(); cx.moveTo(sx,sy); cx.lineTo(ex,ey);
-      cx.strokeStyle = g; cx.lineWidth = 1.5; cx.stroke();
+async function toggleExpCamPreview(el){
+  const lbl=document.getElementById('expCamPreviewLabel');
+  const videoEl=document.getElementById('expPreviewVideo');
+  if(_streams.exp){
+    stopStream('exp');
+    el.dataset.camon='0';
+    if(videoEl)videoEl.style.display='none';
+    lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';
+  }else{
+    lbl.innerHTML='<span style="font-size:1.5rem">⏳</span><span>Requesting camera...</span>';
+    const stream=await requestMedia('exp');
+    if(stream&&videoEl){
+      videoEl.style.display='block';
+      attachStream(videoEl,stream);
+      lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';
+      el.dataset.camon='1';
+    }else{
+      lbl.innerHTML='<span style="font-size:1.5rem">❌</span><span style="color:#f87171">Camera denied</span>';
+      el.dataset.camon='0';
     }
   }
+}
 
-  /* ── Milky Way band (canvas-drawn, animating) ── */
-  function drawMilkyWay(){
-    const pulse = 0.5 + 0.5*Math.sin(t * 0.0008);
+function stopStream(role){
+  if(_streams[role]){_streams[role].getTracks().forEach(t=>t.stop());_streams[role]=null;}
+}
 
-    // Band control points - diagonal lower-left → upper-right
-    const pts = [
-      {x: W*0.00, y: H*1.00},
-      {x: W*0.15, y: H*0.82},
-      {x: W*0.30, y: H*0.65},
-      {x: W*0.45, y: H*0.50},
-      {x: W*0.60, y: H*0.35},
-      {x: W*0.75, y: H*0.20},
-      {x: W*0.90, y: H*0.08},
-      {x: W*1.05, y: H*-0.05},
-    ];
-
-    // Draw multiple layered glows along the band
-    const widths = [
-      {w: H*0.38, a: 0.022 * pulse, rgb:'160,140,220'},
-      {w: H*0.22, a: 0.038 * pulse, rgb:'190,175,240'},
-      {w: H*0.12, a: 0.055 * pulse, rgb:'215,205,255'},
-      {w: H*0.055,a: 0.08  * pulse, rgb:'240,235,255'},
-      {w: H*0.022,a: 0.1   * pulse, rgb:'255,255,255'},
-    ];
-
-    for(const layer of widths){
-      for(let i=0; i<pts.length-1; i++){
-        const p0 = pts[i], p1 = pts[i+1];
-        // Perpendicular direction to band
-        const dx = p1.x-p0.x, dy = p1.y-p0.y;
-        const len = Math.sqrt(dx*dx+dy*dy);
-        const nx = -dy/len, ny = dx/len;
-        const hw = layer.w;
-
-        const grad = cx.createLinearGradient(
-          p0.x + nx*hw, p0.y + ny*hw,
-          p0.x - nx*hw, p0.y - ny*hw
-        );
-        grad.addColorStop(0,   `rgba(${layer.rgb},0)`);
-        grad.addColorStop(0.35,`rgba(${layer.rgb},${layer.a*0.4})`);
-        grad.addColorStop(0.5, `rgba(${layer.rgb},${layer.a})`);
-        grad.addColorStop(0.65,`rgba(${layer.rgb},${layer.a*0.4})`);
-        grad.addColorStop(1,   `rgba(${layer.rgb},0)`);
-
-        cx.beginPath();
-        cx.moveTo(p0.x + nx*hw, p0.y + ny*hw);
-        cx.lineTo(p1.x + nx*hw, p1.y + ny*hw);
-        cx.lineTo(p1.x - nx*hw, p1.y - ny*hw);
-        cx.lineTo(p0.x - nx*hw, p0.y - ny*hw);
-        cx.closePath();
-        cx.fillStyle = grad; cx.fill();
-      }
-    }
-
-    // Nebula colour pockets
-    const nebulae = [
-      {x:W*.22,y:H*.75,rx:W*.1,ry:H*.08,rgb:'80,40,160',a:0.028},
-      {x:W*.45,y:H*.50,rx:W*.08,ry:H*.06,rgb:'40,100,180',a:0.022},
-      {x:W*.68,y:H*.28,rx:W*.09,ry:H*.07,rgb:'160,60,80', a:0.018},
-      {x:W*.85,y:H*.12,rx:W*.07,ry:H*.05,rgb:'60,160,100',a:0.016},
-    ];
-    for(const n of nebulae){
-      cx.save();
-      cx.translate(n.x,n.y);
-      cx.scale(n.rx/n.ry,1);
-      const g2 = cx.createRadialGradient(0,0,0, 0,0,n.ry);
-      g2.addColorStop(0, `rgba(${n.rgb},${n.a*(0.7+0.3*pulse)})`);
-      g2.addColorStop(1, `rgba(${n.rgb},0)`);
-      cx.beginPath(); cx.arc(0,0,n.ry,0,Math.PI*2);
-      cx.fillStyle = g2; cx.fill();
-      cx.restore();
-    }
-
-    // Dense star clusters along band (static but twinkle)
-    const clusters = [
-      {x:W*.18,y:H*.78},{x:W*.28,y:H*.65},{x:W*.38,y:H*.53},
-      {x:W*.50,y:H*.43},{x:W*.60,y:H*.33},{x:W*.72,y:H*.22},{x:W*.82,y:H*.12},
-    ];
-    for(const c of clusters){
-      const a = (0.55+0.45*Math.sin(t*0.002+c.x)) * (0.5+0.5*pulse);
-      cx.beginPath(); cx.arc(c.x,c.y,1.6,0,Math.PI*2);
-      cx.fillStyle=`rgba(255,252,230,${a*0.9})`; cx.fill();
-      cx.beginPath(); cx.arc(c.x+4,c.y-3,1,0,Math.PI*2);
-      cx.fillStyle=`rgba(200,195,255,${a*0.7})`; cx.fill();
-      cx.beginPath(); cx.arc(c.x-5,c.y+4,1.2,0,Math.PI*2);
-      cx.fillStyle=`rgba(255,240,180,${a*0.8})`; cx.fill();
-    }
+/* ── JOIN SESSION ── */
+async function joinCandSession(){
+  const videoEl=document.getElementById('candSelfVideo');
+  if(!_streams.cand){
+    // Try to get media if not already obtained
+    const stream=await requestMedia('cand');
+    if(stream&&videoEl)attachStream(videoEl,stream);
+  }else if(videoEl){
+    attachStream(videoEl,_streams.cand);
   }
-
-  /* ── Init ── */
-  const isMobile = window.innerWidth < 640;
-  const starCount = isMobile ? 90 : 220;
-  const dustCount = isMobile ? 60 : 160;
-  const shootCount = isMobile ? 2 : 4;
-
-  const stars   = Array.from({length:starCount}, ()=>new Star());
-  const dust    = Array.from({length:dustCount},  ()=>new DustParticle());
-  const shoots  = Array.from({length:shootCount}, (_,i)=>new Shoot(i*90+40));
-
-  /* ── Render loop ── */
-  (function loop(){
-    cx.clearRect(0,0,W,H);
-    drawMilkyWay();
-    dust.forEach(p=>{p.update();p.draw();});
-    stars.forEach(s=>{s.update();s.draw();});
-    shoots.forEach(s=>{s.update();s.draw();});
-    t++;
-    requestAnimationFrame(loop);
-  })();
-})();
-/* ══ LIVE SESSION JS ══════════════════════════════════════════════════ */
-let _sessionTimers = {};
-
-function joinCandSession(){
   document.getElementById('cand-waiting').style.display='none';
   document.getElementById('cand-room').style.display='block';
   document.getElementById('candPanel').classList.add('open');
   document.getElementById('candPanelBtn').classList.add('on');
   startTimer('cand');
+  // Show live video cell if stream obtained
+  if(_streams.cand){
+    document.getElementById('candSelfCell').classList.add('cam-on');
+    const feedEl=document.getElementById('candSelfCell');
+    if(feedEl&&videoEl){videoEl.style.display='block';feedEl.style.position='relative';}
+  }
   updateLiveOverall();
 }
-function joinExpSession(){
+
+async function joinExpSession(){
+  const videoEl=document.getElementById('expSelfVideo');
+  if(!_streams.exp){
+    const stream=await requestMedia('exp');
+    if(stream&&videoEl)attachStream(videoEl,stream);
+  }else if(videoEl){
+    attachStream(videoEl,_streams.exp);
+  }
   document.getElementById('exp-waiting').style.display='none';
   document.getElementById('exp-room').style.display='block';
   document.getElementById('expPanel').classList.add('open');
   document.getElementById('expPanelBtn').classList.add('on');
   startTimer('exp');
+  if(_streams.exp){
+    document.getElementById('expSelfCell').classList.add('cam-on');
+  }
   updateLiveOverall();
 }
+
+/* ── SESSION TIMER ── */
+let _sessionTimers={};
+let _sessionSeconds={cand:0,exp:0};
+
 function startTimer(role){
-  let secs = role==='cand' ? 760 : 760; // 12:40 elapsed
-  const el = document.getElementById(role+'Timer');
-  const leftEl = document.getElementById(role==='cand' ? 'candTimeLeft' : null);
-  _sessionTimers[role] = setInterval(()=>{
-    secs++;
-    const m = Math.floor(secs/60), s = secs%60;
-    if(el) el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    const rem = 3600-secs;
-    if(leftEl && rem>0){
-      const rm=Math.floor(rem/60),rs=rem%60;
-      leftEl.textContent = String(rm).padStart(2,'0')+':'+String(rs).padStart(2,'0');
-    }
+  clearInterval(_sessionTimers[role]);
+  _sessionSeconds[role]=0;
+  const el=document.getElementById(role+'Timer');
+  const leftEl=document.getElementById(role==='cand'?'candTimeLeft':null);
+  _sessionTimers[role]=setInterval(()=>{
+    _sessionSeconds[role]++;
+    const s=_sessionSeconds[role];
+    const m=Math.floor(s/60),sec=s%60;
+    if(el)el.textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+    const rem=3600-s;
+    if(leftEl&&rem>0){const rm=Math.floor(rem/60),rs=rem%60;leftEl.textContent=String(rm).padStart(2,'0')+':'+String(rs).padStart(2,'0');}
   },1000);
 }
-function togglePanel(role){
-  const panel = document.getElementById(role+'Panel');
-  const btn = document.getElementById(role+'PanelBtn');
-  panel.classList.toggle('open');
-  if(btn) btn.classList.toggle('on', panel.classList.contains('open'));
-}
-function spTab(btn, role, tab){
-  // Toggle sp-tab active
-  btn.closest('.sp-tabs').querySelectorAll('.sp-tab').forEach(t=>t.classList.remove('on'));
-  btn.classList.add('on');
-  // Show correct content
-  const prefix = role==='cand' ? 'cand-sp' : 'exp-sp';
-  ['questions','notes','info','scoring'].forEach(t=>{
-    const el=document.getElementById(prefix+'-'+t);
-    if(el) el.style.display = t===tab ? '' : 'none';
-  });
-}
+
+/* ── CONTROLS ── */
 function toggleCtrl(btnId){
-  if(!btnId) return;
-  const btn = document.getElementById(btnId);
-  if(!btn) return;
-  btn.classList.toggle('off');
-  // Toggle icon
-  const icons = {'candMicBtn':['🎙️','🔇'],'candCamBtn':['📷','🚫'],'expMicBtn':['🎙️','🔇'],'expCamBtn':['📷','🚫']};
-  if(icons[btnId]){
-    const isOff = btn.classList.contains('off');
-    btn.textContent = icons[btnId][isOff?1:0];
-    // Re-add ctrl-label
-    const lbl = document.createElement('span');
-    lbl.className='ctrl-label';
-    lbl.textContent = btnId.includes('Mic') ? 'Mic' : 'Camera';
-    btn.appendChild(lbl);
-    // Toggle cam-on class on cell
-    if(btnId.includes('camBtn') || btnId.includes('CamBtn')){
-      const cellId = btnId==='candCamBtn' ? 'candSelfCell' : 'expSelfCell';
-      document.getElementById(cellId)?.classList.toggle('cam-on', !isOff);
+  if(!btnId)return;
+  const btn=document.getElementById(btnId);
+  if(!btn)return;
+  const isMic=btnId.includes('Mic');
+  const role=btnId.includes('cand')?'cand':'exp';
+  const isNowOff=!btn.classList.contains('off');
+  btn.classList.toggle('off',isNowOff);
+  // Re-add label after textContent change
+  const labelText=isMic?'Mic':'Camera';
+  btn.textContent=isNowOff?(isMic?'🔇':'🚫'):(isMic?'🎙️':'📷');
+  const lbl=document.createElement('span');lbl.className='ctrl-label';lbl.textContent=labelText;btn.appendChild(lbl);
+  // Apply to actual media stream
+  const stream=_streams[role];
+  if(stream){
+    if(isMic){
+      stream.getAudioTracks().forEach(t=>t.enabled=!isNowOff);
+      _micOn[role]=!isNowOff;
+    }else{
+      stream.getVideoTracks().forEach(t=>t.enabled=!isNowOff);
+      _camOn[role]=!isNowOff;
+      const cellId=role==='cand'?'candSelfCell':'expSelfCell';
+      document.getElementById(cellId)?.classList.toggle('cam-on',!isNowOff);
     }
   }
 }
+
+/* ── PANEL TOGGLE ── */
+function togglePanel(role){
+  const panel=document.getElementById(role+'Panel');
+  const btn=document.getElementById(role+'PanelBtn');
+  panel.classList.toggle('open');
+  if(btn)btn.classList.toggle('on',panel.classList.contains('open'));
+}
+
+/* ── SIDE PANEL TABS ── */
+function spTab(btn,role,tab){
+  btn.closest('.sp-tabs').querySelectorAll('.sp-tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  const prefix=role==='cand'?'cand-sp':'exp-sp';
+  ['questions','notes','info','scoring'].forEach(t=>{
+    const el=document.getElementById(prefix+'-'+t);
+    if(el)el.style.display=t===tab?'':'none';
+  });
+}
+
+/* ── LIVE SCORE CALCULATOR ── */
+function updateLiveOverall(){
+  const sliders=['sl-tech','sl-comm','sl-norm','sl-scen','sl-cv'];
+  const el=document.getElementById('liveOverall');
+  function calc(){
+    const vals=sliders.map(id=>{const s=document.getElementById(id);return s?parseInt(s.value):5;});
+    const avg=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
+    if(el)el.textContent=avg;
+  }
+  calc();
+  sliders.forEach(id=>{
+    const s=document.getElementById(id);
+    if(s)s.addEventListener('input',calc);
+  });
+}
+
+/* ── END SESSION ── */
 function endSession(role){
-  if(!confirm('End this session?')) return;
+  if(!confirm('End this session and submit?'))return;
   clearInterval(_sessionTimers[role]);
+  // Save session duration to localStorage
+  const sess=getSession();
+  if(sess){
+    const key='pp_sessions_'+sess.email;
+    try{
+      const sessions=JSON.parse(localStorage.getItem(key)||'[]');
+      sessions.unshift({date:new Date().toLocaleDateString('en-IN'),duration:_sessionSeconds[role],role,ts:Date.now()});
+      localStorage.setItem(key,JSON.stringify(sessions.slice(0,20)));
+    }catch(e){}
+  }
+  stopStream(role);
   if(role==='cand'){
     document.getElementById('cand-room').style.display='none';
     document.getElementById('cand-postsession').style.display='block';
-  } else {
+  }else{
     document.getElementById('exp-room').style.display='none';
     document.getElementById('exp-postsession').style.display='block';
+    // Save scores for expert
+    saveFeedbackScores();
   }
 }
-function toggleCandCamPreview(el){
-  const lbl = document.getElementById('camPreviewLabel');
-  const isOn = el.dataset.camon==='1';
-  if(!isOn){
-    el.style.background='linear-gradient(135deg,#0d1a2a,#1a2840)';
-    lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';
-    el.dataset.camon='1';
-  } else {
-    el.style.background='';
-    lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';
-    el.dataset.camon='0';
-  }
+
+function saveFeedbackScores(){
+  const sliders=['sl-tech','sl-comm','sl-norm','sl-scen','sl-cv'];
+  const scores={};
+  sliders.forEach(id=>{const s=document.getElementById(id);if(s)scores[id.replace('sl-','')]=parseInt(s.value);});
+  const notes=document.getElementById('expNotes');
+  if(notes)scores.notes=notes.value;
+  const sess=getSession();
+  if(sess){localStorage.setItem('pp_last_feedback_'+sess.email,JSON.stringify(scores));}
 }
-function toggleExpCamPreview(el){
-  const lbl = document.getElementById('expCamPreviewLabel');
-  const isOn = el.dataset.camon==='1';
-  if(!isOn){
-    el.style.background='linear-gradient(135deg,#0d1a2a,#1a2840)';
-    lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';
-    el.dataset.camon='1';
-  } else {
-    el.style.background=''; lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';
-    el.dataset.camon='0';
-  }
-}
-function updateLiveOverall(){
-  const sliders = ['sl-tech','sl-comm','sl-norm','sl-scen','sl-cv'];
-  const el = document.getElementById('liveOverall');
-  if(!el) return;
-  const vals = sliders.map(id=>{const s=document.getElementById(id);return s?parseInt(s.value):0;});
-  const avg = (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
-  el.textContent = avg;
-  // Update on every slider change
-  sliders.forEach(id=>{
-    const s=document.getElementById(id);
-    if(s) s.addEventListener('input',()=>{
-      const v=sliders.map(i=>{const x=document.getElementById(i);return x?parseInt(x.value):0;});
-      const a=(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1);
-      el.textContent=a;
-    });
+
+/* ── NOTIFY ME / BOOK (CTA forms) ── */
+document.querySelectorAll('.plan-btn,.btn-p,.btn-o').forEach(btn=>{
+  if(btn.href&&btn.href.includes('#cta'))return;
+  btn.addEventListener('click',e=>{
+    if(btn.textContent.trim().startsWith('Get Started')||btn.textContent.trim().startsWith('Browse')||btn.textContent.trim().startsWith('Book')){
+      e.preventDefault();
+      openPortal(e);
+    }
   });
-}
-// Init availability day toggles (panel version)
-document.querySelectorAll('.avail-day').forEach(d=>d.addEventListener('click',()=>d.classList.toggle('on')));
+});
+
+/* ── MILKY WAY CANVAS ── */
+(function(){
+  const sc=document.getElementById('starCanvas');
+  if(!sc)return;
+  const cx=sc.getContext('2d');
+  let W,H,t=0;
+  function resize(){W=sc.width=window.innerWidth;H=sc.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  class Star{constructor(){this.init(true);}init(random){this.x=Math.random()*W;this.y=random?Math.random()*H:-4;this.size=Math.pow(Math.random(),3)*2.2+0.2;this.drift=(Math.random()-0.5)*0.04;this.fall=Math.random()*0.08+0.02;this.phase=Math.random()*Math.PI*2;this.speed=Math.random()*0.012+0.005;const r=Math.random();this.type=r<.06?1:r<.12?2:r<.16?3:r<.19?4:0;const cols=[[255,255,255],[255,215,80],[180,210,255],[255,240,200],[210,170,255]];this.rgb=cols[this.type];}update(){this.y+=this.fall;this.x+=this.drift;this.phase+=this.speed;if(this.y>H+4||this.x<-4||this.x>W+4)this.init(false);}draw(){const alpha=(0.4+0.6*Math.sin(this.phase))*(this.type===0?0.7:0.85);const[r,g,b]=this.rgb;if(this.size>1.2){const g2=cx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*4);g2.addColorStop(0,`rgba(${r},${g},${b},${alpha*0.5})`);g2.addColorStop(1,`rgba(${r},${g},${b},0)`);cx.beginPath();cx.arc(this.x,this.y,this.size*4,0,Math.PI*2);cx.fillStyle=g2;cx.fill();}cx.beginPath();cx.arc(this.x,this.y,this.size,0,Math.PI*2);cx.fillStyle=`rgba(${r},${g},${b},${alpha})`;cx.fill();}}
+  class Dust{constructor(){this.init(true);}init(random){const t0=Math.random();this.x=W*0.0+t0*(W*1.0)+(Math.random()-0.5)*W*0.28;this.y=random?H*0.95-t0*(H*0.9)+(Math.random()-0.5)*H*0.28:H+4;this.r=Math.random()*0.85+0.1;this.vx=0.04+Math.random()*0.06;this.vy=-(0.03+Math.random()*0.05);this.alpha=Math.random()*0.18+0.04;this.phase=Math.random()*Math.PI*2;this.ps=Math.random()*0.006+0.003;const p=Math.random();this.rgb=p<0.25?[200,190,255]:p<0.55?[220,235,255]:[255,252,235];}update(){this.x+=this.vx;this.y+=this.vy;this.phase+=this.ps;if(this.x>W+5||this.y<-5)this.init(false);}draw(){const a=this.alpha*(0.55+0.45*Math.sin(this.phase));const[r,g,b]=this.rgb;cx.beginPath();cx.arc(this.x,this.y,this.r,0,Math.PI*2);cx.fillStyle=`rgba(${r},${g},${b},${a})`;cx.fill();}}
+  class Shoot{constructor(delay){this.countdown=delay||Math.random()*400+100;this.active=false;}fire(){this.active=true;this.x=Math.random()*W*0.75;this.y=Math.random()*H*0.38;this.angle=0.18+Math.random()*0.22;this.len=Math.random()*90+45;this.spd=Math.random()*5.5+4;this.progress=0;this.alpha=0.9;const p=Math.random();this.trail=p<0.3?[255,210,100]:p<0.5?[180,210,255]:[255,255,255];}update(){if(!this.active){if(--this.countdown<=0)this.fire();return;}this.progress+=this.spd;this.alpha-=0.028;if(this.alpha<=0){this.active=false;this.countdown=Math.random()*300+80;}}draw(){if(!this.active)return;const ex=this.x+Math.cos(this.angle)*this.progress,ey=this.y+Math.sin(this.angle)*this.progress;const sx=ex-Math.cos(this.angle)*this.len,sy=ey-Math.sin(this.angle)*this.len;const g=cx.createLinearGradient(sx,sy,ex,ey);const[r,gb,b]=this.trail;g.addColorStop(0,`rgba(${r},${gb},${b},0)`);g.addColorStop(0.7,`rgba(${r},${gb},${b},${this.alpha*0.6})`);g.addColorStop(1,`rgba(${r},${gb},${b},${this.alpha})`);cx.beginPath();cx.moveTo(sx,sy);cx.lineTo(ex,ey);cx.strokeStyle=g;cx.lineWidth=1.5;cx.stroke();}}
+  function drawMW(){const pulse=0.5+0.5*Math.sin(t*0.0008);const pts=[{x:W*0,y:H},{x:W*.15,y:H*.82},{x:W*.3,y:H*.65},{x:W*.45,y:H*.5},{x:W*.6,y:H*.35},{x:W*.75,y:H*.2},{x:W*.9,y:H*.08},{x:W*1.05,y:H*-.05}];const widths=[{w:H*.38,a:0.022*pulse,rgb:'160,140,220'},{w:H*.22,a:0.038*pulse,rgb:'190,175,240'},{w:H*.12,a:0.055*pulse,rgb:'215,205,255'},{w:H*.055,a:0.08*pulse,rgb:'240,235,255'},{w:H*.022,a:0.1*pulse,rgb:'255,255,255'}];for(const layer of widths){for(let i=0;i<pts.length-1;i++){const p0=pts[i],p1=pts[i+1];const dx=p1.x-p0.x,dy=p1.y-p0.y;const len=Math.sqrt(dx*dx+dy*dy);const nx=-dy/len,ny=dx/len;const hw=layer.w;const grad=cx.createLinearGradient(p0.x+nx*hw,p0.y+ny*hw,p0.x-nx*hw,p0.y-ny*hw);grad.addColorStop(0,`rgba(${layer.rgb},0)`);grad.addColorStop(0.35,`rgba(${layer.rgb},${layer.a*0.4})`);grad.addColorStop(0.5,`rgba(${layer.rgb},${layer.a})`);grad.addColorStop(0.65,`rgba(${layer.rgb},${layer.a*0.4})`);grad.addColorStop(1,`rgba(${layer.rgb},0)`);cx.beginPath();cx.moveTo(p0.x+nx*hw,p0.y+ny*hw);cx.lineTo(p1.x+nx*hw,p1.y+ny*hw);cx.lineTo(p1.x-nx*hw,p1.y-ny*hw);cx.lineTo(p0.x-nx*hw,p0.y-ny*hw);cx.closePath();cx.fillStyle=grad;cx.fill();}}const nebulae=[{x:W*.22,y:H*.75,rx:W*.1,ry:H*.08,rgb:'80,40,160',a:0.028},{x:W*.45,y:H*.5,rx:W*.08,ry:H*.06,rgb:'40,100,180',a:0.022},{x:W*.68,y:H*.28,rx:W*.09,ry:H*.07,rgb:'160,60,80',a:0.018},{x:W*.85,y:H*.12,rx:W*.07,ry:H*.05,rgb:'60,160,100',a:0.016}];for(const n of nebulae){cx.save();cx.translate(n.x,n.y);cx.scale(n.rx/n.ry,1);const g2=cx.createRadialGradient(0,0,0,0,0,n.ry);g2.addColorStop(0,`rgba(${n.rgb},${n.a*(0.7+0.3*pulse)})`);g2.addColorStop(1,`rgba(${n.rgb},0)`);cx.beginPath();cx.arc(0,0,n.ry,0,Math.PI*2);cx.fillStyle=g2;cx.fill();cx.restore();}}
+  const isMob=window.innerWidth<640;
+  const stars=Array.from({length:isMob?90:220},()=>new Star());
+  const dust=Array.from({length:isMob?60:160},()=>new Dust());
+  const shoots=Array.from({length:isMob?2:4},(_,i)=>new Shoot(i*90+40));
+  (function loop(){cx.clearRect(0,0,W,H);drawMW();dust.forEach(p=>{p.update();p.draw();});stars.forEach(s=>{s.update();s.draw();});shoots.forEach(s=>{s.update();s.draw();});t++;requestAnimationFrame(loop);})();
+})();
 
 </script>
 </body>
