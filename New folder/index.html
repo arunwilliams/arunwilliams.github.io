@@ -58,22 +58,17 @@ nav.solid{background:rgba(10,10,8,.96);backdrop-filter:blur(22px);border-color:v
 #pCanvas{position:absolute;inset:0;z-index:3;pointer-events:none;}
 
 /* ── CROSSFADING BACKGROUND IMAGES ── */
-.h-bg-wrap{position:absolute;inset:0;z-index:1;}
-.h-bg-slide{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  filter:brightness(.42) saturate(.7);
-  opacity:0;
-  animation:bgCycle 32s ease-in-out infinite;
+/* ── HERO — pure deep space background, no photos ── */
+.h-bg-wrap{display:none;}/* images removed */
+.h-bg-slide{display:none;}
+
+/* Deep cosmic gradient base for hero */
+#hero{
+  background:
+    radial-gradient(ellipse at 68% 35%, rgba(40,20,80,.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(20,10,40,.45) 0%, transparent 50%),
+    linear-gradient(160deg, #050508 0%, #080A12 40%, #0A0A0E 100%);
 }
-/* 1: HSE workers in hi-vis on industrial site */
-.h-bg-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1800&q=80');background-position:center 40%;animation-delay:0s;}
-/* 2: Oil refinery at night with flares */
-.h-bg-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1800&q=80');background-position:center;animation-delay:8s;}
-/* 3: Construction cranes and highrise buildings */
-.h-bg-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=80');background-position:center;animation-delay:16s;}
-/* 4: Dubai Marina skyline at dusk */
-.h-bg-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1800&q=80');background-position:center 60%;animation-delay:24s;}
 
 /* ── SUN / MOON / FIREWORKS / SNOW KEYFRAMES ── */
 /* Sun arc across sky */
@@ -114,12 +109,12 @@ nav.solid{background:rgba(10,10,8,.96);backdrop-filter:blur(22px);border-color:v
 /* ── ANIMATED THEMED SVG OVERLAY ── */
 #heroSvg{position:absolute;inset:0;z-index:2;pointer-events:none;width:100%;height:100%;}
 
-/* ── MAIN GRADIENT OVERLAY ── */
+/* ── HERO OVERLAY — soft vignette only, no photo darkening needed ── */
 .h-ov{
-  position:absolute;inset:0;z-index:4;
+  position:absolute;inset:0;z-index:4;pointer-events:none;
   background:
-    linear-gradient(to right, rgba(10,10,8,.82) 0%, rgba(10,10,8,.5) 38%, rgba(10,10,8,.18) 62%, rgba(10,10,8,.04) 100%),
-    linear-gradient(to top, rgba(10,10,8,.78) 0%, rgba(10,10,8,.12) 28%, transparent 50%);
+    linear-gradient(to bottom, transparent 40%, rgba(10,10,14,.92) 100%),
+    linear-gradient(to right, rgba(10,10,14,.55) 0%, transparent 55%);
 }
 
 /* ── HERO THEMED ANIMATIONS ── */
@@ -176,76 +171,110 @@ nav.solid{background:rgba(10,10,8,.96);backdrop-filter:blur(22px);border-color:v
 @keyframes blip{0%,100%{opacity:1}50%{opacity:.15}}
 /* h-title defined below */
 .h-title .g{-webkit-text-stroke:1.5px rgba(255,255,255,.22);color:transparent;}
-/* ── HERO TITLE — THREE-LINE CINEMATIC LAYOUT ── */
+
+/* ═══════════════════════════════════════
+   HERO TITLE — 3 SEPARATE LINES
+   GET  (light, spaced)
+   ——  BIG ANIMATED WORD  ——
+   READY. (outline, spaced)
+═══════════════════════════════════════ */
 .h-title{
-  display:flex;flex-direction:column;
-  gap:.12em;
+  display:flex;
+  flex-direction:column;
+  gap:.08em;
   margin-bottom:1.8rem;
-  opacity:0;animation:ru .8s .3s var(--ease) forwards;
+  opacity:0;
+  animation:ru .8s .3s var(--ease) forwards;
 }
+
+/* LINE 1 */
 .h-title-get{
-  font-family:var(--f-d);
-  font-size:clamp(2.4rem,6vw,6rem);
-  font-weight:300;line-height:1;letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.45);
   display:block;
+  font-family:var(--f-d);
+  font-size:clamp(1.8rem,5vw,5rem);
+  font-weight:300;
+  line-height:1;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.38);
 }
-/* Middle word — the hero element */
+
+/* LINE 2 — The tall animated slot */
 .typed-wrap{
   display:block;
   position:relative;
-  height:clamp(4.2rem,13vw,11rem);
+  width:100%;
+  height:clamp(4.8rem,14.5vw,13rem);
   overflow:hidden;
 }
 .flip-word{
-  position:absolute;left:0;top:0;
-  display:flex;align-items:center;gap:.18em;white-space:nowrap;
+  position:absolute;
+  top:0; left:0;
+  display:flex;
+  align-items:center;
+  gap:.18em;
+  white-space:nowrap;
   font-family:var(--f-d);
-  font-size:clamp(4rem,12vw,10.5rem);
-  font-weight:900;line-height:1;letter-spacing:-1px;
+  font-size:clamp(4.5rem,14vw,12.5rem);
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.01em;
   text-transform:uppercase;
-  opacity:0;transform:translateY(70px) scale(.94);
-  transition:opacity 1.5s cubic-bezier(.22,1,.36,1),transform 1.5s cubic-bezier(.22,1,.36,1);
+  opacity:0;
+  transform:translateY(80px);
+  transition:opacity 1.4s cubic-bezier(.22,1,.36,1), transform 1.4s cubic-bezier(.22,1,.36,1);
 }
-/* Reset text-transform/stroke on emoji children */
-.flip-word .flip-flag{
-  text-transform:none !important;
-  -webkit-text-stroke:0 !important;
-  letter-spacing:0 !important;
-  font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif !important;
+.flip-word.active{ opacity:1; transform:translateY(0); }
+.flip-word.exit{
+  opacity:0;
+  transform:translateY(-80px);
+  transition:opacity .9s ease-in, transform .9s ease-in;
 }
-/* Country-specific colours */
-.flip-word:nth-child(1){color:#E85C1A;text-shadow:0 0 60px rgba(232,92,26,.45);}  /* Interview */
-.flip-word:nth-child(2){color:#FFD700;text-shadow:0 0 60px rgba(255,215,0,.5);}   /* Gulf */
-.flip-word:nth-child(3){color:#74C69D;text-shadow:0 0 55px rgba(116,198,157,.4);} /* Career */
-.flip-word:nth-child(4){color:#CF101A;text-shadow:0 0 60px rgba(207,16,26,.45);}  /* UK */
-.flip-word:nth-child(5){color:#60A5FA;text-shadow:0 0 60px rgba(96,165,250,.45);} /* Australia */
-.flip-word:nth-child(6){color:#FF9933;text-shadow:0 0 55px rgba(255,153,51,.45);} /* India */
-.flip-word.active{opacity:1;transform:translateY(0) scale(1);}
-.flip-word.exit{opacity:0;transform:translateY(-70px) scale(1.05);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1);}
-/* Flag next to word */
+
+/* Country colours */
+.flip-word:nth-child(1){ color:#E85C1A; text-shadow:0 0 60px rgba(232,92,26,.45); }
+.flip-word:nth-child(2){ color:#FFD700; text-shadow:0 0 60px rgba(255,215,0,.5);  }
+.flip-word:nth-child(3){ color:#FF0000; text-shadow:0 0 60px rgba(255,0,0,.4);    }
+.flip-word:nth-child(4){ color:#CF101A; text-shadow:0 0 60px rgba(207,16,26,.45); }
+.flip-word:nth-child(5){ color:#60A5FA; text-shadow:0 0 60px rgba(96,165,250,.45);}
+.flip-word:nth-child(6){ color:#FF9933; text-shadow:0 0 60px rgba(255,153,51,.45);}
+
+/* Flag emoji — must escape font-family and text-transform from parent */
 .flip-flag{
-  font-size:.6em;line-height:1;display:inline-flex;align-items:center;
-  font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif;
-  font-style:normal;font-weight:normal;text-transform:none;letter-spacing:0;
-  -webkit-text-stroke:0;color:initial;
-  animation:flagBounce 2.8s ease-in-out infinite;
+  display:inline-block;
+  font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif !important;
+  font-size:.62em;
+  line-height:1;
+  text-transform:none !important;
+  letter-spacing:0 !important;
+  -webkit-text-stroke:0 !important;
+  color:initial !important;
+  animation:flagFloat 3s ease-in-out infinite;
   flex-shrink:0;
+  vertical-align:middle;
 }
-@keyframes flagBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-/* "Ready." line */
+@keyframes flagFloat{
+  0%,100%{ transform:translateY(0) scale(1); }
+  50%{ transform:translateY(-8px) scale(1.05); }
+}
+
+/* LINE 3 */
 .h-title-ready{
-  font-family:var(--f-d);
-  font-size:clamp(2.4rem,6vw,6rem);
-  font-weight:800;line-height:1;letter-spacing:.18em;
-  text-transform:uppercase;
-  -webkit-text-stroke:1.8px rgba(255,255,255,.3);
-  color:transparent;
   display:block;
-  animation:readyPulse 5s ease-in-out infinite;
+  font-family:var(--f-d);
+  font-size:clamp(1.8rem,5vw,5rem);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  color:transparent;
+  -webkit-text-stroke:2px rgba(255,255,255,.3);
+  animation:readyBreath 5s ease-in-out infinite;
 }
-@keyframes readyPulse{0%,100%{-webkit-text-stroke:1.8px rgba(255,255,255,.3);letter-spacing:.18em}50%{-webkit-text-stroke:1.8px rgba(255,255,255,.6);letter-spacing:.26em}}
+@keyframes readyBreath{
+  0%,100%{ -webkit-text-stroke:2px rgba(255,255,255,.3); letter-spacing:.4em; }
+  50%{     -webkit-text-stroke:2px rgba(255,255,255,.6); letter-spacing:.52em; }
+}
 .h-desc{font-size:1rem;color:rgba(255,255,255,.6);line-height:1.75;max-width:480px;margin-bottom:1.8rem;opacity:0;animation:ru .8s .5s var(--ease) forwards;}
 .h-btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:ru .8s .65s var(--ease) forwards;}
 .btn-p{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--ore),var(--ore3));color:var(--w);font-family:var(--f-d);font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:14px 30px;border:none;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--t),box-shadow var(--t);}
@@ -587,6 +616,116 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
 .d1{transition-delay:.1s!important;}.d2{transition-delay:.18s!important;}
 .d3{transition-delay:.26s!important;}.d4{transition-delay:.34s!important;}
 
+/* ── ROLE-BASED PORTAL SYSTEM ── */
+/* Portal overlay */
+#portalOverlay{display:none;position:fixed;inset:0;z-index:8500;background:rgba(5,5,4,.98);backdrop-filter:blur(28px);overflow-y:auto;}
+#portalOverlay.open{display:block;}
+@keyframes pIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Role selection screen */
+.portal-select{max-width:860px;margin:0 auto;padding:5vh 24px 80px;animation:pIn .5s var(--ease);}
+.portal-logo{font-family:var(--f-d);font-size:1.6rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--w);display:flex;align-items:center;gap:12px;margin-bottom:3rem;padding-top:2rem;}
+.portal-logo em{color:var(--ore);font-style:normal;}
+.portal-logo-back{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:6px 12px;border:1px solid var(--border);border-radius:3px;font-family:var(--f-m);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;transition:all var(--t);margin-left:auto;}
+.portal-logo-back:hover{color:var(--w);border-color:var(--bordero);}
+.portal-title{font-family:var(--f-d);font-size:clamp(2.2rem,5vw,4rem);font-weight:900;text-transform:uppercase;color:var(--w);margin-bottom:.4rem;}
+.portal-sub{font-family:var(--f-m);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:2.5rem;}
+.role-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
+.role-card{background:rgba(255,255,255,.025);border:2px solid var(--border);padding:32px 24px;cursor:pointer;position:relative;overflow:hidden;transition:all var(--t);border-radius:4px;text-align:center;}
+.role-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity var(--t);}
+.role-card:hover{transform:translateY(-4px);border-color:var(--bordero);}
+.role-card:hover::before{opacity:1;}
+.role-card.cand::before{background:radial-gradient(ellipse at 50% 0,rgba(232,92,26,.12),transparent 70%);}
+.role-card.exp::before{background:radial-gradient(ellipse at 50% 0,rgba(255,215,0,.1),transparent 70%);}
+.role-card.adm::before{background:radial-gradient(ellipse at 50% 0,rgba(96,165,250,.1),transparent 70%);}
+.role-card-ico{font-size:2.8rem;display:block;margin-bottom:1rem;}
+.role-card-title{font-family:var(--f-d);font-size:1.55rem;font-weight:700;text-transform:uppercase;color:var(--w);margin-bottom:.4rem;}
+.role-card-desc{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:1.4rem;}
+.role-card-btn{display:inline-block;font-family:var(--f-m);font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;padding:9px 20px;border-radius:3px;font-weight:700;transition:all var(--t);}
+.role-card.cand .role-card-btn{background:var(--ore);color:var(--w);}
+.role-card.cand .role-card-btn:hover{background:var(--ore2);}
+.role-card.exp .role-card-btn{background:#B8860B;color:var(--w);}
+.role-card.exp .role-card-btn:hover{background:#DAA520;}
+.role-card.adm .role-card-btn{background:#2563EB;color:var(--w);}
+.role-card.adm .role-card-btn:hover{background:#3B82F6;}
+@media(max-width:640px){.role-cards{grid-template-columns:1fr;}}
+
+/* Portal auth screen */
+.portal-auth{display:none;max-width:440px;margin:0 auto;padding:4vh 24px 80px;animation:pIn .5s var(--ease);}
+.portal-auth.show{display:block;}
+.pauth-header{display:flex;align-items:center;gap:14px;margin-bottom:2rem;padding-top:1.5rem;}
+.pauth-ico{font-size:2rem;}
+.pauth-role{font-family:var(--f-d);font-size:1.4rem;font-weight:700;text-transform:uppercase;color:var(--w);}
+.pauth-badge{font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;padding:3px 10px;border-radius:100px;margin-left:auto;}
+.pauth-badge.c{background:rgba(232,92,26,.18);color:var(--ore);border:1px solid var(--bordero);}
+.pauth-badge.e{background:rgba(218,165,32,.15);color:#DAA520;border:1px solid rgba(218,165,32,.3);}
+.pauth-badge.a{background:rgba(37,99,235,.15);color:#60A5FA;border:1px solid rgba(37,99,235,.3);}
+.pauth-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:2rem;}
+.pauth-tab{font-family:var(--f-m);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;padding:10px 18px;border-bottom:2px solid transparent;cursor:pointer;color:var(--muted);background:none;border-top:none;border-left:none;border-right:none;transition:all var(--t);}
+.pauth-tab.active{color:var(--ore);border-bottom-color:var(--ore);}
+.pauth-form{display:none;}.pauth-form.show{display:block;}
+.pauth-lbl{font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:5px;margin-top:1rem;}
+.pauth-inp{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--w);font-family:var(--f-m);font-size:.88rem;padding:12px 14px;border-radius:3px;outline:none;transition:border-color var(--t);}
+.pauth-inp:focus{border-color:var(--bordero);}
+.pauth-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.pauth-select{width:100%;background:var(--ink2);border:1px solid var(--border);color:var(--w);font-family:var(--f-m);font-size:.82rem;padding:12px 14px;border-radius:3px;outline:none;transition:border-color var(--t);}
+.pauth-select:focus{border-color:var(--bordero);}
+.pauth-btn{width:100%;margin-top:1.5rem;padding:14px;font-family:var(--f-d);font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;border:none;border-radius:3px;cursor:pointer;transition:all var(--t);}
+.pauth-btn.c{background:var(--ore);color:var(--w);}.pauth-btn.c:hover{background:var(--ore2);}
+.pauth-btn.e{background:#B8860B;color:var(--w);}.pauth-btn.e:hover{background:#DAA520;}
+.pauth-btn.a{background:#2563EB;color:var(--w);}.pauth-btn.a:hover{background:#3B82F6;}
+.pauth-err{display:none;background:rgba(200,50,30,.12);border:1px solid rgba(200,50,30,.3);color:#ff8c72;font-family:var(--f-m);font-size:.7rem;padding:9px 12px;border-radius:3px;margin-top:.9rem;}
+.pauth-err.show{display:block;}
+.pauth-hint{font-size:.75rem;color:var(--muted);margin-top:1.2rem;text-align:center;line-height:1.6;}
+.pauth-hint a{color:var(--ore);cursor:pointer;}
+
+/* Candidate Dashboard */
+.portal-dash{display:none;animation:pIn .5s var(--ease);}
+.portal-dash.show{display:block;}
+.pdash-nav{background:var(--ink2);border-bottom:1px solid var(--border);padding:0 2rem;height:58px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:10;}
+.pdash-brand{font-family:var(--f-d);font-size:1.1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--w);}
+.pdash-brand em{color:var(--ore);font-style:normal;}
+.pdash-role-badge{font-family:var(--f-m);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;padding:3px 9px;border-radius:100px;margin-left:6px;}
+.pdash-role-badge.c{background:rgba(232,92,26,.18);color:var(--ore);border:1px solid var(--bordero);}
+.pdash-role-badge.e{background:rgba(218,165,32,.15);color:#DAA520;border:1px solid rgba(218,165,32,.3);}
+.pdash-out{margin-left:auto;font-family:var(--f-m);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);cursor:pointer;background:none;border:1px solid var(--border);padding:6px 14px;border-radius:3px;transition:all var(--t);}
+.pdash-out:hover{color:var(--w);border-color:var(--bordero);}
+.pdash-body{padding:2rem;max-width:1200px;margin:0 auto;}
+.pdash-hello{font-family:var(--f-d);font-size:1.8rem;font-weight:700;margin-bottom:.3rem;}
+.pdash-sub{font-size:.85rem;color:var(--muted);margin-bottom:2rem;}
+/* Shared dashboard card styles (reuse .dcard etc from admin) */
+.pdash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.pdash-sec{background:var(--ink2);border:1px solid var(--border);border-radius:5px;padding:22px;margin-bottom:1.2rem;}
+.pdash-sec-t{font-family:var(--f-d);font-size:1.1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
+.int-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:4px;padding:16px;display:flex;gap:14px;align-items:center;transition:border-color var(--t),background var(--t);cursor:pointer;margin-bottom:.8rem;}
+.int-card:hover{border-color:var(--bordero);background:rgba(232,92,26,.04);}
+.int-av{width:48px;height:48px;border-radius:50%;background:var(--ore3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;border:2px solid var(--bordero);}
+.int-name{font-family:var(--f-d);font-weight:700;font-size:.95rem;margin-bottom:2px;}
+.int-role{font-family:var(--f-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ore);}
+.int-loc{font-size:.72rem;color:var(--muted);}
+.int-meta{margin-left:auto;text-align:right;flex-shrink:0;}
+.int-rating{font-family:var(--f-d);font-size:1.1rem;font-weight:700;color:var(--ore);}
+.int-price{font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;color:var(--muted);}
+.int-tier{font-family:var(--f-m);font-size:.54rem;text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:100px;background:rgba(232,92,26,.15);color:var(--ore);border:1px solid var(--bordero);white-space:nowrap;display:inline-block;margin-top:4px;}
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.prog-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:14px;}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--ore3),var(--ore2));}
+.sess-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:.84rem;}
+.sess-item:last-child{border-bottom:none;}
+.sess-ico{font-size:1.2rem;flex-shrink:0;}
+.sess-info{flex:1;}
+.sess-name{font-family:var(--f-d);font-weight:700;font-size:.88rem;}
+.sess-date{font-family:var(--f-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+/* Interviewer-specific */
+.slot-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);}
+.slot-item:last-child{border-bottom:none;}
+.slot-time{font-family:var(--f-m);font-size:.68rem;text-transform:uppercase;color:var(--ore);min-width:80px;}
+.slot-cand{font-size:.86rem;color:var(--w);}
+.slot-role{font-size:.72rem;color:var(--muted);}
+.earn-big{font-family:var(--f-d);font-size:3rem;font-weight:900;color:var(--ore);}
+@media(max-width:760px){.pdash-grid{grid-template-columns:1fr 1fr;}.int-meta{display:none;}}
+@media(max-width:480px){.pdash-grid{grid-template-columns:1fr;}}
+
 /* ── ADMIN MODAL ── */
 #adminModal{display:none;position:fixed;inset:0;z-index:9000;align-items:center;justify-content:center;background:rgba(5,5,4,.97);backdrop-filter:blur(24px);}
 #adminModal.open{display:flex;}
@@ -641,6 +780,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
 .dab.pr:hover{background:var(--ore2);}
 
 /* ── RESPONSIVE ── */
+/* ═══ RESPONSIVE ═══════════════════════════════ */
 @media(max-width:1100px){
   #counters{grid-template-columns:repeat(2,1fr);}
   .ct:nth-child(2){border-right:none;}
@@ -650,62 +790,111 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
   .dest-grid{grid-template-columns:repeat(3,1fr);}
   .dc:nth-child(3){border-right:none;}
   .dc:nth-child(n+4){border-top:1px solid var(--border);}
+  .plans{grid-template-columns:1fr 1fr;}
+  .plan.feat{transform:none;grid-column:1/3;}
 }
 @media(max-width:900px){
   #cur,#cur-r{display:none;}
+  /* Nav */
   .nav-links{display:none;}
   .burger{display:flex;}
+  /* Hero - full-width text layout on tablet */
+  .h-content{max-width:100%;padding-top:50px;}
+  #hero{padding:0 5vw 50px;}
+  /* Steps */
   .steps{grid-template-columns:1fr 1fr;}
   .steps::before{display:none;}
   .step{border-bottom:1px solid var(--border);}
   .step:nth-child(even){border-right:none;}
   .step:nth-child(3),.step:nth-child(4){border-bottom:none;}
-  .prof-grid{display:grid;grid-template-columns:1fr 1fr;height:auto;grid-template-rows:auto;}
+  /* Professionals */
+  .prof-grid{grid-template-columns:1fr 1fr;height:auto;grid-template-rows:auto;}
   .pc.big{grid-row:auto;grid-column:1/3;}
-  .pc-img{position:relative;height:320px;width:100%;}
+  .pc-img{position:relative;height:280px;width:100%;}
   .pc-ov,.pc-info{position:absolute;}
+  /* Demo */
   #demo{grid-template-columns:1fr;}
-  .demo-vis{min-height:400px;}
+  .demo-vis{min-height:360px;}
+  /* Value */
   #value{grid-template-columns:1fr;}
-  .vp-img{min-height:280px;}
+  .vp-img{min-height:240px;}
+  /* Institutes */
   #institutes{grid-template-columns:1fr;}
-  .inst-img{min-height:340px;}
+  .inst-img{min-height:300px;}
+  /* CTA */
   .cta-inner{grid-template-columns:1fr;}
   .cta-ring{display:none;}
+  /* Footer */
   .ft{grid-template-columns:1fr 1fr;}
+  /* Dashboard */
   .d-cards{grid-template-columns:1fr 1fr;}
   .d-grid2{grid-template-columns:1fr;}
+  /* Portal */
+  .role-cards{grid-template-columns:1fr;}
+  .pdash-grid{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:640px){
-  .h-title-get,.h-title-ready{font-size:clamp(1.8rem,8vw,3rem);}
-  .typed-wrap{height:clamp(4rem,15vw,6rem);}
-  .flip-word{font-size:clamp(3.5rem,13vw,5.5rem);}
+  /* Hero title */
+  .h-title-get,.h-title-ready{font-size:clamp(1.2rem,6.5vw,2.2rem);letter-spacing:.22em;}
+  .typed-wrap{height:clamp(3.8rem,15vw,6rem);}
+  .flip-word{font-size:clamp(3.6rem,14vw,5.5rem);}
+  .flip-flag{font-size:.55em;}
+  /* Hero stats */
   .h-stats{flex-wrap:wrap;}
   .hs{flex:1 1 45%;border-bottom:1px solid var(--border);}
   .hs:nth-child(2){border-right:none;}
   .hs:nth-child(3),.hs:nth-child(4){border-bottom:none;}
   .hs:last-child{border-right:none;}
+  /* Hero buttons */
+  .h-btns{flex-direction:column;}
+  .btn-p,.btn-o{width:100%;justify-content:center;}
+  /* Tag */
+  .h-tag{font-size:.54rem;}
+  /* Counters */
   #counters{grid-template-columns:1fr 1fr;}
+  /* Industry cards */
   .ic{flex:0 0 82vw;}
+  /* Professionals */
   .prof-grid{grid-template-columns:1fr;}
   .pc.big{grid-column:auto;}
-  .pc-img{height:280px;}
+  .pc-img{height:240px;}
+  /* Steps */
   .steps{grid-template-columns:1fr;}
   .step{border-right:none!important;border-bottom:1px solid var(--border)!important;}
   .step:last-child{border-bottom:none!important;}
+  /* Destinations */
   .dest-grid{grid-template-columns:1fr 1fr;}
   .dc:nth-child(even){border-right:none;}
   .dc:nth-child(n+3){border-top:1px solid var(--border);}
+  .dc-img-wrap{height:150px;}
+  /* Pricing */
   .plans{grid-template-columns:1fr;}
-  .plan.feat{transform:none;}
-  .tcard{flex:0 0 80vw;}
+  .plan.feat{transform:none;grid-column:auto;}
+  /* Testimonials */
+  .tcard{flex:0 0 82vw;}
+  /* Footer */
   .ft{grid-template-columns:1fr;}
-  .cta-hl{font-size:clamp(2.8rem,10vw,4.5rem);}
+  /* CTA */
+  .cta-hl{font-size:clamp(2.5rem,10vw,4rem);}
+  /* Institutes */
   .inst-feat-grid{grid-template-columns:1fr;}
-  .abox{padding:32px 24px;}
-  .d-cards{grid-template-columns:1fr;}
-  .h-btns{flex-direction:column;}
-  .btn-p,.btn-o{width:100%;justify-content:center;}
+  /* Admin / Dashboard */
+  .abox{padding:28px 20px;}
+  .d-cards,.pdash-grid{grid-template-columns:1fr;}
+  /* Section padding */
+  .sec{padding:64px 5vw;}
+  /* Portal */
+  .role-cards{grid-template-columns:1fr;}
+  .pauth-row{grid-template-columns:1fr;}
+  /* Hero SVG - hide complex elements on very small screens */
+  #heroSvg{display:none;}
+}
+@media(max-width:380px){
+  .h-title-get,.h-title-ready{font-size:clamp(1rem,5.5vw,1.6rem);letter-spacing:.18em;}
+  .typed-wrap{height:clamp(3.2rem,13vw,5rem);}
+  .flip-word{font-size:clamp(3rem,12vw,4.5rem);}
+  nav{padding:0 4vw;}
+  .logo{font-size:1.4rem;}
 }
 </style>
 </head>
@@ -724,7 +913,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <li><a href="#demo">Demo</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#institutes">Institutions</a></li>
-    <li><a href="#cta" class="nav-cta">Book Session ↗</a></li>
+    <li><a href="#cta" class="nav-cta" onclick="openPortal(event)">Sign In / Register ↗</a></li>
   </ul>
   <div class="burger" id="burger" onclick="toggleNav()">
     <span></span><span></span><span></span>
@@ -736,20 +925,12 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
   <a href="#demo" onclick="closeNav()">Live Demo</a>
   <a href="#pricing" onclick="closeNav()">Pricing</a>
   <a href="#institutes" onclick="closeNav()">Institutions</a>
-  <a href="#cta" class="mob-cta" onclick="closeNav()">Book a Session →</a>
+  <a href="#" onclick="openPortal(event);closeNav()" style="background:var(--ore);text-align:center;padding:16px!important;border-radius:4px;border-bottom:none!important;margin-top:1.5rem;font-size:1.2rem;">Sign In / Register →</a>
 </div>
 
 <!-- HERO -->
 <section id="hero">
   <canvas id="pCanvas"></canvas>
-
-  <!-- Crossfading background photos: Construction / Oil Rig / HSE Team / Environmental -->
-  <div class="h-bg-wrap">
-    <div class="h-bg-slide"></div>
-    <div class="h-bg-slide"></div>
-    <div class="h-bg-slide"></div>
-    <div class="h-bg-slide"></div>
-  </div>
 
   <!-- Animated themed SVG: all industries + countries combined -->
   <svg id="heroSvg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -2354,7 +2535,228 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<!-- ═══════════════════════════════════════
+     ROLE-BASED PORTAL SYSTEM
+═══════════════════════════════════════ -->
+<div id="portalOverlay">
+
+  <!-- STEP 1: Role Selection -->
+  <div id="portalSelect" class="portal-select">
+    <div class="portal-logo">
+      Pro<em>Prep</em>
+      <button class="portal-logo-back" onclick="closePortal()">✕ Close</button>
+    </div>
+    <div class="portal-title">Choose Your Role</div>
+    <div class="portal-sub">Select how you're accessing ProPrep today</div>
+    <div class="role-cards">
+      <!-- Candidate -->
+      <div class="role-card cand" onclick="showAuth('candidate')">
+        <span class="role-card-ico">🎓</span>
+        <div class="role-card-title">Candidate</div>
+        <div class="role-card-desc">Looking for a job in HSE, Oil &amp; Gas or Construction? Book mock interviews, get feedback and track your progress.</div>
+        <div class="role-card-btn">Get Started →</div>
+      </div>
+      <!-- Interviewer -->
+      <div class="role-card exp" onclick="showAuth('expert')">
+        <span class="role-card-ico">👷</span>
+        <div class="role-card-title">Expert Interviewer</div>
+        <div class="role-card-desc">Senior professional with 3+ years in industry? Conduct paid mock interviews and help candidates land roles internationally.</div>
+        <div class="role-card-btn">Apply / Sign In →</div>
+      </div>
+      <!-- Admin -->
+      <div class="role-card adm" onclick="showAuth('admin')">
+        <span class="role-card-ico">🔐</span>
+        <div class="role-card-title">Administrator</div>
+        <div class="role-card-desc">ProPrep platform management. Manage interviewers, sessions, pricing and institutional partnerships.</div>
+        <div class="role-card-btn">Admin Access →</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-family:var(--f-m);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.18);margin-top:1rem;">All data encrypted · GDPR compliant · India-based platform</p>
+  </div>
+
+  <!-- STEP 2: Auth form (shared, changes per role) -->
+  <div id="portalAuth" class="portal-auth">
+    <div class="pauth-header">
+      <span class="pauth-ico" id="pauthIco">🎓</span>
+      <span class="pauth-role" id="pauthRole">Candidate</span>
+      <span class="pauth-badge c" id="pauthBadge">Candidate</span>
+    </div>
+    <!-- Tabs -->
+    <div class="pauth-tabs">
+      <button class="pauth-tab active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
+      <button class="pauth-tab" id="tabReg" onclick="switchTab('register')">Register</button>
+      <button style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-family:var(--f-m);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;padding:10px 0;" onclick="backToSelect()">← Back</button>
+    </div>
+    <!-- Login form -->
+    <div class="pauth-form show" id="formLogin">
+      <label class="pauth-lbl">Email Address</label>
+      <input class="pauth-inp" id="li-email" type="email" placeholder="your@email.com">
+      <label class="pauth-lbl">Password</label>
+      <input class="pauth-inp" id="li-pass" type="password" placeholder="••••••••">
+      <div class="pauth-err" id="li-err">Invalid credentials. Please try again.</div>
+      <button class="pauth-btn c" id="li-btn" onclick="doPortalLogin()">Sign In</button>
+      <p class="pauth-hint">Don't have an account? <a onclick="switchTab('register')">Register here</a></p>
+    </div>
+    <!-- Register form — changes per role -->
+    <div class="pauth-form" id="formReg">
+      <div class="pauth-row">
+        <div><label class="pauth-lbl">First Name</label><input class="pauth-inp" id="rg-fn" type="text" placeholder="Rahul"></div>
+        <div><label class="pauth-lbl">Last Name</label><input class="pauth-inp" id="rg-ln" type="text" placeholder="Mehta"></div>
+      </div>
+      <label class="pauth-lbl">Email Address</label>
+      <input class="pauth-inp" id="rg-email" type="email" placeholder="your@email.com">
+      <label class="pauth-lbl">Mobile Number</label>
+      <input class="pauth-inp" id="rg-mob" type="tel" placeholder="+91 98765 43210">
+      <!-- Candidate-specific fields -->
+      <div id="rg-cand-fields">
+        <label class="pauth-lbl">Target Role</label>
+        <select class="pauth-select" id="rg-role">
+          <option value="">Select your target role</option>
+          <option>HSE Officer</option><option>Safety Manager</option><option>EHS Engineer</option>
+          <option>Site Engineer</option><option>Construction Manager</option><option>QA/QC Inspector</option>
+          <option>Process Engineer</option><option>Rig Safety Officer</option><option>Environmental Officer</option>
+        </select>
+        <label class="pauth-lbl">Target Country</label>
+        <select class="pauth-select" id="rg-country">
+          <option value="">Select target country</option>
+          <option>🇦🇪 UAE / Gulf</option><option>🇬🇧 United Kingdom</option>
+          <option>🇦🇺 Australia</option><option>🇨🇦 Canada</option><option>🇮🇳 India</option>
+        </select>
+        <label class="pauth-lbl">Years of Experience</label>
+        <select class="pauth-select" id="rg-exp">
+          <option value="">Select experience</option>
+          <option>0–2 years (Fresher)</option><option>2–5 years</option>
+          <option>5–10 years</option><option>10+ years</option>
+        </select>
+      </div>
+      <!-- Expert-specific fields -->
+      <div id="rg-exp-fields" style="display:none;">
+        <label class="pauth-lbl">Current Position & Company</label>
+        <input class="pauth-inp" id="rg-pos" type="text" placeholder="HSE Manager, ADNOC">
+        <label class="pauth-lbl">Industry & Years Experience</label>
+        <select class="pauth-select" id="rg-ind">
+          <option>Oil &amp; Gas — 5–10 yrs</option><option>Oil &amp; Gas — 10–15 yrs</option>
+          <option>Oil &amp; Gas — 15+ yrs</option><option>Construction — 5–10 yrs</option>
+          <option>Construction — 10+ yrs</option><option>HSE/EHS — 5–10 yrs</option>
+          <option>HSE/EHS — 10+ yrs</option><option>Environmental — 5+ yrs</option>
+        </select>
+        <label class="pauth-lbl">Current Country of Work</label>
+        <select class="pauth-select" id="rg-loc">
+          <option>UAE</option><option>Saudi Arabia</option><option>Qatar</option><option>United Kingdom</option>
+          <option>Australia</option><option>Canada</option><option>India</option><option>Other Gulf</option>
+        </select>
+        <label class="pauth-lbl">LinkedIn Profile URL</label>
+        <input class="pauth-inp" id="rg-li" type="url" placeholder="https://linkedin.com/in/yourprofile">
+      </div>
+      <label class="pauth-lbl">Create Password</label>
+      <input class="pauth-inp" id="rg-pass" type="password" placeholder="Minimum 8 characters">
+      <div class="pauth-err" id="rg-err">Please fill all required fields.</div>
+      <button class="pauth-btn c" id="rg-btn" onclick="doPortalRegister()">Create Account</button>
+      <p class="pauth-hint">Already have an account? <a onclick="switchTab('login')">Sign in here</a></p>
+    </div>
+  </div>
+
+  <!-- CANDIDATE DASHBOARD -->
+  <div id="candDash" class="portal-dash">
+    <div class="pdash-nav">
+      <div class="pdash-brand">Pro<em>Prep</em><span class="pdash-role-badge c">Candidate</span></div>
+      <button class="pdash-out" onclick="portalLogout()">Sign Out</button>
+    </div>
+    <div class="pdash-body">
+      <div class="pdash-hello">Welcome back, <span id="candName">Rahul</span> 👋</div>
+      <div class="pdash-sub">Your interview readiness journey — all in one place</div>
+      <!-- Stats -->
+      <div class="pdash-grid">
+        <div class="dcard"><div class="dcard-ico">📅</div><div class="dcard-n" style="color:var(--ore)">2</div><div class="dcard-l">Sessions Booked</div></div>
+        <div class="dcard"><div class="dcard-ico">✅</div><div class="dcard-n" style="color:var(--ore)">1</div><div class="dcard-l">Sessions Completed</div></div>
+        <div class="dcard"><div class="dcard-ico">⭐</div><div class="dcard-n" style="color:var(--ore)">7.6</div><div class="dcard-l">Last Score</div></div>
+        <div class="dcard"><div class="dcard-ico">🎯</div><div class="dcard-n" style="color:var(--ore)">🇦🇪</div><div class="dcard-l">Target: Gulf</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+        <!-- Upcoming session -->
+        <div class="pdash-sec">
+          <div class="pdash-sec-t">Upcoming Sessions</div>
+          <div class="sess-item">
+            <span class="sess-ico">📅</span>
+            <div class="sess-info"><div class="sess-name">Arun K. — HSE Mock Interview</div><div class="sess-date">Mon 24 Mar · 3:00 PM</div></div>
+            <span class="spill s-pd">Upcoming</span>
+          </div>
+          <div class="sess-item">
+            <span class="sess-ico">📋</span>
+            <div class="sess-info"><div class="sess-name">Ravi V. — CV Review</div><div class="sess-date">Wed 26 Mar · 5:00 PM</div></div>
+            <span class="spill s-nw">Pending</span>
+          </div>
+          <div style="margin-top:1.2rem;"><button class="dab pr" onclick="showInterviewers()">Book New Session +</button></div>
+        </div>
+        <!-- Readiness score -->
+        <div class="pdash-sec">
+          <div class="pdash-sec-t">Readiness Tracker</div>
+          <div class="prog-row"><span style="font-size:.82rem;color:var(--muted)">Technical Knowledge</span><span style="font-family:var(--f-m);font-size:.62rem;color:var(--ore)">72%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:72%"></div></div>
+          <div class="prog-row"><span style="font-size:.82rem;color:var(--muted)">Communication</span><span style="font-family:var(--f-m);font-size:.62rem;color:var(--ore)">65%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:65%"></div></div>
+          <div class="prog-row"><span style="font-size:.82rem;color:var(--muted)">Gulf Norms & Culture</span><span style="font-family:var(--f-m);font-size:.62rem;color:var(--ore)">48%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:48%"></div></div>
+          <div class="prog-row"><span style="font-size:.82rem;color:var(--muted)">CV Alignment</span><span style="font-family:var(--f-m);font-size:.62rem;color:var(--ore)">80%</span></div>
+          <div class="prog-bar" style="margin-bottom:0"><div class="prog-fill" style="width:80%"></div></div>
+        </div>
+      </div>
+      <!-- Browse interviewers -->
+      <div class="pdash-sec" id="candInterviewers" style="margin-top:1.2rem;">
+        <div class="pdash-sec-t"><span>Browse Interviewers</span><div style="display:flex;gap:6px;"><button class="dab">Filter Industry</button><button class="dab">Filter Country</button></div></div>
+        <div class="int-card"><div class="int-av">👷</div><div><div class="int-name">Arun K.</div><div class="int-role">Senior HSE Manager · Oil &amp; Gas</div><div class="int-loc">📍 Abu Dhabi, UAE · 14 yrs</div></div><div class="int-meta"><div class="int-rating">4.9★</div><div class="int-price">₹TBC / session</div><div class="int-tier">Tier 1</div></div></div>
+        <div class="int-card"><div class="int-av">🏗️</div><div><div class="int-name">Ravi V.</div><div class="int-role">Construction PM · Civil</div><div class="int-loc">📍 Riyadh, KSA · 11 yrs</div></div><div class="int-meta"><div class="int-rating">4.8★</div><div class="int-price">₹TBC / session</div><div class="int-tier">Tier 1</div></div></div>
+        <div class="int-card"><div class="int-av">🛡️</div><div><div class="int-name">Meera P.</div><div class="int-role">EHS Engineer · Manufacturing</div><div class="int-loc">📍 London, UK · 7 yrs</div></div><div class="int-meta"><div class="int-rating">4.7★</div><div class="int-price">₹TBC / session</div><div class="int-tier">Tier 2</div></div></div>
+        <div class="int-card"><div class="int-av">⚙️</div><div><div class="int-name">Suresh N.</div><div class="int-role">Process Safety Specialist</div><div class="int-loc">📍 Chennai, India · 9 yrs</div></div><div class="int-meta"><div class="int-rating">4.9★</div><div class="int-price">₹TBC / session</div><div class="int-tier">Tier 2</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERT / INTERVIEWER DASHBOARD -->
+  <div id="expertDash" class="portal-dash">
+    <div class="pdash-nav">
+      <div class="pdash-brand">Pro<em>Prep</em><span class="pdash-role-badge e">Expert Interviewer</span></div>
+      <button class="pdash-out" onclick="portalLogout()">Sign Out</button>
+    </div>
+    <div class="pdash-body">
+      <div class="pdash-hello">Welcome back, <span id="expertName">Arun</span> 👋</div>
+      <div class="pdash-sub">Your interviewer dashboard — sessions, earnings and candidate feedback</div>
+      <div class="pdash-grid">
+        <div class="dcard"><div class="dcard-ico">📅</div><div class="dcard-n" style="color:#DAA520">8</div><div class="dcard-l">Sessions This Month</div></div>
+        <div class="dcard"><div class="dcard-ico">👤</div><div class="dcard-n" style="color:#DAA520">24</div><div class="dcard-l">Total Candidates</div></div>
+        <div class="dcard"><div class="dcard-ico">⭐</div><div class="dcard-n" style="color:#DAA520">4.9</div><div class="dcard-l">Your Rating</div></div>
+        <div class="dcard"><div class="dcard-ico">💰</div><div class="dcard-n" style="color:#DAA520"><span class="earn-big" style="font-size:2rem">₹TBC</span></div><div class="dcard-l">Earnings (Pending)</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+        <!-- Upcoming slots -->
+        <div class="pdash-sec">
+          <div class="pdash-sec-t"><span>Upcoming Sessions</span><button class="dab pr">+ Add Availability</button></div>
+          <div class="slot-item"><div class="slot-time">Mon · 3:00 PM</div><div><div class="slot-cand">Rahul M.</div><div class="slot-role">HSE Officer prep · Gulf</div></div><span class="spill s-pd">Confirmed</span></div>
+          <div class="slot-item"><div class="slot-time">Tue · 6:00 PM</div><div><div class="slot-cand">Anjali R.</div><div class="slot-role">EHS Engineer prep · UK</div></div><span class="spill s-pd">Confirmed</span></div>
+          <div class="slot-item"><div class="slot-time">Thu · 4:30 PM</div><div><div class="slot-cand">Deepa N.</div><div class="slot-role">HSE Manager prep · Canada</div></div><span class="spill s-nw">Pending</span></div>
+        </div>
+        <!-- Recent feedback given -->
+        <div class="pdash-sec">
+          <div class="pdash-sec-t">Recent Feedback Given</div>
+          <div class="sess-item"><span class="sess-ico">📝</span><div class="sess-info"><div class="sess-name">Vikram T. — Site Engineer</div><div class="sess-date">22 Mar · Score: 7.8/10</div></div><span class="spill s-ok">Submitted</span></div>
+          <div class="sess-item"><span class="sess-ico">📝</span><div class="sess-info"><div class="sess-name">Priya S. — Safety Supervisor</div><div class="sess-date">20 Mar · Score: 8.2/10</div></div><span class="spill s-ok">Submitted</span></div>
+          <div class="sess-item"><span class="sess-ico">⏳</span><div class="sess-info"><div class="sess-name">Sanjay K. — Process Safety</div><div class="sess-date">Today · In Progress</div></div><span class="spill s-nw">Draft</span></div>
+        </div>
+      </div>
+      <!-- Profile completeness -->
+      <div class="pdash-sec" style="margin-top:1.2rem;">
+        <div class="pdash-sec-t">Your Interviewer Profile</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+          <div><div class="prog-row"><span style="font-size:.82rem;color:var(--muted)">Profile Completeness</span><span style="font-family:var(--f-m);font-size:.62rem;color:#DAA520">85%</span></div><div class="prog-bar"><div class="prog-fill" style="width:85%;background:linear-gradient(90deg,#B8860B,#DAA520)"></div></div></div>
+          <div><div class="prog-row"><span style="font-size:.82rem;color:var(--muted)">Documents Verified</span><span style="font-family:var(--f-m);font-size:.62rem;color:#DAA520">2/3</span></div><div class="prog-bar"><div class="prog-fill" style="width:66%;background:linear-gradient(90deg,#B8860B,#DAA520)"></div></div></div>
+          <div><div class="prog-row"><span style="font-size:.82rem;color:var(--muted)">Response Rate</span><span style="font-family:var(--f-m);font-size:.62rem;color:#DAA520">96%</span></div><div class="prog-bar"><div class="prog-fill" style="width:96%;background:linear-gradient(90deg,#B8860B,#DAA520)"></div></div></div>
+        </div>
+        <div class="dactions" style="margin-top:1rem;"><button class="dab pr" style="background:#B8860B;border-color:#B8860B;">Edit Profile</button><button class="dab">Upload Documents</button><button class="dab">Set Availability</button><button class="dab">View Earnings</button></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end portalOverlay --> src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* Cursor */
 const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
@@ -2442,192 +2844,361 @@ document.getElementById('adminModal').addEventListener('click',e=>{if(e.target==
 let tapCount=0,tapTimer;
 document.getElementById('ftAdmin').addEventListener('click',()=>{tapCount++;clearTimeout(tapTimer);tapTimer=setTimeout(()=>tapCount=0,800);if(tapCount>=3){tapCount=0;openAdmin();}});
 
-/* ══════════════════════════════════════
-   FULL-PAGE DRIFTING STARFIELD + MILKY WAY
-══════════════════════════════════════ */
+/* ══════════════════════════════════
+   ROLE-BASED PORTAL SYSTEM
+══════════════════════════════════ */
+let portalRole = '';
+
+function openPortal(e){
+  if(e)e.preventDefault();
+  document.getElementById('portalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  showView('portalSelect');
+}
+function closePortal(){
+  document.getElementById('portalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function showView(id){
+  ['portalSelect','portalAuth','candDash','expertDash'].forEach(v=>{
+    const el=document.getElementById(v);
+    if(el) el.style.display = (v===id)?'block':'none';
+  });
+  // portalAuth uses class
+  const pa=document.getElementById('portalAuth');
+  if(pa) pa.style.display = (id==='portalAuth')?'block':'none';
+}
+function showAuth(role){
+  portalRole=role;
+  const icons={candidate:'🎓',expert:'👷',admin:'🔐'};
+  const labels={candidate:'Candidate',expert:'Expert Interviewer',admin:'Administrator'};
+  const badgeCls={candidate:'c',expert:'e',admin:'a'};
+  document.getElementById('pauthIco').textContent=icons[role];
+  document.getElementById('pauthRole').textContent=labels[role];
+  const badge=document.getElementById('pauthBadge');
+  badge.textContent=labels[role];
+  badge.className='pauth-badge '+badgeCls[role];
+  // Show/hide role-specific register fields
+  document.getElementById('rg-cand-fields').style.display=role==='candidate'?'block':'none';
+  document.getElementById('rg-exp-fields').style.display=role==='expert'?'block':'none';
+  // Style buttons per role
+  ['li-btn','rg-btn'].forEach(id=>{
+    const b=document.getElementById(id);
+    if(b) b.className='pauth-btn '+badgeCls[role];
+  });
+  // Admin: only show login tab, no register
+  document.getElementById('tabReg').style.display=role==='admin'?'none':'block';
+  switchTab('login');
+  showView('portalAuth');
+}
+function backToSelect(){
+  showView('portalSelect');
+}
+function switchTab(tab){
+  document.getElementById('formLogin').classList.toggle('show', tab==='login');
+  document.getElementById('formReg').classList.toggle('show', tab==='register');
+  document.getElementById('tabLogin').classList.toggle('active', tab==='login');
+  document.getElementById('tabReg').classList.toggle('active', tab==='register');
+}
+function doPortalLogin(){
+  const email=document.getElementById('li-email').value.trim();
+  const pass=document.getElementById('li-pass').value;
+  const err=document.getElementById('li-err');
+  err.classList.remove('show');
+  if(!email||!pass){err.textContent='Please enter your email and password.';err.classList.add('show');return;}
+  // Demo credentials per role
+  const creds={
+    candidate:{email:'candidate@proprep.in',pass:'cand123'},
+    expert:{email:'expert@proprep.in',pass:'exp123'},
+    admin:{email:'admin@proprep.in',pass:'admin123'}
+  };
+  const ok=creds[portalRole];
+  if(ok&&email===ok.email&&pass===ok.pass){
+    portalLoginSuccess(portalRole,'Demo User');
+  } else {
+    err.textContent='Invalid credentials. (Demo: use the hint below)';
+    err.classList.add('show');
+    // Show hint
+    const hint=document.querySelector('#formLogin .pauth-hint');
+    if(hint&&!hint.dataset.hinted){
+      hint.dataset.hinted='1';
+      hint.innerHTML+=`<br><span style="color:var(--ore);font-family:var(--f-m);font-size:.6rem;">Demo: ${ok?ok.email:'check role'} / ${ok?ok.pass:''}</span>`;
+    }
+  }
+}
+function doPortalRegister(){
+  const fn=document.getElementById('rg-fn').value.trim();
+  const em=document.getElementById('rg-email').value.trim();
+  const err=document.getElementById('rg-err');
+  err.classList.remove('show');
+  if(!fn||!em){err.textContent='Please fill all required fields.';err.classList.add('show');return;}
+  portalLoginSuccess(portalRole, fn);
+}
+function portalLoginSuccess(role, name){
+  if(role==='admin'){
+    closePortal();
+    document.getElementById('adminDash').classList.add('open');
+    document.body.style.overflow='hidden';
+    return;
+  }
+  if(role==='candidate'){
+    document.getElementById('candName').textContent=name;
+    showView('candDash');
+  } else if(role==='expert'){
+    document.getElementById('expertName').textContent=name;
+    showView('expertDash');
+  }
+}
+function portalLogout(){
+  closePortal();
+  setTimeout(()=>showView('portalSelect'),300);
+}
+// Close on Escape
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const po=document.getElementById('portalOverlay');if(po.classList.contains('open'))closePortal();}});
+
+// Init portal to show select screen
+document.addEventListener('DOMContentLoaded',()=>showView('portalSelect'));
+
+/* ══════════════════════════════════════════
+   MILKY WAY + FULL-PAGE STARFIELD — REDESIGNED
+   Beautiful cosmic canvas covering every section
+══════════════════════════════════════════ */
 (function(){
-  const sc=document.getElementById('starCanvas');
-  const cx=sc.getContext('2d');
-  let W,H;
-  function resize(){W=sc.width=window.innerWidth;H=sc.height=window.innerHeight;}
-  resize();window.addEventListener('resize',resize);
+  const sc = document.getElementById('starCanvas');
+  if(!sc) return;
+  const cx = sc.getContext('2d');
+  let W, H, t = 0;
 
-  /* ── Star types ── */
-  class Star{
-    constructor(){this.reset(true);}
-    reset(init){
-      this.x=Math.random()*W;
-      this.y=init?Math.random()*H:Math.random()<.5?-4:H+4;
-      this.r=Math.random()*1.8+.2;
-      this.speed=Math.random()*.18+.04;
-      this.dx=(Math.random()-.5)*.06;
-      this.alpha=Math.random()*.7+.1;
-      this.pulse=Math.random()*Math.PI*2; // phase offset
-      this.pulseSpeed=Math.random()*.015+.005;
-      // Colour: mostly white, occasional gold/blue/purple
-      const p=Math.random();
-      if(p<.08)      this.color=[255,215,0];    // gold
-      else if(p<.15) this.color=[180,200,255];  // blue-white
-      else if(p<.19) this.color=[220,180,255];  // purple
-      else           this.color=[255,255,255];  // white
+  function resize(){
+    W = sc.width  = window.innerWidth;
+    H = sc.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* ── Star class ── */
+  class Star {
+    constructor(){ this.init(true); }
+    init(random){
+      this.x = Math.random() * W;
+      this.y = random ? Math.random() * H : -4;
+      this.size = Math.pow(Math.random(), 3) * 2.2 + 0.2;
+      this.drift = (Math.random() - 0.5) * 0.04;
+      this.fall  = Math.random() * 0.08 + 0.02;
+      this.phase = Math.random() * Math.PI * 2;
+      this.speed = Math.random() * 0.012 + 0.005;
+      // Type: 0=white, 1=gold, 2=blue-white, 3=warm, 4=purple
+      const r = Math.random();
+      this.type = r<.06?1 : r<.12?2 : r<.16?3 : r<.19?4 : 0;
+      const cols = [
+        [255,255,255], [255,215,80], [180,210,255], [255,240,200], [210,170,255]
+      ];
+      this.rgb = cols[this.type];
     }
     update(){
-      this.y+=this.speed;this.x+=this.dx;
-      this.pulse+=this.pulseSpeed;
-      if(this.y>H+5||this.x<-5||this.x>W+5)this.reset(false);
+      this.y += this.fall;
+      this.x += this.drift;
+      this.phase += this.speed;
+      if(this.y > H + 4 || this.x < -4 || this.x > W + 4) this.init(false);
     }
     draw(){
-      const a=this.alpha*(0.55+0.45*Math.sin(this.pulse));
-      const[r,g,b]=this.color;
-      // glow halo for larger stars
-      if(this.r>1.2){
-        const g2=cx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*3.5);
-        g2.addColorStop(0,`rgba(${r},${g},${b},${a*.45})`);
-        g2.addColorStop(1,`rgba(${r},${g},${b},0)`);
-        cx.beginPath();cx.arc(this.x,this.y,this.r*3.5,0,Math.PI*2);
-        cx.fillStyle=g2;cx.fill();
+      const alpha = (0.4 + 0.6 * Math.sin(this.phase)) *
+                    (this.type === 0 ? 0.7 : 0.85);
+      const [r,g,b] = this.rgb;
+      // Glow for larger stars
+      if(this.size > 1.2){
+        const g2 = cx.createRadialGradient(this.x,this.y,0, this.x,this.y, this.size*4);
+        g2.addColorStop(0, `rgba(${r},${g},${b},${alpha*0.5})`);
+        g2.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        cx.beginPath(); cx.arc(this.x,this.y,this.size*4,0,Math.PI*2);
+        cx.fillStyle = g2; cx.fill();
       }
-      cx.beginPath();cx.arc(this.x,this.y,this.r,0,Math.PI*2);
-      cx.fillStyle=`rgba(${r},${g},${b},${a})`;cx.fill();
+      cx.beginPath(); cx.arc(this.x,this.y,this.size,0,Math.PI*2);
+      cx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+      cx.fill();
     }
   }
 
-  /* ── Milky Way flow particles ── */
-  class MWParticle{
-    constructor(){this.reset(true);}
-    reset(init){
-      // Particles drift along a diagonal band
-      const t=Math.random();
-      // Band goes from (W*.05, H*.85) to (W*.95, H*.05) — diagonal
-      this.x=W*.05 + t*(W*.9) + (Math.random()-.5)*W*.22;
-      this.y=H*.85 - t*(H*.8) + (Math.random()-.5)*H*.22;
-      if(init){
-        this.x=Math.random()*W;
-        this.y=Math.random()*H;
-      }
-      this.r=Math.random()*.9+.15;
-      this.speed=Math.random()*.08+.02;
-      this.angle=-Math.PI*.32 + (Math.random()-.5)*.35;
-      this.alpha=Math.random()*.35+.05;
-      this.pulse=Math.random()*Math.PI*2;
-      this.pulseSpeed=Math.random()*.008+.003;
-      const p=Math.random();
-      if(p<.2)      this.color=[200,190,255]; // purple-white
-      else if(p<.38)this.color=[220,235,255]; // blue-white
-      else if(p<.5) this.color=[255,248,220]; // warm white
-      else          this.color=[255,255,255];
+  /* ── Milky Way dust particle ── */
+  class DustParticle {
+    constructor(){ this.init(true); }
+    init(random){
+      // Particles drift along a broad diagonal band
+      const t0 = Math.random();
+      // Band goes from bottom-left to upper-right
+      const bx0 = W * 0.0,  by0 = H * 0.95;
+      const bx1 = W * 1.0,  by1 = H * 0.05;
+      this.x = bx0 + t0*(bx1-bx0) + (Math.random()-0.5)*W*0.28;
+      this.y = random
+        ? by0 + t0*(by1-by0) + (Math.random()-0.5)*H*0.28
+        : by0 + (Math.random()-0.5)*H*0.15;
+      this.r    = Math.random() * 0.85 + 0.1;
+      this.vx   =  0.04 + Math.random()*0.06;
+      this.vy   = -(0.03 + Math.random()*0.05);
+      this.alpha= Math.random() * 0.18 + 0.04;
+      this.phase= Math.random() * Math.PI * 2;
+      this.ps   = Math.random() * 0.006 + 0.003;
+      // Warm whites, blue-whites, faint purples
+      const p = Math.random();
+      this.rgb = p<0.25 ? [200,190,255] : p<0.55 ? [220,235,255] : [255,252,235];
     }
     update(){
-      this.x+=Math.cos(this.angle)*this.speed;
-      this.y+=Math.sin(this.angle)*this.speed;
-      this.pulse+=this.pulseSpeed;
-      if(this.x<-5||this.x>W+5||this.y<-5||this.y>H+5)this.reset(false);
+      this.x += this.vx; this.y += this.vy; this.phase += this.ps;
+      if(this.x > W+5 || this.y < -5) this.init(false);
     }
     draw(){
-      const a=this.alpha*(0.5+0.5*Math.sin(this.pulse));
-      const[r,g,b]=this.color;
-      cx.beginPath();cx.arc(this.x,this.y,this.r,0,Math.PI*2);
-      cx.fillStyle=`rgba(${r},${g},${b},${a})`;cx.fill();
+      const a = this.alpha * (0.55 + 0.45 * Math.sin(this.phase));
+      const [r,g,b] = this.rgb;
+      cx.beginPath(); cx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+      cx.fillStyle = `rgba(${r},${g},${b},${a})`; cx.fill();
     }
   }
 
-  /* ── Shooting stars ── */
-  class Shoot{
-    constructor(){this.reset();}
-    reset(){
-      this.active=false;
-      this.timer=Math.random()*300+120; // frames between shots
-    }
+  /* ── Shooting star ── */
+  class Shoot {
+    constructor(delay){ this.countdown = delay || Math.random()*400+100; this.active=false; }
     fire(){
-      this.active=true;
-      this.x=Math.random()*W*.7;
-      this.y=Math.random()*H*.4;
-      this.len=Math.random()*80+40;
-      this.angle=Math.PI*.18+Math.random()*.2;
-      this.speed=Math.random()*5+4;
-      this.alpha=1;this.tail=0;
+      this.active = true;
+      this.x = Math.random() * W * 0.75;
+      this.y = Math.random() * H * 0.38;
+      this.angle = 0.18 + Math.random()*0.22;
+      this.len   = Math.random() * 90 + 45;
+      this.spd   = Math.random() * 5.5 + 4;
+      this.progress = 0;
+      this.alpha = 0.9;
+      // Colour
+      const p = Math.random();
+      this.trail = p<0.3 ? [255,210,100] : p<0.5 ? [180,210,255] : [255,255,255];
     }
     update(){
-      if(!this.active){this.timer--;if(this.timer<=0)this.fire();return;}
-      this.tail+=this.speed;this.alpha-=.03;
-      if(this.alpha<=0){this.reset();}
+      if(!this.active){ if(--this.countdown <= 0) this.fire(); return; }
+      this.progress += this.spd;
+      this.alpha -= 0.028;
+      if(this.alpha <= 0){ this.active=false; this.countdown=Math.random()*300+80; }
     }
     draw(){
-      if(!this.active)return;
-      const ex=this.x+Math.cos(this.angle)*this.tail;
-      const ey=this.y+Math.sin(this.angle)*this.tail;
-      const sx=ex-Math.cos(this.angle)*this.len;
-      const sy=ey-Math.sin(this.angle)*this.len;
-      const g=cx.createLinearGradient(sx,sy,ex,ey);
-      g.addColorStop(0,`rgba(255,255,255,0)`);
-      g.addColorStop(1,`rgba(255,252,220,${this.alpha})`);
-      cx.beginPath();cx.moveTo(sx,sy);cx.lineTo(ex,ey);
-      cx.strokeStyle=g;cx.lineWidth=1.5;cx.stroke();
+      if(!this.active) return;
+      const ex = this.x + Math.cos(this.angle)*this.progress;
+      const ey = this.y + Math.sin(this.angle)*this.progress;
+      const sx = ex - Math.cos(this.angle)*this.len;
+      const sy = ey - Math.sin(this.angle)*this.len;
+      const g = cx.createLinearGradient(sx,sy,ex,ey);
+      const [r,gb,b] = this.trail;
+      g.addColorStop(0, `rgba(${r},${gb},${b},0)`);
+      g.addColorStop(0.7, `rgba(${r},${gb},${b},${this.alpha*0.6})`);
+      g.addColorStop(1, `rgba(${r},${gb},${b},${this.alpha})`);
+      cx.beginPath(); cx.moveTo(sx,sy); cx.lineTo(ex,ey);
+      cx.strokeStyle = g; cx.lineWidth = 1.5; cx.stroke();
     }
   }
 
-  /* ── Milky Way diffuse glow band (canvas version) ── */
+  /* ── Milky Way band (canvas-drawn, animating) ── */
   function drawMilkyWay(){
-    const pts=[
-      {x:W*.02,y:H*.95},{x:W*.18,y:H*.75},{x:W*.35,y:H*.55},
-      {x:W*.5, y:H*.42},{x:W*.65,y:H*.28},{x:W*.8, y:H*.15},{x:W*.98,y:H*.02}
+    const pulse = 0.5 + 0.5*Math.sin(t * 0.0008);
+
+    // Band control points - diagonal lower-left → upper-right
+    const pts = [
+      {x: W*0.00, y: H*1.00},
+      {x: W*0.15, y: H*0.82},
+      {x: W*0.30, y: H*0.65},
+      {x: W*0.45, y: H*0.50},
+      {x: W*0.60, y: H*0.35},
+      {x: W*0.75, y: H*0.20},
+      {x: W*0.90, y: H*0.08},
+      {x: W*1.05, y: H*-0.05},
     ];
-    // Outer diffuse glow
-    for(let i=0;i<pts.length-1;i++){
-      const p0=pts[i],p1=pts[i+1];
-      const g=cx.createLinearGradient(p0.x,p0.y,p1.x,p1.y);
-      g.addColorStop(0,'rgba(180,160,255,0)');
-      g.addColorStop(.4,'rgba(200,185,255,.028)');
-      g.addColorStop(.5,'rgba(220,210,255,.048)');
-      g.addColorStop(.6,'rgba(200,185,255,.028)');
-      g.addColorStop(1,'rgba(160,140,220,0)');
-      cx.beginPath();
-      cx.moveTo(p0.x-H*.12*Math.cos(Math.PI*.55),p0.y-H*.12*Math.sin(Math.PI*.55));
-      cx.lineTo(p0.x+H*.12*Math.cos(Math.PI*.55),p0.y+H*.12*Math.sin(Math.PI*.55));
-      cx.lineTo(p1.x+H*.12*Math.cos(Math.PI*.55),p1.y+H*.12*Math.sin(Math.PI*.55));
-      cx.lineTo(p1.x-H*.12*Math.cos(Math.PI*.55),p1.y-H*.12*Math.sin(Math.PI*.55));
-      cx.closePath();
-      cx.fillStyle=g;cx.fill();
+
+    // Draw multiple layered glows along the band
+    const widths = [
+      {w: H*0.38, a: 0.022 * pulse, rgb:'160,140,220'},
+      {w: H*0.22, a: 0.038 * pulse, rgb:'190,175,240'},
+      {w: H*0.12, a: 0.055 * pulse, rgb:'215,205,255'},
+      {w: H*0.055,a: 0.08  * pulse, rgb:'240,235,255'},
+      {w: H*0.022,a: 0.1   * pulse, rgb:'255,255,255'},
+    ];
+
+    for(const layer of widths){
+      for(let i=0; i<pts.length-1; i++){
+        const p0 = pts[i], p1 = pts[i+1];
+        // Perpendicular direction to band
+        const dx = p1.x-p0.x, dy = p1.y-p0.y;
+        const len = Math.sqrt(dx*dx+dy*dy);
+        const nx = -dy/len, ny = dx/len;
+        const hw = layer.w;
+
+        const grad = cx.createLinearGradient(
+          p0.x + nx*hw, p0.y + ny*hw,
+          p0.x - nx*hw, p0.y - ny*hw
+        );
+        grad.addColorStop(0,   `rgba(${layer.rgb},0)`);
+        grad.addColorStop(0.35,`rgba(${layer.rgb},${layer.a*0.4})`);
+        grad.addColorStop(0.5, `rgba(${layer.rgb},${layer.a})`);
+        grad.addColorStop(0.65,`rgba(${layer.rgb},${layer.a*0.4})`);
+        grad.addColorStop(1,   `rgba(${layer.rgb},0)`);
+
+        cx.beginPath();
+        cx.moveTo(p0.x + nx*hw, p0.y + ny*hw);
+        cx.lineTo(p1.x + nx*hw, p1.y + ny*hw);
+        cx.lineTo(p1.x - nx*hw, p1.y - ny*hw);
+        cx.lineTo(p0.x - nx*hw, p0.y - ny*hw);
+        cx.closePath();
+        cx.fillStyle = grad; cx.fill();
+      }
     }
-    // Inner brighter core
-    for(let i=0;i<pts.length-1;i++){
-      const p0=pts[i],p1=pts[i+1];
-      const g=cx.createLinearGradient(p0.x,p0.y,p1.x,p1.y);
-      g.addColorStop(0,'rgba(240,235,255,0)');
-      g.addColorStop(.5,'rgba(250,248,255,.06)');
-      g.addColorStop(1,'rgba(240,235,255,0)');
-      cx.beginPath();
-      cx.moveTo(p0.x-H*.04*Math.cos(Math.PI*.55),p0.y-H*.04*Math.sin(Math.PI*.55));
-      cx.lineTo(p0.x+H*.04*Math.cos(Math.PI*.55),p0.y+H*.04*Math.sin(Math.PI*.55));
-      cx.lineTo(p1.x+H*.04*Math.cos(Math.PI*.55),p1.y+H*.04*Math.sin(Math.PI*.55));
-      cx.lineTo(p1.x-H*.04*Math.cos(Math.PI*.55),p1.y-H*.04*Math.sin(Math.PI*.55));
-      cx.closePath();
-      cx.fillStyle=g;cx.fill();
+
+    // Nebula colour pockets
+    const nebulae = [
+      {x:W*.22,y:H*.75,rx:W*.1,ry:H*.08,rgb:'80,40,160',a:0.028},
+      {x:W*.45,y:H*.50,rx:W*.08,ry:H*.06,rgb:'40,100,180',a:0.022},
+      {x:W*.68,y:H*.28,rx:W*.09,ry:H*.07,rgb:'160,60,80', a:0.018},
+      {x:W*.85,y:H*.12,rx:W*.07,ry:H*.05,rgb:'60,160,100',a:0.016},
+    ];
+    for(const n of nebulae){
+      cx.save();
+      cx.translate(n.x,n.y);
+      cx.scale(n.rx/n.ry,1);
+      const g2 = cx.createRadialGradient(0,0,0, 0,0,n.ry);
+      g2.addColorStop(0, `rgba(${n.rgb},${n.a*(0.7+0.3*pulse)})`);
+      g2.addColorStop(1, `rgba(${n.rgb},0)`);
+      cx.beginPath(); cx.arc(0,0,n.ry,0,Math.PI*2);
+      cx.fillStyle = g2; cx.fill();
+      cx.restore();
+    }
+
+    // Dense star clusters along band (static but twinkle)
+    const clusters = [
+      {x:W*.18,y:H*.78},{x:W*.28,y:H*.65},{x:W*.38,y:H*.53},
+      {x:W*.50,y:H*.43},{x:W*.60,y:H*.33},{x:W*.72,y:H*.22},{x:W*.82,y:H*.12},
+    ];
+    for(const c of clusters){
+      const a = (0.55+0.45*Math.sin(t*0.002+c.x)) * (0.5+0.5*pulse);
+      cx.beginPath(); cx.arc(c.x,c.y,1.6,0,Math.PI*2);
+      cx.fillStyle=`rgba(255,252,230,${a*0.9})`; cx.fill();
+      cx.beginPath(); cx.arc(c.x+4,c.y-3,1,0,Math.PI*2);
+      cx.fillStyle=`rgba(200,195,255,${a*0.7})`; cx.fill();
+      cx.beginPath(); cx.arc(c.x-5,c.y+4,1.2,0,Math.PI*2);
+      cx.fillStyle=`rgba(255,240,180,${a*0.8})`; cx.fill();
     }
   }
 
-  /* ── Init populations ── */
-  const starCount=window.innerWidth<640?80:180;
-  const mwCount=window.innerWidth<640?50:130;
-  const stars=Array.from({length:starCount},()=>new Star());
-  const mwParticles=Array.from({length:mwCount},()=>new MWParticle());
-  const shoots=Array.from({length:4},()=>new Shoot());
-  // stagger shoot timers
-  shoots.forEach((s,i)=>s.timer=i*80+40);
+  /* ── Init ── */
+  const isMobile = window.innerWidth < 640;
+  const starCount = isMobile ? 90 : 220;
+  const dustCount = isMobile ? 60 : 160;
+  const shootCount = isMobile ? 2 : 4;
+
+  const stars   = Array.from({length:starCount}, ()=>new Star());
+  const dust    = Array.from({length:dustCount},  ()=>new DustParticle());
+  const shoots  = Array.from({length:shootCount}, (_,i)=>new Shoot(i*90+40));
 
   /* ── Render loop ── */
-  let frame=0;
   (function loop(){
     cx.clearRect(0,0,W,H);
-    // Milky Way band first (behind everything)
     drawMilkyWay();
-    // MW particles
-    mwParticles.forEach(p=>{p.update();p.draw();});
-    // Background stars
+    dust.forEach(p=>{p.update();p.draw();});
     stars.forEach(s=>{s.update();s.draw();});
-    // Shooting stars
     shoots.forEach(s=>{s.update();s.draw();});
-    frame++;
+    t++;
     requestAnimationFrame(loop);
   })();
 })();
