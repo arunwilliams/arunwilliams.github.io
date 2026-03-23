@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A08">
+<meta name="description" content="ProPrep — India's niche mock interview platform for HSE, Oil &amp; Gas and Construction professionals targeting the Gulf, UK, Australia and Canada.">
+<meta property="og:title" content="ProPrep — Get Interview Ready">
+<meta property="og:description" content="Live 1:1 mock interviews with verified HSE managers, construction professionals and O&G engineers.">
+<meta name="robots" content="index, follow">
 <title>ProPrep — HSE & Industry Interview Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Epilogue:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
@@ -1000,6 +1005,15 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
   .session-timer,.session-quality{display:none;}
 }
 /* ═════════════════════════════════════════════════════════════════════ */
+
+/* ── Admin tab navigation ── */
+.adm-nav{background:var(--ink2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:2px;padding:0 2rem;height:52px;flex-shrink:0;}
+.adm-tab{font-family:var(--f-m);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:0 16px;height:100%;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all var(--t);}
+.adm-tab.on{color:var(--w);border-color:var(--ore);}
+.adm-tab:hover{color:var(--w);}
+.adm-page{display:none;}
+.adm-page.show{display:block;}
+
 /* ── ADMIN MODAL ── */
 #adminModal{display:none;position:fixed;inset:0;z-index:9000;align-items:center;justify-content:center;background:rgba(5,5,4,.97);backdrop-filter:blur(24px);}
 #adminModal.open{display:flex;}
@@ -1187,7 +1201,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <li><a href="#demo">Demo</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#institutes">Institutions</a></li>
-    <li><a href="#cta" class="nav-cta" onclick="openPortal(event)">Sign In / Register ↗</a></li>
+    <li><a href="#" class="nav-cta" onclick="openPortal(event);return false;">Sign In / Register ↗</a></li>
   </ul>
   <div class="burger" id="burger" onclick="toggleNav()">
     <span></span><span></span><span></span>
@@ -1199,7 +1213,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
   <a href="#demo" onclick="closeNav()">Live Demo</a>
   <a href="#pricing" onclick="closeNav()">Pricing</a>
   <a href="#institutes" onclick="closeNav()">Institutions</a>
-  <a href="#" onclick="openPortal(event);closeNav()" style="background:var(--ore);text-align:center;padding:16px!important;border-radius:4px;border-bottom:none!important;margin-top:1.5rem;font-size:1.2rem;">Sign In / Register →</a>
+  <a href="#" onclick="openPortal(event);closeNav();" style="display:block;background:var(--ore);color:var(--w);text-align:center;padding:16px;border-radius:4px;margin-top:1.5rem;font-size:1.2rem;font-family:var(--f-d);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Sign In / Register →</a>
 </div>
 
 <!-- HERO -->
@@ -1906,7 +1920,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     </div>
     <p class="h-desc">Live 1:1 mock interviews with verified HSE managers, construction professionals and O&amp;G engineers. Built for the Gulf, UK, Australia and Canada.</p>
     <div class="h-btns">
-      <a href="#pricing" class="btn-p">Browse Sessions →</a>
+      <a href="#pricing" class="btn-p" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});return false;">Browse Sessions →</a>
       <a href="#professionals" class="btn-o">Meet the Experts ↗</a>
     </div>
     <div class="h-stats">
@@ -2240,7 +2254,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <div class="pc rv d3"><div class="pc-img" style="background:url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80') center top/cover;"></div><div class="pc-ov"></div><div class="pc-info"><div class="pc-badge">Tier 2 · Process Safety</div><div class="pc-name">Sample Profile</div><div class="pc-role">Process Safety Specialist</div><div class="pc-loc">📍 Chennai, India · 9 yrs</div><div class="pc-stats"><div><div class="ps-v">4.9★</div><div class="ps-l">Rating</div></div><div><div class="ps-v">India</div><div class="ps-l">Specialist</div></div></div></div></div>
   </div>
   <div class="rv" style="margin-top:1.5rem;text-align:center;">
-    <a href="#cta" class="btn-o" style="display:inline-flex;margin:0 auto;">Senior professional? Apply as an interviewer →</a>
+    <a href="#" onclick="openPortal(event)" class="btn-o" style="display:inline-flex;margin:0 auto;">Senior professional? Apply as an interviewer →</a>
   </div>
 </section>
 
@@ -2271,7 +2285,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
       <li class="fr"><span class="fdot">→</span>CV gaps identified and documented live</li>
       <li class="fr"><span class="fdot">→</span>Written feedback report within 24 hours</li>
     </ul>
-    <div style="margin-top:1.8rem;"><a href="#cta" class="btn-p" style="display:inline-flex;">Book Your First Session →</a></div>
+    <div style="margin-top:1.8rem;"><a href="#" onclick="openPortal(event)" class="btn-p" style="display:inline-flex;">Book Your First Session →</a></div>
   </div>
   <div class="demo-vis">
     <div class="glass-card rv-r">
@@ -2632,13 +2646,13 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <p class="stxt">Subscribe for full access or pay per session. All prices launching soon.</p>
   </div>
   <div class="plans">
-    <div class="plan rv"><div class="plan-top"><div class="plan-name">Starter</div><div class="plan-tag">For candidates exploring interview prep</div><div class="plan-price">₹TBC<sub> / month</sub></div></div><div class="plan-body"><ul class="plan-feats"><li><span class="pck">✓</span>1 mock interview / month</li><li><span class="pck">✓</span>1 CV review</li><li><span class="pck">✓</span>Basic question bank</li><li><span class="pck">✓</span>Post-session feedback</li><li class="off"><span class="pck">✗</span>Priority booking</li><li class="off"><span class="pck">✗</span>LinkedIn optimisation</li><li class="off"><span class="pck">✗</span>Country-specific bundle</li></ul><a href="#cta" class="plan-btn">Get Started</a></div></div>
-    <div class="plan feat rv d1"><div class="plan-badge">Most Popular</div><div class="plan-top"><div class="plan-name">Pro</div><div class="plan-tag">For candidates targeting fast placement</div><div class="plan-price">₹TBC<sub> / month</sub></div></div><div class="plan-body"><ul class="plan-feats"><li><span class="pck">✓</span>3 mock interviews / month</li><li><span class="pck">✓</span>1 CV + LinkedIn review</li><li><span class="pck">✓</span>Premium question bank</li><li><span class="pck">✓</span>Priority booking</li><li><span class="pck">✓</span>Detailed scorecard / session</li><li class="off"><span class="pck">✗</span>Country-specific bundle</li><li class="off"><span class="pck">✗</span>Currently-abroad session</li></ul><a href="#cta" class="plan-btn">Get Started</a></div></div>
-    <div class="plan rv d2"><div class="plan-top"><div class="plan-name">Gulf / UK Focus</div><div class="plan-tag">2-month intensive for international roles</div><div class="plan-price">₹TBC<sub> / 2 months</sub></div></div><div class="plan-body"><ul class="plan-feats"><li><span class="pck">✓</span>4 mock interviews (2 months)</li><li><span class="pck">✓</span>Country-specific prep module</li><li><span class="pck">✓</span>Session with currently-abroad pro</li><li><span class="pck">✓</span>CV + LinkedIn review</li><li><span class="pck">✓</span>Premium question bank</li><li><span class="pck">✓</span>Priority booking + scoring</li><li><span class="pck">✓</span>Destination culture briefing</li></ul><a href="#cta" class="plan-btn">Get Started</a></div></div>
+    <div class="plan rv"><div class="plan-top"><div class="plan-name">Starter</div><div class="plan-tag">For candidates exploring interview prep</div><div class="plan-price">₹TBC<sub> / month</sub></div></div><div class="plan-body"><ul class="plan-feats"><li><span class="pck">✓</span>1 mock interview / month</li><li><span class="pck">✓</span>1 CV review</li><li><span class="pck">✓</span>Basic question bank</li><li><span class="pck">✓</span>Post-session feedback</li><li class="off"><span class="pck">✗</span>Priority booking</li><li class="off"><span class="pck">✗</span>LinkedIn optimisation</li><li class="off"><span class="pck">✗</span>Country-specific bundle</li></ul><a href="#" onclick="openPortal(event)" class="plan-btn">Get Started</a></div></div>
+    <div class="plan feat rv d1"><div class="plan-badge">Most Popular</div><div class="plan-top"><div class="plan-name">Pro</div><div class="plan-tag">For candidates targeting fast placement</div><div class="plan-price">₹TBC<sub> / month</sub></div></div><div class="plan-body"><ul class="plan-feats"><li><span class="pck">✓</span>3 mock interviews / month</li><li><span class="pck">✓</span>1 CV + LinkedIn review</li><li><span class="pck">✓</span>Premium question bank</li><li><span class="pck">✓</span>Priority booking</li><li><span class="pck">✓</span>Detailed scorecard / session</li><li class="off"><span class="pck">✗</span>Country-specific bundle</li><li class="off"><span class="pck">✗</span>Currently-abroad session</li></ul><a href="#" onclick="openPortal(event)" class="plan-btn">Get Started</a></div></div>
+    <div class="plan rv d2"><div class="plan-top"><div class="plan-name">Gulf / UK Focus</div><div class="plan-tag">2-month intensive for international roles</div><div class="plan-price">₹TBC<sub> / 2 months</sub></div></div><div class="plan-body"><ul class="plan-feats"><li><span class="pck">✓</span>4 mock interviews (2 months)</li><li><span class="pck">✓</span>Country-specific prep module</li><li><span class="pck">✓</span>Session with currently-abroad pro</li><li><span class="pck">✓</span>CV + LinkedIn review</li><li><span class="pck">✓</span>Premium question bank</li><li><span class="pck">✓</span>Priority booking + scoring</li><li><span class="pck">✓</span>Destination culture briefing</li></ul><a href="#" onclick="openPortal(event)" class="plan-btn">Get Started</a></div></div>
   </div>
   <div class="rv" style="margin-top:1.2rem;padding:18px 22px;border:1px solid var(--border);display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
     <div><div style="font-family:var(--f-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ore);margin-bottom:4px;">Pay Per Session — No Subscription</div><p style="font-size:.84rem;color:var(--muted);line-height:1.6;">Book from <strong style="color:var(--w)">Tier 3</strong> (3–5 yrs) to <strong style="color:var(--w)">Tier 1</strong> (10–20+ yrs Gulf/UK). All ₹TBC — launching soon.</p></div>
-    <a href="#cta" class="btn-o" style="flex-shrink:0;white-space:nowrap;">Notify Me →</a>
+    <a href="#" onclick="openPortal(event)" class="btn-o" style="flex-shrink:0;white-space:nowrap;">Notify Me →</a>
   </div>
 </section>
 
@@ -2660,7 +2674,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
       <li class="fr"><span class="fdot">→</span>CV review &amp; LinkedIn optimisation add-ons</li>
       <li class="fr"><span class="fdot">→</span>Premium question banks by role and country</li>
     </ul>
-    <div style="margin-top:1.8rem;"><a href="#cta" class="btn-p" style="display:inline-flex;">Start Preparing →</a></div>
+    <div style="margin-top:1.8rem;"><a href="#" onclick="openPortal(event)" class="btn-p" style="display:inline-flex;">Start Preparing →</a></div>
   </div>
 </div>
 
@@ -2720,7 +2734,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
       <li>Certificates of completion for students</li>
       <li>Measurable placement outcomes for accreditation</li>
     </ul>
-    <div style="margin-top:1.8rem;"><a href="#cta" class="btn-p" style="display:inline-flex;">Enquire About Packages →</a></div>
+    <div style="margin-top:1.8rem;"><a href="#" onclick="openPortal(event)" class="btn-p" style="display:inline-flex;">Enquire About Packages →</a></div>
   </div>
 </section>
 
@@ -2734,10 +2748,10 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <div class="rv-r">
       <p>We're onboarding our first cohort of candidates and interviewers now. Join the waitlist and be first when we go live.</p>
       <div class="cta-btns">
-        <a href="/cdn-cgi/l/email-protection#345c5158585b7444465b444651441a5d5a" class="btn-p" style="justify-content:center;">Join Waitlist as Candidate ↗</a>
-        <a href="/cdn-cgi/l/email-protection#d2b7aaa2b7a0a692a2a0bda2a0b7a2fcbbbc" class="btn-o" style="justify-content:center;border-color:rgba(255,255,255,.22);">Apply as an Interviewer</a>
+        <a href="mailto:hello@proprep.in" class="btn-p" style="justify-content:center;">Join Waitlist as Candidate ↗</a>
+        <a href="mailto:expert@proprep.in" class="btn-o" style="justify-content:center;border-color:rgba(255,255,255,.22);">Apply as an Interviewer</a>
       </div>
-      <div class="cta-email">Questions? <a href="/cdn-cgi/l/email-protection#254d4049494a6555574a555740550b4c4b"><span class="__cf_email__" data-cfemail="a1c9c4cdcdcee1d1d3ced1d3c4d18fc8cf">[email&#160;protected]</span></a></div>
+      <div class="cta-email">Questions? </div>
     </div>
   </div>
 </section>
@@ -2748,9 +2762,9 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
     <div>
       <div class="ft-logo">Pro<em>Prep</em></div>
       <div class="ft-about">India's niche interview prep platform for HSE, Oil &amp; Gas and Construction professionals targeting domestic and international careers.</div>
-      <div class="ft-c">Candidates: <a href="/cdn-cgi/l/email-protection#721a171e1e1d3202001d020017025c1b1c"><span class="__cf_email__" data-cfemail="e48c8188888ba494968b94968194ca8d8a">[email&#160;protected]</span></a></div>
-      <div class="ft-c">Experts: <a href="/cdn-cgi/l/email-protection#84e1fcf4e1f6f0c4f4f6ebf4f6e1f4aaedea"><span class="__cf_email__" data-cfemail="35504d455047417545475a454750451b5c5b">[email&#160;protected]</span></a></div>
-      <div class="ft-c">Institutions: <a href="/cdn-cgi/l/email-protection#c2abacb1b6abb6b7b6a7b182b2b0adb2b0a7b2ecabac"><span class="__cf_email__" data-cfemail="533a3d20273a27262736201323213c232136237d3a3d">[email&#160;protected]</span></a></div>
+      <div class="ft-c">Candidates: <a href="mailto:hello@proprep.in">hello@proprep.in</a></div>
+      <div class="ft-c">Experts: <a href="mailto:expert@proprep.in">expert@proprep.in</a></div>
+      <div class="ft-c">Institutions: <a href="mailto:institutes@proprep.in">institutes@proprep.in</a></div>
     </div>
     <div>
       <div class="ft-col-h">Platform</div>
@@ -2767,7 +2781,7 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
   </div>
   <div class="ft-bottom">
     <div class="ft-legal">© 2025 ProPrep · All rights reserved · <span class="ft-admin" id="ftAdmin">·</span></div>
-    <div class="ft-soc"><a href="#" class="soc">in</a><a href="#" class="soc">ig</a><a href="#" class="soc">wa</a></div>
+    <div class="ft-soc"><a href="https://linkedin.com/company/proprep" target="_blank" rel="noopener" class="soc" title="LinkedIn">in</a><a href="https://instagram.com/proprep.in" target="_blank" rel="noopener" class="soc" title="Instagram">ig</a><a href="https://wa.me/919876543210" target="_blank" rel="noopener" class="soc" title="WhatsApp">wa</a></div>
   </div>
 </footer>
 
@@ -2789,25 +2803,94 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
 <!-- ADMIN DASHBOARD -->
 <div id="adminDash">
   <div class="dnav">
-    <div class="dnav-brand">Pro<em>Prep</em> <span style="font-size:.65rem;color:var(--muted);font-weight:400;font-family:var(--f-m);text-transform:uppercase;letter-spacing:.08em;">Admin</span></div>
+    <div class="dnav-brand">Pro<em>Prep</em> <span style="font-size:.6rem;color:var(--muted);font-family:var(--f-m);text-transform:uppercase;letter-spacing:.08em">Admin</span></div>
+    <span id="adm-notif-badge" style="background:var(--ore);color:var(--w);font-family:var(--f-m);font-size:.55rem;text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:100px;margin-left:8px;display:none"></span>
     <button class="d-out" onclick="doLogout()">Sign Out</button>
   </div>
-  <div class="dbody">
-    <div class="d-title">Dashboard</div>
-    <div class="d-greet">Welcome back, Admin. Here's what's happening today.</div>
-    <div class="d-cards">
-      <div class="dcard"><div class="dcard-ico">📅</div><div class="dcard-n">24</div><div class="dcard-l">Sessions This Month</div></div>
-      <div class="dcard"><div class="dcard-ico">👥</div><div class="dcard-n">142</div><div class="dcard-l">Registered Candidates</div></div>
-      <div class="dcard"><div class="dcard-ico">👷</div><div class="dcard-n">18</div><div class="dcard-l">Active Interviewers</div></div>
-      <div class="dcard"><div class="dcard-ico">💰</div><div class="dcard-n">₹2.4L</div><div class="dcard-l">Revenue This Month</div></div>
-    </div>
-    <div class="d-grid2">
-      <div class="dsec"><div class="dsec-t"><span>Recent Sessions</span><div class="dactions"><button class="dab pr">+ New Session</button><button class="dab">Export CSV</button></div></div><div style="overflow-x:auto;"><table class="dtable"><thead><tr><th>Candidate</th><th>Interviewer</th><th>Role</th><th>Date</th><th>Status</th></tr></thead><tbody><tr><td>Rahul M.</td><td>Arun K.</td><td>HSE Officer</td><td>Today</td><td><span class="spill s-ok">Completed</span></td></tr><tr><td>Priya S.</td><td>Ravi V.</td><td>Safety Mgr</td><td>Yesterday</td><td><span class="spill s-ok">Completed</span></td></tr><tr><td>Vikram T.</td><td>Meera P.</td><td>Site Eng.</td><td>20 Mar</td><td><span class="spill s-pd">Upcoming</span></td></tr><tr><td>Anjali R.</td><td>Suresh N.</td><td>EHS Eng.</td><td>19 Mar</td><td><span class="spill s-ok">Completed</span></td></tr><tr><td>Deepa N.</td><td>Arun K.</td><td>HSE Mgr</td><td>18 Mar</td><td><span class="spill s-ok">Completed</span></td></tr></tbody></table></div></div>
-      <div class="dsec"><div class="dsec-t">Pending Approvals</div><div style="overflow-x:auto;"><table class="dtable"><thead><tr><th>Applicant</th><th>Role</th><th>Tier</th><th>Status</th></tr></thead><tbody><tr><td>Sameer K.</td><td>HSE Manager</td><td>Tier 1</td><td><span class="spill s-nw">Review</span></td></tr><tr><td>Leela R.</td><td>EHS Specialist</td><td>Tier 2</td><td><span class="spill s-nw">Review</span></td></tr><tr><td>Farhan A.</td><td>O&amp;G Engineer</td><td>Tier 1</td><td><span class="spill s-pd">Docs Pending</span></td></tr></tbody></table></div><div style="margin-top:1.2rem;"><div class="dsec-t" style="font-size:1rem;">Quick Actions</div><div class="dactions"><button class="dab pr">Add Interviewer</button><button class="dab">Announcement</button><button class="dab">Reports</button><button class="dab">Pricing</button></div></div></div>
-    </div>
-    <div class="dsec"><div class="dsec-t">All Interviewers</div><div style="overflow-x:auto;"><table class="dtable"><thead><tr><th>Name</th><th>Industry</th><th>Country</th><th>Tier</th><th>Sessions</th><th>Rating</th><th>Status</th></tr></thead><tbody><tr><td>Arun K.</td><td>HSE · O&amp;G</td><td>UAE</td><td>Tier 1</td><td>120</td><td>4.9★</td><td><span class="spill s-ok">Active</span></td></tr><tr><td>Ravi V.</td><td>Construction</td><td>KSA</td><td>Tier 1</td><td>85</td><td>4.8★</td><td><span class="spill s-ok">Active</span></td></tr><tr><td>Meera P.</td><td>EHS</td><td>UK</td><td>Tier 2</td><td>62</td><td>4.7★</td><td><span class="spill s-ok">Active</span></td></tr><tr><td>Suresh N.</td><td>Process Safety</td><td>India</td><td>Tier 2</td><td>94</td><td>4.9★</td><td><span class="spill s-ok">Active</span></td></tr><tr><td>Lakshmi D.</td><td>Environmental</td><td>Australia</td><td>Tier 2</td><td>38</td><td>4.6★</td><td><span class="spill s-pd">On Leave</span></td></tr></tbody></table></div></div>
+  <div class="adm-nav">
+    <button class="adm-tab on"  onclick="admTab('dashboard',this)">Dashboard</button>
+    <button class="adm-tab"     onclick="admTab('sessions',this)">Sessions</button>
+    <button class="adm-tab"     onclick="admTab('candidates',this)">Candidates</button>
+    <button class="adm-tab"     onclick="admTab('interviewers',this)">Interviewers</button>
+    <button class="adm-tab"     onclick="admTab('pending',this)">Approvals</button>
+    <button class="adm-tab"     onclick="admTab('notifications',this)">Notifications</button>
   </div>
-</div>
+  <div class="dbody">
+
+    <!-- DASHBOARD HOME -->
+    <div class="adm-page show" id="adm-dashboard">
+      <div class="d-title">Dashboard</div>
+      <div class="d-greet">Welcome back, Admin. Here's what's happening today.</div>
+      <div class="d-cards">
+        <div class="dcard"><div class="dcard-ico">📅</div><div class="dcard-n" id="adm-stat-sessions">—</div><div class="dcard-l">Total Sessions</div></div>
+        <div class="dcard"><div class="dcard-ico">👥</div><div class="dcard-n" id="adm-stat-candidates">—</div><div class="dcard-l">Registered Candidates</div></div>
+        <div class="dcard"><div class="dcard-ico">👷</div><div class="dcard-n" id="adm-stat-interviewers">—</div><div class="dcard-l">Active Interviewers</div></div>
+        <div class="dcard"><div class="dcard-ico">💰</div><div class="dcard-n">₹TBC</div><div class="dcard-l">Revenue This Month</div></div>
+      </div>
+      <div class="d-grid2">
+        <div class="dsec">
+          <div class="dsec-t"><span>Recent Sessions</span><div class="dactions"><button class="dab pr" onclick="admTab('sessions',null);admPopulateAddForm()">+ New Session</button><button class="dab" onclick="admTab('sessions',null)">View All</button></div></div>
+          <div style="overflow-x:auto"><table class="dtable"><thead><tr><th>Candidate</th><th>Interviewer</th><th>Type</th><th>Date</th><th>Status</th><th></th></tr></thead>
+          <tbody id="adm-sessions-table"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:16px">Loading…</td></tr></tbody></table></div>
+        </div>
+        <div class="dsec">
+          <div class="dsec-t">Pending Approvals</div>
+          <div style="overflow-x:auto"><table class="dtable"><thead><tr><th>Applicant</th><th>Role</th><th>Tier</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="adm-pending-table"><tr><td colspan="5" style="color:var(--muted);text-align:center;padding:16px">Loading…</td></tr></tbody></table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSIONS PAGE -->
+    <div class="adm-page" id="adm-sessions">
+      <div class="d-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        Sessions
+        <button class="dab pr" onclick="admPopulateAddForm()">+ Create Session</button>
+      </div>
+      <!-- Add Session Form -->
+      <div id="adm-new-form" style="display:none;background:var(--ink2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:1.5rem">
+        <div style="font-family:var(--f-d);font-weight:700;margin-bottom:1rem">New Session</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:12px;align-items:end;flex-wrap:wrap">
+          <div><label class="a-lbl">Candidate</label><select class="a-sel" id="adm-new-cand" style="font-size:.78rem;padding:8px 10px"></select></div>
+          <div><label class="a-lbl">Interviewer</label><select class="a-sel" id="adm-new-int" style="font-size:.78rem;padding:8px 10px"></select></div>
+          <div><label class="a-lbl">Session Type</label><select class="a-sel" id="adm-new-type" style="font-size:.78rem;padding:8px 10px"><option>HSE Mock Interview</option><option>CV Review</option><option>Process Safety Mock</option><option>Construction Mock</option></select></div>
+          <div><label class="a-lbl">Date</label><input class="a-inp" id="adm-new-date" type="date" style="font-size:.78rem;padding:8px 10px"></div>
+          <button class="dab pr" style="height:38px;margin-top:auto" onclick="admAddSession()">Create ✓</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto"><table class="dtable"><thead><tr><th>Candidate</th><th>Interviewer</th><th>Type</th><th>Date</th><th>Status</th><th></th></tr></thead>
+      <tbody id="adm-sessions-table2"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:16px">Loading…</td></tr></tbody></table></div>
+    </div>
+
+    <!-- CANDIDATES PAGE -->
+    <div class="adm-page" id="adm-candidates">
+      <div class="d-title">Candidates</div>
+      <div style="overflow-x:auto"><table class="dtable"><thead><tr><th>Name</th><th>Email</th><th>Target Role</th><th>Country</th><th>Sessions</th><th>Status</th></tr></thead>
+      <tbody id="adm-cands-table"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:16px">Loading…</td></tr></tbody></table></div>
+    </div>
+
+    <!-- INTERVIEWERS PAGE -->
+    <div class="adm-page" id="adm-interviewers">
+      <div class="d-title">Interviewers</div>
+      <div style="overflow-x:auto"><table class="dtable"><thead><tr><th>Name</th><th>Industry</th><th>Country</th><th>Tier</th><th>Sessions</th><th>Rating</th><th>Status</th><th></th></tr></thead>
+      <tbody id="adm-ints-table"><tr><td colspan="8" style="color:var(--muted);text-align:center;padding:16px">Loading…</td></tr></tbody></table></div>
+    </div>
+
+    <!-- APPROVALS PAGE -->
+    <div class="adm-page" id="adm-pending">
+      <div class="d-title">Pending Approvals</div>
+      <div style="overflow-x:auto"><table class="dtable"><thead><tr><th>Applicant</th><th>Role</th><th>Tier</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="adm-pending-table2"><tr><td colspan="5" style="color:var(--muted);text-align:center;padding:16px">Loading…</td></tr></tbody></table></div>
+    </div>
+
+    <!-- NOTIFICATIONS PAGE -->
+    <div class="adm-page" id="adm-notifications">
+      <div class="d-title">Notifications</div>
+      <div class="dsec"><div id="adm-notifs-list" style="max-height:500px;overflow-y:auto"><p style="color:var(--muted);padding:16px;text-align:center">Loading…</p></div></div>
+    </div>
+
+  </div><!-- dbody -->
+</div><!-- adminDash -->
 
 <!-- ═══════════════════════════════════════
      ROLE-BASED PORTAL SYSTEM
@@ -2941,598 +3024,495 @@ footer{background:rgba(5,5,4,1);border-top:3px solid var(--ore);padding:60px 5vw
        CANDIDATE DASHBOARD
   ══════════════════════════════ -->
   <div id="candDash" class="p-dash">
-    <div class="pd-nav">
-      <div class="pd-brand">Pro<em class="c">Prep</em><span class="pd-pill c">Candidate</span></div>
-      <div class="pd-tabs">
-        <button class="pd-tab on" onclick="pTab('cand','home',this)">Home</button>
-        <button class="pd-tab" onclick="pTab('cand','book',this)">Book Session</button>
-        <button class="pd-tab" onclick="pTab('cand','sessions',this)">My Sessions</button>
-        <button class="pd-tab" onclick="pTab('cand','progress',this)">Progress</button>
-        <button class="pd-tab" onclick="pTab('cand','profile',this)">Profile</button>
-        <button class="pd-tab" id="candSessionBtn" onclick="pTab('cand','livesession',this)">🎥 Live Session</button>
-      </div>
-      <button class="pd-out" onclick="portalLogout()">Sign Out</button>
+  <div class="pd-nav">
+    <div class="pd-brand">Pro<em class="c">Prep</em><span class="pd-pill c">Candidate</span></div>
+    <div class="pd-tabs">
+      <button class="pd-tab on" onclick="pTab('cand','home',this)">Home</button>
+      <button class="pd-tab"   onclick="pTab('cand','book',this)">Book Session</button>
+      <button class="pd-tab"   onclick="pTab('cand','sessions',this)">My Sessions</button>
+      <button class="pd-tab"   onclick="pTab('cand','progress',this)">Progress</button>
+      <button class="pd-tab"   onclick="pTab('cand','profile',this)">Profile</button>
+      <button class="pd-tab"   id="candSessionBtn" onclick="pTab('cand','livesession',this)">🎥 Live Session</button>
     </div>
-    <div class="pd-body">
+    <button class="pd-out" onclick="portalLogout()">Sign Out</button>
+  </div>
+  <div class="pd-body">
 
-      <!-- HOME PAGE -->
-      <div class="pd-page show" id="cand-home">
-        <div class="pd-greeting">Welcome back, <span id="candName">Rahul</span> 👋</div>
-        <div class="pd-sub" id="candTargetLine">Target: HSE Officer · 🇦🇪 Gulf</div>
-        <div class="stat-row">
-          <div class="stat-card"><div class="stat-ico">📅</div><div class="stat-val c">2</div><div class="stat-lbl">Sessions Booked</div></div>
-          <div class="stat-card"><div class="stat-ico">✅</div><div class="stat-val c">1</div><div class="stat-lbl">Completed</div></div>
-          <div class="stat-card"><div class="stat-ico">⭐</div><div class="stat-val c">7.6</div><div class="stat-lbl">Last Score</div></div>
-          <div class="stat-card"><div class="stat-ico">📈</div><div class="stat-val c">68%</div><div class="stat-lbl">Readiness</div></div>
-        </div>
-        <div class="two-col">
-          <div class="pd-card">
-            <div class="pd-card-title">Upcoming Sessions <button class="pd-btn pr" onclick="pTab('cand','book',null)">+ Book</button></div>
-            <div class="pd-row"><span class="pd-row-ico">📅</span><div class="pd-row-main"><div class="pd-row-title">Arun K. — HSE Mock Interview</div><div class="pd-row-sub">Mon 24 Mar · 3:00 PM · Gulf Focus</div></div><span class="sp sp-pd">Upcoming</span></div>
-            <div class="pd-row"><span class="pd-row-ico">📋</span><div class="pd-row-main"><div class="pd-row-title">Ravi V. — CV Review Session</div><div class="pd-row-sub">Wed 26 Mar · 5:00 PM</div></div><span class="sp sp-nw">Confirmed</span></div>
-          </div>
-          <div class="pd-card">
-            <div class="pd-card-title">Readiness Tracker</div>
-            <div class="prog-label"><span>Technical Knowledge</span><span class="prog-pct">72%</span></div>
-            <div class="prog-track"><div class="prog-fill" style="width:72%"></div></div>
-            <div class="prog-label"><span>Communication</span><span class="prog-pct">65%</span></div>
-            <div class="prog-track"><div class="prog-fill" style="width:65%"></div></div>
-            <div class="prog-label"><span>Gulf Norms &amp; Culture</span><span class="prog-pct">48%</span></div>
-            <div class="prog-track"><div class="prog-fill" style="width:48%"></div></div>
-            <div class="prog-label"><span>CV Alignment</span><span class="prog-pct">82%</span></div>
-            <div class="prog-track" style="margin-bottom:0"><div class="prog-fill" style="width:82%"></div></div>
-          </div>
+    <!-- HOME -->
+    <div class="pd-page show" id="cand-home">
+      <div class="pd-greeting">Welcome back, <span id="candName">Rahul</span> 👋</div>
+      <div class="pd-sub" id="candTargetLine">Target: HSE Officer · 🇦🇪 Gulf</div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-ico">📅</div><div class="stat-val c" id="cand-stat-booked">—</div><div class="stat-lbl">Sessions Booked</div></div>
+        <div class="stat-card"><div class="stat-ico">✅</div><div class="stat-val c" id="cand-stat-completed">—</div><div class="stat-lbl">Completed</div></div>
+        <div class="stat-card"><div class="stat-ico">⭐</div><div class="stat-val c" id="cand-stat-score">—</div><div class="stat-lbl">Last Score</div></div>
+        <div class="stat-card"><div class="stat-ico">📈</div><div class="stat-val c">68%</div><div class="stat-lbl">Readiness</div></div>
+      </div>
+      <div class="two-col">
+        <div class="pd-card">
+          <div class="pd-card-title">Upcoming Sessions <button class="pd-btn pr" onclick="pTab('cand','book',null)">+ Book</button></div>
+          <div id="cand-upcoming-list"><p style="font-size:.82rem;color:var(--muted);padding:12px 0">Loading…</p></div>
         </div>
         <div class="pd-card">
-          <div class="pd-card-title">Last Session Scorecard — Arun K. (22 Mar)</div>
-          <div class="score-grid">
-            <div class="score-box"><div class="score-val">7.6</div><div class="score-lbl">Technical</div></div>
-            <div class="score-box"><div class="score-val">7.2</div><div class="score-lbl">Communication</div></div>
-            <div class="score-box"><div class="score-val">6.9</div><div class="score-lbl">Gulf Norms</div></div>
-          </div>
-          <p style="font-size:.82rem;color:var(--muted);line-height:1.7"><strong style="color:var(--w)">Feedback:</strong> Good understanding of PTW procedures. Strengthen incident reporting protocols for Gulf standards. Improve ALARP justification clarity. CV gap: add offshore projects. <span style="color:var(--ore);cursor:pointer">Read full report →</span></p>
+          <div class="pd-card-title">Readiness Tracker</div>
+          <div class="prog-label"><span>Technical Knowledge</span><span class="prog-pct" id="pct-tech">72%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-tech" style="width:72%"></div></div>
+          <div class="prog-label"><span>Communication</span><span class="prog-pct" id="pct-comm">65%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-comm" style="width:65%"></div></div>
+          <div class="prog-label"><span>Gulf / Country Norms</span><span class="prog-pct" id="pct-norm">48%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-norm" style="width:48%"></div></div>
+          <div class="prog-label"><span>CV Alignment</span><span class="prog-pct" id="pct-cv">82%</span></div>
+          <div class="prog-track" style="margin-bottom:0"><div class="prog-fill" id="prog-cv" style="width:82%"></div></div>
         </div>
       </div>
-
-      <!-- BOOK SESSION PAGE -->
-      <div class="pd-page" id="cand-book">
-        <div class="pd-greeting">Book a Session</div>
-        <div class="pd-sub">Choose a verified expert interviewer</div>
-        <div style="display:flex;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap;">
-          <select class="a-sel" style="width:auto;flex:1;max-width:200px;font-size:.78rem;padding:8px 12px"><option>All Industries</option><option>HSE / EHS</option><option>Oil &amp; Gas</option><option>Construction</option><option>Environmental</option></select>
-          <select class="a-sel" style="width:auto;flex:1;max-width:180px;font-size:.78rem;padding:8px 12px"><option>All Countries</option><option>🇦🇪 UAE / Gulf</option><option>🇬🇧 UK</option><option>🇦🇺 Australia</option><option>🇨🇦 Canada</option><option>🇮🇳 India</option></select>
-          <select class="a-sel" style="width:auto;flex:1;max-width:140px;font-size:.78rem;padding:8px 12px"><option>All Tiers</option><option>Tier 1 (10+ yrs)</option><option>Tier 2 (5–10 yrs)</option><option>Tier 3 (3–5 yrs)</option></select>
+      <div class="pd-card" style="margin-top:1.2rem">
+        <div class="pd-card-title" id="scorecard-date">Last Session Scorecard</div>
+        <div class="score-grid">
+          <div class="score-box"><div class="score-val" id="sc-tech">—</div><div class="score-lbl">Technical</div></div>
+          <div class="score-box"><div class="score-val" id="sc-comm">—</div><div class="score-lbl">Communication</div></div>
+          <div class="score-box"><div class="score-val" id="sc-overall">—</div><div class="score-lbl">Overall</div></div>
         </div>
-        <div class="int-grid">
-          <div class="int-item"><div class="int-av">👷</div><div class="int-info"><div class="int-name">Arun K.</div><div class="int-role">Senior HSE Manager · Oil &amp; Gas</div><div class="int-loc">📍 Abu Dhabi, UAE · 14 yrs · Gulf Specialist</div></div><div class="int-right"><div class="int-rating">4.9★</div><div style="font-size:.72rem;color:var(--muted)">₹TBC</div><div class="int-tier">Tier 1</div></div></div>
-          <div class="int-item"><div class="int-av">🏗️</div><div class="int-info"><div class="int-name">Ravi V.</div><div class="int-role">Construction PM · Civil Engineering</div><div class="int-loc">📍 Riyadh, KSA · 11 yrs · Gulf Specialist</div></div><div class="int-right"><div class="int-rating">4.8★</div><div style="font-size:.72rem;color:var(--muted)">₹TBC</div><div class="int-tier">Tier 1</div></div></div>
-          <div class="int-item"><div class="int-av">🛡️</div><div class="int-info"><div class="int-name">Meera P.</div><div class="int-role">EHS Engineer · Manufacturing</div><div class="int-loc">📍 London, UK · 7 yrs · UK Specialist</div></div><div class="int-right"><div class="int-rating">4.7★</div><div style="font-size:.72rem;color:var(--muted)">₹TBC</div><div class="int-tier">Tier 2</div></div></div>
-          <div class="int-item"><div class="int-av">⚙️</div><div class="int-info"><div class="int-name">Suresh N.</div><div class="int-role">Process Safety Specialist · O&amp;G</div><div class="int-loc">📍 Chennai, India · 9 yrs</div></div><div class="int-right"><div class="int-rating">4.9★</div><div style="font-size:.72rem;color:var(--muted)">₹TBC</div><div class="int-tier">Tier 2</div></div></div>
-          <div class="int-item"><div class="int-av">🌿</div><div class="int-info"><div class="int-name">Lakshmi D.</div><div class="int-role">Environmental Officer · Sustainability</div><div class="int-loc">📍 Melbourne, Australia · 8 yrs · AU Specialist</div></div><div class="int-right"><div class="int-rating">4.6★</div><div style="font-size:.72rem;color:var(--muted)">₹TBC</div><div class="int-tier">Tier 2</div></div></div>
-        </div>
+        <p style="font-size:.82rem;color:var(--muted);line-height:1.7;margin-top:.8rem" id="last-feedback-text">Complete your first session to see feedback here.</p>
       </div>
+    </div>
 
-      <!-- MY SESSIONS PAGE -->
-      <div class="pd-page" id="cand-sessions">
-        <div class="pd-greeting">My Sessions</div>
-        <div class="pd-sub">All booked and completed mock interviews</div>
+    <!-- BOOK SESSION -->
+    <div class="pd-page" id="cand-book">
+      <div class="pd-greeting">Book a Session</div>
+      <div class="pd-sub">Choose a verified expert interviewer</div>
+      <div style="display:flex;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap">
+        <select class="a-sel" id="book-filter-ind" style="width:auto;flex:1;max-width:200px;font-size:.78rem;padding:8px 12px" onchange="renderBookList()">
+          <option value="">All Industries</option>
+          <option>HSE / EHS</option><option>Oil &amp; Gas</option><option>Construction</option><option>Environmental</option>
+        </select>
+        <select class="a-sel" id="book-filter-country" style="width:auto;flex:1;max-width:180px;font-size:.78rem;padding:8px 12px" onchange="renderBookList()">
+          <option value="">All Countries</option>
+          <option>UAE</option><option>KSA</option><option>UK</option><option>Australia</option><option>India</option>
+        </select>
+        <select class="a-sel" id="book-filter-tier" style="width:auto;flex:1;max-width:140px;font-size:.78rem;padding:8px 12px" onchange="renderBookList()">
+          <option value="">All Tiers</option>
+          <option>Tier 1</option><option>Tier 2</option><option>Tier 3</option>
+        </select>
+      </div>
+      <div class="int-grid" id="book-interviewer-list"><p style="color:var(--muted)">Loading interviewers…</p></div>
+    </div>
+
+    <!-- MY SESSIONS -->
+    <div class="pd-page" id="cand-sessions">
+      <div class="pd-greeting">My Sessions</div>
+      <div class="pd-sub">All booked and completed mock interviews</div>
+      <div class="pd-card"><div style="overflow-x:auto"><table class="pd-table">
+        <thead><tr><th>Date</th><th>Interviewer</th><th>Type</th><th>Score</th><th>Status</th></tr></thead>
+        <tbody id="cand-sessions-table"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Loading…</td></tr></tbody>
+      </table></div></div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="pd-page" id="cand-progress">
+      <div class="pd-greeting">Progress Tracker</div>
+      <div class="pd-sub">Your interview readiness over time</div>
+      <div class="two-col">
         <div class="pd-card">
-          <div style="overflow-x:auto">
-            <table class="pd-table">
-              <thead><tr><th>Date</th><th>Interviewer</th><th>Type</th><th>Score</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>24 Mar 2025</td><td>Arun K.</td><td>HSE Mock Interview</td><td>—</td><td><span class="sp sp-pd">Upcoming</span></td></tr>
-                <tr><td>26 Mar 2025</td><td>Ravi V.</td><td>CV Review</td><td>—</td><td><span class="sp sp-nw">Confirmed</span></td></tr>
-                <tr><td>22 Mar 2025</td><td>Arun K.</td><td>HSE Mock Interview</td><td>7.6/10</td><td><span class="sp sp-ok">Completed</span></td></tr>
-              </tbody>
-            </table>
+          <div class="pd-card-title">Skill Readiness</div>
+          <div class="prog-label"><span>Technical Knowledge</span><span class="prog-pct" id="pct-tech2">72%</span></div><div class="prog-track"><div class="prog-fill" style="width:72%"></div></div>
+          <div class="prog-label"><span>Communication</span><span class="prog-pct" id="pct-comm2">65%</span></div><div class="prog-track"><div class="prog-fill" style="width:65%"></div></div>
+          <div class="prog-label"><span>Country Norms</span><span class="prog-pct" id="pct-norm2">48%</span></div><div class="prog-track"><div class="prog-fill" style="width:48%"></div></div>
+          <div class="prog-label"><span>CV Alignment</span><span class="prog-pct" id="pct-cv2">82%</span></div><div class="prog-track" style="margin-bottom:0"><div class="prog-fill" style="width:82%"></div></div>
+        </div>
+        <div class="pd-card">
+          <div class="pd-card-title">Score History</div>
+          <div id="cand-score-history"><p style="font-size:.78rem;color:var(--muted);text-align:center;padding:12px">Loading…</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="pd-page" id="cand-profile">
+      <div class="pd-greeting">My Profile</div>
+      <div class="pd-sub">Manage your account and preferences</div>
+      <div class="two-col">
+        <div class="pd-card">
+          <div class="pd-card-title">Personal Details</div>
+          <label class="a-lbl">Full Name</label><input class="a-inp" id="profile-name" type="text" placeholder="Your name">
+          <label class="a-lbl">Email</label><input class="a-inp" id="profile-email" type="email" placeholder="your@email.com">
+          <label class="a-lbl">Mobile</label><input class="a-inp" id="profile-mob" type="tel" placeholder="+91 98765 43210">
+          <button class="a-btn c" style="margin-top:1rem" onclick="saveCandProfile()">Save Changes</button>
+        </div>
+        <div class="pd-card">
+          <div class="pd-card-title">Interview Preferences</div>
+          <label class="a-lbl">Target Role</label>
+          <select class="a-sel" id="profile-role"><option>HSE Officer</option><option>Safety Manager</option><option>EHS Engineer</option><option>Site Engineer</option><option>Construction Manager</option></select>
+          <label class="a-lbl">Target Country</label>
+          <select class="a-sel" id="profile-country"><option>🇦🇪 UAE / Gulf</option><option>🇬🇧 UK</option><option>🇦🇺 Australia</option><option>🇨🇦 Canada</option></select>
+          <label class="a-lbl">Experience Level</label>
+          <select class="a-sel" id="profile-exp"><option>0–2 years</option><option>2–5 years</option><option>5–10 years</option><option>10+ years</option></select>
+          <button class="a-btn c" style="margin-top:1rem" onclick="saveCandPrefs()">Update Preferences</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE SESSION -->
+    <div class="pd-page" id="cand-livesession">
+      <div id="cand-waiting">
+        <div class="waiting-room">
+          <div style="font-size:3rem;margin-bottom:1rem">🎥</div>
+          <div class="wr-title">Ready for Your Session?</div>
+          <div class="wr-sub">Check your camera and microphone before joining</div>
+          <div class="cam-preview" onclick="toggleCandCamPreview(this)">
+            <video id="candPreviewVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:6px" autoplay muted playsinline></video>
+            <div class="cam-preview-label" id="camPreviewLabel"><span style="font-size:1.5rem">📷</span><span>Click to enable camera</span></div>
+          </div>
+          <div class="wr-session-info">
+            <div class="wr-row"><span class="wr-ico">👷</span><div class="wr-info"><div class="wr-lbl">Interviewer</div><div class="wr-val" id="wr-int-name">Arun K. — Senior HSE Manager</div></div></div>
+            <div class="wr-row"><span class="wr-ico">📅</span><div class="wr-info"><div class="wr-lbl">Session</div><div class="wr-val" id="wr-sess-type">HSE Mock Interview · Gulf Focus</div></div></div>
+            <div class="wr-row"><span class="wr-ico">⏱️</span><div class="wr-info"><div class="wr-lbl">Duration</div><div class="wr-val">60 minutes</div></div></div>
+            <div class="wr-row"><span class="wr-ico">🌐</span><div class="wr-info"><div class="wr-lbl">Connection</div><div class="wr-val" style="color:#4ade80">Good — HD Ready</div></div></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+            <button class="a-btn c" style="max-width:180px;margin:0" onclick="joinCandSession()">Join Session →</button>
+            <button class="pd-btn" onclick="pTab('cand','sessions',null)">Back</button>
           </div>
         </div>
       </div>
-
-      <!-- PROGRESS PAGE -->
-      <div class="pd-page" id="cand-progress">
-        <div class="pd-greeting">Progress Tracker</div>
-        <div class="pd-sub">Track your interview readiness over time</div>
-        <div class="two-col">
-          <div class="pd-card">
-            <div class="pd-card-title">Skill Readiness</div>
-            <div class="prog-label"><span>Technical Knowledge</span><span class="prog-pct">72%</span></div><div class="prog-track"><div class="prog-fill" style="width:72%"></div></div>
-            <div class="prog-label"><span>Communication Clarity</span><span class="prog-pct">65%</span></div><div class="prog-track"><div class="prog-fill" style="width:65%"></div></div>
-            <div class="prog-label"><span>Gulf Norms &amp; Culture</span><span class="prog-pct">48%</span></div><div class="prog-track"><div class="prog-fill" style="width:48%"></div></div>
-            <div class="prog-label"><span>CV Alignment</span><span class="prog-pct">82%</span></div><div class="prog-track"><div class="prog-fill" style="width:82%"></div></div>
-            <div class="prog-label"><span>Scenario Handling</span><span class="prog-pct">60%</span></div><div class="prog-track" style="margin-bottom:0"><div class="prog-fill" style="width:60%"></div></div>
+      <div id="cand-room" style="display:none">
+        <div class="session-room" id="candRoom">
+          <div class="vid-grid">
+            <div class="vid-cell cam-on" id="candInterviewerCell">
+              <div class="vid-feed active"></div>
+              <div class="vid-person"><div class="vid-silhouette"></div></div>
+              <div class="vid-avatar" id="intAvatar">AK</div>
+              <div class="vid-label"><span class="mic-icon">🎙️</span>Arun K. · Interviewer</div>
+              <div class="vid-status"><div class="vs-badge live"><span class="live-blink"></span>Live</div><div class="vs-badge rec"><span class="rec-blink"></span>Rec</div></div>
+            </div>
+            <div class="vid-cell cam-on" id="candSelfCell">
+              <video id="candSelfVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;border-radius:6px" autoplay muted playsinline></video>
+              <div class="vid-feed active" style="animation-delay:1.3s"></div>
+              <div class="vid-person"><div class="vid-silhouette" style="background:linear-gradient(180deg,#1e2030,#252838 35%,#111520)"></div></div>
+              <div class="vid-avatar" id="candAvatar">RM</div>
+              <div class="vid-label"><span class="mic-icon">🎙️</span><span id="cand-self-name">You</span></div>
+            </div>
           </div>
-          <div class="pd-card">
-            <div class="pd-card-title">Score History</div>
-            <div class="pd-row"><span class="pd-row-ico">📋</span><div class="pd-row-main"><div class="pd-row-title">HSE Mock — Arun K.</div><div class="pd-row-sub">22 Mar 2025</div></div><div class="pd-row-end"><span style="font-family:var(--f-d);font-size:1.2rem;font-weight:700;color:var(--ore)">7.6</span></div></div>
-            <p style="font-size:.78rem;color:var(--muted);margin-top:1rem;text-align:center">Complete more sessions to track your improvement curve</p>
+          <div class="vid-pip"><div class="vid-pip-feed"></div><div class="vid-pip-label">You</div></div>
+          <div class="session-panel" id="candPanel">
+            <div class="sp-header"><div class="sp-title">Session Panel</div><button class="sp-close" onclick="togglePanel('cand')">✕</button></div>
+            <div class="sp-tabs">
+              <button class="sp-tab on" onclick="spTab(this,'cand','questions')">Questions</button>
+              <button class="sp-tab"    onclick="spTab(this,'cand','notes')">My Notes</button>
+              <button class="sp-tab"    onclick="spTab(this,'cand','info')">Info</button>
+            </div>
+            <div class="sp-content">
+              <div id="cand-sp-questions">
+                <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px">Questions in progress</p>
+                <div class="q-card active"><div class="q-num">Q1 — Current</div><div class="q-text">"A PTW has been issued but site conditions changed mid-shift. Walk me through your immediate actions and the notification chain."</div><div class="q-tag">Scenario</div><div class="q-tag">Gulf Norms</div></div>
+                <div class="q-card asked"><div class="q-num">Q0 — Asked</div><div class="q-text">"Tell me about your most challenging HSE incident on site and how you managed it."</div><div class="q-tag">Behavioural</div></div>
+              </div>
+              <div id="cand-sp-notes" style="display:none">
+                <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px">Private notes — only you can see these</p>
+                <textarea class="session-notes" id="cand-notes-ta" placeholder="Write notes during the session…"></textarea>
+                <button class="pd-btn pr" style="margin-top:.8rem;width:100%" onclick="saveCandNotes()">Save Notes</button>
+              </div>
+              <div id="cand-sp-info" style="display:none">
+                <div class="wr-row"><span class="wr-ico">👷</span><div class="wr-info"><div class="wr-lbl">Interviewer</div><div class="wr-val" id="info-int-name">Arun K.</div></div></div>
+                <div class="wr-row"><span class="wr-ico">🎯</span><div class="wr-info"><div class="wr-lbl">Focus</div><div class="wr-val">HSE · Gulf Standards</div></div></div>
+                <div class="wr-row"><span class="wr-ico">⏱️</span><div class="wr-info"><div class="wr-lbl">Elapsed</div><div class="wr-val" id="candTimer">00:00</div></div></div>
+                <div class="wr-row"><span class="wr-ico">⏳</span><div class="wr-info"><div class="wr-lbl">Time Left</div><div class="wr-val" id="candTimeLeft">60:00</div></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="ctrl-bar">
+            <div class="session-timer"><span class="timer-dot"></span><span id="cand-timer-disp">00:00</span></div>
+            <div style="display:flex;align-items:center;gap:10px;position:relative">
+              <div style="position:relative"><button class="ctrl-btn" id="candMicBtn" onclick="toggleCtrl('candMicBtn')" title="Mute">🎙️<span class="ctrl-label">Mic</span></button></div>
+              <div style="position:relative"><button class="ctrl-btn" id="candCamBtn" onclick="toggleCtrl('candCamBtn')" title="Camera">📷<span class="ctrl-label">Camera</span></button></div>
+              <div class="ctrl-sep"></div>
+              <div style="position:relative"><button class="ctrl-btn panel-toggle" id="candPanelBtn" onclick="togglePanel('cand')" title="Panel">📋<span class="ctrl-label">Panel</span></button></div>
+              <div class="ctrl-sep"></div>
+              <div style="position:relative"><button class="ctrl-btn end" onclick="endSession('cand')" title="End">📴<span class="ctrl-label">End</span></button></div>
+            </div>
+            <div class="session-quality"><div class="sig-bars"><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div></div>HD</div>
           </div>
         </div>
       </div>
-
-      <!-- PROFILE PAGE -->
-      <div class="pd-page" id="cand-profile">
-        <div class="pd-greeting">My Profile</div>
-        <div class="pd-sub">Manage your account and preferences</div>
-        <div class="two-col">
-          <div class="pd-card">
-            <div class="pd-card-title">Personal Details</div>
-            <label class="a-lbl">Full Name</label><input class="a-inp" value="Rahul Mehta" type="text">
-            <label class="a-lbl">Email</label><input class="a-inp" value="rahul@email.com" type="email">
-            <label class="a-lbl">Mobile</label><input class="a-inp" value="+91 98765 43210" type="tel">
-            <button class="a-btn c" style="margin-top:1rem">Save Changes</button>
+      <div id="cand-postsession" style="display:none">
+        <div class="waiting-room">
+          <div style="font-size:3rem;margin-bottom:1rem">✅</div>
+          <div class="wr-title">Session Complete!</div>
+          <div class="wr-sub">Feedback report will be ready within 24 hours.</div>
+          <div class="score-grid" style="max-width:400px;margin:0 auto 2rem">
+            <div class="score-box"><div class="score-val" id="post-tech">—</div><div class="score-lbl">Technical</div></div>
+            <div class="score-box"><div class="score-val" id="post-comm">—</div><div class="score-lbl">Comm.</div></div>
+            <div class="score-box"><div class="score-val" id="post-overall">—</div><div class="score-lbl">Overall</div></div>
           </div>
-          <div class="pd-card">
-            <div class="pd-card-title">Interview Preferences</div>
-            <label class="a-lbl">Target Role</label>
-            <select class="a-sel"><option>HSE Officer</option><option>Safety Manager</option></select>
-            <label class="a-lbl">Target Country</label>
-            <select class="a-sel"><option>🇦🇪 UAE / Gulf</option><option>🇬🇧 UK</option><option>🇦🇺 Australia</option></select>
-            <label class="a-lbl">Experience Level</label>
-            <select class="a-sel"><option>2–5 years</option><option>5–10 years</option></select>
-            <button class="a-btn c" style="margin-top:1rem">Update Preferences</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+            <button class="a-btn c" style="max-width:200px;margin:0" onclick="pTab('cand','sessions',null);renderCandPanel()">View My Sessions</button>
+            <button class="pd-btn" onclick="pTab('cand','book',null)">Book Next Session</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- LIVE SESSION PAGE — CANDIDATE -->
-      <div class="pd-page" id="cand-livesession">
-
-        <!-- Waiting Room (shown before joining) -->
-        <div id="cand-waiting">
-          <div class="waiting-room">
-            <div style="font-size:3rem;margin-bottom:1rem">🎥</div>
-            <div class="wr-title">Ready for Your Session?</div>
-            <div class="wr-sub">Check your camera and microphone before joining</div>
-            <div class="cam-preview" onclick="toggleCandCamPreview(this)">
-              <video id="candPreviewVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:6px;" autoplay muted playsinline></video>
-              <div class="cam-preview-label" id="camPreviewLabel">
-                <span style="font-size:1.5rem">📷</span>
-                <span>Click to enable camera</span>
-              </div>
-            </div>
-            <div class="wr-session-info">
-              <div class="wr-row"><span class="wr-ico">👷</span><div class="wr-info"><div class="wr-lbl">Interviewer</div><div class="wr-val">Arun K. — Senior HSE Manager</div></div></div>
-              <div class="wr-row"><span class="wr-ico">📅</span><div class="wr-info"><div class="wr-lbl">Session</div><div class="wr-val">HSE Mock Interview · Gulf Focus</div></div></div>
-              <div class="wr-row"><span class="wr-ico">⏱️</span><div class="wr-info"><div class="wr-lbl">Duration</div><div class="wr-val">60 minutes</div></div></div>
-              <div class="wr-row"><span class="wr-ico">🌐</span><div class="wr-info"><div class="wr-lbl">Connection</div><div class="wr-val" style="color:#4ade80">Good (HD Ready)</div></div></div>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-              <button class="a-btn c" style="max-width:180px;margin:0" onclick="joinCandSession()">Join Session →</button>
-              <button class="pd-btn" onclick="pTab('cand','sessions',null)">Back to Sessions</button>
-            </div>
-            <p style="font-size:.72rem;color:var(--muted);margin-top:1rem">ProPrep uses end-to-end encrypted video. Your session may be recorded for feedback purposes.</p>
-          </div>
-        </div>
-
-        <!-- Live Room (shown after joining) -->
-        <div id="cand-room" style="display:none">
-          <div class="session-room" id="candRoom">
-
-            <!-- Video Grid -->
-            <div class="vid-grid">
-              <!-- Interviewer feed -->
-              <div class="vid-cell cam-on" id="candInterviewerCell">
-                <div class="vid-feed active"></div>
-                <div class="vid-person"><div class="vid-silhouette"></div></div>
-                <div class="vid-avatar" id="intAvatar">AK</div>
-                <div class="vid-label"><span class="mic-icon">🎙️</span>Arun K. · Interviewer</div>
-                <div class="vid-status">
-                  <div class="vs-badge live"><span class="live-blink"></span>Live</div>
-                  <div class="vs-badge rec"><span class="rec-blink"></span>Rec</div>
-                </div>
-              </div>
-              <!-- Candidate feed -->
-              <div class="vid-cell cam-on" id="candSelfCell">
-                <video id="candSelfVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;border-radius:6px;" autoplay muted playsinline></video>
-                <div class="vid-feed active" style="animation-delay:1.3s"></div>
-                <div class="vid-person"><div class="vid-silhouette" style="background:linear-gradient(180deg,#1e2030 0%,#252838 35%,#111520 100%)"></div></div>
-                <div class="vid-avatar" id="candAvatar">RM</div>
-                <div class="vid-label"><span class="mic-icon">🎙️</span>Rahul M. · You</div>
-              </div>
-            </div>
-
-            <!-- PiP self-view -->
-            <div class="vid-pip"><div class="vid-pip-feed"></div><div class="vid-pip-label">You</div></div>
-
-            <!-- Side panel — questions / notes -->
-            <div class="session-panel" id="candPanel">
-              <div class="sp-header">
-                <div class="sp-title">Session Panel</div>
-                <button class="sp-close" onclick="togglePanel('cand')">✕</button>
-              </div>
-              <div class="sp-tabs">
-                <button class="sp-tab on" onclick="spTab(this,'cand','questions')">Questions</button>
-                <button class="sp-tab" onclick="spTab(this,'cand','notes')">My Notes</button>
-                <button class="sp-tab" onclick="spTab(this,'cand','info')">Session</button>
-              </div>
-              <div class="sp-content">
-                <div id="cand-sp-questions">
-                  <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px">Questions being asked</p>
-                  <div class="q-card active"><div class="q-num">Q1 — Current</div><div class="q-text">"A PTW has been issued but site conditions changed mid-shift. Walk me through your immediate actions and the notification chain."</div><div class="q-tag">Scenario</div><div class="q-tag">Gulf Norms</div></div>
-                  <div class="q-card asked"><div class="q-num">Q0 — Asked</div><div class="q-text">"Tell me about your most challenging HSE incident on site and how you managed it."</div><div class="q-tag">Behavioural</div></div>
-                  <p style="font-size:.75rem;color:var(--muted);margin-top:12px;font-style:italic">Upcoming questions will appear here as the session progresses</p>
-                </div>
-                <div id="cand-sp-notes" style="display:none">
-                  <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px">Your private notes</p>
-                  <textarea class="session-notes" placeholder="Write notes during the session... Only you can see these.">PTW question — mention the 5 steps: Stop work, notify supervisor, re-assess hazards, re-issue PTW, communicate to team.</textarea>
-                </div>
-                <div id="cand-sp-info" style="display:none">
-                  <div class="wr-row"><span class="wr-ico">👷</span><div class="wr-info"><div class="wr-lbl">Interviewer</div><div class="wr-val">Arun K.</div></div></div>
-                  <div class="wr-row"><span class="wr-ico">🎯</span><div class="wr-info"><div class="wr-lbl">Focus</div><div class="wr-val">HSE · Gulf Standards</div></div></div>
-                  <div class="wr-row"><span class="wr-ico">⏱️</span><div class="wr-info"><div class="wr-lbl">Time Left</div><div class="wr-val" id="candTimeLeft">48:20</div></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Control Bar -->
-            <div class="ctrl-bar">
-              <div class="session-timer"><span class="timer-dot"></span><span id="candTimer">12:40</span></div>
-              <div style="display:flex;align-items:center;gap:10px;position:relative;">
-                <div style="position:relative">
-                  <button class="ctrl-btn" id="candMicBtn" onclick="toggleCtrl('candMicBtn','candMicOff')" title="Mute/Unmute">🎙️<span class="ctrl-label">Mic</span></button>
-                </div>
-                <div style="position:relative">
-                  <button class="ctrl-btn" id="candCamBtn" onclick="toggleCtrl('candCamBtn','candCamOff')" title="Camera On/Off">📷<span class="ctrl-label">Camera</span></button>
-                </div>
-                <div class="ctrl-sep"></div>
-                <div style="position:relative">
-                  <button class="ctrl-btn panel-toggle" id="candPanelBtn" onclick="togglePanel('cand')" title="Toggle Panel">📋<span class="ctrl-label">Panel</span></button>
-                </div>
-                <div style="position:relative">
-                  <button class="ctrl-btn" onclick="toggleCtrl(null,null,'chat')" title="Chat">💬<span class="ctrl-label">Chat</span></button>
-                </div>
-                <div class="ctrl-sep"></div>
-                <div style="position:relative">
-                  <button class="ctrl-btn end" onclick="endSession('cand')" title="End Session">📴<span class="ctrl-label">End</span></button>
-                </div>
-              </div>
-              <div class="session-quality">
-                <div class="sig-bars"><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div></div>
-                HD
-              </div>
-            </div>
-
-          </div><!-- session-room -->
-        </div><!-- cand-room -->
-
-        <!-- Post-session feedback summary -->
-        <div id="cand-postsession" style="display:none">
-          <div class="waiting-room">
-            <div style="font-size:3rem;margin-bottom:1rem">✅</div>
-            <div class="wr-title">Session Complete!</div>
-            <div class="wr-sub">Great work. Your feedback report will be ready within 24 hours.</div>
-            <div class="score-grid" style="max-width:400px;margin:0 auto 2rem">
-              <div class="score-box"><div class="score-val">7.8</div><div class="score-lbl">Technical</div></div>
-              <div class="score-box"><div class="score-val">7.2</div><div class="score-lbl">Comm.</div></div>
-              <div class="score-box"><div class="score-val">7.5</div><div class="score-lbl">Overall</div></div>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-              <button class="a-btn c" style="max-width:200px;margin:0" onclick="pTab('cand','sessions',null)">View All Sessions</button>
-              <button class="pd-btn" onclick="pTab('cand','book',null)">Book Next Session</button>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- cand-livesession -->
-
-    </div><!-- pd-body -->
-  </div><!-- candDash -->
+  </div><!-- pd-body -->
+</div><!-- candDash -->
 
   <!-- ══════════════════════════════
        EXPERT INTERVIEWER DASHBOARD
   ══════════════════════════════ -->
   <div id="expertDash" class="p-dash">
-    <div class="pd-nav">
-      <div class="pd-brand">Pro<em class="e">Prep</em><span class="pd-pill e">Expert Interviewer</span></div>
-      <div class="pd-tabs">
-        <button class="pd-tab on" onclick="pTab('exp','home',this)">Home</button>
-        <button class="pd-tab" onclick="pTab('exp','sessions',this)">Sessions</button>
-        <button class="pd-tab" onclick="pTab('exp','availability',this)">Availability</button>
-        <button class="pd-tab" onclick="pTab('exp','earnings',this)">Earnings</button>
-        <button class="pd-tab" onclick="pTab('exp','profile',this)">Profile</button>
-        <button class="pd-tab" id="expSessionBtn" onclick="pTab('exp','livesession',this)">🎥 Live Session</button>
-      </div>
-      <button class="pd-out" onclick="portalLogout()">Sign Out</button>
+  <div class="pd-nav">
+    <div class="pd-brand">Pro<em class="e">Prep</em><span class="pd-pill e">Expert Interviewer</span></div>
+    <div class="pd-tabs">
+      <button class="pd-tab on" onclick="pTab('exp','home',this)">Home</button>
+      <button class="pd-tab"   onclick="pTab('exp','sessions',this)">Sessions</button>
+      <button class="pd-tab"   onclick="pTab('exp','availability',this)">Availability</button>
+      <button class="pd-tab"   onclick="pTab('exp','earnings',this)">Earnings</button>
+      <button class="pd-tab"   onclick="pTab('exp','profile',this)">Profile</button>
+      <button class="pd-tab"   id="expSessionBtn" onclick="pTab('exp','livesession',this)">🎥 Live Session</button>
     </div>
-    <div class="pd-body">
+    <button class="pd-out" onclick="portalLogout()">Sign Out</button>
+  </div>
+  <div class="pd-body">
 
-      <!-- HOME -->
-      <div class="pd-page show" id="exp-home">
-        <div class="pd-greeting">Welcome back, <span id="expName">Arun</span> 👋</div>
-        <div class="pd-sub">Your ProPrep Interviewer Dashboard</div>
-        <div class="stat-row">
-          <div class="stat-card"><div class="stat-ico">📅</div><div class="stat-val e">8</div><div class="stat-lbl">Sessions This Month</div></div>
-          <div class="stat-card"><div class="stat-ico">👤</div><div class="stat-val e">24</div><div class="stat-lbl">Candidates Helped</div></div>
-          <div class="stat-card"><div class="stat-ico">⭐</div><div class="stat-val e">4.9</div><div class="stat-lbl">Your Rating</div></div>
-          <div class="stat-card"><div class="stat-ico">💰</div><div class="stat-val e" style="font-size:1.8rem">₹TBC</div><div class="stat-lbl">Earnings (Pending)</div></div>
-        </div>
-        <div class="two-col">
-          <div class="pd-card">
-            <div class="pd-card-title">Upcoming Sessions <button class="pd-btn gold" onclick="pTab('exp','availability',null)">Manage Availability</button></div>
-            <div class="pd-row"><span class="pd-row-ico">📅</span><div class="pd-row-main"><div class="pd-row-title">Rahul M. — HSE Officer Prep</div><div class="pd-row-sub">Mon 24 Mar · 3:00 PM · Gulf Focus</div></div><span class="sp sp-pd">Confirmed</span></div>
-            <div class="pd-row"><span class="pd-row-ico">📅</span><div class="pd-row-main"><div class="pd-row-title">Anjali R. — EHS Engineer Prep</div><div class="pd-row-sub">Tue 25 Mar · 6:00 PM · UK Focus</div></div><span class="sp sp-pd">Confirmed</span></div>
-            <div class="pd-row"><span class="pd-row-ico">📅</span><div class="pd-row-main"><div class="pd-row-title">Deepa N. — HSE Manager Prep</div><div class="pd-row-sub">Thu 27 Mar · 4:30 PM · Canada Focus</div></div><span class="sp sp-nw">Pending</span></div>
-          </div>
-          <div class="pd-card">
-            <div class="pd-card-title">Recent Feedback Given</div>
-            <div class="pd-row"><span class="pd-row-ico">📝</span><div class="pd-row-main"><div class="pd-row-title">Vikram T. — Site Engineer</div><div class="pd-row-sub">22 Mar · Score: 7.8/10</div></div><span class="sp sp-ok">Submitted</span></div>
-            <div class="pd-row"><span class="pd-row-ico">📝</span><div class="pd-row-main"><div class="pd-row-title">Priya S. — Safety Supervisor</div><div class="pd-row-sub">20 Mar · Score: 8.2/10</div></div><span class="sp sp-ok">Submitted</span></div>
-            <div class="pd-row"><span class="pd-row-ico">⏳</span><div class="pd-row-main"><div class="pd-row-title">Sanjay K. — Process Safety</div><div class="pd-row-sub">Today · Feedback pending</div></div><span class="sp sp-re">Draft</span></div>
-          </div>
+    <!-- HOME -->
+    <div class="pd-page show" id="exp-home">
+      <div class="pd-greeting">Welcome back, <span id="expName">Arun</span> 👋</div>
+      <div class="pd-sub">Your ProPrep Interviewer Dashboard</div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-ico">📅</div><div class="stat-val e" id="exp-stat-sessions">—</div><div class="stat-lbl">Sessions This Month</div></div>
+        <div class="stat-card"><div class="stat-ico">👤</div><div class="stat-val e" id="exp-stat-candidates">—</div><div class="stat-lbl">Candidates Helped</div></div>
+        <div class="stat-card"><div class="stat-ico">⭐</div><div class="stat-val e" id="exp-stat-rating">—</div><div class="stat-lbl">Your Rating</div></div>
+        <div class="stat-card"><div class="stat-ico">💰</div><div class="stat-val e" style="font-size:1.6rem">₹TBC</div><div class="stat-lbl">Earnings (Pending)</div></div>
+      </div>
+      <div class="two-col">
+        <div class="pd-card">
+          <div class="pd-card-title">Upcoming Sessions <button class="pd-btn gold" onclick="pTab('exp','availability',null)">Set Availability</button></div>
+          <div id="exp-upcoming-list"><p style="font-size:.82rem;color:var(--muted);padding:12px 0">Loading…</p></div>
         </div>
         <div class="pd-card">
-          <div class="pd-card-title">Profile Completeness</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
-            <div><div class="prog-label"><span>Profile</span><span class="prog-pct e">85%</span></div><div class="prog-track"><div class="prog-fill e" style="width:85%"></div></div></div>
-            <div><div class="prog-label"><span>Documents Verified</span><span class="prog-pct e">2/3</span></div><div class="prog-track"><div class="prog-fill e" style="width:66%"></div></div></div>
-            <div><div class="prog-label"><span>Response Rate</span><span class="prog-pct e">96%</span></div><div class="prog-track"><div class="prog-fill e" style="width:96%"></div></div></div>
-          </div>
+          <div class="pd-card-title">Recent Feedback Given</div>
+          <div id="exp-feedback-list"><p style="font-size:.82rem;color:var(--muted);padding:12px 0">Loading…</p></div>
         </div>
       </div>
-
-      <!-- SESSIONS -->
-      <div class="pd-page" id="exp-sessions">
-        <div class="pd-greeting">All Sessions</div>
-        <div class="pd-sub">Your complete session history</div>
-        <div class="pd-card"><div style="overflow-x:auto"><table class="pd-table">
-          <thead><tr><th>Date</th><th>Candidate</th><th>Role Prep</th><th>Score Given</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>24 Mar</td><td>Rahul M.</td><td>HSE Officer · Gulf</td><td>—</td><td><span class="sp sp-pd">Upcoming</span></td></tr>
-            <tr><td>22 Mar</td><td>Vikram T.</td><td>Site Engineer · UAE</td><td>7.8/10</td><td><span class="sp sp-ok">Completed</span></td></tr>
-            <tr><td>20 Mar</td><td>Priya S.</td><td>Safety Supervisor · UK</td><td>8.2/10</td><td><span class="sp sp-ok">Completed</span></td></tr>
-            <tr><td>18 Mar</td><td>Deepa N.</td><td>HSE Manager · Canada</td><td>7.4/10</td><td><span class="sp sp-ok">Completed</span></td></tr>
-          </tbody>
-        </table></div></div>
+      <div class="pd-card" style="margin-top:1.2rem">
+        <div class="pd-card-title">Profile Completeness</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+          <div><div class="prog-label"><span>Profile</span><span class="prog-pct e">85%</span></div><div class="prog-track"><div class="prog-fill e" style="width:85%"></div></div></div>
+          <div><div class="prog-label"><span>Documents Verified</span><span class="prog-pct e">2/3</span></div><div class="prog-track"><div class="prog-fill e" style="width:66%"></div></div></div>
+          <div><div class="prog-label"><span>Response Rate</span><span class="prog-pct e">96%</span></div><div class="prog-track"><div class="prog-fill e" style="width:96%"></div></div></div>
+        </div>
       </div>
+    </div>
 
-      <!-- AVAILABILITY -->
-      <div class="pd-page" id="exp-availability">
-        <div class="pd-greeting">Set Availability</div>
-        <div class="pd-sub">Select days you are available for sessions this week</div>
+    <!-- SESSIONS -->
+    <div class="pd-page" id="exp-sessions">
+      <div class="pd-greeting">All Sessions</div>
+      <div class="pd-sub">Your complete session history</div>
+      <div class="pd-card"><div style="overflow-x:auto"><table class="pd-table">
+        <thead><tr><th>Date</th><th>Candidate</th><th>Type · Focus</th><th>Score Given</th><th>Status</th></tr></thead>
+        <tbody id="exp-sessions-table"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Loading…</td></tr></tbody>
+      </table></div></div>
+    </div>
+
+    <!-- AVAILABILITY -->
+    <div class="pd-page" id="exp-availability">
+      <div class="pd-greeting">Set Availability</div>
+      <div class="pd-sub">Select days you are available this week</div>
+      <div class="pd-card">
+        <div class="pd-card-title">This Week (24–30 Mar)</div>
+        <div class="avail-grid">
+          <div class="avail-day" data-day="0">Mon<br>24</div>
+          <div class="avail-day on" data-day="1">Tue<br>25</div>
+          <div class="avail-day" data-day="2">Wed<br>26</div>
+          <div class="avail-day on" data-day="3">Thu<br>27</div>
+          <div class="avail-day" data-day="4">Fri<br>28</div>
+          <div class="avail-day" data-day="5">Sat<br>29</div>
+          <div class="avail-day" data-day="6">Sun<br>30</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem">
+          <div><label class="a-lbl">Earliest Start</label><select class="a-sel" id="avail-start" style="width:auto;font-size:.78rem;padding:8px"><option>9:00 AM</option><option>10:00 AM</option><option selected>2:00 PM</option><option>5:00 PM</option></select></div>
+          <div><label class="a-lbl">Latest End</label><select class="a-sel" id="avail-end" style="width:auto;font-size:.78rem;padding:8px"><option>6:00 PM</option><option selected>7:00 PM</option><option>8:00 PM</option><option>9:00 PM</option></select></div>
+          <div><label class="a-lbl">Session Duration</label><select class="a-sel" id="avail-dur" style="width:auto;font-size:.78rem;padding:8px"><option>45 mins</option><option selected>60 mins</option><option>90 mins</option></select></div>
+        </div>
+        <button class="a-btn e" style="max-width:200px;margin-top:1.2rem" onclick="saveExpAvailability()">Save Availability ✓</button>
+      </div>
+    </div>
+
+    <!-- EARNINGS -->
+    <div class="pd-page" id="exp-earnings">
+      <div class="pd-greeting">Earnings</div>
+      <div class="pd-sub">All prices TBC — launching soon</div>
+      <div class="two-col">
         <div class="pd-card">
-          <div class="pd-card-title">This Week (24–30 Mar)</div>
-          <div class="avail-grid">
-            <div class="avail-day">Mon<br>24</div>
-            <div class="avail-day on">Tue<br>25</div>
-            <div class="avail-day">Wed<br>26</div>
-            <div class="avail-day on">Thu<br>27</div>
-            <div class="avail-day">Fri<br>28</div>
-            <div class="avail-day">Sat<br>29</div>
-            <div class="avail-day">Sun<br>30</div>
+          <div class="pd-card-title">This Month</div>
+          <div class="score-grid">
+            <div class="score-box"><div class="score-val" style="color:var(--c-exp);font-size:1.4rem">₹TBC</div><div class="score-lbl">Gross Earned</div></div>
+            <div class="score-box"><div class="score-val" style="color:var(--c-exp)" id="exp-earn-sessions">—</div><div class="score-lbl">Sessions</div></div>
+            <div class="score-box"><div class="score-val" style="color:var(--c-exp);font-size:1.4rem">₹TBC</div><div class="score-lbl">Net Payout</div></div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
-            <div><label class="a-lbl">Earliest Start</label><select class="a-sel" style="width:auto;font-size:.78rem;padding:8px"><option>9:00 AM</option><option>10:00 AM</option><option>2:00 PM</option><option>5:00 PM</option></select></div>
-            <div><label class="a-lbl">Latest End</label><select class="a-sel" style="width:auto;font-size:.78rem;padding:8px"><option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option><option>9:00 PM</option></select></div>
-            <div><label class="a-lbl">Session Duration</label><select class="a-sel" style="width:auto;font-size:.78rem;padding:8px"><option>45 mins</option><option>60 mins</option><option>90 mins</option></select></div>
-          </div>
-          <button class="a-btn e" style="max-width:200px;margin-top:1.2rem">Save Availability</button>
+          <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:.5rem">Payout on the 1st of each month via NEFT / UPI</p>
+        </div>
+        <div class="pd-card">
+          <div class="pd-card-title">Your Tier &amp; Rate</div>
+          <div class="pd-row"><span class="pd-row-ico">🏆</span><div class="pd-row-main"><div class="pd-row-title">Tier 1 Interviewer</div><div class="pd-row-sub">10+ yrs · Gulf / UK Specialist</div></div></div>
+          <div class="pd-row"><span class="pd-row-ico">💵</span><div class="pd-row-main"><div class="pd-row-title">Rate per Session</div><div class="pd-row-sub">₹TBC — set by ProPrep</div></div></div>
+          <div class="pd-row"><span class="pd-row-ico">📊</span><div class="pd-row-main"><div class="pd-row-title">Platform Commission</div><div class="pd-row-sub">% TBC — announced at launch</div></div></div>
         </div>
       </div>
+    </div>
 
-      <!-- EARNINGS -->
-      <div class="pd-page" id="exp-earnings">
-        <div class="pd-greeting">Earnings</div>
-        <div class="pd-sub">All prices TBC — launching soon</div>
+    <!-- PROFILE -->
+    <div class="pd-page" id="exp-profile">
+      <div class="pd-greeting">My Profile</div>
+      <div class="pd-sub">Your public interviewer profile on ProPrep</div>
+      <div class="two-col">
+        <div class="pd-card">
+          <div class="pd-card-title">Personal Details</div>
+          <label class="a-lbl">Full Name</label><input class="a-inp" id="exp-profile-name" type="text" placeholder="Your name">
+          <label class="a-lbl">Email</label><input class="a-inp" id="exp-profile-email" type="email" placeholder="your@email.com">
+          <label class="a-lbl">Current Position</label><input class="a-inp" id="exp-profile-pos" type="text" placeholder="HSE Manager, ADNOC">
+          <label class="a-lbl">LinkedIn</label><input class="a-inp" id="exp-profile-li" type="url" placeholder="https://linkedin.com/in/you">
+          <button class="a-btn e" style="margin-top:1rem" onclick="saveExpProfile()">Save Changes</button>
+        </div>
+        <div class="pd-card">
+          <div class="pd-card-title">Documents &amp; Verification</div>
+          <div class="pd-row"><span class="pd-row-ico">📄</span><div class="pd-row-main"><div class="pd-row-title">LinkedIn Profile</div><div class="pd-row-sub">Verified ✓</div></div><span class="sp sp-ok">Verified</span></div>
+          <div class="pd-row"><span class="pd-row-ico">📄</span><div class="pd-row-main"><div class="pd-row-title">Company Email</div><div class="pd-row-sub">Verified ✓</div></div><span class="sp sp-ok">Verified</span></div>
+          <div class="pd-row"><span class="pd-row-ico">📄</span><div class="pd-row-main"><div class="pd-row-title">Experience Certificate</div><div class="pd-row-sub">Not yet uploaded</div></div><span class="sp sp-re">Pending</span></div>
+          <button class="a-btn e" style="margin-top:1rem">Upload Documents</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE SESSION -->
+    <div class="pd-page" id="exp-livesession">
+      <div id="exp-waiting">
+        <div class="waiting-room">
+          <div style="font-size:3rem;margin-bottom:1rem">🎥</div>
+          <div class="wr-title">Start Your Session</div>
+          <div class="wr-sub">Review candidate details, then join when ready</div>
+          <div class="cam-preview" onclick="toggleExpCamPreview(this)">
+            <video id="expPreviewVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:6px" autoplay muted playsinline></video>
+            <div class="cam-preview-label" id="expCamPreviewLabel"><span style="font-size:1.5rem">📷</span><span>Click to enable camera</span></div>
+          </div>
+          <div class="wr-session-info">
+            <div class="wr-row"><span class="wr-ico">🎓</span><div class="wr-info"><div class="wr-lbl">Candidate</div><div class="wr-val" id="wr-cand-name">Rahul M. — 3 yrs experience</div></div></div>
+            <div class="wr-row"><span class="wr-ico">🎯</span><div class="wr-info"><div class="wr-lbl">Target Role &amp; Country</div><div class="wr-val" id="wr-cand-target">HSE Officer · 🇦🇪 Gulf</div></div></div>
+            <div class="wr-row"><span class="wr-ico">📋</span><div class="wr-info"><div class="wr-lbl">Session Type</div><div class="wr-val">Full Mock Interview · 60 mins</div></div></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+            <button class="a-btn e" style="max-width:180px;margin:0" onclick="joinExpSession()">Start Session →</button>
+            <button class="pd-btn" onclick="pTab('exp','sessions',null)">Back</button>
+          </div>
+        </div>
+      </div>
+      <div id="exp-room" style="display:none">
+        <div class="session-room" id="expRoom">
+          <div class="vid-grid">
+            <div class="vid-cell cam-on" id="expSelfCell">
+              <video id="expSelfVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;border-radius:6px" autoplay muted playsinline></video>
+              <div class="vid-feed active" style="animation-delay:0.5s"></div>
+              <div class="vid-person"><div class="vid-silhouette" style="background:linear-gradient(180deg,#1a2030,#202838 35%,#0f1420)"></div></div>
+              <div class="vid-avatar" id="expAvatar">AK</div>
+              <div class="vid-label"><span class="mic-icon">🎙️</span><span id="exp-self-name">You (Interviewer)</span></div>
+              <div class="vid-status"><div class="vs-badge live"><span class="live-blink"></span>Live</div><div class="vs-badge rec"><span class="rec-blink"></span>Rec</div></div>
+            </div>
+            <div class="vid-cell cam-on" id="expCandCell">
+              <div class="vid-feed active" style="animation-delay:2s"></div>
+              <div class="vid-person"><div class="vid-silhouette"></div></div>
+              <div class="vid-avatar">RM</div>
+              <div class="vid-label"><span class="mic-icon">🎙️</span><span id="exp-cand-label">Rahul M. · Candidate</span></div>
+            </div>
+          </div>
+          <div class="vid-pip"><div class="vid-pip-feed" style="animation-delay:.8s"></div><div class="vid-pip-label">You</div></div>
+          <div class="session-panel" id="expPanel">
+            <div class="sp-header"><div class="sp-title">Interviewer Panel</div><button class="sp-close" onclick="togglePanel('exp')">✕</button></div>
+            <div class="sp-tabs">
+              <button class="sp-tab on" onclick="spTab(this,'exp','questions')">Questions</button>
+              <button class="sp-tab"    onclick="spTab(this,'exp','scoring')">Live Score</button>
+              <button class="sp-tab"    onclick="spTab(this,'exp','notes')">Notes</button>
+            </div>
+            <div class="sp-content">
+              <div id="exp-sp-questions">
+                <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px">Click to mark as asked</p>
+                <div class="q-card active" onclick="this.classList.toggle('asked')"><div class="q-num">Q1 — Scenario</div><div class="q-text">"A PTW has been issued but site conditions changed mid-shift. Walk me through your immediate actions."</div><div class="q-tag">PTW</div><div class="q-tag">Gulf</div></div>
+                <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q2 — Technical</div><div class="q-text">"Explain the ALARP principle and give an example of how you applied it on your last project."</div><div class="q-tag">Risk Assessment</div></div>
+                <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q3 — Behavioural</div><div class="q-text">"Describe a situation where you had to stop work on site. What was the process?"</div><div class="q-tag">Behavioural</div></div>
+                <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q4 — Gulf Specific</div><div class="q-text">"What are the key differences between Indian OISD standards and UAE HSE regulations?"</div><div class="q-tag">Gulf Norms</div></div>
+                <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q5 — CV Deep-dive</div><div class="q-text">"Your CV mentions managing a 200-person site. What was your incident rate and how did you achieve it?"</div><div class="q-tag">CV Probe</div></div>
+              </div>
+              <div id="exp-sp-scoring" style="display:none">
+                <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px">Score in real-time</p>
+                <div class="score-row"><label>Technical Depth <span id="sl-tech-val">7</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="7" id="sl-tech" oninput="document.getElementById('sl-tech-val').textContent=this.value;updateLiveOverall()"></div>
+                <div class="score-row"><label>Communication <span id="sl-comm-val">6</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="6" id="sl-comm" oninput="document.getElementById('sl-comm-val').textContent=this.value;updateLiveOverall()"></div>
+                <div class="score-row"><label>Country Norms <span id="sl-norm-val">5</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="5" id="sl-norm" oninput="document.getElementById('sl-norm-val').textContent=this.value;updateLiveOverall()"></div>
+                <div class="score-row"><label>Scenario Handling <span id="sl-scen-val">7</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="7" id="sl-scen" oninput="document.getElementById('sl-scen-val').textContent=this.value;updateLiveOverall()"></div>
+                <div class="score-row"><label>CV Alignment <span id="sl-cv-val">8</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="8" id="sl-cv" oninput="document.getElementById('sl-cv-val').textContent=this.value;updateLiveOverall()"></div>
+                <div style="background:rgba(232,92,26,.08);border:1px solid rgba(232,92,26,.2);border-radius:5px;padding:12px;margin-top:8px;text-align:center">
+                  <div style="font-family:var(--f-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px">Live Overall</div>
+                  <div id="liveOverall" style="font-family:var(--f-d);font-size:2.2rem;font-weight:900;color:var(--ore)">6.6</div>
+                </div>
+              </div>
+              <div id="exp-sp-notes" style="display:none">
+                <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px">Included in feedback report</p>
+                <textarea class="session-notes" id="expNotes" placeholder="Record observations…"></textarea>
+                <button class="pd-btn pr" style="margin-top:.8rem;width:100%" onclick="saveExpNotes()">Save Notes</button>
+              </div>
+            </div>
+          </div>
+          <div class="ctrl-bar">
+            <div class="session-timer"><span class="timer-dot"></span><span id="exp-timer-disp">00:00</span></div>
+            <div style="display:flex;align-items:center;gap:10px;position:relative">
+              <div style="position:relative"><button class="ctrl-btn" id="expMicBtn" onclick="toggleCtrl('expMicBtn')" title="Mute">🎙️<span class="ctrl-label">Mic</span></button></div>
+              <div style="position:relative"><button class="ctrl-btn" id="expCamBtn" onclick="toggleCtrl('expCamBtn')" title="Camera">📷<span class="ctrl-label">Camera</span></button></div>
+              <div class="ctrl-sep"></div>
+              <div style="position:relative"><button class="ctrl-btn panel-toggle on" id="expPanelBtn" onclick="togglePanel('exp')" title="Panel">📋<span class="ctrl-label">Panel</span></button></div>
+              <div class="ctrl-sep"></div>
+              <div style="position:relative"><button class="ctrl-btn end" onclick="endSession('exp')" title="End">📴<span class="ctrl-label">End</span></button></div>
+            </div>
+            <div class="session-quality"><div class="sig-bars"><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div></div>HD</div>
+          </div>
+        </div>
+      </div>
+      <div id="exp-postsession" style="display:none">
+        <div class="pd-greeting" style="padding:2rem 0 .5rem">Submit Feedback Report</div>
+        <div class="pd-sub" style="margin-bottom:1.5rem" id="post-cand-info">Candidate: Rahul M. · Session: HSE Mock Interview</div>
         <div class="two-col">
           <div class="pd-card">
-            <div class="pd-card-title">This Month</div>
-            <div class="score-grid">
-              <div class="score-box"><div class="score-val" style="color:var(--c-exp);font-size:1.4rem">₹TBC</div><div class="score-lbl">Gross Earned</div></div>
-              <div class="score-box"><div class="score-val" style="color:var(--c-exp);font-size:1.4rem">8</div><div class="score-lbl">Sessions</div></div>
-              <div class="score-box"><div class="score-val" style="color:var(--c-exp);font-size:1.4rem">₹TBC</div><div class="score-lbl">Net Payout</div></div>
-            </div>
-            <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:.5rem">Payout on the 1st of each month via NEFT / UPI</p>
+            <div class="pd-card-title">Final Scores</div>
+            <div class="score-row"><label>Technical Depth <span id="fs-tech">7</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="7" oninput="document.getElementById('fs-tech').textContent=this.value"></div>
+            <div class="score-row"><label>Communication <span id="fs-comm">6</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="6" oninput="document.getElementById('fs-comm').textContent=this.value"></div>
+            <div class="score-row"><label>Country Norms <span id="fs-norm">5</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="5" oninput="document.getElementById('fs-norm').textContent=this.value"></div>
+            <div class="score-row"><label>Scenario Handling <span id="fs-scen">7</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="7" oninput="document.getElementById('fs-scen').textContent=this.value"></div>
+            <div class="score-row"><label>CV Alignment <span id="fs-cv">8</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="8" oninput="document.getElementById('fs-cv').textContent=this.value"></div>
           </div>
           <div class="pd-card">
-            <div class="pd-card-title">Your Tier &amp; Rate</div>
-            <div class="pd-row"><span class="pd-row-ico">🏆</span><div class="pd-row-main"><div class="pd-row-title">Tier 1 Interviewer</div><div class="pd-row-sub">10+ yrs · Gulf / UK Specialist</div></div></div>
-            <div class="pd-row"><span class="pd-row-ico">💵</span><div class="pd-row-main"><div class="pd-row-title">Rate per Session</div><div class="pd-row-sub">₹TBC — set by ProPrep</div></div></div>
-            <div class="pd-row"><span class="pd-row-ico">📊</span><div class="pd-row-main"><div class="pd-row-title">Platform Commission</div><div class="pd-row-sub">% TBC — announced at launch</div></div></div>
+            <div class="pd-card-title">Written Feedback</div>
+            <label class="a-lbl">Strengths</label>
+            <textarea class="session-notes" id="fb-strengths" style="min-height:70px" placeholder="What did the candidate do well?"></textarea>
+            <label class="a-lbl">Areas to Improve</label>
+            <textarea class="session-notes" id="fb-improve" style="min-height:70px" placeholder="Specific gaps to address…"></textarea>
+            <label class="a-lbl">Recommended Next Steps</label>
+            <textarea class="session-notes" id="fb-nextsteps" style="min-height:60px" placeholder="Book another session? Study topics?"></textarea>
           </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap">
+          <button class="a-btn e" style="max-width:240px;margin:0" onclick="expSubmitFeedback()">Submit Feedback Report ✓</button>
+          <button class="pd-btn">Save Draft</button>
         </div>
       </div>
+    </div>
 
-      <!-- PROFILE -->
-      <div class="pd-page" id="exp-profile">
-        <div class="pd-greeting">My Profile</div>
-        <div class="pd-sub">Your public interviewer profile on ProPrep</div>
-        <div class="two-col">
-          <div class="pd-card">
-            <div class="pd-card-title">Personal Details</div>
-            <label class="a-lbl">Full Name</label><input class="a-inp" value="Arun Kumar" type="text">
-            <label class="a-lbl">Email</label><input class="a-inp" value="arun.kumar.hse@gmail.com" type="email">
-            <label class="a-lbl">Current Position</label><input class="a-inp" value="Senior HSE Manager, ADNOC" type="text">
-            <label class="a-lbl">LinkedIn</label><input class="a-inp" value="linkedin.com/in/arunkumar" type="url">
-            <button class="a-btn e" style="margin-top:1rem">Save Changes</button>
-          </div>
-          <div class="pd-card">
-            <div class="pd-card-title">Expertise &amp; Documents</div>
-            <div class="pd-row"><span class="pd-row-ico">📄</span><div class="pd-row-main"><div class="pd-row-title">LinkedIn Profile</div><div class="pd-row-sub">Verified ✓</div></div><span class="sp sp-ok">Verified</span></div>
-            <div class="pd-row"><span class="pd-row-ico">📄</span><div class="pd-row-main"><div class="pd-row-title">Company Email</div><div class="pd-row-sub">Verified ✓</div></div><span class="sp sp-ok">Verified</span></div>
-            <div class="pd-row"><span class="pd-row-ico">📄</span><div class="pd-row-main"><div class="pd-row-title">Experience Certificate</div><div class="pd-row-sub">Not yet uploaded</div></div><span class="sp sp-re">Pending</span></div>
-            <button class="a-btn e" style="margin-top:1rem">Upload Documents</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- LIVE SESSION PAGE — EXPERT -->
-      <div class="pd-page" id="exp-livesession">
-
-        <!-- Waiting Room -->
-        <div id="exp-waiting">
-          <div class="waiting-room">
-            <div style="font-size:3rem;margin-bottom:1rem">🎥</div>
-            <div class="wr-title">Start Your Session</div>
-            <div class="wr-sub">Review candidate details, then join when ready</div>
-            <div class="cam-preview" onclick="toggleExpCamPreview(this)">
-              <video id="expPreviewVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:6px;" autoplay muted playsinline></video>
-              <div class="cam-preview-label" id="expCamPreviewLabel">
-                <span style="font-size:1.5rem">📷</span>
-                <span>Click to enable camera</span>
-              </div>
-            </div>
-            <div class="wr-session-info">
-              <div class="wr-row"><span class="wr-ico">🎓</span><div class="wr-info"><div class="wr-lbl">Candidate</div><div class="wr-val">Rahul M. — 3 yrs experience</div></div></div>
-              <div class="wr-row"><span class="wr-ico">🎯</span><div class="wr-info"><div class="wr-lbl">Target Role &amp; Country</div><div class="wr-val">HSE Officer · 🇦🇪 Gulf / UAE</div></div></div>
-              <div class="wr-row"><span class="wr-ico">📋</span><div class="wr-info"><div class="wr-lbl">Session Type</div><div class="wr-val">Full Mock Interview · 60 mins</div></div></div>
-              <div class="wr-row"><span class="wr-ico">⭐</span><div class="wr-info"><div class="wr-lbl">Previous Sessions</div><div class="wr-val">1 completed · Avg score 7.2</div></div></div>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-              <button class="a-btn e" style="max-width:180px;margin:0" onclick="joinExpSession()">Start Session →</button>
-              <button class="pd-btn" onclick="pTab('exp','sessions',null)">Back to Sessions</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Live Room -->
-        <div id="exp-room" style="display:none">
-          <div class="session-room" id="expRoom">
-
-            <!-- Video Grid -->
-            <div class="vid-grid">
-              <!-- Expert feed (self) -->
-              <div class="vid-cell cam-on" id="expSelfCell">
-                <video id="expSelfVideo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;border-radius:6px;" autoplay muted playsinline></video>
-                <div class="vid-feed active" style="animation-delay:0.5s"></div>
-                <div class="vid-person"><div class="vid-silhouette" style="background:linear-gradient(180deg,#1a2030 0%,#202838 35%,#0f1420 100%)"></div></div>
-                <div class="vid-avatar" id="expAvatar">AK</div>
-                <div class="vid-label"><span class="mic-icon">🎙️</span>Arun K. · You (Interviewer)</div>
-                <div class="vid-status">
-                  <div class="vs-badge live"><span class="live-blink"></span>Live</div>
-                  <div class="vs-badge rec"><span class="rec-blink"></span>Rec</div>
-                </div>
-              </div>
-              <!-- Candidate feed -->
-              <div class="vid-cell cam-on" id="expCandCell">
-                <div class="vid-feed active" style="animation-delay:2s"></div>
-                <div class="vid-person"><div class="vid-silhouette"></div></div>
-                <div class="vid-avatar">RM</div>
-                <div class="vid-label"><span class="mic-icon">🎙️</span>Rahul M. · Candidate</div>
-              </div>
-            </div>
-
-            <!-- PiP -->
-            <div class="vid-pip"><div class="vid-pip-feed" style="animation-delay:.8s"></div><div class="vid-pip-label">You</div></div>
-
-            <!-- Expert Side Panel — questions + live scoring + notes -->
-            <div class="session-panel" id="expPanel">
-              <div class="sp-header">
-                <div class="sp-title">Interviewer Panel</div>
-                <button class="sp-close" onclick="togglePanel('exp')">✕</button>
-              </div>
-              <div class="sp-tabs">
-                <button class="sp-tab on" onclick="spTab(this,'exp','questions')">Questions</button>
-                <button class="sp-tab" onclick="spTab(this,'exp','scoring')">Live Score</button>
-                <button class="sp-tab" onclick="spTab(this,'exp','notes')">Notes</button>
-              </div>
-              <div class="sp-content">
-                <!-- Questions bank -->
-                <div id="exp-sp-questions">
-                  <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px">Click a question to mark as current</p>
-                  <div class="q-card active" onclick="this.classList.toggle('asked')"><div class="q-num">Q1 — Scenario</div><div class="q-text">"A PTW has been issued but site conditions changed mid-shift. Walk me through your immediate actions."</div><div class="q-tag">PTW</div><div class="q-tag">Gulf Standards</div></div>
-                  <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q2 — Technical</div><div class="q-text">"Explain the ALARP principle and give an example of how you applied it on your last project."</div><div class="q-tag">Risk Assessment</div></div>
-                  <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q3 — Behavioural</div><div class="q-text">"Describe a situation where you had to stop work on site. What was the process?"</div><div class="q-tag">Behavioural</div></div>
-                  <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q4 — Gulf Specific</div><div class="q-text">"What are the key differences between Indian OISD standards and UAE HSE regulations you need to adapt to?"</div><div class="q-tag">Gulf Norms</div><div class="q-tag">Regulatory</div></div>
-                  <div class="q-card" onclick="this.classList.toggle('asked')"><div class="q-num">Q5 — CV Deep-dive</div><div class="q-text">"Your CV mentions managing a 200-person construction site. What was your incident rate and how did you achieve it?"</div><div class="q-tag">CV Probe</div></div>
-                </div>
-                <!-- Live scoring -->
-                <div id="exp-sp-scoring" style="display:none">
-                  <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px">Score in real-time — saved on session end</p>
-                  <div class="score-row">
-                    <label>Technical Depth <span id="sl-tech-val">7</span>/10</label>
-                    <input type="range" class="score-slider" min="1" max="10" value="7" id="sl-tech" oninput="document.getElementById('sl-tech-val').textContent=this.value">
-                  </div>
-                  <div class="score-row">
-                    <label>Communication <span id="sl-comm-val">6</span>/10</label>
-                    <input type="range" class="score-slider" min="1" max="10" value="6" id="sl-comm" oninput="document.getElementById('sl-comm-val').textContent=this.value">
-                  </div>
-                  <div class="score-row">
-                    <label>Gulf/Country Norms <span id="sl-norm-val">5</span>/10</label>
-                    <input type="range" class="score-slider" min="1" max="10" value="5" id="sl-norm" oninput="document.getElementById('sl-norm-val').textContent=this.value">
-                  </div>
-                  <div class="score-row">
-                    <label>Scenario Handling <span id="sl-scen-val">7</span>/10</label>
-                    <input type="range" class="score-slider" min="1" max="10" value="7" id="sl-scen" oninput="document.getElementById('sl-scen-val').textContent=this.value">
-                  </div>
-                  <div class="score-row">
-                    <label>CV Alignment <span id="sl-cv-val">8</span>/10</label>
-                    <input type="range" class="score-slider" min="1" max="10" value="8" id="sl-cv" oninput="document.getElementById('sl-cv-val').textContent=this.value">
-                  </div>
-                  <div style="background:rgba(232,92,26,.08);border:1px solid rgba(232,92,26,.2);border-radius:5px;padding:12px;margin-top:8px;text-align:center;">
-                    <div style="font-family:var(--f-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px">Live Overall</div>
-                    <div id="liveOverall" style="font-family:var(--f-d);font-size:2.2rem;font-weight:900;color:var(--ore)">6.6</div>
-                  </div>
-                </div>
-                <!-- Notes -->
-                <div id="exp-sp-notes" style="display:none">
-                  <p style="font-family:var(--f-m);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px">Interviewer notes (included in feedback report)</p>
-                  <textarea class="session-notes" id="expNotes" placeholder="Record observations about the candidate's answers, body language, confidence, specific gaps...">Strong on PTW process. Needs to work on ALARP justification. Gulf norms awareness weak — should research UAE CDG standards.</textarea>
-                </div>
-              </div>
-            </div>
-
-            <!-- Control Bar -->
-            <div class="ctrl-bar">
-              <div class="session-timer"><span class="timer-dot"></span><span id="expTimer">12:40</span></div>
-              <div style="display:flex;align-items:center;gap:10px;position:relative;">
-                <div style="position:relative"><button class="ctrl-btn" id="expMicBtn" onclick="toggleCtrl('expMicBtn',null)" title="Mute">🎙️<span class="ctrl-label">Mic</span></button></div>
-                <div style="position:relative"><button class="ctrl-btn" id="expCamBtn" onclick="toggleCtrl('expCamBtn',null)" title="Camera">📷<span class="ctrl-label">Camera</span></button></div>
-                <div class="ctrl-sep"></div>
-                <div style="position:relative"><button class="ctrl-btn panel-toggle on" id="expPanelBtn" onclick="togglePanel('exp')" title="Panel">📋<span class="ctrl-label">Panel</span></button></div>
-                <div style="position:relative"><button class="ctrl-btn" onclick="" title="Chat">💬<span class="ctrl-label">Chat</span></button></div>
-                <div class="ctrl-sep"></div>
-                <div style="position:relative"><button class="ctrl-btn end" onclick="endSession('exp')" title="End">📴<span class="ctrl-label">End</span></button></div>
-              </div>
-              <div class="session-quality">
-                <div class="sig-bars"><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div><div class="sig-bar on"></div></div>HD
-              </div>
-            </div>
-
-          </div><!-- session-room -->
-        </div><!-- exp-room -->
-
-        <!-- Post-session: submit feedback -->
-        <div id="exp-postsession" style="display:none">
-          <div class="pd-greeting" style="padding:2rem 0 .5rem">Submit Feedback Report</div>
-          <div class="pd-sub" style="margin-bottom:1.5rem">Candidate: Rahul M. · Session: HSE Mock Interview · 24 Mar 2025</div>
-          <div class="two-col">
-            <div class="pd-card">
-              <div class="pd-card-title">Final Scores</div>
-              <div class="score-row"><label>Technical Depth <span id="fs-tech">7</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="7" oninput="document.getElementById('fs-tech').textContent=this.value"></div>
-              <div class="score-row"><label>Communication <span id="fs-comm">6</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="6" oninput="document.getElementById('fs-comm').textContent=this.value"></div>
-              <div class="score-row"><label>Country Norms <span id="fs-norm">5</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="5" oninput="document.getElementById('fs-norm').textContent=this.value"></div>
-              <div class="score-row"><label>Scenario Handling <span id="fs-scen">7</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="7" oninput="document.getElementById('fs-scen').textContent=this.value"></div>
-              <div class="score-row"><label>CV Alignment <span id="fs-cv">8</span>/10</label><input type="range" class="score-slider" min="1" max="10" value="8" oninput="document.getElementById('fs-cv').textContent=this.value"></div>
-            </div>
-            <div class="pd-card">
-              <div class="pd-card-title">Written Feedback</div>
-              <label class="a-lbl">Strengths</label>
-              <textarea class="session-notes" style="min-height:70px">Good understanding of PTW process. Confident delivery. Strong CV with relevant site experience.</textarea>
-              <label class="a-lbl">Areas to Improve</label>
-              <textarea class="session-notes" style="min-height:70px">Needs to strengthen ALARP justification. Gulf-specific regulatory knowledge (UAE CDG, ADNOC standards) requires attention.</textarea>
-              <label class="a-lbl">Recommended Next Steps</label>
-              <textarea class="session-notes" style="min-height:60px">Book 1 more session with Gulf-focus module. Study UAE HSE regulations. Update CV to highlight NEBOSH certification more prominently.</textarea>
-            </div>
-          </div>
-          <div style="display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap;">
-            <button class="a-btn e" style="max-width:220px;margin:0" onclick="pTab('exp','sessions',null)">Submit &amp; Return to Sessions ✓</button>
-            <button class="pd-btn">Save Draft</button>
-          </div>
-        </div>
-
-      </div><!-- exp-livesession -->
-
-    </div><!-- pd-body -->
-  </div><!-- expertDash -->
+  </div><!-- pd-body -->
+</div><!-- expertDash -->
 
 </div><!-- end portalOverlay -->
 
+
+
+
 <script>
 /* ══════════════════════════════════════════════════════════════════════
-   PROPREP — FULLY FUNCTIONAL JAVASCRIPT
-   Storage: localStorage  |  Video: WebRTC  |  Auth: client-side
+   PROPREP — COMPLETE JAVASCRIPT
+   Auth: localStorage | Video: WebRTC | Panels: real-time
 ══════════════════════════════════════════════════════════════════════ */
 
 /* ── CURSOR ── */
@@ -3540,11 +3520,8 @@ const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
 if(window.innerWidth>900){
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-  (function curLoop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(curLoop);})();
-  document.querySelectorAll('a,button').forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-  });
+  (function cl(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(cl);})();
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));});
 }
 
 /* ── PARTICLE CANVAS ── */
@@ -3556,7 +3533,7 @@ class P{constructor(){this.r();}r(){this.x=Math.random()*W;this.y=Math.random()*
 const pCount=window.innerWidth<640?35:75;
 for(let i=0;i<pCount;i++)parts.push(new P());
 function drawLines(){for(let i=0;i<parts.length;i++)for(let j=i+1;j<parts.length;j++){const dx=parts[i].x-parts[j].x,dy=parts[i].y-parts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<90){ctx.beginPath();ctx.moveTo(parts[i].x,parts[i].y);ctx.lineTo(parts[j].x,parts[j].y);ctx.strokeStyle='rgba(232,92,26,'+(0.06*(1-d/90))+')';ctx.lineWidth=.5;ctx.stroke();}}}
-(function animParts(){ctx.clearRect(0,0,W,H);parts.forEach(p=>{p.u();p.d();});drawLines();requestAnimationFrame(animParts);})();
+(function animP(){ctx.clearRect(0,0,W,H);parts.forEach(p=>{p.u();p.d();});drawLines();requestAnimationFrame(animP);})();
 
 /* ── NAV ── */
 const nav=document.getElementById('mainNav');
@@ -3567,7 +3544,7 @@ function closeNav(){document.getElementById('mobNav').classList.remove('open');d
 /* ── WORD FLIP ── */
 const flipWords=document.querySelectorAll('.flip-word');
 let flipIdx=0;
-function nextFlip(){const cur2=flipWords[flipIdx];cur2.classList.remove('active');cur2.classList.add('exit');flipIdx=(flipIdx+1)%flipWords.length;const next=flipWords[flipIdx];next.classList.remove('exit');setTimeout(()=>next.classList.add('active'),180);setTimeout(()=>cur2.classList.remove('exit'),1400);}
+function nextFlip(){const c=flipWords[flipIdx];c.classList.remove('active');c.classList.add('exit');flipIdx=(flipIdx+1)%flipWords.length;const n=flipWords[flipIdx];n.classList.remove('exit');setTimeout(()=>n.classList.add('active'),180);setTimeout(()=>c.classList.remove('exit'),1400);}
 setTimeout(()=>setInterval(nextFlip,4500),3500);
 
 /* ── SCROLL REVEAL ── */
@@ -3579,7 +3556,7 @@ function animCount(el){const target=parseFloat(el.dataset.target),dec=el.dataset
 const cio=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animCount(e.target);cio.unobserve(e.target);}});},{threshold:.5});
 document.querySelectorAll('.ct-n').forEach(el=>cio.observe(el));
 
-/* ── DEMO PROGRESS BAR ── */
+/* ── DEMO ── */
 const dFill=document.getElementById('dFill'),dPct=document.getElementById('dPct');
 const sc1=document.getElementById('sc1'),sc2=document.getElementById('sc2'),sc3=document.getElementById('sc3');
 let demoGo=false;
@@ -3593,579 +3570,598 @@ setInterval(()=>{ti=(ti+1)%6;scrollTesti(ti);},4500);
 const tRail=document.getElementById('testiRail');
 if(tRail){let ts=0;tRail.addEventListener('touchstart',e=>{ts=e.touches[0].clientX;},{passive:true});tRail.addEventListener('touchend',e=>{const delta=ts-e.changedTouches[0].clientX;if(Math.abs(delta)>50){ti=delta>0?Math.min(ti+1,5):Math.max(ti-1,0);scrollTesti(ti);}},{passive:true});}
 
-/* ── DRAGGABLE INDUSTRY TRACK ── */
+/* ── DRAGGABLE TRACK ── */
 const iT=document.getElementById('indTrack');
 if(iT){let drag=false,sx,sl;iT.addEventListener('mousedown',e=>{drag=true;sx=e.pageX-iT.offsetLeft;sl=iT.scrollLeft;});iT.addEventListener('mousemove',e=>{if(!drag)return;e.preventDefault();iT.scrollLeft=sl-(e.pageX-iT.offsetLeft-sx)*1.3;});['mouseup','mouseleave'].forEach(ev=>iT.addEventListener(ev,()=>drag=false));}
 
-/* ── AVAILABILITY DAYS ── */
-document.querySelectorAll('.avail-day').forEach(d=>{
-  d.addEventListener('click',()=>{
-    d.classList.toggle('on');
-    saveAvailability();
-  });
-});
+/* ══════════════════════════════════════════════════════
+   DATA STORE — localStorage
+══════════════════════════════════════════════════════ */
+const DB={
+  _k(t){return 'pp_'+t;},
+  get(t){try{return JSON.parse(localStorage.getItem(this._k(t)))||[];}catch{return [];}},
+  set(t,v){localStorage.setItem(this._k(t),JSON.stringify(v));window.dispatchEvent(new CustomEvent('pp:update',{detail:{table:t}}));},
+  getObj(t){try{return JSON.parse(localStorage.getItem(this._k(t)))||{};}catch{return {};}},
+  setObj(t,v){localStorage.setItem(this._k(t),JSON.stringify(v));window.dispatchEvent(new CustomEvent('pp:update',{detail:{table:t}}));}
+};
 
-/* ═══════════════════════════════════════════════════
-   USER STORE — localStorage persistence
-═══════════════════════════════════════════════════ */
+/* Seed demo data */
+(function seedData(){
+  if(DB.get('seeded').length)return;
+  DB.set('interviewers',[
+    {id:'i1',name:'Arun Kumar',role:'Senior HSE Manager',ind:'Oil & Gas',country:'UAE',tier:'Tier 1',exp:14,rating:4.9,sessions:128,status:'Active',email:'arun.kumar.hse@gmail.com'},
+    {id:'i2',name:'Ravi Venkatesh',role:'Construction PM',ind:'Construction',country:'KSA',tier:'Tier 1',exp:11,rating:4.8,sessions:92,status:'Active',email:'ravi.v@outlook.com'},
+    {id:'i3',name:'Meera Pillai',role:'EHS Engineer',ind:'HSE/EHS',country:'UK',tier:'Tier 2',exp:7,rating:4.7,sessions:64,status:'Active',email:'meera.p@gmail.com'},
+    {id:'i4',name:'Suresh Nair',role:'Process Safety Specialist',ind:'Oil & Gas',country:'India',tier:'Tier 2',exp:9,rating:4.9,sessions:98,status:'Active',email:'suresh.n@gmail.com'},
+    {id:'i5',name:'Lakshmi Devi',role:'Environmental Officer',ind:'Environmental',country:'Australia',tier:'Tier 2',exp:8,rating:4.6,sessions:41,status:'On Leave',email:'lakshmi.d@gmail.com'}
+  ]);
+  DB.set('sessions',[
+    {id:'s1',candEmail:'rahul.mehta@gmail.com',candName:'Rahul Mehta',intId:'i1',intName:'Arun Kumar',type:'HSE Mock Interview',focus:'Gulf / UAE',date:'2025-03-22',time:'15:00',duration:60,status:'Completed',scores:{tech:7.6,comm:7.2,norm:6.9,scen:7.4,cv:8.1},overallScore:7.4,feedback:'Strong PTW knowledge. Needs ALARP work. Strengthen Gulf-specific reg awareness.'},
+    {id:'s2',candEmail:'rahul.mehta@gmail.com',candName:'Rahul Mehta',intId:'i2',intName:'Ravi Venkatesh',type:'CV Review',focus:'Gulf / UAE',date:'2025-03-26',time:'17:00',duration:45,status:'Upcoming',scores:null,overallScore:null,feedback:''}
+  ]);
+  DB.set('candidates',[
+    {id:'c1',name:'Rahul Mehta',email:'rahul.mehta@gmail.com',target:'HSE Officer',country:'UAE/Gulf',exp:'2-5 years',sessions:2,status:'Active',joined:'2025-03-01'},
+    {id:'c2',name:'Priya Sharma',email:'demo.cand@proprep.in',target:'Safety Supervisor',country:'UK',exp:'5-10 years',sessions:1,status:'Active',joined:'2025-02-15'}
+  ]);
+  DB.set('notifications',[
+    {id:'n1',type:'session',msg:'New booking: Rahul M. with Arun K. on 26 Mar',ts:Date.now()-3600000,read:false},
+    {id:'n2',type:'register',msg:'New candidate registered: Sanjay Kulkarni',ts:Date.now()-7200000,read:false},
+    {id:'n3',type:'feedback',msg:'Feedback submitted: Arun K. for Deepa N. — Score 8.0',ts:Date.now()-86400000,read:true}
+  ]);
+  DB.set('pendingInterviewers',[
+    {id:'pi1',name:'Sameer Khan',email:'sameer.k@gmail.com',role:'HSE Manager',ind:'Oil & Gas',country:'UAE',tier:'Tier 1',exp:12,status:'Review',applied:'2025-03-20'},
+    {id:'pi2',name:'Leela Rao',email:'leela.r@gmail.com',role:'EHS Specialist',ind:'Manufacturing',country:'India',tier:'Tier 2',exp:7,status:'Review',applied:'2025-03-21'}
+  ]);
+  DB.set('seeded',[true]);
+})();
+
+/* ── USER AUTH STORE ── */
 const USERS_KEY='pp_users';
-const SESSION_KEY='pp_session';
-
-function getUsers(){
-  try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch{return {};}
-}
+function getUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch{return {};}}
 function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u));}
-function getSession(){
-  try{return JSON.parse(localStorage.getItem(SESSION_KEY)||'null');}catch{return null;}
-}
-function setSession(s){
-  if(s)localStorage.setItem(SESSION_KEY,JSON.stringify(s));
-  else localStorage.removeItem(SESSION_KEY);
-}
+function getSession(){try{return JSON.parse(localStorage.getItem('pp_session')||'null');}catch{return null;}}
+function setSession(s){if(s)localStorage.setItem('pp_session',JSON.stringify(s));else localStorage.removeItem('pp_session');}
 
-/* Seed demo accounts on first load */
-(function seedDemoAccounts(){
+/* Seed demo accounts */
+(function seedAccounts(){
   const users=getUsers();
   const demos=[
-    {email:'rahul.mehta@gmail.com',   pass:'Gulf@2025',   role:'candidate',fname:'Rahul',  lname:'Mehta',  target:'HSE Officer',country:'🇦🇪 UAE / Gulf',exp:'2–5 years'},
-    {email:'arun.kumar.hse@gmail.com',pass:'Expert@2025', role:'expert',   fname:'Arun',   lname:'Kumar',  pos:'Senior HSE Manager, ADNOC',ind:'HSE/EHS — 10+ yrs',country:'UAE',linkedin:'linkedin.com/in/arunkumar'},
-    {email:'admin.proprep@gmail.com', pass:'Admin@2025',  role:'admin',    fname:'Admin',  lname:'ProPrep'}
+    {email:'rahul.mehta@gmail.com',pass:'Gulf@2025',role:'candidate',fname:'Rahul',lname:'Mehta',target:'HSE Officer',country:'UAE / Gulf',exp:'2-5 years'},
+    {email:'arun.kumar.hse@gmail.com',pass:'Expert@2025',role:'expert',fname:'Arun',lname:'Kumar',pos:'Senior HSE Manager, ADNOC',ind:'HSE/EHS - 10+ yrs',country:'UAE'},
+    {email:'admin.proprep@gmail.com',pass:'Admin@2025',role:'admin',fname:'Admin',lname:'ProPrep'}
   ];
   demos.forEach(d=>{if(!users[d.email])users[d.email]=d;});
   saveUsers(users);
 })();
 
-function saveAvailability(){
-  const days=[];
-  document.querySelectorAll('.avail-day').forEach((d,i)=>{if(d.classList.contains('on'))days.push(i);});
-  const sess=getSession();
-  if(sess){sess.availability=days;setSession(sess);}
+/* ── UTILITIES ── */
+function spill(status){
+  const m={Completed:'sp-ok',Upcoming:'sp-pd',Active:'sp-ok','On Leave':'sp-pd',Review:'sp-nw','Docs Pending':'sp-pd',New:'sp-nw',Confirmed:'sp-pd',Draft:'sp-re',Submitted:'sp-ok',Cancelled:'sp-re'};
+  return '<span class="sp '+(m[status]||'sp-nw')+'">'+status+'</span>';
 }
-function loadAvailability(){
-  const sess=getSession();
-  if(!sess||!sess.availability)return;
-  document.querySelectorAll('.avail-day').forEach((d,i)=>{
-    d.classList.toggle('on',sess.availability.includes(i));
-  });
+function toast(msg,type){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:'+(type==='err'?'#dc2626':'var(--ore)')+';color:#fff;font-family:var(--f-m);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:10px 22px;border-radius:5px;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,.4);pointer-events:none';
+  t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
 }
+function _setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
 
-/* ═══════════════════════════════════════════════════
-   ADMIN MODAL (hidden triple-tap footer)
-═══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   ADMIN MODAL (Ctrl+Shift+A or triple-tap footer dot)
+══════════════════════════════════════════════════════ */
 function openAdmin(){document.getElementById('adminModal').classList.add('open');setTimeout(()=>document.getElementById('aUser').focus(),100);}
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');document.getElementById('aErr').classList.remove('show');}
 function doLogin(){
   const u=document.getElementById('aUser').value.trim();
   const p=document.getElementById('aPass').value;
-  const users=getUsers();
-  const user=users[u];
+  const users=getUsers();const user=users[u];
   if(user&&user.role==='admin'&&user.pass===p){
-    closeAdmin();
-    document.getElementById('adminDash').classList.add('open');
-    document.body.style.overflow='hidden';
-  }else{
-    document.getElementById('aErr').classList.add('show');
-    document.getElementById('aPass').value='';
-    document.getElementById('aPass').focus();
-  }
+    closeAdmin();document.getElementById('adminDash').classList.add('open');document.body.style.overflow='hidden';
+    setTimeout(renderAdminPanel,100);
+  }else{document.getElementById('aErr').classList.add('show');document.getElementById('aPass').value='';document.getElementById('aPass').focus();}
 }
 function doLogout(){document.getElementById('adminDash').classList.remove('open');document.body.style.overflow='';document.getElementById('aUser').value='';document.getElementById('aPass').value='';}
 document.getElementById('aPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('aUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('aPass').focus();});
-document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key==='A'){e.preventDefault();openAdmin();}});
+document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.shiftKey&&e.key==='A'){e.preventDefault();openAdmin();}if(e.key==='Escape'){if(document.getElementById('adminModal').classList.contains('open'))closeAdmin();if(document.getElementById('portalOverlay').classList.contains('open'))closePortal();}});
 document.getElementById('adminModal').addEventListener('click',e=>{if(e.target===document.getElementById('adminModal'))closeAdmin();});
 let tapCount=0,tapTimer;
 document.getElementById('ftAdmin').addEventListener('click',()=>{tapCount++;clearTimeout(tapTimer);tapTimer=setTimeout(()=>tapCount=0,800);if(tapCount>=3){tapCount=0;openAdmin();}});
 
-/* ═══════════════════════════════════════════════════
-   ROLE-BASED PORTAL — FULLY FUNCTIONAL
-═══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   ROLE-BASED PORTAL
+══════════════════════════════════════════════════════ */
 let _pRole='';
-
 function openPortal(e){
   if(e)e.preventDefault();
-  // If already logged in, go directly to dashboard
   const sess=getSession();
-  if(sess){
-    document.getElementById('portalOverlay').classList.add('open');
-    document.body.style.overflow='hidden';
-    _pLoginSuccess(sess.role,sess.fname,true);
-    return;
-  }
   document.getElementById('portalOverlay').classList.add('open');
   document.body.style.overflow='hidden';
+  if(sess&&sess.role!=='admin'){_pLoginSuccess(sess.role,sess.fname,true);return;}
   _pShowView('portalSelect');
 }
-function closePortal(){
-  document.getElementById('portalOverlay').classList.remove('open');
-  document.body.style.overflow='';
-  stopAllStreams();
-}
+function closePortal(){document.getElementById('portalOverlay').classList.remove('open');document.body.style.overflow='';stopAllStreams();}
 function _pShowView(id){
   ['portalSelect','portalAuth','candDash','expertDash'].forEach(v=>{
-    const el=document.getElementById(v);
-    if(!el)return;
-    if(v==='portalAuth'){
-      el.classList.toggle('show',v===id);
-    }else{
-      el.style.display=v===id?'':'none';
-    }
+    const el=document.getElementById(v);if(!el)return;
+    if(v==='portalAuth'){el.classList.toggle('show',v===id);}else{el.style.display=v===id?'':'none';}
   });
 }
 function showPortalAuth(role){
   _pRole=role;
-  const cfg={
-    candidate:{ico:'🎓',label:'Candidate',        cls:'c',demo:'rahul.mehta@gmail.com / Gulf@2025'},
-    expert:   {ico:'👷',label:'Expert Interviewer',cls:'e',demo:'arun.kumar.hse@gmail.com / Expert@2025'},
-    admin:    {ico:'🔐',label:'Administrator',     cls:'a',demo:'admin.proprep@gmail.com / Admin@2025'}
-  }[role];
+  const cfg={candidate:{ico:'🎓',label:'Candidate',cls:'c',demo:'rahul.mehta@gmail.com / Gulf@2025'},expert:{ico:'👷',label:'Expert Interviewer',cls:'e',demo:'arun.kumar.hse@gmail.com / Expert@2025'},admin:{ico:'🔐',label:'Administrator',cls:'a',demo:'admin.proprep@gmail.com / Admin@2025'}}[role];
   document.getElementById('authIco').textContent=cfg.ico;
   document.getElementById('authLabel').textContent=cfg.label;
-  const pill=document.getElementById('authPill');
-  pill.textContent=cfg.label;pill.className='auth-pill '+cfg.cls;
+  const pill=document.getElementById('authPill');pill.textContent=cfg.label;pill.className='auth-pill '+cfg.cls;
   document.getElementById('authStripe').className='auth-stripe '+cfg.cls;
   ['si-btn','rg-btn'].forEach(id=>{const b=document.getElementById(id);if(b)b.className='a-btn '+cfg.cls;});
-  const tabSI=document.getElementById('tabSI'),tabReg=document.getElementById('tabReg');
-  tabSI.className='auth-tab on '+cfg.cls;
-  tabReg.style.display=role==='admin'?'none':'';
+  document.getElementById('tabReg').style.display=role==='admin'?'none':'';
   document.getElementById('rg-cand').style.display=role==='candidate'?'':'none';
   document.getElementById('rg-exp').style.display=role==='expert'?'':'none';
   document.getElementById('siDemoText').textContent=cfg.demo;
   document.getElementById('si-err').classList.remove('on');
   document.getElementById('rg-err').classList.remove('on');
-  pSwitchTab('signin');
-  _pShowView('portalAuth');
+  pSwitchTab('signin');_pShowView('portalAuth');
 }
 function backToRoles(){_pShowView('portalSelect');}
 function pSwitchTab(tab){
   const cls={candidate:'c',expert:'e',admin:'a'}[_pRole]||'c';
   document.getElementById('formSI').classList.toggle('show',tab==='signin');
   document.getElementById('formReg').classList.toggle('show',tab==='register');
-  const si=document.getElementById('tabSI'),reg=document.getElementById('tabReg');
-  si.className='auth-tab '+(tab==='signin'?'on '+cls:'');
-  reg.className='auth-tab '+(tab==='register'?'on '+cls:'');
+  document.getElementById('tabSI').className='auth-tab '+(tab==='signin'?'on '+cls:'');
+  document.getElementById('tabReg').className='auth-tab '+(tab==='register'?'on '+cls:'');
 }
-
 function doSignIn(){
   const email=document.getElementById('si-email').value.trim().toLowerCase();
   const pass=document.getElementById('si-pass').value;
-  const err=document.getElementById('si-err');
-  err.classList.remove('on');
-  if(!email||!pass){err.textContent='Please enter your email and password.';err.classList.add('on');return;}
-  const users=getUsers();
-  const user=users[email];
+  const err=document.getElementById('si-err');err.classList.remove('on');
+  if(!email||!pass){err.textContent='Please enter email and password.';err.classList.add('on');return;}
+  const users=getUsers();const user=users[email];
   if(!user){err.textContent='No account found with this email.';err.classList.add('on');return;}
-  if(user.pass!==pass){err.textContent='Incorrect password. Please try again.';err.classList.add('on');return;}
-  if(user.role!==_pRole&&_pRole!=='admin'){
-    err.textContent='This account is registered as '+user.role+', not '+_pRole+'.';
-    err.classList.add('on');return;
-  }
-  if(user.role==='admin'&&_pRole==='admin'&&user.pass!==pass){
-    err.textContent='Invalid admin credentials.';err.classList.add('on');return;
-  }
-  setSession({email,role:user.role,fname:user.fname,lname:user.lname,target:user.target||'',country:user.country||''});
+  if(user.pass!==pass){err.textContent='Incorrect password.';err.classList.add('on');return;}
+  if(_pRole!=='admin'&&user.role!==_pRole){err.textContent='This account is registered as '+user.role+'.';err.classList.add('on');return;}
+  setSession({email,role:user.role,fname:user.fname,lname:user.lname||'',target:user.target||'',country:user.country||''});
   _pLoginSuccess(user.role,user.fname);
 }
-
 function doRegister(){
   const fn=document.getElementById('rg-fn').value.trim();
   const ln=document.getElementById('rg-ln').value.trim();
   const email=document.getElementById('rg-email').value.trim().toLowerCase();
-  const mob=document.getElementById('rg-mob').value.trim();
   const pass=document.getElementById('rg-pass').value;
-  const err=document.getElementById('rg-err');
-  err.classList.remove('on');
+  const err=document.getElementById('rg-err');err.classList.remove('on');
   if(!fn||!email||!pass){err.textContent='First name, email and password are required.';err.classList.add('on');return;}
   if(pass.length<6){err.textContent='Password must be at least 6 characters.';err.classList.add('on');return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Please enter a valid email address.';err.classList.add('on');return;}
   const users=getUsers();
   if(users[email]){err.textContent='An account with this email already exists.';err.classList.add('on');return;}
-  const newUser={email,pass,role:_pRole,fname:fn,lname:ln,mob};
-  if(_pRole==='candidate'){
-    newUser.target=document.getElementById('rg-trole').value;
-    newUser.country=document.getElementById('rg-tcountry').value;
-    newUser.exp=document.getElementById('rg-yrs').value;
-  } else if(_pRole==='expert'){
-    newUser.pos=document.getElementById('rg-pos').value;
-    newUser.ind=document.getElementById('rg-ind').value;
-    newUser.country=document.getElementById('rg-country').value;
-    newUser.linkedin=document.getElementById('rg-li').value;
-  }
-  users[email]=newUser;
-  saveUsers(users);
-  setSession({email,role:_pRole,fname:fn,lname:ln,target:newUser.target||'',country:newUser.country||''});
+  const u={email,pass,role:_pRole,fname:fn,lname:ln};
+  if(_pRole==='candidate'){u.target=document.getElementById('rg-trole').value;u.country=document.getElementById('rg-tcountry').value;u.exp=document.getElementById('rg-yrs').value;}
+  else if(_pRole==='expert'){u.pos=document.getElementById('rg-pos').value;u.ind=document.getElementById('rg-ind').value;u.country=document.getElementById('rg-country').value;u.linkedin=document.getElementById('rg-li').value;}
+  users[email]=u;saveUsers(users);
+  setSession({email,role:_pRole,fname:fn,lname:ln,target:u.target||'',country:u.country||''});
   _pLoginSuccess(_pRole,fn);
 }
-
 function _pLoginSuccess(role,name,fromCache){
-  if(role==='admin'){
-    if(!fromCache){
-      closePortal();
-      document.getElementById('adminDash').classList.add('open');
-      document.body.style.overflow='hidden';
-    }
-    return;
-  }
+  if(role==='admin'){closePortal();document.getElementById('adminDash').classList.add('open');document.body.style.overflow='hidden';setTimeout(renderAdminPanel,100);return;}
   const sess=getSession();
   if(role==='candidate'){
-    const nameEl=document.getElementById('candName');
-    if(nameEl)nameEl.textContent=name;
-    const tl=document.getElementById('candTargetLine');
-    if(tl&&sess){
-      const parts=[];
-      if(sess.target)parts.push(sess.target);
-      if(sess.country)parts.push(sess.country);
-      if(parts.length)tl.textContent='Target: '+parts.join(' · ');
-    }
-    // Load saved progress from localStorage
-    loadCandidateData();
-    _pShowView('candDash');
-    pTab('cand','home',null);
-  } else if(role==='expert'){
-    const nameEl=document.getElementById('expName');
-    if(nameEl)nameEl.textContent=name;
-    loadAvailability();
-    _pShowView('expertDash');
-    pTab('exp','home',null);
+    _setText('candName',name);
+    if(sess){const p=[];if(sess.target)p.push(sess.target);if(sess.country)p.push(sess.country);if(p.length)_setText('candTargetLine','Target: '+p.join(' · '));}
+    _pShowView('candDash');pTab('cand','home',null);renderCandPanel();renderBookList();
+  }else{
+    _setText('expName',name);
+    _pShowView('expertDash');pTab('exp','home',null);renderExpertPanel();loadAvailability();
   }
 }
-
 function portalLogout(){
-  setSession(null);
-  stopAllStreams();
-  closePortal();
-  setTimeout(()=>{
-    _pShowView('portalSelect');
-    // Reset form fields
-    ['si-email','si-pass','rg-fn','rg-ln','rg-email','rg-mob','rg-pass'].forEach(id=>{
-      const el=document.getElementById(id);if(el)el.value='';
-    });
-  },300);
+  setSession(null);stopAllStreams();closePortal();
+  setTimeout(()=>{_pShowView('portalSelect');['si-email','si-pass','rg-fn','rg-ln','rg-email','rg-mob','rg-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});},300);
 }
-
-function loadCandidateData(){
-  const sess=getSession();
-  if(!sess)return;
-  const key='pp_cand_'+sess.email;
-  try{
-    const data=JSON.parse(localStorage.getItem(key)||'{}');
-    if(data.scores){
-      ['tech','comm','norm','cv'].forEach(k=>{
-        const el=document.querySelector(`.prog-fill[data-key="${k}"]`);
-        if(el)el.style.width=(data.scores[k]||0)+'%';
-      });
-    }
-  }catch(e){}
-}
-
 function pTab(dash,page,btn){
   const prefix=dash==='cand'?'cand':'exp';
   document.querySelectorAll('#'+prefix+'Dash .pd-page').forEach(p=>p.classList.remove('show'));
-  const pg=document.getElementById(prefix+'-'+page);
-  if(pg)pg.classList.add('show');
-  if(btn){
-    document.querySelectorAll('#'+prefix+'Dash .pd-tab').forEach(t=>t.classList.remove('on'));
-    btn.classList.add('on');
-  }
+  const pg=document.getElementById(prefix+'-'+page);if(pg)pg.classList.add('show');
+  if(btn){document.querySelectorAll('#'+prefix+'Dash .pd-tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');}
+  if(dash==='cand'){renderCandPanel();if(page==='book')renderBookList();if(page==='profile')prefillCandProfile();}
+  if(dash==='exp'){renderExpertPanel();if(page==='profile')prefillExpProfile();if(page==='earnings'){const el=document.getElementById('exp-earn-sessions');if(el){const sess=getSession();const ints=DB.get('interviewers');const me=ints.find(i=>i.email===sess?.email);el.textContent=me?DB.get('sessions').filter(s=>s.intId===me.id).length:0;}}}
 }
 
-/* Escape to close */
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){
-    if(document.getElementById('portalOverlay').classList.contains('open'))closePortal();
-    if(document.getElementById('adminModal').classList.contains('open'))closeAdmin();
+/* ══════════════════════════════════════════════════════
+   CANDIDATE PANEL — REAL-TIME RENDER
+══════════════════════════════════════════════════════ */
+function renderCandPanel(){
+  const sess=getSession();if(!sess)return;
+  const allS=DB.get('sessions');
+  const myS=allS.filter(s=>s.candEmail===sess.email);
+  const done=myS.filter(s=>s.status==='Completed');
+  const coming=myS.filter(s=>s.status==='Upcoming');
+  const last=done.length?done[done.length-1]:null;
+  _setText('cand-stat-booked',myS.length);
+  _setText('cand-stat-completed',done.length);
+  _setText('cand-stat-score',last&&last.overallScore?last.overallScore.toFixed(1):'—');
+  /* Upcoming list */
+  const upEl=document.getElementById('cand-upcoming-list');
+  if(upEl)upEl.innerHTML=coming.length===0
+    ? '<p style="font-size:.82rem;color:var(--muted);padding:12px 0">No upcoming sessions. <a href="#" onclick="pTab(&apos;cand&apos;,&apos;book&apos;,null)" style="color:var(--ore)">Book one now →</a></p>'
+    : coming.map(s=>'<div class="pd-row"><span class="pd-row-ico">📅</span><div class="pd-row-main"><div class="pd-row-title">'+s.intName+' — '+s.type+'</div><div class="pd-row-sub">'+s.date+' · '+s.time+' · '+s.focus+'</div></div>'+spill(s.status)+'</div>').join('');
+  /* Progress bars */
+  if(last&&last.scores){
+    const map={tech:last.scores.tech*10,comm:last.scores.comm*10,norm:last.scores.norm*10,cv:last.scores.cv*10};
+    Object.entries(map).forEach(([k,v])=>{const el=document.getElementById('prog-'+k);if(el)el.style.width=Math.round(v)+'%';const p=document.getElementById('pct-'+k);if(p)p.textContent=Math.round(v)+'%';});
   }
-});
-
-/* Auto-login on page load */
-document.addEventListener('DOMContentLoaded',()=>{
-  _pShowView('portalSelect');
-  const sess=getSession();
-  if(sess&&sess.role!=='admin'){
-    // Silently pre-load session state so "Sign In" goes straight to dashboard
+  /* Scorecard */
+  if(last){
+    _setText('sc-tech',last.scores?last.scores.tech.toFixed(1):'—');
+    _setText('sc-comm',last.scores?last.scores.comm.toFixed(1):'—');
+    _setText('sc-overall',last.overallScore?last.overallScore.toFixed(1):'—');
+    _setText('scorecard-date','Last Session — '+last.intName+' ('+last.date+')');
+    const fbEl=document.getElementById('last-feedback-text');if(fbEl)fbEl.textContent=last.feedback||'Feedback not yet available.';
   }
-});
+  /* Sessions table */
+  const tbl=document.getElementById('cand-sessions-table');
+  if(tbl)tbl.innerHTML=myS.length===0
+    ? '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">No sessions yet. <a href="#" onclick="pTab(&apos;cand&apos;,&apos;book&apos;,null)" style="color:var(--ore)">Book your first →</a></td></tr>'
+    : myS.map(s=>'<tr><td>'+s.date+'</td><td>'+s.intName+'</td><td>'+s.type+'</td><td>'+(s.overallScore?s.overallScore.toFixed(1)+'/10':'—')+'</td><td>'+spill(s.status)+'</td></tr>').join('');
+  /* Score history */
+  const hist=document.getElementById('cand-score-history');
+  if(hist)hist.innerHTML=done.length===0
+    ? '<p style="font-size:.78rem;color:var(--muted);text-align:center;padding:12px">Complete a session to see score history</p>'
+    : done.slice().reverse().map(s=>'<div class="pd-row"><span class="pd-row-ico">📋</span><div class="pd-row-main"><div class="pd-row-title">'+s.type+' — '+s.intName+'</div><div class="pd-row-sub">'+s.date+'</div></div><div class="pd-row-end"><span style="font-family:var(--f-d);font-size:1.2rem;font-weight:700;color:var(--ore)">'+(s.overallScore?s.overallScore.toFixed(1):'—')+'</span></div></div>').join('');
+}
 
-/* ═══════════════════════════════════════════════════
+function renderBookList(){
+  const ints=DB.get('interviewers');
+  const indF=(document.getElementById('book-filter-ind')||{}).value||'';
+  const couF=(document.getElementById('book-filter-country')||{}).value||'';
+  const tierF=(document.getElementById('book-filter-tier')||{}).value||'';
+  const el=document.getElementById('book-interviewer-list');if(!el)return;
+  let filtered=ints.filter(i=>i.status==='Active');
+  if(indF)filtered=filtered.filter(i=>i.ind.toLowerCase().includes(indF.toLowerCase())||indF.toLowerCase().includes(i.ind.toLowerCase()));
+  if(couF)filtered=filtered.filter(i=>i.country.toLowerCase()===couF.toLowerCase());
+  if(tierF)filtered=filtered.filter(i=>i.tier===tierF);
+  el.innerHTML=filtered.length===0
+    ? '<p style="color:var(--muted);padding:1rem">No interviewers match the selected filters.</p>'
+    : filtered.map(i=>'<div class="int-item"><div class="int-av">'+i.name.split(' ').map(w=>w[0]).join('').slice(0,2)+'</div><div class="int-info"><div class="int-name">'+i.name+'</div><div class="int-role">'+i.role+' · '+i.ind+'</div><div class="int-loc">📍 '+i.country+' · '+i.exp+' yrs</div></div><div class="int-right"><div class="int-rating">'+i.rating+'★</div><div style="font-size:.72rem;color:var(--muted)">₹TBC</div><div class="int-tier">'+i.tier+'</div></div><button class="pd-btn pr" style="margin-left:12px;white-space:nowrap;flex-shrink:0" onclick="candBookSession(\''+i.id+'\')">Book →</button></div>').join('');
+}
+
+function candBookSession(intId){
+  const sess=getSession();if(!sess)return;
+  const ints=DB.get('interviewers');const interviewer=ints.find(i=>i.id===intId);if(!interviewer)return;
+  const sessions=DB.get('sessions');
+  const bookDate=new Date(Date.now()+3*86400000);
+  const newS={id:'sess_'+Date.now(),candEmail:sess.email,candName:(sess.fname+' '+(sess.lname||'')).trim(),intId:interviewer.id,intName:interviewer.name,type:'HSE Mock Interview',focus:sess.country||'Gulf / UAE',date:bookDate.toISOString().split('T')[0],time:'15:00',duration:60,status:'Upcoming',scores:null,overallScore:null,feedback:''};
+  sessions.push(newS);DB.set('sessions',sessions);
+  const notifs=DB.get('notifications');
+  notifs.unshift({id:'n'+Date.now(),type:'session',msg:'New booking: '+newS.candName+' with '+interviewer.name+' on '+newS.date,ts:Date.now(),read:false});
+  DB.set('notifications',notifs);
+  const cands=DB.get('candidates');const ci=cands.findIndex(c=>c.email===sess.email);
+  if(ci>=0){cands[ci].sessions=(cands[ci].sessions||0)+1;DB.set('candidates',cands);}
+  else{cands.push({id:'c'+Date.now(),name:newS.candName,email:sess.email,target:sess.target||'HSE Officer',country:sess.country||'UAE',exp:'',sessions:1,status:'Active',joined:new Date().toISOString().split('T')[0]});DB.set('candidates',cands);}
+  toast('✓ Session booked with '+interviewer.name);
+  pTab('cand','home',null);
+}
+
+function saveCandProfile(){
+  const sess=getSession();if(!sess)return;
+  const users=getUsers();const u=users[sess.email];if(!u)return;
+  const name=(document.getElementById('profile-name')||{}).value||'';
+  const mob=(document.getElementById('profile-mob')||{}).value||'';
+  if(name){u.fname=name.split(' ')[0];u.lname=name.split(' ').slice(1).join(' ');}
+  if(mob)u.mob=mob;
+  users[sess.email]=u;saveUsers(users);toast('✓ Profile saved');
+}
+function saveCandPrefs(){
+  const sess=getSession();if(!sess)return;
+  sess.target=(document.getElementById('profile-role')||{}).value||sess.target;
+  sess.country=(document.getElementById('profile-country')||{}).value||sess.country;
+  setSession(sess);
+  const users=getUsers();if(users[sess.email]){users[sess.email].target=sess.target;users[sess.email].country=sess.country;saveUsers(users);}
+  _setText('candTargetLine','Target: '+sess.target+' · '+sess.country);
+  toast('✓ Preferences updated');
+}
+function saveCandNotes(){const sess=getSession();if(!sess)return;const notes=(document.getElementById('cand-notes-ta')||{}).value||'';localStorage.setItem('pp_notes_'+sess.email,notes);toast('✓ Notes saved');}
+function prefillCandProfile(){
+  const sess=getSession();if(!sess)return;
+  const u=getUsers()[sess.email]||{};
+  const n=document.getElementById('profile-name');if(n)n.value=((u.fname||'')+' '+(u.lname||'')).trim();
+  const em=document.getElementById('profile-email');if(em)em.value=sess.email;
+  const mo=document.getElementById('profile-mob');if(mo)mo.value=u.mob||'';
+}
+
+/* ══════════════════════════════════════════════════════
+   EXPERT PANEL — REAL-TIME RENDER
+══════════════════════════════════════════════════════ */
+function renderExpertPanel(){
+  const sess=getSession();if(!sess)return;
+  const ints=DB.get('interviewers');const me=ints.find(i=>i.email===sess.email);
+  const allS=DB.get('sessions');
+  const myS=me?allS.filter(s=>s.intId===me.id):[];
+  const done=myS.filter(s=>s.status==='Completed');
+  const coming=myS.filter(s=>s.status==='Upcoming');
+  _setText('exp-stat-sessions',myS.length);
+  _setText('exp-stat-candidates',new Set(myS.map(s=>s.candEmail)).size);
+  _setText('exp-stat-rating',me?me.rating:'—');
+  const upEl=document.getElementById('exp-upcoming-list');
+  if(upEl)upEl.innerHTML=coming.length===0
+    ? '<p style="font-size:.82rem;color:var(--muted);padding:12px 0">No upcoming sessions scheduled.</p>'
+    : coming.map(s=>'<div class="pd-row"><span class="pd-row-ico">📅</span><div class="pd-row-main"><div class="pd-row-title">'+s.candName+' — '+s.type+'</div><div class="pd-row-sub">'+s.date+' · '+s.time+' · '+s.focus+'</div></div>'+spill(s.status)+'</div>').join('');
+  const fbEl=document.getElementById('exp-feedback-list');
+  if(fbEl)fbEl.innerHTML=done.length===0
+    ? '<p style="font-size:.82rem;color:var(--muted);padding:12px 0">No completed sessions yet.</p>'
+    : done.slice(-4).reverse().map(s=>'<div class="pd-row"><span class="pd-row-ico">'+(s.feedback?'📝':'⏳')+'</span><div class="pd-row-main"><div class="pd-row-title">'+s.candName+' — '+s.type+'</div><div class="pd-row-sub">'+s.date+' · Score: '+(s.overallScore?s.overallScore.toFixed(1)+'/10':'Pending')+'</div></div>'+spill(s.feedback?'Submitted':'Draft')+'</div>').join('');
+  const tbl=document.getElementById('exp-sessions-table');
+  if(tbl)tbl.innerHTML=myS.length===0
+    ? '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">No sessions yet</td></tr>'
+    : myS.map(s=>'<tr><td>'+s.date+'</td><td>'+s.candName+'</td><td>'+s.type+' · '+s.focus+'</td><td>'+(s.overallScore?s.overallScore.toFixed(1)+'/10':'—')+'</td><td>'+spill(s.status)+'</td></tr>').join('');
+}
+
+function expSubmitFeedback(){
+  const sess=getSession();if(!sess)return;
+  const scores={};
+  ['sl-tech','sl-comm','sl-norm','sl-scen','sl-cv'].forEach(id=>{const el=document.getElementById(id);if(el)scores[id.replace('sl-','')]=parseInt(el.value);});
+  const overall=(Object.values(scores).reduce((a,b)=>a+b,0)/Object.keys(scores).length).toFixed(1);
+  const notes=(document.getElementById('expNotes')||{}).value||'';
+  const strengths=(document.getElementById('fb-strengths')||{}).value||'';
+  const improve=(document.getElementById('fb-improve')||{}).value||'';
+  const nextsteps=(document.getElementById('fb-nextsteps')||{}).value||'';
+  const feedback=strengths||improve||nextsteps?[strengths&&'Strengths: '+strengths,improve&&'Improve: '+improve,nextsteps&&'Next: '+nextsteps].filter(Boolean).join(' | '):notes;
+  const sessions=DB.get('sessions');
+  const ints=DB.get('interviewers');const me=ints.find(i=>i.email===sess.email);
+  if(!me){toast('Expert profile not found','err');return;}
+  const idx=sessions.findIndex(s=>s.intId===me.id&&s.status==='Upcoming');
+  if(idx>=0){
+    sessions[idx].status='Completed';sessions[idx].scores=scores;sessions[idx].overallScore=parseFloat(overall);sessions[idx].feedback=feedback;
+    DB.set('sessions',sessions);
+    const notifs=DB.get('notifications');
+    notifs.unshift({id:'n'+Date.now(),type:'feedback',msg:'Feedback submitted: '+me.name+' for '+sessions[idx].candName+' — Score '+overall,ts:Date.now(),read:false});
+    DB.set('notifications',notifs);
+    toast('✓ Feedback submitted! Score: '+overall+'/10');
+    renderExpertPanel();pTab('exp','sessions',null);
+    document.getElementById('exp-postsession').style.display='none';
+    document.getElementById('exp-room').style.display='none';
+    document.getElementById('exp-waiting').style.display='block';
+  }else{toast('No upcoming session found','err');}
+}
+
+function saveExpProfile(){
+  const sess=getSession();if(!sess)return;
+  const users=getUsers();const u=users[sess.email];if(!u)return;
+  const name=(document.getElementById('exp-profile-name')||{}).value||'';
+  const pos=(document.getElementById('exp-profile-pos')||{}).value||'';
+  const li=(document.getElementById('exp-profile-li')||{}).value||'';
+  if(name){u.fname=name.split(' ')[0];u.lname=name.split(' ').slice(1).join(' ');}
+  if(pos)u.pos=pos;if(li)u.linkedin=li;
+  users[sess.email]=u;saveUsers(users);toast('✓ Profile saved');
+}
+function saveExpNotes(){const sess=getSession();if(!sess)return;const notes=(document.getElementById('expNotes')||{}).value||'';localStorage.setItem('pp_exp_notes_'+sess.email,notes);toast('✓ Notes saved');}
+function saveExpAvailability(){
+  const days=[];document.querySelectorAll('.avail-day').forEach((d,i)=>{if(d.classList.contains('on'))days.push(i);});
+  const start=(document.getElementById('avail-start')||{}).value||'';
+  const end=(document.getElementById('avail-end')||{}).value||'';
+  const dur=(document.getElementById('avail-dur')||{}).value||'';
+  const sess=getSession();if(sess){sess.availability={days,start,end,dur};setSession(sess);}
+  toast('✓ Availability saved — '+days.length+' day(s) set');
+}
+function loadAvailability(){
+  const sess=getSession();if(!sess||!sess.availability)return;
+  const avail=sess.availability;
+  document.querySelectorAll('.avail-day').forEach((d,i)=>{if(avail.days)d.classList.toggle('on',avail.days.includes(i));});
+}
+function prefillExpProfile(){
+  const sess=getSession();if(!sess)return;
+  const u=getUsers()[sess.email]||{};
+  const n=document.getElementById('exp-profile-name');if(n)n.value=((u.fname||'')+' '+(u.lname||'')).trim();
+  const em=document.getElementById('exp-profile-email');if(em)em.value=sess.email;
+  const p=document.getElementById('exp-profile-pos');if(p)p.value=u.pos||'';
+  const l=document.getElementById('exp-profile-li');if(l)l.value=u.linkedin||'';
+}
+
+/* ══════════════════════════════════════════════════════
+   ADMIN PANEL — REAL-TIME RENDER + TABS
+══════════════════════════════════════════════════════ */
+function admTab(tab,btn){
+  document.querySelectorAll('#adminDash .adm-page').forEach(p=>p.style.display='none');
+  const pg=document.getElementById('adm-'+tab);if(pg)pg.style.display='block';
+  document.querySelectorAll('#adminDash .adm-tab').forEach(t=>t.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  renderAdminPanel();
+  /* Mirror tables to their page equivalents */
+  setTimeout(()=>{
+    const t2=document.getElementById('adm-sessions-table2'),t1=document.getElementById('adm-sessions-table');
+    if(t2&&t1)t2.innerHTML=t1.innerHTML;
+    const p2=document.getElementById('adm-pending-table2'),p1=document.getElementById('adm-pending-table');
+    if(p2&&p1)p2.innerHTML=p1.innerHTML;
+  },60);
+}
+function renderAdminPanel(){
+  const sessions=DB.get('sessions');const candidates=DB.get('candidates');
+  const interviewers=DB.get('interviewers');const notifs=DB.get('notifications');
+  const pending=DB.get('pendingInterviewers');
+  const unread=notifs.filter(n=>!n.read).length;
+  _setText('adm-stat-sessions',sessions.length);
+  _setText('adm-stat-candidates',candidates.length);
+  _setText('adm-stat-interviewers',interviewers.filter(i=>i.status==='Active').length);
+  const badge=document.getElementById('adm-notif-badge');
+  if(badge){badge.textContent=unread||'';badge.style.display=unread?'inline-block':'none';}
+  const st=document.getElementById('adm-sessions-table');
+  if(st)st.innerHTML=sessions.slice().reverse().slice(0,8).map(s=>'<tr><td>'+s.candName+'</td><td>'+s.intName+'</td><td>'+s.type+'</td><td>'+s.date+'</td><td>'+spill(s.status)+'</td><td><button class="pd-btn" style="padding:4px 10px;font-size:.56rem" onclick="admDeleteSession(\''+s.id+'\')">✕</button></td></tr>').join('');
+  const ce=document.getElementById('adm-cands-table');
+  if(ce)ce.innerHTML=candidates.map(c=>'<tr><td>'+c.name+'</td><td style="font-size:.75rem">'+c.email+'</td><td>'+c.target+'</td><td>'+c.country+'</td><td>'+(c.sessions||0)+'</td><td>'+spill(c.status)+'</td></tr>').join('');
+  const ie=document.getElementById('adm-ints-table');
+  if(ie)ie.innerHTML=interviewers.map(i=>'<tr><td>'+i.name+'</td><td>'+i.ind+'</td><td>'+i.country+'</td><td>'+i.tier+'</td><td>'+i.sessions+'</td><td>'+i.rating+'★</td><td>'+spill(i.status)+'</td><td><button class="pd-btn" style="padding:3px 8px;font-size:.54rem" onclick="admToggleInterviewer(\''+i.id+'\')">'+(i.status==='Active'?'Suspend':'Activate')+'</button></td></tr>').join('');
+  const pe=document.getElementById('adm-pending-table');
+  if(pe)pe.innerHTML=pending.length===0
+    ? '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:16px">No pending approvals</td></tr>'
+    : pending.map(p=>'<tr><td>'+p.name+'</td><td>'+p.role+'</td><td>'+p.tier+'</td><td>'+spill(p.status)+'</td><td style="display:flex;gap:6px"><button class="pd-btn pr" style="padding:4px 10px;font-size:.55rem" onclick="admApproveInterviewer(\''+p.id+'\')">Approve</button><button class="pd-btn" style="padding:4px 10px;font-size:.55rem;color:#f87171;border-color:#f87171" onclick="admRejectInterviewer(\''+p.id+'\')">Reject</button></td></tr>').join('');
+  const ne=document.getElementById('adm-notifs-list');
+  if(ne){
+    ne.innerHTML=notifs.slice(0,10).map(n=>'<div class="pd-row" style="'+(n.read?'opacity:.5':'')+'"><span class="pd-row-ico">'+(n.type==='session'?'📅':n.type==='register'?'👤':n.type==='feedback'?'📝':'🔔')+'</span><div class="pd-row-main"><div class="pd-row-title">'+n.msg+'</div><div class="pd-row-sub">'+new Date(n.ts).toLocaleDateString('en-IN')+'</div></div>'+(n.read?'':'<span class="sp sp-nw">New</span>')+'</div>').join('');
+    localStorage.setItem('pp_notifications',JSON.stringify(notifs.map(n=>({...n,read:true}))));
+    if(badge){badge.textContent='';badge.style.display='none';}
+  }
+  setTimeout(()=>{const t2=document.getElementById('adm-sessions-table2'),t1=document.getElementById('adm-sessions-table');if(t2&&t1)t2.innerHTML=t1.innerHTML;const p2=document.getElementById('adm-pending-table2'),p1=document.getElementById('adm-pending-table');if(p2&&p1)p2.innerHTML=p1.innerHTML;},60);
+}
+function admDeleteSession(id){if(!confirm('Remove this session?'))return;DB.set('sessions',DB.get('sessions').filter(x=>x.id!==id));toast('Session removed');renderAdminPanel();}
+function admToggleInterviewer(id){const ints=DB.get('interviewers');const i=ints.find(x=>x.id===id);if(!i)return;i.status=i.status==='Active'?'On Leave':'Active';DB.set('interviewers',ints);toast(i.name+' status set to '+i.status);renderAdminPanel();}
+function admApproveInterviewer(id){
+  const pending=DB.get('pendingInterviewers');const p=pending.find(x=>x.id===id);if(!p)return;
+  const ints=DB.get('interviewers');ints.push({id:'i'+Date.now(),name:p.name,role:p.role,ind:p.ind,country:p.country,tier:p.tier,exp:p.exp,rating:0,sessions:0,status:'Active',email:p.email});
+  DB.set('interviewers',ints);DB.set('pendingInterviewers',pending.filter(x=>x.id!==id));
+  toast('✓ '+p.name+' approved');renderAdminPanel();
+}
+function admRejectInterviewer(id){DB.set('pendingInterviewers',DB.get('pendingInterviewers').filter(x=>x.id!==id));toast('Application rejected');renderAdminPanel();}
+function admPopulateAddForm(){
+  const form=document.getElementById('adm-new-form');if(!form)return;
+  form.style.display=form.style.display==='none'?'block':'none';if(form.style.display==='none')return;
+  const ints=DB.get('interviewers');const cands=DB.get('candidates');
+  const intSel=document.getElementById('adm-new-int');const candSel=document.getElementById('adm-new-cand');
+  if(intSel)intSel.innerHTML=ints.filter(i=>i.status==='Active').map(i=>'<option value="'+i.id+'">'+i.name+' ('+i.tier+')</option>').join('');
+  if(candSel)candSel.innerHTML=cands.map(c=>'<option value="'+c.id+'">'+c.name+'</option>').join('');
+}
+function admAddSession(){
+  const cand=document.getElementById('adm-new-cand');const intr=document.getElementById('adm-new-int');
+  const type=document.getElementById('adm-new-type');const date=document.getElementById('adm-new-date');
+  if(!cand||!intr||!type||!date||!cand.value||!intr.value||!date.value){toast('Fill all fields','err');return;}
+  const ints=DB.get('interviewers');const intObj=ints.find(i=>i.id===intr.value);
+  const cands=DB.get('candidates');const candObj=cands.find(c=>c.id===cand.value);
+  if(!intObj||!candObj){toast('Select valid interviewer & candidate','err');return;}
+  const sessions=DB.get('sessions');
+  sessions.push({id:'s'+Date.now(),candEmail:candObj.email,candName:candObj.name,intId:intObj.id,intName:intObj.name,type:type.value,focus:'Gulf',date:date.value,time:'15:00',duration:60,status:'Upcoming',scores:null,overallScore:null,feedback:''});
+  DB.set('sessions',sessions);
+  document.getElementById('adm-new-form').style.display='none';toast('✓ Session created');renderAdminPanel();
+}
+
+/* ══════════════════════════════════════════════════════
    WebRTC — REAL CAMERA & MICROPHONE
-═══════════════════════════════════════════════════ */
+══════════════════════════════════════════════════════ */
 let _streams={cand:null,exp:null};
-let _micOn={cand:true,exp:true};
-let _camOn={cand:true,exp:true};
+let _sessionTimers={};let _sessionSeconds={cand:0,exp:0};
 
 async function requestMedia(role){
   try{
     const stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1280},height:{ideal:720},facingMode:'user'},audio:true});
-    _streams[role]=stream;
-    return stream;
-  }catch(err){
-    console.warn('Camera/mic access denied:',err.message);
-    return null;
-  }
+    _streams[role]=stream;return stream;
+  }catch(err){console.warn('Camera/mic denied:',err.message);return null;}
 }
+function attachStream(videoEl,stream){if(!videoEl||!stream)return;videoEl.srcObject=stream;videoEl.autoplay=true;videoEl.muted=true;videoEl.playsInline=true;videoEl.play().catch(()=>{});}
+function stopStream(role){if(_streams[role]){_streams[role].getTracks().forEach(t=>t.stop());_streams[role]=null;}}
+function stopAllStreams(){['cand','exp'].forEach(r=>stopStream(r));['candSelfVideo','expSelfVideo','candPreviewVideo','expPreviewVideo'].forEach(id=>{const el=document.getElementById(id);if(el)el.srcObject=null;});}
 
-function attachStream(videoEl,stream){
-  if(!videoEl||!stream)return;
-  videoEl.srcObject=stream;
-  videoEl.autoplay=true;
-  videoEl.muted=true;
-  videoEl.playsInline=true;
-  videoEl.play().catch(()=>{});
-}
-
-function stopAllStreams(){
-  Object.values(_streams).forEach(s=>{
-    if(s)s.getTracks().forEach(t=>t.stop());
-  });
-  _streams={cand:null,exp:null};
-  // Clear video elements
-  ['candSelfVideo','expSelfVideo','candPreviewVideo','expPreviewVideo'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){el.srcObject=null;}
-  });
-}
-
-/* ── Cam preview (waiting room) ── */
 async function toggleCandCamPreview(el){
-  const lbl=document.getElementById('camPreviewLabel');
-  const videoEl=document.getElementById('candPreviewVideo');
-  if(_streams.cand){
-    stopStream('cand');
-    el.dataset.camon='0';
-    if(videoEl)videoEl.style.display='none';
-    lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';
-  }else{
-    lbl.innerHTML='<span style="font-size:1.5rem">⏳</span><span>Requesting camera...</span>';
-    const stream=await requestMedia('cand');
-    if(stream&&videoEl){
-      videoEl.style.display='block';
-      attachStream(videoEl,stream);
-      lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';
-      el.dataset.camon='1';
-    }else{
-      lbl.innerHTML='<span style="font-size:1.5rem">❌</span><span style="color:#f87171">Camera denied — check browser permissions</span>';
-      el.dataset.camon='0';
-    }
-  }
+  const lbl=document.getElementById('camPreviewLabel');const vid=document.getElementById('candPreviewVideo');
+  if(_streams.cand){stopStream('cand');el.dataset.camon='0';if(vid)vid.style.display='none';lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';}
+  else{lbl.innerHTML='<span style="font-size:1.5rem">⏳</span><span>Requesting camera...</span>';const stream=await requestMedia('cand');if(stream&&vid){vid.style.display='block';attachStream(vid,stream);lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';el.dataset.camon='1';}else{lbl.innerHTML='<span style="font-size:1.5rem">❌</span><span style="color:#f87171">Camera denied — check browser permissions</span>';el.dataset.camon='0';}}
 }
-
 async function toggleExpCamPreview(el){
-  const lbl=document.getElementById('expCamPreviewLabel');
-  const videoEl=document.getElementById('expPreviewVideo');
-  if(_streams.exp){
-    stopStream('exp');
-    el.dataset.camon='0';
-    if(videoEl)videoEl.style.display='none';
-    lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';
-  }else{
-    lbl.innerHTML='<span style="font-size:1.5rem">⏳</span><span>Requesting camera...</span>';
-    const stream=await requestMedia('exp');
-    if(stream&&videoEl){
-      videoEl.style.display='block';
-      attachStream(videoEl,stream);
-      lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';
-      el.dataset.camon='1';
-    }else{
-      lbl.innerHTML='<span style="font-size:1.5rem">❌</span><span style="color:#f87171">Camera denied</span>';
-      el.dataset.camon='0';
-    }
-  }
+  const lbl=document.getElementById('expCamPreviewLabel');const vid=document.getElementById('expPreviewVideo');
+  if(_streams.exp){stopStream('exp');el.dataset.camon='0';if(vid)vid.style.display='none';lbl.innerHTML='<span style="font-size:1.5rem">📷</span><span>Click to enable camera</span>';}
+  else{lbl.innerHTML='<span style="font-size:1.5rem">⏳</span><span>Requesting camera...</span>';const stream=await requestMedia('exp');if(stream&&vid){vid.style.display='block';attachStream(vid,stream);lbl.innerHTML='<span style="font-size:1.5rem">✅</span><span style="color:#4ade80">Camera ready</span>';el.dataset.camon='1';}else{lbl.innerHTML='<span style="font-size:1.5rem">❌</span><span style="color:#f87171">Camera denied</span>';el.dataset.camon='0';}}
 }
-
-function stopStream(role){
-  if(_streams[role]){_streams[role].getTracks().forEach(t=>t.stop());_streams[role]=null;}
-}
-
-/* ── JOIN SESSION ── */
 async function joinCandSession(){
-  const videoEl=document.getElementById('candSelfVideo');
-  if(!_streams.cand){
-    // Try to get media if not already obtained
-    const stream=await requestMedia('cand');
-    if(stream&&videoEl)attachStream(videoEl,stream);
-  }else if(videoEl){
-    attachStream(videoEl,_streams.cand);
-  }
+  const vid=document.getElementById('candSelfVideo');
+  if(!_streams.cand){const s=await requestMedia('cand');if(s&&vid){attachStream(vid,s);vid.style.display='block';}}
+  else if(vid){attachStream(vid,_streams.cand);vid.style.display='block';}
   document.getElementById('cand-waiting').style.display='none';
   document.getElementById('cand-room').style.display='block';
   document.getElementById('candPanel').classList.add('open');
   document.getElementById('candPanelBtn').classList.add('on');
-  startTimer('cand');
-  // Show live video cell if stream obtained
-  if(_streams.cand){
-    document.getElementById('candSelfCell').classList.add('cam-on');
-    const feedEl=document.getElementById('candSelfCell');
-    if(feedEl&&videoEl){videoEl.style.display='block';feedEl.style.position='relative';}
-  }
-  updateLiveOverall();
+  if(_streams.cand)document.getElementById('candSelfCell').classList.add('cam-on');
+  startTimer('cand');updateLiveOverall();
 }
-
 async function joinExpSession(){
-  const videoEl=document.getElementById('expSelfVideo');
-  if(!_streams.exp){
-    const stream=await requestMedia('exp');
-    if(stream&&videoEl)attachStream(videoEl,stream);
-  }else if(videoEl){
-    attachStream(videoEl,_streams.exp);
-  }
+  const vid=document.getElementById('expSelfVideo');
+  if(!_streams.exp){const s=await requestMedia('exp');if(s&&vid){attachStream(vid,s);vid.style.display='block';}}
+  else if(vid){attachStream(vid,_streams.exp);vid.style.display='block';}
   document.getElementById('exp-waiting').style.display='none';
   document.getElementById('exp-room').style.display='block';
   document.getElementById('expPanel').classList.add('open');
   document.getElementById('expPanelBtn').classList.add('on');
-  startTimer('exp');
-  if(_streams.exp){
-    document.getElementById('expSelfCell').classList.add('cam-on');
-  }
-  updateLiveOverall();
+  if(_streams.exp)document.getElementById('expSelfCell').classList.add('cam-on');
+  startTimer('exp');updateLiveOverall();
 }
-
-/* ── SESSION TIMER ── */
-let _sessionTimers={};
-let _sessionSeconds={cand:0,exp:0};
-
 function startTimer(role){
-  clearInterval(_sessionTimers[role]);
-  _sessionSeconds[role]=0;
-  const el=document.getElementById(role+'Timer');
-  const leftEl=document.getElementById(role==='cand'?'candTimeLeft':null);
+  clearInterval(_sessionTimers[role]);_sessionSeconds[role]=0;
+  const el=document.getElementById(role+'-timer-disp');
+  const left=document.getElementById(role==='cand'?'candTimeLeft':null);
   _sessionTimers[role]=setInterval(()=>{
-    _sessionSeconds[role]++;
-    const s=_sessionSeconds[role];
-    const m=Math.floor(s/60),sec=s%60;
+    _sessionSeconds[role]++;const s=_sessionSeconds[role];const m=Math.floor(s/60),sec=s%60;
     if(el)el.textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
-    const rem=3600-s;
-    if(leftEl&&rem>0){const rm=Math.floor(rem/60),rs=rem%60;leftEl.textContent=String(rm).padStart(2,'0')+':'+String(rs).padStart(2,'0');}
+    const rem=3600-s;if(left&&rem>0){const rm=Math.floor(rem/60),rs=rem%60;left.textContent=String(rm).padStart(2,'0')+':'+String(rs).padStart(2,'0');}
   },1000);
 }
-
-/* ── CONTROLS ── */
 function toggleCtrl(btnId){
-  if(!btnId)return;
-  const btn=document.getElementById(btnId);
-  if(!btn)return;
-  const isMic=btnId.includes('Mic');
-  const role=btnId.includes('cand')?'cand':'exp';
-  const isNowOff=!btn.classList.contains('off');
-  btn.classList.toggle('off',isNowOff);
-  // Re-add label after textContent change
+  const btn=document.getElementById(btnId);if(!btn)return;
+  const isMic=btnId.includes('Mic');const role=btnId.toLowerCase().includes('cand')?'cand':'exp';
+  const isNowOff=!btn.classList.contains('off');btn.classList.toggle('off',isNowOff);
   const labelText=isMic?'Mic':'Camera';
   btn.textContent=isNowOff?(isMic?'🔇':'🚫'):(isMic?'🎙️':'📷');
   const lbl=document.createElement('span');lbl.className='ctrl-label';lbl.textContent=labelText;btn.appendChild(lbl);
-  // Apply to actual media stream
   const stream=_streams[role];
   if(stream){
-    if(isMic){
-      stream.getAudioTracks().forEach(t=>t.enabled=!isNowOff);
-      _micOn[role]=!isNowOff;
-    }else{
-      stream.getVideoTracks().forEach(t=>t.enabled=!isNowOff);
-      _camOn[role]=!isNowOff;
-      const cellId=role==='cand'?'candSelfCell':'expSelfCell';
-      document.getElementById(cellId)?.classList.toggle('cam-on',!isNowOff);
-    }
+    if(isMic)stream.getAudioTracks().forEach(t=>t.enabled=!isNowOff);
+    else{stream.getVideoTracks().forEach(t=>t.enabled=!isNowOff);const cellId=role==='cand'?'candSelfCell':'expSelfCell';document.getElementById(cellId)?.classList.toggle('cam-on',!isNowOff);}
   }
 }
-
-/* ── PANEL TOGGLE ── */
-function togglePanel(role){
-  const panel=document.getElementById(role+'Panel');
-  const btn=document.getElementById(role+'PanelBtn');
-  panel.classList.toggle('open');
-  if(btn)btn.classList.toggle('on',panel.classList.contains('open'));
-}
-
-/* ── SIDE PANEL TABS ── */
+function togglePanel(role){const panel=document.getElementById(role+'Panel');const btn=document.getElementById(role+'PanelBtn');panel.classList.toggle('open');if(btn)btn.classList.toggle('on',panel.classList.contains('open'));}
 function spTab(btn,role,tab){
-  btn.closest('.sp-tabs').querySelectorAll('.sp-tab').forEach(t=>t.classList.remove('on'));
-  btn.classList.add('on');
+  btn.closest('.sp-tabs').querySelectorAll('.sp-tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');
   const prefix=role==='cand'?'cand-sp':'exp-sp';
-  ['questions','notes','info','scoring'].forEach(t=>{
-    const el=document.getElementById(prefix+'-'+t);
-    if(el)el.style.display=t===tab?'':'none';
-  });
+  ['questions','notes','info','scoring'].forEach(t=>{const el=document.getElementById(prefix+'-'+t);if(el)el.style.display=t===tab?'':'none';});
 }
-
-/* ── LIVE SCORE CALCULATOR ── */
 function updateLiveOverall(){
   const sliders=['sl-tech','sl-comm','sl-norm','sl-scen','sl-cv'];
   const el=document.getElementById('liveOverall');
-  function calc(){
-    const vals=sliders.map(id=>{const s=document.getElementById(id);return s?parseInt(s.value):5;});
-    const avg=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
-    if(el)el.textContent=avg;
-  }
-  calc();
-  sliders.forEach(id=>{
-    const s=document.getElementById(id);
-    if(s)s.addEventListener('input',calc);
-  });
+  function calc(){const vals=sliders.map(id=>{const s=document.getElementById(id);return s?parseInt(s.value):5;});const avg=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);if(el)el.textContent=avg;}
+  calc();sliders.forEach(id=>{const s=document.getElementById(id);if(s)s.addEventListener('input',calc);});
 }
-
-/* ── END SESSION ── */
 function endSession(role){
-  if(!confirm('End this session and submit?'))return;
+  if(!confirm('End this session?'))return;
   clearInterval(_sessionTimers[role]);
-  // Save session duration to localStorage
   const sess=getSession();
-  if(sess){
-    const key='pp_sessions_'+sess.email;
-    try{
-      const sessions=JSON.parse(localStorage.getItem(key)||'[]');
-      sessions.unshift({date:new Date().toLocaleDateString('en-IN'),duration:_sessionSeconds[role],role,ts:Date.now()});
-      localStorage.setItem(key,JSON.stringify(sessions.slice(0,20)));
-    }catch(e){}
-  }
+  if(sess){const key='pp_sessions_'+sess.email;try{const prev=JSON.parse(localStorage.getItem(key)||'[]');prev.unshift({date:new Date().toLocaleDateString('en-IN'),duration:_sessionSeconds[role],role,ts:Date.now()});localStorage.setItem(key,JSON.stringify(prev.slice(0,20)));}catch(e){}}
   stopStream(role);
-  if(role==='cand'){
-    document.getElementById('cand-room').style.display='none';
-    document.getElementById('cand-postsession').style.display='block';
-  }else{
-    document.getElementById('exp-room').style.display='none';
-    document.getElementById('exp-postsession').style.display='block';
-    // Save scores for expert
-    saveFeedbackScores();
-  }
+  if(role==='cand'){document.getElementById('cand-room').style.display='none';document.getElementById('cand-postsession').style.display='block';}
+  else{document.getElementById('exp-room').style.display='none';document.getElementById('exp-postsession').style.display='block';}
 }
 
-function saveFeedbackScores(){
-  const sliders=['sl-tech','sl-comm','sl-norm','sl-scen','sl-cv'];
-  const scores={};
-  sliders.forEach(id=>{const s=document.getElementById(id);if(s)scores[id.replace('sl-','')]=parseInt(s.value);});
-  const notes=document.getElementById('expNotes');
-  if(notes)scores.notes=notes.value;
-  const sess=getSession();
-  if(sess){localStorage.setItem('pp_last_feedback_'+sess.email,JSON.stringify(scores));}
-}
-
-/* ── NOTIFY ME / BOOK (CTA forms) ── */
-document.querySelectorAll('.plan-btn,.btn-p,.btn-o').forEach(btn=>{
-  if(btn.href&&btn.href.includes('#cta'))return;
-  btn.addEventListener('click',e=>{
-    if(btn.textContent.trim().startsWith('Get Started')||btn.textContent.trim().startsWith('Browse')||btn.textContent.trim().startsWith('Book')){
-      e.preventDefault();
-      openPortal(e);
-    }
-  });
+/* ── REAL-TIME LISTENER ── */
+window.addEventListener('pp:update',()=>{
+  const sess=getSession();if(!sess)return;
+  if(sess.role==='candidate')renderCandPanel();
+  if(sess.role==='expert')renderExpertPanel();
+  if(document.getElementById('adminDash').classList.contains('open'))renderAdminPanel();
 });
 
 /* ── MILKY WAY CANVAS ── */
 (function(){
-  const sc=document.getElementById('starCanvas');
-  if(!sc)return;
-  const cx=sc.getContext('2d');
-  let W,H,t=0;
+  const sc=document.getElementById('starCanvas');if(!sc)return;
+  const cx=sc.getContext('2d');let W,H,t=0;
   function resize(){W=sc.width=window.innerWidth;H=sc.height=window.innerHeight;}
   resize();window.addEventListener('resize',resize);
-  class Star{constructor(){this.init(true);}init(random){this.x=Math.random()*W;this.y=random?Math.random()*H:-4;this.size=Math.pow(Math.random(),3)*2.2+0.2;this.drift=(Math.random()-0.5)*0.04;this.fall=Math.random()*0.08+0.02;this.phase=Math.random()*Math.PI*2;this.speed=Math.random()*0.012+0.005;const r=Math.random();this.type=r<.06?1:r<.12?2:r<.16?3:r<.19?4:0;const cols=[[255,255,255],[255,215,80],[180,210,255],[255,240,200],[210,170,255]];this.rgb=cols[this.type];}update(){this.y+=this.fall;this.x+=this.drift;this.phase+=this.speed;if(this.y>H+4||this.x<-4||this.x>W+4)this.init(false);}draw(){const alpha=(0.4+0.6*Math.sin(this.phase))*(this.type===0?0.7:0.85);const[r,g,b]=this.rgb;if(this.size>1.2){const g2=cx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*4);g2.addColorStop(0,`rgba(${r},${g},${b},${alpha*0.5})`);g2.addColorStop(1,`rgba(${r},${g},${b},0)`);cx.beginPath();cx.arc(this.x,this.y,this.size*4,0,Math.PI*2);cx.fillStyle=g2;cx.fill();}cx.beginPath();cx.arc(this.x,this.y,this.size,0,Math.PI*2);cx.fillStyle=`rgba(${r},${g},${b},${alpha})`;cx.fill();}}
-  class Dust{constructor(){this.init(true);}init(random){const t0=Math.random();this.x=W*0.0+t0*(W*1.0)+(Math.random()-0.5)*W*0.28;this.y=random?H*0.95-t0*(H*0.9)+(Math.random()-0.5)*H*0.28:H+4;this.r=Math.random()*0.85+0.1;this.vx=0.04+Math.random()*0.06;this.vy=-(0.03+Math.random()*0.05);this.alpha=Math.random()*0.18+0.04;this.phase=Math.random()*Math.PI*2;this.ps=Math.random()*0.006+0.003;const p=Math.random();this.rgb=p<0.25?[200,190,255]:p<0.55?[220,235,255]:[255,252,235];}update(){this.x+=this.vx;this.y+=this.vy;this.phase+=this.ps;if(this.x>W+5||this.y<-5)this.init(false);}draw(){const a=this.alpha*(0.55+0.45*Math.sin(this.phase));const[r,g,b]=this.rgb;cx.beginPath();cx.arc(this.x,this.y,this.r,0,Math.PI*2);cx.fillStyle=`rgba(${r},${g},${b},${a})`;cx.fill();}}
-  class Shoot{constructor(delay){this.countdown=delay||Math.random()*400+100;this.active=false;}fire(){this.active=true;this.x=Math.random()*W*0.75;this.y=Math.random()*H*0.38;this.angle=0.18+Math.random()*0.22;this.len=Math.random()*90+45;this.spd=Math.random()*5.5+4;this.progress=0;this.alpha=0.9;const p=Math.random();this.trail=p<0.3?[255,210,100]:p<0.5?[180,210,255]:[255,255,255];}update(){if(!this.active){if(--this.countdown<=0)this.fire();return;}this.progress+=this.spd;this.alpha-=0.028;if(this.alpha<=0){this.active=false;this.countdown=Math.random()*300+80;}}draw(){if(!this.active)return;const ex=this.x+Math.cos(this.angle)*this.progress,ey=this.y+Math.sin(this.angle)*this.progress;const sx=ex-Math.cos(this.angle)*this.len,sy=ey-Math.sin(this.angle)*this.len;const g=cx.createLinearGradient(sx,sy,ex,ey);const[r,gb,b]=this.trail;g.addColorStop(0,`rgba(${r},${gb},${b},0)`);g.addColorStop(0.7,`rgba(${r},${gb},${b},${this.alpha*0.6})`);g.addColorStop(1,`rgba(${r},${gb},${b},${this.alpha})`);cx.beginPath();cx.moveTo(sx,sy);cx.lineTo(ex,ey);cx.strokeStyle=g;cx.lineWidth=1.5;cx.stroke();}}
-  function drawMW(){const pulse=0.5+0.5*Math.sin(t*0.0008);const pts=[{x:W*0,y:H},{x:W*.15,y:H*.82},{x:W*.3,y:H*.65},{x:W*.45,y:H*.5},{x:W*.6,y:H*.35},{x:W*.75,y:H*.2},{x:W*.9,y:H*.08},{x:W*1.05,y:H*-.05}];const widths=[{w:H*.38,a:0.022*pulse,rgb:'160,140,220'},{w:H*.22,a:0.038*pulse,rgb:'190,175,240'},{w:H*.12,a:0.055*pulse,rgb:'215,205,255'},{w:H*.055,a:0.08*pulse,rgb:'240,235,255'},{w:H*.022,a:0.1*pulse,rgb:'255,255,255'}];for(const layer of widths){for(let i=0;i<pts.length-1;i++){const p0=pts[i],p1=pts[i+1];const dx=p1.x-p0.x,dy=p1.y-p0.y;const len=Math.sqrt(dx*dx+dy*dy);const nx=-dy/len,ny=dx/len;const hw=layer.w;const grad=cx.createLinearGradient(p0.x+nx*hw,p0.y+ny*hw,p0.x-nx*hw,p0.y-ny*hw);grad.addColorStop(0,`rgba(${layer.rgb},0)`);grad.addColorStop(0.35,`rgba(${layer.rgb},${layer.a*0.4})`);grad.addColorStop(0.5,`rgba(${layer.rgb},${layer.a})`);grad.addColorStop(0.65,`rgba(${layer.rgb},${layer.a*0.4})`);grad.addColorStop(1,`rgba(${layer.rgb},0)`);cx.beginPath();cx.moveTo(p0.x+nx*hw,p0.y+ny*hw);cx.lineTo(p1.x+nx*hw,p1.y+ny*hw);cx.lineTo(p1.x-nx*hw,p1.y-ny*hw);cx.lineTo(p0.x-nx*hw,p0.y-ny*hw);cx.closePath();cx.fillStyle=grad;cx.fill();}}const nebulae=[{x:W*.22,y:H*.75,rx:W*.1,ry:H*.08,rgb:'80,40,160',a:0.028},{x:W*.45,y:H*.5,rx:W*.08,ry:H*.06,rgb:'40,100,180',a:0.022},{x:W*.68,y:H*.28,rx:W*.09,ry:H*.07,rgb:'160,60,80',a:0.018},{x:W*.85,y:H*.12,rx:W*.07,ry:H*.05,rgb:'60,160,100',a:0.016}];for(const n of nebulae){cx.save();cx.translate(n.x,n.y);cx.scale(n.rx/n.ry,1);const g2=cx.createRadialGradient(0,0,0,0,0,n.ry);g2.addColorStop(0,`rgba(${n.rgb},${n.a*(0.7+0.3*pulse)})`);g2.addColorStop(1,`rgba(${n.rgb},0)`);cx.beginPath();cx.arc(0,0,n.ry,0,Math.PI*2);cx.fillStyle=g2;cx.fill();cx.restore();}}
+  class Star{constructor(){this.init(true);}init(r){this.x=Math.random()*W;this.y=r?Math.random()*H:-4;this.size=Math.pow(Math.random(),3)*2.2+0.2;this.drift=(Math.random()-0.5)*0.04;this.fall=Math.random()*0.08+0.02;this.phase=Math.random()*Math.PI*2;this.speed=Math.random()*0.012+0.005;const p=Math.random();this.type=p<.06?1:p<.12?2:p<.16?3:p<.19?4:0;const cols=[[255,255,255],[255,215,80],[180,210,255],[255,240,200],[210,170,255]];this.rgb=cols[this.type];}update(){this.y+=this.fall;this.x+=this.drift;this.phase+=this.speed;if(this.y>H+4||this.x<-4||this.x>W+4)this.init(false);}draw(){const alpha=(0.4+0.6*Math.sin(this.phase))*(this.type===0?0.7:0.85);const[r,g,b]=this.rgb;if(this.size>1.2){const g2=cx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*4);g2.addColorStop(0,'rgba('+r+','+g+','+b+','+(alpha*0.5)+')');g2.addColorStop(1,'rgba('+r+','+g+','+b+',0)');cx.beginPath();cx.arc(this.x,this.y,this.size*4,0,Math.PI*2);cx.fillStyle=g2;cx.fill();}cx.beginPath();cx.arc(this.x,this.y,this.size,0,Math.PI*2);cx.fillStyle='rgba('+r+','+g+','+b+','+alpha+')';cx.fill();}}
+  class Dust{constructor(){this.init(true);}init(r){const t0=Math.random();this.x=t0*W+(Math.random()-0.5)*W*0.28;this.y=r?H*0.95-t0*(H*0.9)+(Math.random()-0.5)*H*0.28:H+4;this.rv=Math.random()*0.85+0.1;this.vx=0.04+Math.random()*0.06;this.vy=-(0.03+Math.random()*0.05);this.alpha=Math.random()*0.18+0.04;this.phase=Math.random()*Math.PI*2;this.ps=Math.random()*0.006+0.003;const p=Math.random();this.rgb=p<0.25?[200,190,255]:p<0.55?[220,235,255]:[255,252,235];}update(){this.x+=this.vx;this.y+=this.vy;this.phase+=this.ps;if(this.x>W+5||this.y<-5)this.init(false);}draw(){const a=this.alpha*(0.55+0.45*Math.sin(this.phase));const[r,g,b]=this.rgb;cx.beginPath();cx.arc(this.x,this.y,this.rv,0,Math.PI*2);cx.fillStyle='rgba('+r+','+g+','+b+','+a+')';cx.fill();}}
+  class Shoot{constructor(delay){this.countdown=delay||Math.random()*400+100;this.active=false;}fire(){this.active=true;this.x=Math.random()*W*0.75;this.y=Math.random()*H*0.38;this.angle=0.18+Math.random()*0.22;this.len=Math.random()*90+45;this.spd=Math.random()*5.5+4;this.progress=0;this.alpha=0.9;const p=Math.random();this.trail=p<0.3?[255,210,100]:p<0.5?[180,210,255]:[255,255,255];}update(){if(!this.active){if(--this.countdown<=0)this.fire();return;}this.progress+=this.spd;this.alpha-=0.028;if(this.alpha<=0){this.active=false;this.countdown=Math.random()*300+80;}}draw(){if(!this.active)return;const ex=this.x+Math.cos(this.angle)*this.progress,ey=this.y+Math.sin(this.angle)*this.progress;const sx=ex-Math.cos(this.angle)*this.len,sy=ey-Math.sin(this.angle)*this.len;const g=cx.createLinearGradient(sx,sy,ex,ey);const[r,gb,b]=this.trail;g.addColorStop(0,'rgba('+r+','+gb+','+b+',0)');g.addColorStop(0.7,'rgba('+r+','+gb+','+b+','+(this.alpha*0.6)+')');g.addColorStop(1,'rgba('+r+','+gb+','+b+','+this.alpha+')');cx.beginPath();cx.moveTo(sx,sy);cx.lineTo(ex,ey);cx.strokeStyle=g;cx.lineWidth=1.5;cx.stroke();}}
+  function drawMW(){const pulse=0.5+0.5*Math.sin(t*0.0008);const pts=[{x:0,y:H},{x:W*.15,y:H*.82},{x:W*.3,y:H*.65},{x:W*.45,y:H*.5},{x:W*.6,y:H*.35},{x:W*.75,y:H*.2},{x:W*.9,y:H*.08},{x:W*1.05,y:H*-.05}];const widths=[{w:H*.38,a:0.022*pulse,rgb:'160,140,220'},{w:H*.22,a:0.038*pulse,rgb:'190,175,240'},{w:H*.12,a:0.055*pulse,rgb:'215,205,255'},{w:H*.055,a:0.08*pulse,rgb:'240,235,255'},{w:H*.022,a:0.1*pulse,rgb:'255,255,255'}];for(const layer of widths){for(let i=0;i<pts.length-1;i++){const p0=pts[i],p1=pts[i+1];const dx=p1.x-p0.x,dy=p1.y-p0.y;const len=Math.sqrt(dx*dx+dy*dy);const nx=-dy/len,ny=dx/len;const hw=layer.w;const grad=cx.createLinearGradient(p0.x+nx*hw,p0.y+ny*hw,p0.x-nx*hw,p0.y-ny*hw);grad.addColorStop(0,'rgba('+layer.rgb+',0)');grad.addColorStop(0.35,'rgba('+layer.rgb+','+(layer.a*0.4)+')');grad.addColorStop(0.5,'rgba('+layer.rgb+','+layer.a+')');grad.addColorStop(0.65,'rgba('+layer.rgb+','+(layer.a*0.4)+')');grad.addColorStop(1,'rgba('+layer.rgb+',0)');cx.beginPath();cx.moveTo(p0.x+nx*hw,p0.y+ny*hw);cx.lineTo(p1.x+nx*hw,p1.y+ny*hw);cx.lineTo(p1.x-nx*hw,p1.y-ny*hw);cx.lineTo(p0.x-nx*hw,p0.y-ny*hw);cx.closePath();cx.fillStyle=grad;cx.fill();}}const nebulae=[{x:W*.22,y:H*.75,rx:W*.1,ry:H*.08,rgb:'80,40,160',a:0.028},{x:W*.45,y:H*.5,rx:W*.08,ry:H*.06,rgb:'40,100,180',a:0.022},{x:W*.68,y:H*.28,rx:W*.09,ry:H*.07,rgb:'160,60,80',a:0.018},{x:W*.85,y:H*.12,rx:W*.07,ry:H*.05,rgb:'60,160,100',a:0.016}];for(const n of nebulae){cx.save();cx.translate(n.x,n.y);cx.scale(n.rx/n.ry,1);const g2=cx.createRadialGradient(0,0,0,0,0,n.ry);g2.addColorStop(0,'rgba('+n.rgb+','+(n.a*(0.7+0.3*pulse))+')');g2.addColorStop(1,'rgba('+n.rgb+',0)');cx.beginPath();cx.arc(0,0,n.ry,0,Math.PI*2);cx.fillStyle=g2;cx.fill();cx.restore();}}
   const isMob=window.innerWidth<640;
   const stars=Array.from({length:isMob?90:220},()=>new Star());
   const dust=Array.from({length:isMob?60:160},()=>new Dust());
   const shoots=Array.from({length:isMob?2:4},(_,i)=>new Shoot(i*90+40));
   (function loop(){cx.clearRect(0,0,W,H);drawMW();dust.forEach(p=>{p.update();p.draw();});stars.forEach(s=>{s.update();s.draw();});shoots.forEach(s=>{s.update();s.draw();});t++;requestAnimationFrame(loop);})();
 })();
+
+/* ── AVAIL DAY TOGGLES ── */
+document.querySelectorAll('.avail-day').forEach(d=>d.addEventListener('click',()=>d.classList.toggle('on')));
+
+/* ── INIT ON LOAD ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  _pShowView('portalSelect');
+  renderBookList();
+  const sess=getSession();
+  if(sess){
+    if(sess.role==='candidate'){renderCandPanel();renderBookList();prefillCandProfile();}
+    if(sess.role==='expert'){renderExpertPanel();loadAvailability();prefillExpProfile();}
+  }
+});
 
 </script>
 </body>
