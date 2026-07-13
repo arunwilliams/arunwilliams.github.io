@@ -1,0 +1,1458 @@
+
+<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarCare+ | Know Your Car. Trust Every Repair.</title>
+<meta name="description" content="CarCare+ is the AI-powered maintenance companion that decodes repair estimates, tracks your car's health, and connects you with workshops you can trust.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%232F6FED%22/><path d=%22M5 15l1.2-4.2A2 2 0 0 1 8.1 9.3h7.8a2 2 0 0 1 1.9 1.5L19 15%22 stroke=%22white%22 stroke-width=%221.6%22 fill=%22none%22 stroke-linecap=%22round%22/><circle cx=%228%22 cy=%2216.5%22 r=%221.5%22 fill=%22white%22/><circle cx=%2216%22 cy=%2216.5%22 r=%221.5%22 fill=%22white%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   CarCare+ — Design tokens
+   Palette: deep navy + electric blue + ice background,
+   with green/amber as functional health-status accents.
+   Type: Sora (display) / Inter (body) / JetBrains Mono (data)
+   ========================================================== */
+
+:root{
+  --navy-950:#081226;
+  --navy-900:#0F2547;
+  --navy-800:#173463;
+  --blue-600:#2F6FED;
+  --blue-500:#4F86FF;
+  --blue-100:#E4ECFD;
+  --ice-50:#F4F8FE;
+  --white:#FFFFFF;
+  --slate-900:#16233A;
+  --slate-600:#5B6B82;
+  --slate-400:#93A2B8;
+  --line:#E3E9F5;
+  --green-500:#1FAA59;
+  --green-100:#E4F7EC;
+  --amber-500:#F5A623;
+  --amber-100:#FDF0DA;
+  --red-500:#E5484D;
+
+  --font-display:'Sora', 'Segoe UI', sans-serif;
+  --font-body:'Inter', 'Segoe UI', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:22px;
+  --radius-pill:999px;
+
+  --shadow-sm:0 1px 2px rgba(15,37,71,.06);
+  --shadow-md:0 10px 30px -12px rgba(15,37,71,.18);
+  --shadow-lg:0 24px 60px -20px rgba(15,37,71,.28);
+
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+}
+
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--slate-900);
+  background:var(--ice-50);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+
+h1,h2,h3{
+  font-family:var(--font-display);
+  color:var(--navy-900);
+  margin:0 0 .5em;
+  line-height:1.15;
+  letter-spacing:-.01em;
+}
+
+p{margin:0 0 1em;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;margin:0;padding:0;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;}
+
+.wrap{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 24px;
+}
+
+.skip-link{
+  position:absolute;left:-999px;top:0;
+  background:var(--blue-600);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;
+  z-index:200;
+}
+.skip-link:focus{left:0;}
+
+:focus-visible{
+  outline:2px solid var(--blue-600);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:11px 20px;
+  border-radius:10px;
+  font-weight:600;
+  font-size:.95rem;
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:transform .15s var(--ease), box-shadow .15s var(--ease), background .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease);
+  white-space:nowrap;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{
+  background:var(--navy-900);
+  color:#fff;
+  box-shadow:var(--shadow-sm);
+}
+.btn-primary:hover{background:var(--blue-600); box-shadow:var(--shadow-md);}
+.btn-ghost{
+  background:transparent;
+  color:var(--slate-900);
+}
+.btn-ghost:hover{color:var(--blue-600);}
+.btn-outline{
+  background:#fff;
+  color:var(--navy-900);
+  border-color:var(--line);
+}
+.btn-outline:hover{border-color:var(--blue-600); color:var(--blue-600);}
+.btn-lg{padding:14px 26px; font-size:1rem;}
+.btn-block{width:100%;}
+
+/* ---------- Eyebrow / labels ---------- */
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:.8rem;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:var(--blue-600);
+  background:var(--blue-100);
+  padding:6px 14px 6px 10px;
+  border-radius:var(--radius-pill);
+  margin:0 0 18px;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--blue-600);}
+.eyebrow-center{margin-left:auto;margin-right:auto;}
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(244,248,254,.85);
+  backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid transparent;
+  transition:box-shadow .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+}
+.site-header.scrolled{
+  background:rgba(255,255,255,.92);
+  border-bottom-color:var(--line);
+  box-shadow:0 2px 20px -8px rgba(15,37,71,.12);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:72px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1.15rem;
+  color:var(--navy-900);
+}
+.brand-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;height:36px;
+  border-radius:10px;
+  background:var(--navy-900);
+  color:#fff;
+}
+.brand-plus{color:var(--blue-600);}
+
+.main-nav{
+  display:flex;
+  align-items:center;
+  gap:32px;
+}
+.nav-link{
+  font-size:.93rem;
+  font-weight:500;
+  color:var(--slate-600);
+  position:relative;
+  padding:6px 0;
+  transition:color .15s var(--ease);
+}
+.nav-link::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:2px;
+  background:var(--blue-600);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .2s var(--ease);
+}
+.nav-link:hover{color:var(--navy-900);}
+.nav-link:hover::after,
+.nav-link.active::after{transform:scaleX(1);}
+.nav-link.active{color:var(--navy-900);}
+
+.header-actions{display:flex;align-items:center;gap:10px;}
+
+.nav-toggle{
+  display:none;
+  width:38px;height:38px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:#fff;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.nav-toggle span{
+  width:18px;height:2px;background:var(--navy-900);
+  transition:transform .2s var(--ease), opacity .2s var(--ease);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+.hero{
+  padding:64px 0 40px;
+  background:
+    radial-gradient(1000px 500px at 85% -10%, rgba(47,111,237,.10), transparent 60%),
+    var(--ice-50);
+  overflow:hidden;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:56px;
+  align-items:center;
+}
+.hero-title{
+  font-size:clamp(2.1rem, 3.6vw, 3.1rem);
+  font-weight:800;
+}
+.text-accent{color:var(--blue-600);}
+.hero-sub{
+  font-size:1.08rem;
+  color:var(--slate-600);
+  max-width:52ch;
+}
+.checklist{
+  display:grid;
+  gap:10px;
+  margin:22px 0 30px;
+}
+.checklist li{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:.96rem;
+  font-weight:500;
+  color:var(--slate-900);
+}
+.checklist li::before{
+  content:"";
+  flex:0 0 18px;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--green-100);
+  border:1.5px solid var(--green-500);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231FAA59' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:11px;
+}
+.checklist-light li{color:#fff;}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:28px;}
+.hero-trust{display:flex;align-items:center;gap:10px;}
+.trust-stars{color:var(--amber-500);letter-spacing:2px;font-size:.9rem;}
+.hero-trust p{margin:0;font-size:.86rem;color:var(--slate-600);}
+
+/* ---------- Hero dashboard visual ---------- */
+.hero-visual{position:relative;display:flex;justify-content:center;}
+.dash-glow{
+  position:absolute;
+  width:340px;height:340px;
+  background:radial-gradient(circle, rgba(47,111,237,.25), transparent 70%);
+  filter:blur(10px);
+  top:10%;
+  z-index:0;
+}
+.dash-card{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:380px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+  padding:24px;
+  animation:floatCard 6s ease-in-out infinite;
+}
+@keyframes floatCard{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+.dash-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.dash-user{display:flex;align-items:center;gap:10px;}
+.dash-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--navy-900);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;
+}
+.dash-greet{margin:0;font-weight:700;color:var(--navy-900);font-size:.95rem;}
+.dash-vehicle{margin:0;font-size:.78rem;color:var(--slate-600);}
+.dash-bell{color:var(--slate-400);}
+
+.dash-health{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  padding-bottom:18px;
+  margin-bottom:18px;
+  border-bottom:1px dashed var(--line);
+}
+.gauge{position:relative;width:108px;height:108px;flex:0 0 auto;}
+.gauge svg{transform:rotate(-90deg);}
+.gauge-track{fill:none;stroke:var(--blue-100);stroke-width:9;}
+.gauge-fill{
+  fill:none;
+  stroke:var(--green-500);
+  stroke-width:9;
+  stroke-linecap:round;
+  stroke-dasharray:314;
+  stroke-dashoffset:314;
+  transition:stroke-dashoffset 1.4s var(--ease);
+}
+.gauge-label{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.gauge-num{font-family:var(--font-mono);font-weight:700;font-size:1.6rem;color:var(--navy-900);}
+.gauge-of{font-size:.68rem;color:var(--slate-600);text-transform:uppercase;letter-spacing:.04em;}
+
+.dash-health-status{margin:0 0 2px;font-size:.9rem;color:var(--slate-900);}
+.dash-health-status strong{color:var(--green-500);}
+.dash-health-note{margin:0 0 10px;font-size:.76rem;color:var(--slate-400);}
+.dash-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;}
+.dash-mini-grid div{display:flex;flex-direction:column;gap:2px;}
+.dash-mini-grid span{font-size:.68rem;color:var(--slate-400);}
+.dash-mini-grid strong{font-size:.8rem;color:var(--navy-900);}
+.dash-mini-grid strong.ok{color:var(--green-500);}
+
+.dash-insight{
+  background:var(--ice-50);
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  padding:14px 16px;
+  margin-bottom:18px;
+  min-height:64px;
+}
+.dash-insight-tag{
+  display:inline-block;
+  font-size:.65rem;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--blue-600);
+  background:var(--blue-100);
+  padding:3px 8px;
+  border-radius:6px;
+  margin-bottom:8px;
+}
+#typewriter{
+  margin:0;
+  font-size:.85rem;
+  color:var(--slate-900);
+  min-height:2.4em;
+}
+#typewriter::after{
+  content:"";
+  display:inline-block;
+  width:2px;height:1em;
+  background:var(--blue-600);
+  vertical-align:-2px;
+  margin-left:2px;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{50%{opacity:0;}}
+
+.dash-activity-title{font-size:.76rem;font-weight:700;color:var(--slate-400);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
+.dash-activity-item{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:10px;
+  padding:8px 0;
+  font-size:.83rem;
+  color:var(--slate-900);
+}
+.dash-activity-meta{color:var(--slate-400);font-size:.76rem;}
+.dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;}
+.dot-amber{background:var(--amber-500);}
+.dot-green{background:var(--green-500);}
+
+/* ==========================================================
+   LOGO STRIP
+   ========================================================== */
+.logo-strip{padding:26px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;}
+.logo-strip-inner{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.logo-strip-inner > span{font-size:.78rem;color:var(--slate-400);white-space:nowrap;}
+.logo-row{display:flex;gap:28px;flex-wrap:wrap;}
+.logo-row span{font-family:var(--font-display);font-weight:700;color:var(--slate-400);font-size:.92rem;opacity:.75;}
+
+/* ==========================================================
+   SECTION shared
+   ========================================================== */
+.section{padding:96px 0;}
+.section-tint{background:#fff;}
+.section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+.section-title{font-size:clamp(1.7rem,2.6vw,2.3rem);}
+.section-title-left{text-align:left;margin-bottom:.4em;}
+.section-sub{color:var(--slate-600);font-size:1.02rem;}
+.section-sub-left{text-align:left;max-width:48ch;}
+
+/* ---------- Feature grid ---------- */
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+.feature-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:28px 26px;
+  transition:transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
+}
+.feature-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--blue-500);
+}
+.feature-icon{
+  width:46px;height:46px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;
+}
+.icon-blue{background:var(--blue-100);color:var(--blue-600);}
+.icon-green{background:var(--green-100);color:var(--green-500);}
+.icon-purple{background:#EFE7FD;color:#7C4DEB;}
+.icon-amber{background:var(--amber-100);color:var(--amber-500);}
+.icon-red{background:#FBE3E4;color:var(--red-500);}
+.icon-teal{background:#DEF5F1;color:#0FA98A;}
+.feature-card h3{font-size:1.08rem;margin-bottom:8px;}
+.feature-card p{font-size:.9rem;color:var(--slate-600);margin:0;}
+
+/* ---------- Steps ---------- */
+.steps{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:18px;
+  counter-reset:step;
+}
+.step{
+  position:relative;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:26px 20px 22px;
+  text-align:center;
+}
+.step-index{
+  position:absolute;
+  top:14px;right:16px;
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--slate-400);
+}
+.step-icon{
+  width:48px;height:48px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  background:var(--navy-900);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+}
+.step h3{font-size:1rem;margin-bottom:6px;}
+.step p{font-size:.85rem;color:var(--slate-600);margin:0;}
+
+/* ---------- Why / estimate showcase ---------- */
+.why-grid{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:64px;
+  align-items:center;
+}
+.estimate-card{
+  background:var(--navy-900);
+  color:#fff;
+  border-radius:var(--radius-lg);
+  padding:26px;
+  box-shadow:var(--shadow-lg);
+  max-width:400px;
+}
+.estimate-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;color:var(--slate-400);
+  margin-bottom:14px;
+}
+.estimate-close{font-size:1rem;}
+.estimate-title{font-family:var(--font-display);font-weight:700;font-size:1.1rem;margin-bottom:2px;color:#fff;}
+.estimate-sub{font-size:.8rem;color:var(--slate-400);margin-bottom:16px;}
+.estimate-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:16px;}
+.estimate-table th{
+  text-align:left;
+  font-weight:600;
+  color:var(--slate-400);
+  padding:0 0 8px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.estimate-table td{
+  padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  font-family:var(--font-mono);
+  font-size:.82rem;
+}
+.estimate-table td:first-child{font-family:var(--font-body);font-weight:500;}
+.estimate-ai{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius-md);
+  padding:14px 16px;
+}
+.estimate-ai strong{display:block;font-size:.78rem;color:var(--green-500);margin-bottom:6px;text-transform:uppercase;letter-spacing:.03em;}
+.estimate-ai p{margin:0;font-size:.84rem;color:var(--blue-100);}
+
+.stat-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin:32px 0;
+}
+.stat-num{
+  display:flex;
+  align-items:baseline;
+  gap:2px;
+  font-family:var(--font-mono);
+  font-weight:700;
+  font-size:1.7rem;
+  color:var(--navy-900);
+}
+.stat-label{display:block;font-size:.78rem;color:var(--slate-600);margin-top:4px;}
+.why-list{display:grid;gap:10px;margin-bottom:28px;}
+.why-list li{
+  display:flex;align-items:center;gap:10px;
+  font-size:.95rem;color:var(--slate-900);
+}
+.why-list li::before{
+  content:"";
+  flex:0 0 18px;width:18px;height:18px;border-radius:50%;
+  background:var(--green-100);
+  border:1.5px solid var(--green-500);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231FAA59' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;background-size:11px;
+}
+.store-badges{display:flex;gap:12px;flex-wrap:wrap;}
+.store-badge{
+  display:flex;align-items:center;gap:10px;
+  background:var(--navy-900);color:#fff;
+  padding:9px 16px;border-radius:10px;
+  font-weight:600;font-size:.92rem;
+  transition:background .15s var(--ease);
+}
+.store-badge:hover{background:var(--blue-600);}
+.store-badge small{display:block;font-weight:400;font-size:.65rem;opacity:.8;}
+
+/* ---------- Pricing ---------- */
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+  align-items:stretch;
+}
+.price-card{
+  position:relative;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:32px 28px;
+  display:flex;
+  flex-direction:column;
+}
+.price-card-featured{
+  border-color:var(--blue-600);
+  box-shadow:var(--shadow-lg);
+  transform:translateY(-8px);
+}
+.price-badge{
+  position:absolute;top:-13px;left:28px;
+  background:var(--blue-600);color:#fff;
+  font-size:.72rem;font-weight:700;
+  padding:5px 12px;border-radius:var(--radius-pill);
+}
+.price-card h3{font-size:1.15rem;margin-bottom:6px;}
+.price-tag{font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--navy-900);margin-bottom:4px;}
+.price-tag span{}
+.price-desc{color:var(--slate-600);font-size:.88rem;margin-bottom:20px;}
+.price-list{display:grid;gap:10px;margin-bottom:26px;flex:1;}
+.price-list li{
+  font-size:.88rem;color:var(--slate-900);
+  padding-left:22px;position:relative;
+}
+.price-list li::before{
+  content:"";position:absolute;left:0;top:.45em;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--blue-100);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232F6FED' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;background-size:8px;
+}
+
+/* ---------- CTA / contact ---------- */
+.cta-section{
+  background:var(--navy-900);
+  color:#fff;
+  border-radius:var(--radius-lg);
+  margin:0 24px;
+  width:auto;
+  padding:80px 0;
+}
+.cta-section .wrap{max-width:1152px;}
+.cta-title{color:#fff;}
+.cta-grid{
+  display:grid;
+  grid-template-columns:1fr .9fr;
+  gap:56px;
+  align-items:center;
+}
+.contact-form{
+  background:#fff;
+  border-radius:var(--radius-lg);
+  padding:30px;
+  color:var(--slate-900);
+  box-shadow:var(--shadow-lg);
+}
+.form-row{margin-bottom:16px;display:flex;flex-direction:column;gap:6px;}
+.form-row label{font-size:.82rem;font-weight:600;color:var(--slate-900);}
+.form-row input{
+  padding:11px 14px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  font-size:.94rem;
+  font-family:inherit;
+  color:var(--slate-900);
+  background:var(--ice-50);
+  transition:border-color .15s var(--ease), box-shadow .15s var(--ease);
+}
+.form-row input:focus{
+  border-color:var(--blue-600);
+  outline:none;
+  box-shadow:0 0 0 3px var(--blue-100);
+  background:#fff;
+}
+.form-row input:invalid:not(:placeholder-shown){border-color:var(--red-500);}
+.form-note{margin:12px 0 0;font-size:.84rem;text-align:center;min-height:1.2em;color:var(--green-500);font-weight:600;}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+.site-footer{
+  background:var(--navy-950);
+  color:var(--slate-400);
+  margin-top:96px;
+  padding-top:64px;
+}
+.footer-top{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:48px;
+  padding-bottom:48px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.footer-brand p{color:var(--slate-400);font-size:.9rem;margin-top:10px;}
+.brand-footer{color:#fff;}
+.footer-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.footer-col h4{
+  color:#fff;font-size:.85rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;
+  margin-bottom:14px;font-family:var(--font-body);
+}
+.footer-col a{
+  display:block;font-size:.9rem;color:var(--slate-400);
+  padding:5px 0;transition:color .15s var(--ease);
+}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 0 28px;
+  font-size:.82rem;
+}
+.footer-social{display:flex;gap:14px;}
+.footer-social a{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--slate-400);
+  transition:background .15s var(--ease), color .15s var(--ease);
+}
+.footer-social a:hover{background:var(--blue-600);color:#fff;}
+
+/* ==========================================================
+   Scroll reveal
+   ========================================================== */
+[data-reveal]{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .6s var(--ease), transform .6s var(--ease);
+}
+[data-reveal].is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-visual{order:-1;}
+  .why-grid{grid-template-columns:1fr;}
+  .why-visual{order:1;}
+  .cta-grid{grid-template-columns:1fr;}
+  .feature-grid{grid-template-columns:repeat(2,1fr);}
+  .steps{grid-template-columns:repeat(3,1fr);}
+  .pricing-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}
+  .price-card-featured{transform:none;}
+  .footer-top{grid-template-columns:1fr;}
+}
+
+@media (max-width:768px){
+  .main-nav{
+    position:fixed;
+    top:72px;left:0;right:0;
+    background:#fff;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:0;
+    padding:8px 24px 20px;
+    border-bottom:1px solid var(--line);
+    transform:translateY(-8px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s var(--ease), transform .2s var(--ease);
+  }
+  .main-nav.open{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .main-nav .nav-link{width:100%;padding:12px 0;border-bottom:1px solid var(--line);}
+  .nav-toggle{display:flex;}
+  .header-actions .btn-ghost{display:none;}
+  .feature-grid{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr 1fr;}
+  .stat-row{grid-template-columns:1fr 1fr;}
+  .section{padding:64px 0;}
+  .cta-section{margin:0 12px;padding:56px 0;}
+}
+
+@media (max-width:480px){
+  .steps{grid-template-columns:1fr;}
+  .hero-cta .btn{width:100%;}
+  .store-badges .store-badge{flex:1;justify-content:center;}
+}
+
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ NAV ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 15l1.2-4.2A2 2 0 0 1 8.1 9.3h7.8a2 2 0 0 1 1.9 1.5L19 15" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="16.6" r="1.6" fill="currentColor"/><circle cx="16" cy="16.6" r="1.6" fill="currentColor"/><path d="M4.4 15h15.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-text">CarCare<span class="brand-plus">+</span></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav" aria-label="Primary">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#how-it-works" class="nav-link">How It Works</a>
+      <a href="#why" class="nav-link">Why CarCare+</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#login" class="btn btn-ghost">Log In</a>
+      <a href="#signup" class="btn btn-primary">Sign Up</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy" data-reveal>
+        <p class="eyebrow"><span class="eyebrow-dot"></span>Your all-in-one car maintenance companion</p>
+        <h1 class="hero-title">Understand every repair. <span class="text-accent">Drive on facts,</span> not guesswork.</h1>
+        <p class="hero-sub">CarCare+ reads your repair bills, grades your car's health, and tells you—in plain words—what's necessary, what can wait, and what's a fair price.</p>
+
+        <ul class="checklist">
+          <li>AI-powered estimate analysis</li>
+          <li>Proactive maintenance reminders</li>
+          <li>Instant repair cost benchmarking</li>
+          <li>One digital service history</li>
+          <li>Vetted, transparent workshops</li>
+        </ul>
+
+        <div class="hero-cta">
+          <a href="#signup" class="btn btn-primary btn-lg">Get Started for Free</a>
+          <a href="#how-it-works" class="btn btn-outline btn-lg">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 3.5l7 4.5-7 4.5v-9z" fill="currentColor"/></svg>
+            See How It Works
+          </a>
+        </div>
+
+        <div class="hero-trust">
+          <div class="trust-stars" aria-hidden="true">★★★★★</div>
+          <p><strong>4.8/5</strong> from 12,400+ owners &middot; trusted by workshops nationwide</p>
+        </div>
+      </div>
+
+      <div class="hero-visual" data-reveal>
+        <div class="dash-card" id="dashCard">
+          <div class="dash-topbar">
+            <div class="dash-user">
+              <span class="dash-avatar" aria-hidden="true">R</span>
+              <div>
+                <p class="dash-greet">Hello, Rohan</p>
+                <p class="dash-vehicle">Hyundai Verna 2020 &middot; KA 01 AB 1234</p>
+              </div>
+            </div>
+            <span class="dash-bell" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3a5 5 0 00-5 5v3.2c0 .6-.2 1.1-.6 1.6L5 15h14l-1.4-2.2a2.4 2.4 0 01-.6-1.6V8a5 5 0 00-5-5z" stroke="currentColor" stroke-width="1.4"/><path d="M9.5 18a2.5 2.5 0 005 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </span>
+          </div>
+
+          <div class="dash-health">
+            <div class="gauge" id="gauge">
+              <svg viewBox="0 0 120 120" width="108" height="108">
+                <circle cx="60" cy="60" r="50" class="gauge-track"/>
+                <circle cx="60" cy="60" r="50" class="gauge-fill" id="gaugeFill"/>
+              </svg>
+              <div class="gauge-label">
+                <span class="gauge-num" id="gaugeNum">0</span>
+                <span class="gauge-of">Health</span>
+              </div>
+            </div>
+            <div class="dash-health-copy">
+              <p class="dash-health-status">Overall car health: <strong>Good</strong></p>
+              <p class="dash-health-note">Last scanned 3 days ago</p>
+              <div class="dash-mini-grid">
+                <div><span>Next service</span><strong>in 1,250 km</strong></div>
+                <div><span>Insurance</span><strong>28 days left</strong></div>
+                <div><span>Tyre wear</span><strong class="ok">Good</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-insight">
+            <span class="dash-insight-tag">AI Insight</span>
+            <p id="typewriter" aria-live="polite"></p>
+          </div>
+
+          <div class="dash-activity">
+            <p class="dash-activity-title">Recent activity</p>
+            <div class="dash-activity-item">
+              <span class="dot dot-amber" aria-hidden="true"></span>
+              <span>Oil change</span><span class="dash-activity-meta">2,350 km ago</span>
+            </div>
+            <div class="dash-activity-item">
+              <span class="dot dot-green" aria-hidden="true"></span>
+              <span>Brake pads inspected</span><span class="dash-activity-meta">12,000 km ago</span>
+            </div>
+          </div>
+        </div>
+        <div class="dash-glow" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOGO STRIP ============ -->
+  <section class="logo-strip" aria-label="Trusted by">
+    <div class="wrap logo-strip-inner">
+      <span>Data trusted by owners of</span>
+      <div class="logo-row" aria-hidden="true">
+        <span>Maruti Suzuki</span><span>Hyundai</span><span>Tata</span><span>Mahindra</span><span>Honda</span><span>Toyota</span><span>Kia</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section" id="features">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow eyebrow-center"><span class="eyebrow-dot"></span>Platform</p>
+        <h2 class="section-title">Everything you need for your car</h2>
+        <p class="section-sub">Six tools that turn confusing paperwork and guesswork into a clear picture of your car's health.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card" data-reveal>
+          <div class="feature-icon icon-blue" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 3h8a1 1 0 011 1v1H7V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6"/><rect x="5" y="5" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 11h8M8 15h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <h3>AI Estimate Analyzer</h3>
+          <p>Upload any repair bill and get a plain-language breakdown of what's necessary, what's optional, and whether the price is fair.</p>
+        </article>
+
+        <article class="feature-card" data-reveal>
+          <div class="feature-icon icon-green" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="13.5" r="1.1" fill="currentColor"/><circle cx="13" cy="13.5" r="1.1" fill="currentColor"/></svg>
+          </div>
+          <h3>Maintenance Reminders</h3>
+          <p>Smart, mileage-aware nudges for services, renewals, and part replacements—before small issues become expensive ones.</p>
+        </article>
+
+        <article class="feature-card" data-reveal>
+          <div class="feature-icon icon-purple" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M8 7h5.5a2.5 2.5 0 010 5H9a2.5 2.5 0 000 5h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Repair Cost Estimator</h3>
+          <p>Instantly compare OEM, OES, and aftermarket part pricing so you know your options before you say yes.</p>
+        </article>
+
+        <article class="feature-card" data-reveal>
+          <div class="feature-icon icon-amber" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 012-2h4l2 2h6a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="currentColor" stroke-width="1.6"/></svg>
+          </div>
+          <h3>Digital Service History</h3>
+          <p>Every invoice, warranty, and record lives in one secure place—ready to show a mechanic or a future buyer.</p>
+        </article>
+
+        <article class="feature-card" data-reveal>
+          <div class="feature-icon icon-red" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Workshop Transparency</h3>
+          <p>Browse rated, verified workshops with real pricing history from other owners near you.</p>
+        </article>
+
+        <article class="feature-card" data-reveal>
+          <div class="feature-icon icon-teal" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 20V10M12 20V4M19 20v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Car Health Reports</h3>
+          <p>A single score that tracks your car's condition over time, with AI recommendations on what to do next.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="section section-tint" id="how-it-works">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow eyebrow-center"><span class="eyebrow-dot"></span>Process</p>
+        <h2 class="section-title">How it works</h2>
+        <p class="section-sub">Five steps from an unreadable estimate to a confident decision.</p>
+      </div>
+
+      <ol class="steps">
+        <li class="step" data-reveal>
+          <span class="step-index">01</span>
+          <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 15l1.2-4.2A2 2 0 018.1 9.3h7.8a2 2 0 011.9 1.5L19 15" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="8" cy="16.5" r="1.5" fill="currentColor"/><circle cx="16" cy="16.5" r="1.5" fill="currentColor"/></svg></div>
+          <h3>Add your car</h3>
+          <p>Enter your vehicle details in a few simple steps.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-index">02</span>
+          <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <h3>Upload or scan</h3>
+          <p>Upload a bill, an estimate, or scan the vehicle directly.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-index">03</span>
+          <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M5.5 18.5l2-2M16.5 7.5l2-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+          <h3>AI analyzes</h3>
+          <p>Our model reads the document and explains everything in plain words.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-index">04</span>
+          <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M8 7h5.5a2.5 2.5 0 010 5H9a2.5 2.5 0 000 5h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <h3>Get insights</h3>
+          <p>See fair prices, urgency, and alternatives so you can save money.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-index">05</span>
+          <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Decide with confidence</h3>
+          <p>Approve only what's needed. Drive knowing you made the right call.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ ESTIMATE SHOWCASE / WHY ============ -->
+  <section class="section" id="why">
+    <div class="wrap why-grid">
+      <div class="why-visual" data-reveal>
+        <div class="estimate-card">
+          <div class="estimate-head">
+            <span>Cost Estimate</span>
+            <span class="estimate-close" aria-hidden="true">&times;</span>
+          </div>
+          <p class="estimate-title">Front Brake Pads Replacement</p>
+          <p class="estimate-sub">Hyundai Verna 2020</p>
+          <table class="estimate-table">
+            <thead><tr><th>Part type</th><th>Estimated cost</th></tr></thead>
+            <tbody>
+              <tr><td>OEM</td><td>&#8377;3,800&ndash;4,600</td></tr>
+              <tr><td>OES</td><td>&#8377;2,900&ndash;3,600</td></tr>
+              <tr><td>Aftermarket</td><td>&#8377;1,800&ndash;2,400</td></tr>
+              <tr><td>Labour</td><td>&#8377;800&ndash;1,200</td></tr>
+            </tbody>
+          </table>
+          <div class="estimate-ai">
+            <strong>AI recommendation</strong>
+            <p>Brake pad wear is normal for your usage. Replacement is recommended within the next 1,000&ndash;1,500&nbsp;km.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-copy" data-reveal>
+        <p class="eyebrow"><span class="eyebrow-dot"></span>Why CarCare+</p>
+        <h2 class="section-title section-title-left">Smarter care. Longer life for your car.</h2>
+        <p class="section-sub section-sub-left">Join thousands of car owners who trust CarCare+ for transparent maintenance and hassle-free ownership.</p>
+
+        <div class="stat-row">
+          <div class="stat" data-count="50" data-suffix="K+">
+            <span class="stat-num"><span class="stat-value">0</span><span class="stat-suffix">K+</span></span>
+            <span class="stat-label">Happy users</span>
+          </div>
+          <div class="stat" data-count="1.2" data-suffix="M+" data-decimal="1">
+            <span class="stat-num"><span class="stat-value">0</span><span class="stat-suffix">M+</span></span>
+            <span class="stat-label">Repairs analyzed</span>
+          </div>
+          <div class="stat" data-count="3" data-suffix="K+">
+            <span class="stat-num"><span class="stat-value">0</span><span class="stat-suffix">K+</span></span>
+            <span class="stat-label">Trusted workshops</span>
+          </div>
+          <div class="stat" data-count="98" data-suffix="%">
+            <span class="stat-num"><span class="stat-value">0</span><span class="stat-suffix">%</span></span>
+            <span class="stat-label">User satisfaction</span>
+          </div>
+        </div>
+
+        <ul class="why-list">
+          <li>Save up to <strong>30%</strong> on car maintenance</li>
+          <li>Avoid unnecessary repairs</li>
+          <li>Genuine parts awareness</li>
+          <li>Complete transparency and trust</li>
+          <li>All your car info, always with you</li>
+        </ul>
+
+        <div class="store-badges">
+          <a href="#" class="store-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 3l14 9-14 9V3z" fill="currentColor"/></svg>
+            <span><small>Get it on</small>Google Play</span>
+          </a>
+          <a href="#" class="store-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M16.5 2c.2 1.1-.3 2.2-1 3-.7.8-1.9 1.5-3 1.4-.2-1.1.3-2.3 1-3 .8-.8 2-1.4 3-1.4zM20.8 17.2c-.5 1.2-.8 1.7-1.5 2.8-1 1.5-2.3 3.3-4 3.3-1.5 0-1.9-1-3.9-1s-2.5 1-4 1c-1.7 0-2.9-1.7-3.9-3.1C1.4 17.4.6 13.4 2 10.6c.9-1.9 2.6-3.1 4.4-3.1 1.5 0 2.5 1 3.8 1s2.6-1.2 4.3-1c.7 0 2.7.3 4 2.2-3.4 1.9-2.9 6.4.3 7.5z" fill="currentColor"/></svg>
+            <span><small>Download on the</small>App Store</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="section section-tint" id="pricing">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow eyebrow-center"><span class="eyebrow-dot"></span>Pricing</p>
+        <h2 class="section-title">Plans that scale with your garage</h2>
+        <p class="section-sub">Start free. Upgrade when you need deeper insight or more than one car.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <article class="price-card" data-reveal>
+          <h3>Starter</h3>
+          <p class="price-tag"><span>&#8377;0</span>/mo</p>
+          <p class="price-desc">For owners tracking one car casually.</p>
+          <ul class="price-list">
+            <li>1 vehicle profile</li>
+            <li>Basic maintenance reminders</li>
+            <li>3 AI estimate scans / month</li>
+            <li>Digital service history</li>
+          </ul>
+          <a href="#signup" class="btn btn-outline btn-block">Get Started</a>
+        </article>
+
+        <article class="price-card price-card-featured" data-reveal>
+          <span class="price-badge">Most popular</span>
+          <h3>Plus</h3>
+          <p class="price-tag"><span>&#8377;299</span>/mo</p>
+          <p class="price-desc">For owners who want full visibility.</p>
+          <ul class="price-list">
+            <li>Up to 3 vehicle profiles</li>
+            <li>Unlimited AI estimate scans</li>
+            <li>Workshop price comparisons</li>
+            <li>Priority car health reports</li>
+          </ul>
+          <a href="#signup" class="btn btn-primary btn-block">Start Free Trial</a>
+        </article>
+
+        <article class="price-card" data-reveal>
+          <h3>Family</h3>
+          <p class="price-tag"><span>&#8377;599</span>/mo</p>
+          <p class="price-desc">For households managing multiple cars.</p>
+          <ul class="price-list">
+            <li>Unlimited vehicle profiles</li>
+            <li>Everything in Plus</li>
+            <li>Shared family dashboard</li>
+            <li>Dedicated support line</li>
+          </ul>
+          <a href="#signup" class="btn btn-outline btn-block">Get Started</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT / CTA ============ -->
+  <section class="section cta-section" id="contact">
+    <div class="wrap cta-grid">
+      <div data-reveal>
+        <h2 class="section-title section-title-left cta-title">Ready to drive with confidence?</h2>
+        <p class="section-sub section-sub-left">Create your free account and get your car's first health report in minutes. No credit card required.</p>
+        <ul class="checklist checklist-light">
+          <li>Set up in under 3 minutes</li>
+          <li>Works with any repair bill or invoice</li>
+          <li>Cancel anytime</li>
+        </ul>
+      </div>
+
+      <form class="contact-form" id="contactForm" data-reveal novalidate>
+        <div class="form-row">
+          <label for="cf-name">Full name</label>
+          <input type="text" id="cf-name" name="name" required autocomplete="name">
+        </div>
+        <div class="form-row">
+          <label for="cf-email">Email address</label>
+          <input type="email" id="cf-email" name="email" required autocomplete="email">
+        </div>
+        <div class="form-row">
+          <label for="cf-car">Car model (optional)</label>
+          <input type="text" id="cf-car" name="car" placeholder="e.g. Hyundai Verna 2020">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create My Free Account</button>
+        <p class="form-note" id="formNote" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <a href="#top" class="brand brand-footer">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 15l1.2-4.2A2 2 0 0 1 8.1 9.3h7.8a2 2 0 0 1 1.9 1.5L19 15" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="16.6" r="1.6" fill="currentColor"/><circle cx="16" cy="16.6" r="1.6" fill="currentColor"/><path d="M4.4 15h15.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span class="brand-text">CarCare<span class="brand-plus">+</span></span>
+      </a>
+      <p>Smart care. Longer drive.</p>
+    </div>
+
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#why">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#contact">Contact</a>
+        <a href="#">Help Center</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>&copy; <span id="year"></span> CarCare+. All rights reserved.</p>
+    <div class="footer-social" aria-label="Social links">
+      <a href="#" aria-label="Twitter">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.9c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.3-.8.5-1.6.8-2.5 1a3.9 3.9 0 00-6.7 3.6A11.1 11.1 0 013 4.9a4 4 0 001.2 5.3c-.6 0-1.2-.2-1.7-.5v.1c0 1.9 1.3 3.5 3.1 3.9-.6.1-1.1.2-1.7.1.5 1.6 1.9 2.7 3.6 2.7A7.9 7.9 0 012 18.4a11.1 11.1 0 006 1.8c7.2 0 11.2-6 11.2-11.2v-.5c.8-.5 1.4-1.2 1.9-2z"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.6h.1c.5-.9 1.8-1.9 3.7-1.9 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21h-4z"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 2 .2 2.4.4a4.8 4.8 0 011.7 1.1c.5.5.9 1 1.1 1.7.2.4.4 1.2.4 2.4.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 2-.4 2.4a4.8 4.8 0 01-1.1 1.7c-.5.5-1 .9-1.7 1.1-.4.2-1.2.4-2.4.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-2-.2-2.4-.4a4.8 4.8 0 01-1.7-1.1 4.8 4.8 0 01-1.1-1.7c-.2-.4-.4-1.2-.4-2.4C2 15.6 2 15.2 2 12s0-3.6.1-4.9c0-1.2.2-2 .4-2.4a4.8 4.8 0 011.1-1.7 4.8 4.8 0 011.7-1.1c.4-.2 1.2-.4 2.4-.4C8.9 2.2 9.3 2.2 12.5 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1 0-1.6.2-1.9.3-.5.2-.8.4-1.2.8-.4.4-.6.7-.8 1.2-.1.3-.3.9-.3 1.9-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c0 1 .2 1.6.3 1.9.2.5.4.8.8 1.2.4.4.7.6 1.2.8.3.1.9.3 1.9.3 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1 0 1.6-.2 1.9-.3.5-.2.8-.4 1.2-.8.4-.4.6-.7.8-1.2.1-.3.3-.9.3-1.9.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c0-1-.2-1.6-.3-1.9-.2-.5-.4-.8-.8-1.2a3 3 0 00-1.2-.8c-.3-.1-.9-.3-1.9-.3-1.2-.1-1.6-.1-4.7-.1zm0 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 1.8a2.7 2.7 0 100 5.4 2.7 2.7 0 000-5.4zm5.7-1.9a1 1 0 110 2.1 1 1 0 010-2.1z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------------- Header scroll state ---------------- */
+  const header = document.getElementById("siteHeader");
+  const onScroll = () => {
+    header.classList.toggle("scrolled", window.scrollY > 8);
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* ---------------- Mobile nav toggle ---------------- */
+  const navToggle = document.getElementById("navToggle");
+  const mainNav = document.getElementById("mainNav");
+  navToggle.addEventListener("click", () => {
+    const isOpen = mainNav.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+  mainNav.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  /* ---------------- Active nav link on scroll ---------------- */
+  const sections = ["features", "how-it-works", "why", "pricing", "contact"]
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+
+  sections.forEach(sec => navObserver.observe(sec));
+
+  /* ---------------- Scroll reveal ---------------- */
+  const revealEls = document.querySelectorAll("[data-reveal]");
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add("is-visible"));
+  } else {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const delay = Array.from(el.parentElement.children).indexOf(el) * 60;
+          setTimeout(() => el.classList.add("is-visible"), Math.min(delay, 240));
+          revealObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => revealObserver.observe(el));
+  }
+
+  /* ---------------- Health gauge animation ---------------- */
+  const gaugeFill = document.getElementById("gaugeFill");
+  const gaugeNum = document.getElementById("gaugeNum");
+  const CIRCUMFERENCE = 2 * Math.PI * 50; // r=50
+  const TARGET_SCORE = 85;
+
+  function animateGauge() {
+    const offset = CIRCUMFERENCE - (TARGET_SCORE / 100) * CIRCUMFERENCE;
+    gaugeFill.style.strokeDashoffset = String(offset);
+
+    if (reduceMotion) {
+      gaugeNum.textContent = TARGET_SCORE;
+      return;
+    }
+    const duration = 1400;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      gaugeNum.textContent = Math.round(eased * TARGET_SCORE);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  // Run once dashboard is in view
+  const dashCard = document.getElementById("dashCard");
+  const gaugeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateGauge();
+        gaugeObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+  if (dashCard) gaugeObserver.observe(dashCard);
+
+  /* ---------------- Typewriter AI insight ---------------- */
+  const messages = [
+    "Brake pads show normal wear for your driving pattern. No urgent action needed.",
+    "Oil change is due in 1,250 km. Book a slot before your next long drive.",
+    "Insurance renews in 28 days. We'll remind you a week before it lapses.",
+    "Tyre tread is in good condition. Next inspection recommended in 3 months."
+  ];
+  const twEl = document.getElementById("typewriter");
+
+  function typeLoop() {
+    if (!twEl) return;
+    if (reduceMotion) {
+      twEl.textContent = messages[0];
+      return;
+    }
+    let msgIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function step() {
+      const current = messages[msgIndex];
+      if (!deleting) {
+        charIndex++;
+        twEl.textContent = current.slice(0, charIndex);
+        if (charIndex === current.length) {
+          deleting = false;
+          setTimeout(() => { deleting = true; step(); }, 2200);
+          return;
+        }
+      } else {
+        charIndex--;
+        twEl.textContent = current.slice(0, charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          msgIndex = (msgIndex + 1) % messages.length;
+        }
+      }
+      setTimeout(step, deleting ? 18 : 28);
+    }
+    step();
+  }
+  typeLoop();
+
+  /* ---------------- Stat counters ---------------- */
+  const stats = document.querySelectorAll(".stat[data-count]");
+  function animateStat(el) {
+    const target = parseFloat(el.dataset.count);
+    const decimals = parseInt(el.dataset.decimal || "0", 10);
+    const valueEl = el.querySelector(".stat-value");
+    if (reduceMotion) {
+      valueEl.textContent = target.toFixed(decimals);
+      return;
+    }
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      valueEl.textContent = (eased * target).toFixed(decimals);
+      if (p < 1) requestAnimationFrame(tick);
+      else valueEl.textContent = target.toFixed(decimals);
+    }
+    requestAnimationFrame(tick);
+  }
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateStat(entry.target);
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  stats.forEach(stat => statObserver.observe(stat));
+
+  /* ---------------- Contact form (front-end only) ---------------- */
+  const form = document.getElementById("contactForm");
+  const formNote = document.getElementById("formNote");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        formNote.style.color = "var(--red-500)";
+        formNote.textContent = "Please fill in your name and a valid email address.";
+        form.reportValidity();
+        return;
+      }
+      const name = document.getElementById("cf-name").value.trim();
+      formNote.style.color = "var(--green-500)";
+      formNote.textContent = `Thanks, ${name.split(" ")[0]}! Check your inbox to confirm your account.`;
+      form.reset();
+    });
+  }
+
+  /* ---------------- Footer year ---------------- */
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+})();
+
+</script>
+</body>
+</html>
