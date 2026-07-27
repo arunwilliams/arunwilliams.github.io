@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Write a post — Arun Williams</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23132a43'/><text x='50' y='68' font-family='Georgia' font-size='50' font-weight='bold' fill='%231f9d6b' text-anchor='middle'>AW</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#132a43;--navy-2:#1d3a5a;--navy-3:#0d1f33;--bg:#f5f7f9;--paper:#fff;
+    --accent:#1f9d6b;--accent-dk:#167a53;--line:#e2e6ea;--line-navy:#28405c;
+    --text:#1a2733;--text-dim:#5b6b7a;--on-navy:#eaf0f4;--on-navy-dim:#9fb2c2;
+    --serif:'Lora',Georgia,serif;--sans:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  /* Top bar */
+  .bar{background:var(--navy);position:sticky;top:0;z-index:10}
+  .bar-in{max-width:1240px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:var(--serif);font-weight:700;color:var(--on-navy);display:flex;align-items:center;gap:10px}
+  .brand .mark{width:28px;height:28px;border-radius:7px;background:var(--navy-2);color:var(--accent);font-family:var(--serif);font-weight:700;font-size:.78rem;display:flex;align-items:center;justify-content:center}
+  .bar a.back{font-family:var(--mono);font-size:.8rem;color:var(--on-navy-dim)}
+  .bar a.back:hover{color:var(--accent)}
+  /* Layout */
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 24px 60px}
+  .lede{margin-bottom:24px}
+  .lede h1{font-family:var(--serif);font-weight:700;font-size:1.7rem;color:var(--navy);margin-bottom:6px}
+  .lede p{color:var(--text-dim);font-size:.96rem;max-width:70ch}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .panel h2{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-dk);margin-bottom:18px}
+  label{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin:14px 0 6px}
+  label:first-of-type{margin-top:0}
+  input,textarea,select{width:100%;font-family:var(--sans);font-size:.95rem;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:11px 13px;outline:none;transition:border-color .15s}
+  input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+  textarea{min-height:320px;resize:vertical;font-family:var(--mono);font-size:.9rem;line-height:1.6}
+  .rowf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .hint{font-size:.8rem;color:var(--text-dim);margin-top:8px}
+  .hint code{font-family:var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:.85em}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .btn{font-size:.88rem;padding:11px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:.15s;font-family:var(--sans)}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-dk)}
+  .btn-outline{background:var(--paper);border-color:var(--line);color:var(--navy)}
+  .btn-outline:hover{border-color:var(--navy)}
+  .btn-ghost{background:transparent;color:var(--text-dim)}
+  .btn-ghost:hover{color:var(--navy)}
+  .saved{font-family:var(--mono);font-size:.72rem;color:var(--accent-dk);margin-top:12px;min-height:1em}
+  /* Preview */
+  .preview{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .preview .pbar{background:var(--navy);height:34px;display:flex;align-items:center;gap:6px;padding:0 12px}
+  .preview .pbar i{width:10px;height:10px;border-radius:50%;background:#3a5372;display:block}
+  .preview .pbar .t{margin-left:10px;font-family:var(--mono);font-size:.7rem;color:var(--on-navy-dim)}
+  .preview .body{background:#fff;padding:26px 24px;max-height:520px;overflow:auto}
+  .preview .kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-dk);margin-bottom:12px}
+  .preview h1.pt{font-family:var(--serif);font-weight:700;font-size:1.7rem;color:var(--navy);line-height:1.1;margin-bottom:10px}
+  .preview .byline{font-family:var(--mono);font-size:.76rem;color:var(--text-dim);padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:22px}
+  .preview .body p{color:#3a4855;margin-bottom:16px;font-size:1rem}
+  .preview .body h2{font-family:var(--serif);font-weight:600;font-size:1.3rem;color:var(--navy);margin:26px 0 10px}
+  .preview .body blockquote{border-left:3px solid var(--accent);padding-left:16px;margin:18px 0;font-style:italic;color:var(--navy)}
+  .preview .body code{font-family:var(--mono);font-size:.9em;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  .preview .body a{color:var(--accent-dk);border-bottom:1px solid var(--accent-dk)}
+  /* Steps */
+  .steps{margin-top:24px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .steps h2{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-dk);margin-bottom:14px}
+  .steps ol{margin-left:18px;color:var(--text-dim);font-size:.94rem}
+  .steps li{margin-bottom:8px}
+  .steps code{font-family:var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:.85em;color:var(--navy)}
+  @media(max-width:920px){.cols{grid-template-columns:1fr}.preview .body{max-height:none}}
+</style>
+</head>
+<body>
+  <div class="bar"><div class="bar-in">
+    <a href="index.html" class="brand"><span class="mark">AW</span>Post editor</a>
+    <a href="blog.html" class="back">← Back to blog</a>
+  </div></div>
+
+  <div class="wrap">
+    <div class="lede">
+      <h1>Write a post</h1>
+      <p>Compose your post below and watch the preview update live. When you're happy, either <b>publish it straight to your site</b> in one click, or download the HTML file to add by hand. This page is a private tool — it's set to no-index, so Google won't list it.</p>
+    </div>
+
+    <div class="cols">
+      <!-- Editor -->
+      <div class="panel">
+        <h2>Editor</h2>
+        <label for="title">Title</label>
+        <input id="title" placeholder="Why I built an AI assistant for site safety" />
+
+        <div class="rowf">
+          <div>
+            <label for="cat">Category</label>
+            <input id="cat" placeholder="EHS × AI" />
+          </div>
+          <div>
+            <label for="read">Read time</label>
+            <input id="read" placeholder="4 min read" />
+          </div>
+        </div>
+
+        <label for="date">Date</label>
+        <input id="date" type="date" />
+
+        <label for="body">Body</label>
+        <textarea id="body" placeholder="Write here.
+
+Leave a blank line between paragraphs.
+
+## This becomes a heading
+
+> This becomes a pulled-out quote.
+
+Inline you can use **bold**, *italic*, `code`, and [a link](https://example.com)."></textarea>
+        <p class="hint">Formatting: blank line = new paragraph · <code>## </code> heading · <code>&gt; </code> quote · <code>**bold**</code> · <code>*italic*</code> · <code>`code`</code> · <code>[text](url)</code></p>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="download">↓ Download post file</button>
+          <button class="btn btn-outline" id="copy">Copy HTML</button>
+          <button class="btn btn-ghost" id="clear">Clear</button>
+        </div>
+        <div class="saved" id="saved"></div>
+      </div>
+
+      <!-- Preview -->
+      <div class="panel">
+        <h2>Live preview</h2>
+        <div class="preview">
+          <div class="pbar"><i></i><i></i><i></i><span class="t" id="pslug">blog/your-post.html</span></div>
+          <div class="body">
+            <div class="kicker" id="pk">CATEGORY · READ TIME</div>
+            <h1 class="pt" id="pt">Your title appears here</h1>
+            <div class="byline" id="pb">Arun Williams · date</div>
+            <div id="pbody"><p>Start typing to see your post take shape.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" id="publishPanel">
+      <h2>Publish straight to your site</h2>
+      <p style="color:var(--text-dim);font-size:.94rem">One click commits the post to your GitHub repo and updates the blog index — it goes live automatically. Your details stay in this browser only.</p>
+      <div class="rowf" style="margin-top:14px">
+        <div><label for="ghOwner">GitHub user</label><input id="ghOwner" value="arunwilliams" /></div>
+        <div><label for="ghRepo">Repository</label><input id="ghRepo" value="arunwilliams.github.io" /></div>
+      </div>
+      <div class="rowf">
+        <div><label for="ghBranch">Branch</label><input id="ghBranch" value="main" /></div>
+        <div><label for="ghToken">Access token</label><input id="ghToken" type="password" placeholder="github_pat_…" /></div>
+      </div>
+      <p class="hint">Need a token? Create a <b>fine-grained</b> personal access token with <b>Contents: Read and write</b> on just this repo — <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:var(--accent-dk)">github.com/settings → tokens</a>. It's stored only in your browser.</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="publish">⤴ Publish post</button>
+        <label style="display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.85rem;text-transform:none;letter-spacing:0;color:var(--text-dim);margin:0"><input type="checkbox" id="ghRemember" checked style="width:auto" /> Remember token on this device</label>
+      </div>
+      <pre id="log" style="display:none;margin-top:16px;background:#0d1f33;color:#d7ecff;border-radius:8px;padding:14px;font-family:var(--mono);font-size:.8rem;white-space:pre-wrap;line-height:1.6;overflow:auto"></pre>
+    </div>
+
+    <div class="steps">
+      <h2>Prefer to do it by hand?</h2>
+      <ol>
+        <li>Click <strong>Download post file</strong> above and drop it into your repo's <code>blog/</code> folder.</li>
+        <li>Add an entry to <code>blog/posts.json</code> (<code>slug</code>, <code>title</code>, <code>category</code>, <code>date</code>, <code>excerpt</code>) so it lists on the blog page.</li>
+        <li>Commit — it's live at <code>arunwilliams.github.io/blog/your-slug.html</code>.</li>
+      </ol>
+    </div>
+  </div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const fields = ['title','cat','read','date','body'];
+
+  // Default date = today
+  (function(){ const d=new Date(); $('date').value = d.toISOString().slice(0,10); })();
+
+  // Restore draft (safe if storage is unavailable)
+  try{
+    const saved = JSON.parse(localStorage.getItem('aw_post_draft')||'null');
+    if(saved) fields.forEach(f=>{ if(saved[f]!==undefined && saved[f]!=='') $(f).value = saved[f]; });
+  }catch(e){}
+
+  function slugify(t){
+    return (t||'your-post').toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'') || 'your-post';
+  }
+  function fmtDate(iso){
+    if(!iso) return '';
+    const d = new Date(iso+'T00:00:00');
+    return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  }
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function inline(s){
+    s = esc(s);
+    s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
+    s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    s = s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+    s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+    return s;
+  }
+  function bodyToHtml(body){
+    const blocks = (body||'').split(/\n\s*\n/).map(b=>b.replace(/\s+$/,'')).filter(b=>b.trim());
+    if(!blocks.length) return '<p>Start typing to see your post take shape.</p>';
+    return blocks.map(b=>{
+      const t = b.trim();
+      if(t.startsWith('## ')) return '<h2>'+inline(t.slice(3))+'</h2>';
+      if(t.startsWith('> '))  return '<blockquote>'+inline(t.replace(/^>\s?/gm,''))+'</blockquote>';
+      return '<p>'+inline(t).replace(/\n/g,'<br>')+'</p>';
+    }).join('\n    ');
+  }
+
+  function refresh(){
+    const title=$('title').value, cat=$('cat').value, read=$('read').value, date=$('date').value, body=$('body').value;
+    $('pt').textContent = title || 'Your title appears here';
+    $('pk').textContent = ((cat||'Category')+' · '+(read||'Read time')).toUpperCase();
+    $('pb').textContent = 'Arun Williams · ' + (fmtDate(date)||'date');
+    $('pbody').innerHTML = bodyToHtml(body);
+    $('pslug').textContent = 'blog/'+slugify(title)+'.html';
+    try{ localStorage.setItem('aw_post_draft', JSON.stringify({title,cat,read,date,body})); $('saved').textContent='Draft saved locally'; }catch(e){ $('saved').textContent=''; }
+  }
+  fields.forEach(f=>$(f).addEventListener('input', refresh));
+  refresh();
+
+  function buildPostHTML(){
+    const title=$('title').value||'Untitled post', cat=$('cat').value||'', read=$('read').value||'', date=$('date').value, body=$('body').value;
+    const slug=slugify(title), desc=(body||'').replace(/[#>*`]/g,'').split(/\n/).find(l=>l.trim())||title;
+    const kicker=[cat,read].filter(Boolean).join(' · ').toUpperCase();
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${esc(title)} — Arun Williams</title>
+<meta name="description" content="${esc(desc).slice(0,155)}" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://arunwilliams.github.io/blog/${slug}.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="${esc(title)}" />
+<meta property="og:description" content="${esc(desc).slice(0,155)}" />
+<meta property="og:url" content="https://arunwilliams.github.io/blog/${slug}.html" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":${JSON.stringify(title)},"author":{"@type":"Person","name":"Arun Williams","url":"https://arunwilliams.github.io/"},"datePublished":"${date}","mainEntityOfPage":"https://arunwilliams.github.io/blog/${slug}.html"}
+<\/script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--navy:#132a43;--bg:#f5f7f9;--paper:#fff;--accent:#1f9d6b;--accent-dk:#167a53;--line:#e2e6ea;--text:#1a2733;--text-dim:#4c5460;--on-navy-dim:#9fb2c2;--serif:'Lora',Georgia,serif;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;--wrap:680px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7}
+  a{color:var(--accent-dk)}
+  .bar{background:var(--navy)}
+  .bar-in{max-width:var(--wrap);margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:var(--serif);font-weight:700;color:#eaf0f4;display:flex;align-items:center;gap:10px}
+  .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--accent)}
+  .bar a.back{font-family:var(--mono);font-size:.8rem;color:var(--on-navy-dim)}
+  article{max-width:var(--wrap);margin:0 auto;padding:64px 24px 80px}
+  .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-dk);margin-bottom:16px}
+  h1{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,5vw,2.9rem);letter-spacing:-.02em;line-height:1.05;color:var(--navy);margin-bottom:16px}
+  .byline{font-family:var(--mono);font-size:.8rem;color:var(--text-dim);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+  article p{font-size:1.08rem;color:var(--text-dim);margin-bottom:22px}
+  article h2{font-family:var(--serif);font-weight:600;font-size:1.5rem;margin:40px 0 14px;color:var(--navy)}
+  article blockquote{border-left:3px solid var(--accent);padding-left:18px;margin:26px 0;color:var(--navy);font-style:italic}
+  article code{font-family:var(--mono);font-size:.9em;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:2px 6px}
+  footer{background:var(--navy);color:var(--on-navy-dim);padding:24px 0;text-align:center;font-family:var(--mono);font-size:.74rem}
+  footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+  <div class="bar"><div class="bar-in"><a href="../index.html" class="brand"><span class="dot"></span>Arun Williams</a><a href="../blog.html" class="back">← All writing</a></div></div>
+  <article>
+    <div class="kicker">${esc(kicker)}</div>
+    <h1>${esc(title)}</h1>
+    <div class="byline">Arun Williams · ${fmtDate(date)}</div>
+    ${bodyToHtml(body)}
+  </article>
+  <footer>© <span id="y"><\/span> Arun Williams · <a href="../index.html">Portfolio<\/a></footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()<\/script>
+</body>
+</html>`;
+  }
+
+  $('download').addEventListener('click', ()=>{
+    const html=buildPostHTML(), slug=slugify($('title').value);
+    const blob=new Blob([html],{type:'text/html'}), url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=slug+'.html'; document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    $('saved').textContent='Downloaded '+slug+'.html — drop it in your blog/ folder';
+  });
+  $('copy').addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(buildPostHTML()); $('saved').textContent='Full HTML copied to clipboard'; }
+    catch(e){ $('saved').textContent='Copy failed — use Download instead'; }
+  });
+  $('clear').addEventListener('click', ()=>{
+    if(!confirm('Clear all fields? This removes the saved draft.')) return;
+    fields.forEach(f=>{ if(f!=='date') $(f).value=''; });
+    try{ localStorage.removeItem('aw_post_draft'); }catch(e){}
+    refresh(); $('saved').textContent='Cleared';
+  });
+
+  // ---- Publish directly to GitHub ----
+  const ghFields = ['ghOwner','ghRepo','ghBranch','ghToken'];
+  try{ const s=JSON.parse(localStorage.getItem('aw_gh')||'null'); if(s) ghFields.forEach(id=>{ if(s[id]) $(id).value=s[id]; }); }catch(e){}
+  const log = $('log');
+  function logline(msg){ log.style.display='block'; log.textContent += (log.textContent?'\n':'') + msg; }
+  function b64(str){ return btoa(unescape(encodeURIComponent(str))); }
+  function unb64(b){ return decodeURIComponent(escape(atob((b||'').replace(/\n/g,'')))); }
+  async function ghGet(o,r,path,tok,br){
+    const res=await fetch('https://api.github.com/repos/'+o+'/'+r+'/contents/'+path+'?ref='+encodeURIComponent(br),{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'}});
+    if(res.status===404) return null;
+    if(!res.ok) throw new Error('Read '+path+' failed ('+res.status+')');
+    return res.json();
+  }
+  async function ghPut(o,r,path,tok,br,contentB64,message,sha){
+    const body={message,content:contentB64,branch:br}; if(sha) body.sha=sha;
+    const res=await fetch('https://api.github.com/repos/'+o+'/'+r+'/contents/'+path,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!res.ok){ let m=''; try{ m=(await res.json()).message||''; }catch(e){} throw new Error('Write '+path+' failed ('+res.status+') '+m); }
+    return res.json();
+  }
+  function excerpt(body){ const line=(body||'').split(/\n/).map(s=>s.trim()).find(s=>s && !s.startsWith('#') && !s.startsWith('>'))||''; return line.replace(/[*`_]/g,'').slice(0,180); }
+
+  $('publish').addEventListener('click', async ()=>{
+    const o=$('ghOwner').value.trim(), r=$('ghRepo').value.trim(), br=$('ghBranch').value.trim()||'main', tok=$('ghToken').value.trim();
+    const title=$('title').value.trim();
+    if(!title){ alert('Add a title first.'); return; }
+    if(!$('body').value.trim()){ alert('Write some body text first.'); return; }
+    if(!o||!r||!tok){ alert('Fill in your GitHub user, repository and access token.'); return; }
+    try{ if($('ghRemember').checked) localStorage.setItem('aw_gh', JSON.stringify({ghOwner:o,ghRepo:r,ghBranch:br,ghToken:tok})); else localStorage.removeItem('aw_gh'); }catch(e){}
+
+    const slug=slugify(title), postPath='blog/'+slug+'.html';
+    const btn=$('publish'), label=btn.textContent; btn.disabled=true; btn.textContent='Publishing…'; log.textContent='';
+    try{
+      logline('Checking '+postPath+' …');
+      const existing=await ghGet(o,r,postPath,tok,br);
+      if(existing && !confirm('A post with this name already exists. Overwrite it?')) throw new Error('Cancelled.');
+      logline('Committing the post …');
+      await ghPut(o,r,postPath,tok,br,b64(buildPostHTML()),(existing?'Update':'Add')+' blog post: '+title, existing&&existing.sha);
+      logline('Updating the blog index …');
+      let posts=[], sha;
+      const pj=await ghGet(o,r,'blog/posts.json',tok,br);
+      if(pj){ sha=pj.sha; try{ posts=JSON.parse(unb64(pj.content)); }catch(e){ posts=[]; } }
+      if(!Array.isArray(posts)) posts=[];
+      posts=posts.filter(p=>p.slug!==slug);
+      posts.unshift({slug,title,category:$('cat').value.trim(),date:$('date').value,excerpt:excerpt($('body').value)});
+      await ghPut(o,r,'blog/posts.json',tok,br,b64(JSON.stringify(posts,null,2)),'Update blog index: '+title, sha);
+      logline('');
+      logline('✓ Published. Live in ~1 minute at:');
+      logline('https://'+o+'.github.io/blog/'+slug+'.html');
+      $('saved').textContent='Published to your site';
+    }catch(err){
+      logline('✕ '+err.message);
+      logline('Tip: the token needs Contents: Read and write on this repo, and the branch name must match (usually main).');
+    }finally{ btn.disabled=false; btn.textContent=label; }
+  });
+</script>
+</body>
+</html>
