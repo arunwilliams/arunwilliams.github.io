@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Writing — Arun Williams | Safety & Code</title>
+<meta name="description" content="Notes from Arun Williams on where environment, health &amp; safety practice meets software — EHS, Python, machine learning and career." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://arunwilliams.github.io/blog.html" />
+<meta property="og:title" content="Writing — Arun Williams" />
+<meta property="og:description" content="Notes on where EHS practice meets software." />
+<meta property="og:url" content="https://arunwilliams.github.io/blog.html" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2313161b'/><text x='50' y='68' font-family='Arial' font-size='52' font-weight='bold' fill='%2312a150' text-anchor='middle'>AW</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#13161b;--concrete:#f0f0ec;--paper:#fff;--safe:#12a150;--safe-dim:#0c7c3d;
+    --light-line:#d9d7cf;--text:#14171c;--text-dim:#5a616c;--on-dark:#eceeea;--on-dark-dim:#98a0aa;
+    --display:'Archivo',sans-serif;--body:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;--wrap:820px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--concrete);color:var(--text);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  .bar{background:var(--ink);border-bottom:1px solid #2a2f38}
+  .bar-in{max-width:var(--wrap);margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:var(--display);font-weight:800;color:var(--on-dark);display:flex;align-items:center;gap:10px}
+  .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--safe)}
+  .bar-in a.back{font-family:var(--mono);font-size:.8rem;color:var(--on-dark-dim)}
+  .bar-in a.back:hover{color:var(--safe)}
+  .head{background:var(--ink);color:var(--on-dark);padding:64px 0 56px}
+  .head-in{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--safe);margin-bottom:16px}
+  .head h1{font-family:var(--display);font-weight:900;font-size:clamp(2.2rem,6vw,3.4rem);letter-spacing:-.02em;line-height:1;margin-bottom:16px}
+  .head p{color:var(--on-dark-dim);max-width:52ch}
+  .hazard{height:6px;background:repeating-linear-gradient(-45deg,#ffd21e 0 14px,var(--ink) 14px 28px)}
+  main{max-width:var(--wrap);margin:0 auto;padding:56px 24px 80px}
+  .empty{
+    border:1px dashed var(--light-line);border-radius:12px;padding:48px 32px;text-align:center;background:var(--paper);
+  }
+  .empty .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--safe-dim);margin-bottom:14px}
+  .empty h2{font-family:var(--display);font-weight:800;font-size:1.5rem;margin-bottom:12px}
+  .empty p{color:var(--text-dim);max-width:46ch;margin:0 auto}
+  .plan{margin-top:44px}
+  .plan h3{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--safe-dim);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--light-line)}
+  .entry{padding:20px 0;border-bottom:1px solid var(--light-line)}
+  .entry .meta{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px}
+  .entry h4{font-family:var(--display);font-weight:800;font-size:1.2rem;letter-spacing:-.01em;margin-bottom:6px}
+  .entry p{color:var(--text-dim);font-size:.96rem}
+  footer{background:var(--ink);color:var(--on-dark-dim);padding:24px 0;text-align:center;font-family:var(--mono);font-size:.74rem}
+  footer a{color:var(--safe)}
+</style>
+</head>
+<body>
+  <div class="bar"><div class="bar-in"><a href="index.html" class="brand"><span class="dot"></span>Arun Williams</a><a href="index.html" class="back">← Back to portfolio</a></div></div>
+
+  <section class="head">
+    <div class="head-in">
+      <div class="eyebrow">Writing</div>
+      <h1>Notes on safety &amp; code</h1>
+      <p>Short pieces on where environment, health &amp; safety practice meets software — the tools I build, the problems on site that prompt them, and the career in between.</p>
+    </div>
+  </section>
+  <div class="hazard"></div>
+
+  <main>
+    <div class="empty">
+      <div class="k">Status · No posts published yet</div>
+      <h2>First post is on the way.</h2>
+      <p>I'm writing the first few pieces now. Check back soon, or reach me from the portfolio if you'd like a heads-up when they go live.</p>
+    </div>
+
+    <div class="plan">
+      <h3>Planned</h3>
+      <div class="entry">
+        <div class="meta">EHS × AI</div>
+        <h4>Why I built an AI assistant for site safety</h4>
+        <p>What a chat assistant can — and can't — do for EHS teams buried in permits and procedures.</p>
+      </div>
+      <div class="entry">
+        <div class="meta">Python</div>
+        <h4>Automating the boring parts of EHS reporting</h4>
+        <p>Turning repetitive project-closeout paperwork into a few hundred lines of Python.</p>
+      </div>
+      <div class="entry">
+        <div class="meta">Career</div>
+        <h4>From safety officer to safety engineer who codes</h4>
+        <p>How the two disciplines reinforce each other on a live project.</p>
+      </div>
+    </div>
+
+    <!--
+      TO ADD A REAL POST:
+      1. Copy blog/_post-template.html to something like blog/why-i-built-guardian.html
+      2. Fill in the title, date and content.
+      3. Replace one of the .entry blocks above with a linked version, e.g.:
+         <a class="entry" href="blog/why-i-built-guardian.html"> ... </a>
+      4. Add the new post URL to sitemap.xml so Google can find it.
+    -->
+  </main>
+
+  <footer>© <span id="y"></span> Arun Williams · <a href="index.html">Portfolio</a></footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
