@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- EDIT: title + description for every post (matters for Google) -->
+<title>POST TITLE — Arun Williams</title>
+<meta name="description" content="One-sentence summary of this post." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://arunwilliams.github.io/blog/POST-SLUG.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="POST TITLE" />
+<meta property="og:description" content="One-sentence summary of this post." />
+<meta property="og:url" content="https://arunwilliams.github.io/blog/POST-SLUG.html" />
+
+<!-- Article structured data — helps Google show rich results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "POST TITLE",
+  "author": { "@type": "Person", "name": "Arun Williams", "url": "https://arunwilliams.github.io/" },
+  "datePublished": "2026-01-01",
+  "mainEntityOfPage": "https://arunwilliams.github.io/blog/POST-SLUG.html"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#13161b;--concrete:#f0f0ec;--paper:#fff;--safe:#12a150;--safe-dim:#0c7c3d;
+    --light-line:#d9d7cf;--text:#14171c;--text-dim:#4c5460;--on-dark:#eceeea;--on-dark-dim:#98a0aa;
+    --display:'Archivo',sans-serif;--body:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;--wrap:680px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--concrete);color:var(--text);line-height:1.7}
+  a{color:var(--safe-dim)}
+  .bar{background:var(--ink)}
+  .bar-in{max-width:var(--wrap);margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:var(--display);font-weight:800;color:var(--on-dark);display:flex;align-items:center;gap:10px}
+  .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--safe)}
+  .bar a.back{font-family:var(--mono);font-size:.8rem;color:var(--on-dark-dim)}
+  article{max-width:var(--wrap);margin:0 auto;padding:64px 24px 80px}
+  .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--safe-dim);margin-bottom:16px}
+  h1{font-family:var(--display);font-weight:900;font-size:clamp(2rem,5vw,2.9rem);letter-spacing:-.02em;line-height:1.05;margin-bottom:16px}
+  .byline{font-family:var(--mono);font-size:.8rem;color:var(--text-dim);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--light-line)}
+  article p{font-size:1.08rem;color:var(--text-dim);margin-bottom:22px}
+  article h2{font-family:var(--display);font-weight:800;font-size:1.5rem;margin:40px 0 14px;color:var(--text)}
+  article blockquote{border-left:3px solid var(--safe);padding-left:18px;margin:26px 0;color:var(--text);font-style:italic}
+  article code{font-family:var(--mono);font-size:.9em;background:var(--paper);border:1px solid var(--light-line);border-radius:4px;padding:2px 6px}
+  footer{background:var(--ink);color:var(--on-dark-dim);padding:24px 0;text-align:center;font-family:var(--mono);font-size:.74rem}
+  footer a{color:var(--safe)}
+</style>
+</head>
+<body>
+  <div class="bar"><div class="bar-in"><a href="../index.html" class="brand"><span class="dot"></span>Arun Williams</a><a href="../blog.html" class="back">← All writing</a></div></div>
+
+  <article>
+    <div class="kicker">CATEGORY · READ TIME</div>
+    <h1>Post title goes here</h1>
+    <div class="byline">Arun Williams · 1 January 2026</div>
+
+    <p>Opening paragraph. Write in your own voice — start with the problem on site that made you think about this.</p>
+    <h2>A section heading</h2>
+    <p>Body text. Use <code>code</code> for inline code, and blockquotes for key takeaways.</p>
+    <blockquote>A line worth pulling out.</blockquote>
+    <p>Closing thought.</p>
+  </article>
+
+  <footer>© <span id="y"></span> Arun Williams · <a href="../index.html">Portfolio</a></footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
