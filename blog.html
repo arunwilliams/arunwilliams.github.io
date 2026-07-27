@@ -3,105 +3,201 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Writing — Arun Williams | Safety & Code</title>
-<meta name="description" content="Notes from Arun Williams on where environment, health &amp; safety practice meets software — EHS, Python, machine learning and career." />
+<title>Writing — Arun Williams | Safety &amp; Code</title>
+<meta name="description" content="Notes from Arun Williams on where environment, health &amp; safety practice meets software — EHS, AI for safety, and career." />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://arunwilliams.github.io/blog.html" />
 <meta property="og:title" content="Writing — Arun Williams" />
 <meta property="og:description" content="Notes on where EHS practice meets software." />
 <meta property="og:url" content="https://arunwilliams.github.io/blog.html" />
 <meta property="og:type" content="website" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2313161b'/><text x='50' y='68' font-family='Arial' font-size='52' font-weight='bold' fill='%2312a150' text-anchor='middle'>AW</text></svg>" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23132a43'/><text x='50' y='68' font-family='Georgia' font-size='50' font-weight='bold' fill='%231f9d6b' text-anchor='middle'>AW</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --ink:#13161b;--concrete:#f0f0ec;--paper:#fff;--safe:#12a150;--safe-dim:#0c7c3d;
-    --light-line:#d9d7cf;--text:#14171c;--text-dim:#5a616c;--on-dark:#eceeea;--on-dark-dim:#98a0aa;
-    --display:'Archivo',sans-serif;--body:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;--wrap:820px;
+    --sidebar:#132a43; --sidebar-2:#0f2236; --bg:#f4f6f8; --paper:#ffffff;
+    --accent:#1f9d6b; --accent-dk:#167a53; --accent-soft:rgba(31,157,107,.12);
+    --line:#e6e9ec; --text:#1f2937; --text-dim:#66727f;
+    --on-dark:#e8edf2; --on-dark-dim:#9db0c2; --on-dark-line:#26405c;
+    --sans:'Source Sans 3',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+    --sbw:272px; --panelw:298px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:var(--body);background:var(--concrete);color:var(--text);line-height:1.6}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.62;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
-  .bar{background:var(--ink);border-bottom:1px solid #2a2f38}
-  .bar-in{max-width:var(--wrap);margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
-  .brand{font-family:var(--display);font-weight:800;color:var(--on-dark);display:flex;align-items:center;gap:10px}
-  .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--safe)}
-  .bar-in a.back{font-family:var(--mono);font-size:.8rem;color:var(--on-dark-dim)}
-  .bar-in a.back:hover{color:var(--safe)}
-  .head{background:var(--ink);color:var(--on-dark);padding:64px 0 56px}
-  .head-in{max-width:var(--wrap);margin:0 auto;padding:0 24px}
-  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--safe);margin-bottom:16px}
-  .head h1{font-family:var(--display);font-weight:900;font-size:clamp(2.2rem,6vw,3.4rem);letter-spacing:-.02em;line-height:1;margin-bottom:16px}
-  .head p{color:var(--on-dark-dim);max-width:52ch}
-  .hazard{height:6px;background:repeating-linear-gradient(-45deg,#ffd21e 0 14px,var(--ink) 14px 28px)}
-  main{max-width:var(--wrap);margin:0 auto;padding:56px 24px 80px}
-  .empty{
-    border:1px dashed var(--light-line);border-radius:12px;padding:48px 32px;text-align:center;background:var(--paper);
-  }
-  .empty .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--safe-dim);margin-bottom:14px}
-  .empty h2{font-family:var(--display);font-weight:800;font-size:1.5rem;margin-bottom:12px}
+  img{max-width:100%;display:block}
+  ::selection{background:var(--accent);color:#fff}
+
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sbw);z-index:60;background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2));color:var(--on-dark);display:flex;flex-direction:column;align-items:center;padding:38px 22px 24px;overflow-y:auto;border-right:1px solid var(--on-dark-line)}
+  .avatar{width:116px;height:116px;border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,.14);background:var(--sidebar-2);position:relative;box-shadow:0 10px 30px -12px rgba(0,0,0,.5)}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .avatar .fb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:2.6rem;color:var(--accent)}
+  .side-name{font-size:1.5rem;font-weight:700;margin-top:18px;color:#fff}
+  .side-tag{font-size:.86rem;color:var(--on-dark-dim);text-align:center;margin-top:6px;max-width:200px}
+  .side-loc{font-family:var(--mono);font-size:.7rem;color:var(--on-dark-dim);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .side-loc .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,157,107,.5)}70%{box-shadow:0 0 0 8px rgba(31,157,107,0)}100%{box-shadow:0 0 0 0 rgba(31,157,107,0)}}
+  .snav{width:100%;margin-top:30px;display:flex;flex-direction:column;gap:3px}
+  .snav a{display:flex;align-items:center;gap:12px;padding:11px 15px;border-radius:9px;color:var(--on-dark-dim);font-weight:600;font-size:.96rem;transition:.16s}
+  .snav a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;flex:none}
+  .snav a:hover{background:rgba(255,255,255,.07);color:#fff}
+  .snav a.active{background:var(--accent);color:#fff;box-shadow:0 8px 20px -10px rgba(31,157,107,.7)}
+  .socials{margin-top:auto;padding-top:26px;display:flex;gap:10px}
+  .socials a{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);color:var(--on-dark-dim);transition:.16s}
+  .socials a:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
+  .socials a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7}
+  .side-copy{margin-top:16px;font-family:var(--mono);font-size:.66rem;color:var(--on-dark-dim)}
+
+  .topbar{display:none;position:fixed;top:0;left:0;right:0;height:56px;z-index:70;background:var(--sidebar);color:#fff;align-items:center;gap:14px;padding:0 16px;border-bottom:1px solid var(--on-dark-line)}
+  .burger{background:none;border:0;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:4px}
+  .burger span{width:22px;height:2px;background:#fff;display:block}
+  .tb-name{font-weight:700;font-size:1.05rem}
+  .tb-cta{margin-left:auto;font-size:.85rem;background:var(--accent);color:#fff;padding:7px 14px;border-radius:7px;font-weight:600}
+  .overlay{display:none;position:fixed;inset:0;background:rgba(10,20,32,.5);z-index:55;opacity:0;transition:opacity .25s}
+  .overlay.show{display:block;opacity:1}
+
+  .shell{margin-left:var(--sbw);padding:34px 30px 20px}
+  .grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) var(--panelw);gap:28px;align-items:start}
+  .content{min-width:0;display:flex;flex-direction:column;gap:18px}
+
+  .pagehead{background:linear-gradient(120deg,var(--sidebar),var(--sidebar-2));color:#fff;border-radius:14px;padding:34px 30px}
+  .pagehead .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+  .pagehead h1{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+  .pagehead p{color:var(--on-dark-dim);max-width:56ch}
+
+  .post{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px 26px;display:block;box-shadow:0 1px 2px rgba(16,24,40,.04);transition:transform .18s,box-shadow .18s}
+  .post:hover{transform:translateY(-3px);box-shadow:0 14px 32px -22px rgba(16,24,40,.4)}
+  .post h2{font-size:1.3rem;font-weight:700;letter-spacing:-.01em;color:#182230;margin-bottom:8px;transition:color .15s}
+  .post:hover h2{color:var(--accent-dk)}
+  .post .ex{color:var(--text-dim);font-size:.98rem;margin-bottom:16px}
+  .post .pmeta{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.74rem;color:var(--text-dim)}
+  .post .pmeta .cat{color:var(--accent-dk);background:var(--accent-soft);border-radius:20px;padding:3px 11px}
+  .empty{border:1px dashed var(--line);border-radius:14px;padding:46px 30px;text-align:center;background:var(--paper)}
+  .empty .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-dk);margin-bottom:12px}
+  .empty h2{font-size:1.4rem;font-weight:700;color:#182230;margin-bottom:10px}
   .empty p{color:var(--text-dim);max-width:46ch;margin:0 auto}
-  .plan{margin-top:44px}
-  .plan h3{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--safe-dim);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--light-line)}
-  .entry{padding:20px 0;border-bottom:1px solid var(--light-line)}
-  .entry .meta{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px}
-  .entry h4{font-family:var(--display);font-weight:800;font-size:1.2rem;letter-spacing:-.01em;margin-bottom:6px}
-  .entry p{color:var(--text-dim);font-size:.96rem}
-  footer{background:var(--ink);color:var(--on-dark-dim);padding:24px 0;text-align:center;font-family:var(--mono);font-size:.74rem}
-  footer a{color:var(--safe)}
+  .empty a{color:var(--accent-dk);border-bottom:1px solid var(--accent-dk)}
+
+  .panel{position:sticky;top:34px;display:flex;flex-direction:column;gap:18px}
+  .pcard{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .pcard h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--text-dim);padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center}
+  .pcard h3 .bolt{color:var(--accent)}
+  .recent a{display:block;padding:9px 0;border-bottom:1px solid var(--line);color:#20303f;font-size:.92rem;font-weight:500;transition:.15s}
+  .recent a:last-child{border-bottom:0}
+  .recent a:hover{color:var(--accent-dk);padding-left:4px}
+  .recent .none{color:var(--text-dim);font-size:.88rem}
+  .tagcloud{display:flex;flex-wrap:wrap;gap:7px}
+  .tagcloud span{font-size:.8rem;color:var(--accent-dk);background:var(--accent-soft);border-radius:20px;padding:5px 11px}
+  .write-cta{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#fff;font-weight:600;padding:12px;border-radius:10px;transition:.15s}
+  .write-cta:hover{background:var(--accent-dk)}
+
+  footer.site{max-width:1180px;margin:22px auto 0;padding:22px 2px;color:var(--text-dim);font-size:.84rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer.site a{color:var(--accent-dk)}
+
+  @media(max-width:1150px){.grid{grid-template-columns:minmax(0,1fr)}.panel{display:none}}
+  @media(max-width:1000px){
+    .sidebar{transform:translateX(-100%);transition:transform .28s ease}
+    .sidebar.open{transform:none}
+    .topbar{display:flex}
+    .shell{margin-left:0;padding:74px 18px 20px}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
 <body>
-  <div class="bar"><div class="bar-in"><a href="index.html" class="brand"><span class="dot"></span>Arun Williams</a><a href="index.html" class="back">← Back to portfolio</a></div></div>
 
-  <section class="head">
-    <div class="head-in">
-      <div class="eyebrow">Writing</div>
-      <h1>Notes on safety &amp; code</h1>
-      <p>Short pieces on where environment, health &amp; safety practice meets software — the tools I build, the problems on site that prompt them, and the career in between.</p>
-    </div>
-  </section>
-  <div class="hazard"></div>
+<div class="topbar">
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <span class="tb-name">Writing</span>
+  <a href="write.html" class="tb-cta">＋ Write</a>
+</div>
+<div class="overlay" id="overlay"></div>
 
-  <main>
-    <div class="empty">
-      <div class="k">Status · No posts published yet</div>
-      <h2>First post is on the way.</h2>
-      <p>I'm writing the first few pieces now. Check back soon, or reach me from the portfolio if you'd like a heads-up when they go live.</p>
-    </div>
+<aside class="sidebar" id="sidebar">
+  <div class="avatar"><img src="assets/img/profile.jpeg" alt="Arun Williams" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="fb" style="display:none">AW</div></div>
+  <div class="side-name">Arun Williams</div>
+  <div class="side-tag">EHS Professional &amp; Developer</div>
+  <div class="side-loc"><span class="dot"></span>Bengaluru · Open to roles</div>
+  <nav class="snav">
+    <a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
+    <a href="index.html#about"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>About</a>
+    <a href="index.html#experience"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Experience</a>
+    <a href="index.html#project"><svg viewBox="0 0 24 24"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/></svg>Project</a>
+    <a href="index.html#interests"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5 6 5c2 0 3 1 4 2 1-1 2-2 4-2 3.5 0 5 4 3.5 7C19 16.5 12 21 12 21z"/></svg>Interests</a>
+    <a href="blog.html" class="active"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 10-10-3-3L5 16l-1 4z"/><path d="M14 6l3 3"/></svg>Writing</a>
+    <a href="index.html#contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Contact</a>
+  </nav>
+  <div class="socials">
+    <a href="https://github.com/arunwilliams" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6 0C6.7 2 5.6 2.3 5.6 2.3a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 8.7c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V20"/></svg></a>
+    <a href="https://www.linkedin.com/in/arunwilliams" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9v12M10 14a4 4 0 0 1 8 0v7"/></svg></a>
+    <a href="mailto:warun905@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+  </div>
+  <div class="side-copy">© <span class="yr"></span> Arun Williams</div>
+</aside>
 
-    <div class="plan">
-      <h3>Planned</h3>
-      <div class="entry">
-        <div class="meta">EHS × AI</div>
-        <h4>Why I built an AI assistant for site safety</h4>
-        <p>What a chat assistant can — and can't — do for EHS teams buried in permits and procedures.</p>
+<div class="shell">
+  <div class="grid">
+    <main class="content">
+      <section class="pagehead">
+        <div class="eyebrow">Writing</div>
+        <h1>Notes on safety &amp; code</h1>
+        <p>Short pieces on where environment, health &amp; safety practice meets software — the tools I build, the problems on site that prompt them, and the career in between.</p>
+      </section>
+
+      <div id="postList" style="display:flex;flex-direction:column;gap:18px"></div>
+
+      <div class="empty" id="empty" style="display:none">
+        <div class="k">Status · No posts published yet</div>
+        <h2>First post is on the way.</h2>
+        <p>New posts appear here automatically once published from the editor. <a href="write.html">Write one →</a></p>
       </div>
-      <div class="entry">
-        <div class="meta">Python</div>
-        <h4>Automating the boring parts of EHS reporting</h4>
-        <p>Turning repetitive project-closeout paperwork into a few hundred lines of Python.</p>
-      </div>
-      <div class="entry">
-        <div class="meta">Career</div>
-        <h4>From safety officer to safety engineer who codes</h4>
-        <p>How the two disciplines reinforce each other on a live project.</p>
-      </div>
-    </div>
+    </main>
 
-    <!--
-      TO ADD A REAL POST:
-      1. Copy blog/_post-template.html to something like blog/why-i-built-guardian.html
-      2. Fill in the title, date and content.
-      3. Replace one of the .entry blocks above with a linked version, e.g.:
-         <a class="entry" href="blog/why-i-built-guardian.html"> ... </a>
-      4. Add the new post URL to sitemap.xml so Google can find it.
-    -->
-  </main>
+    <aside class="panel">
+      <div class="pcard"><a class="write-cta" href="write.html">＋ Write a post</a></div>
+      <div class="pcard">
+        <h3><span class="bolt">◆</span> Recently updated</h3>
+        <div class="recent" id="recent"><span class="none">Nothing yet.</span></div>
+      </div>
+      <div class="pcard">
+        <h3><span class="bolt">◆</span> Trending tags</h3>
+        <div class="tagcloud" id="tags"><span>EHS</span><span>AI for safety</span><span>Python</span><span>Career</span></div>
+      </div>
+    </aside>
+  </div>
 
-  <footer>© <span id="y"></span> Arun Williams · <a href="index.html">Portfolio</a></footer>
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  <footer class="site">
+    <span>© <span class="yr"></span> Arun Williams · Writing</span>
+    <span><a href="index.html">← Portfolio</a></span>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.yr').forEach(e=>e.textContent=new Date().getFullYear());
+  const sidebar=document.getElementById('sidebar'), overlay=document.getElementById('overlay'), burger=document.getElementById('burger');
+  burger.addEventListener('click', ()=>{ sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  (async function(){
+    const list=document.getElementById('postList'), empty=document.getElementById('empty'), recent=document.getElementById('recent'), tagsEl=document.getElementById('tags');
+    const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const fmt=iso=>{ if(!iso) return ''; const d=new Date(iso+'T00:00:00'); return isNaN(d)?iso:d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); };
+    let posts=[];
+    try{ const r=await fetch('blog/posts.json?cb='+Date.now(),{cache:'no-store'}); if(r.ok) posts=await r.json(); }catch(e){}
+    if(!Array.isArray(posts)||!posts.length){ empty.style.display='block'; return; }
+    posts.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    list.innerHTML=posts.map(p=>`
+      <a class="post" href="blog/${encodeURIComponent(p.slug)}.html">
+        <h2>${esc(p.title||'Untitled')}</h2>
+        <p class="ex">${esc(p.excerpt||'')}</p>
+        <div class="pmeta"><span>${fmt(p.date)}</span>${p.category?`<span class="cat">${esc(p.category)}</span>`:''}</div>
+      </a>`).join('');
+    recent.innerHTML=posts.slice(0,5).map(p=>`<a href="blog/${encodeURIComponent(p.slug)}.html">${esc(p.title||'Untitled')}</a>`).join('');
+    const cats=[...new Set(posts.map(p=>p.category).filter(Boolean))].slice(0,10);
+    if(cats.length) tagsEl.innerHTML=cats.map(c=>`<span>${esc(c)}</span>`).join('');
+  })();
+</script>
 </body>
 </html>
