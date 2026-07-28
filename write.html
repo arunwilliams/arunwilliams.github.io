@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Write a post — Arun Williams</title>
 <meta name="robots" content="noindex, nofollow" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23132a43'/><text x='50' y='68' font-family='Georgia' font-size='50' font-weight='bold' fill='%231f9d6b' text-anchor='middle'>AW</text></svg>" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2320222c'/><text x='50' y='68' font-family='Georgia' font-size='50' font-weight='bold' fill='%236f56e6' text-anchor='middle'>AW</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --navy:#132a43;--navy-2:#1d3a5a;--navy-3:#0d1f33;--bg:#f5f7f9;--paper:#fff;
-    --accent:#1f9d6b;--accent-dk:#167a53;--line:#e2e6ea;--line-navy:#28405c;
+    --navy:#20222c;--navy-2:#2b2d3a;--navy-3:#101018;--bg:#f5f7f9;--paper:#fff;
+    --accent:#6f56e6;--accent-dk:#5636c9;--line:#e2e6ea;--line-navy:#28405c;
     --text:#1a2733;--text-dim:#5b6b7a;--on-navy:#eaf0f4;--on-navy-dim:#9fb2c2;
     --serif:'Lora',Georgia,serif;--sans:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;
   }
@@ -120,8 +120,8 @@ Inline you can use **bold**, *italic*, `code`, and [a link](https://example.com)
         <p class="hint">Formatting: blank line = new paragraph · <code>## </code> heading · <code>&gt; </code> quote · <code>**bold**</code> · <code>*italic*</code> · <code>`code`</code> · <code>[text](url)</code></p>
 
         <div class="actions">
-          <button class="btn btn-primary" id="download">↓ Download post file</button>
-          <button class="btn btn-outline" id="copy">Copy HTML</button>
+          <button class="btn btn-primary" id="publishLocal">✓ Publish to blog</button>
+          <button class="btn btn-outline" id="download">↓ Download HTML</button>
           <button class="btn btn-ghost" id="clear">Clear</button>
         </div>
         <div class="saved" id="saved"></div>
@@ -143,8 +143,8 @@ Inline you can use **bold**, *italic*, `code`, and [a link](https://example.com)
     </div>
 
     <div class="steps" id="publishPanel">
-      <h2>Publish straight to your site</h2>
-      <p style="color:var(--text-dim);font-size:.94rem">One click commits the post to your GitHub repo and updates the blog index — it goes live automatically. Your details stay in this browser only.</p>
+      <h2>Make it public to everyone (optional)</h2>
+      <p style="color:var(--text-dim);font-size:.94rem"><b>Publish to blog</b> above already saves the post and shows it on your blog in this browser. To make it visible to <b>all visitors</b>, push it live to your GitHub repo here — a one-time token setup. Your details stay in this browser only.</p>
       <div class="rowf" style="margin-top:14px">
         <div><label for="ghOwner">GitHub user</label><input id="ghOwner" value="arunwilliams" /></div>
         <div><label for="ghRepo">Repository</label><input id="ghRepo" value="arunwilliams.github.io" /></div>
@@ -155,18 +155,18 @@ Inline you can use **bold**, *italic*, `code`, and [a link](https://example.com)
       </div>
       <p class="hint">Need a token? Create a <b>fine-grained</b> personal access token with <b>Contents: Read and write</b> on just this repo — <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:var(--accent-dk)">github.com/settings → tokens</a>. It's stored only in your browser.</p>
       <div class="actions">
-        <button class="btn btn-primary" id="publish">⤴ Publish post</button>
+        <button class="btn btn-primary" id="publish">⤴ Push live to everyone</button>
         <label style="display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.85rem;text-transform:none;letter-spacing:0;color:var(--text-dim);margin:0"><input type="checkbox" id="ghRemember" checked style="width:auto" /> Remember token on this device</label>
       </div>
-      <pre id="log" style="display:none;margin-top:16px;background:#0d1f33;color:#d7ecff;border-radius:8px;padding:14px;font-family:var(--mono);font-size:.8rem;white-space:pre-wrap;line-height:1.6;overflow:auto"></pre>
+      <pre id="log" style="display:none;margin-top:16px;background:#101018;color:#d7ecff;border-radius:8px;padding:14px;font-family:var(--mono);font-size:.8rem;white-space:pre-wrap;line-height:1.6;overflow:auto"></pre>
     </div>
 
     <div class="steps">
-      <h2>Prefer to do it by hand?</h2>
+      <h2>How it works</h2>
       <ol>
-        <li>Click <strong>Download post file</strong> above and drop it into your repo's <code>blog/</code> folder.</li>
-        <li>Add an entry to <code>blog/posts.json</code> (<code>slug</code>, <code>title</code>, <code>category</code>, <code>date</code>, <code>excerpt</code>) so it lists on the blog page.</li>
-        <li>Commit — it's live at <code>arunwilliams.github.io/blog/your-slug.html</code>.</li>
+        <li><strong>Publish to blog</strong> saves the post in your browser and opens it on <code>blog.html</code> instantly — no setup.</li>
+        <li><strong>Push live to everyone</strong> commits it to <code>blog/posts.json</code> in your repo, so every visitor sees it (~1 min after pushing).</li>
+        <li><strong>Download HTML</strong> exports a standalone copy of the post if you ever want the raw file.</li>
       </ol>
     </div>
   </div>
@@ -249,7 +249,7 @@ Inline you can use **bold**, *italic*, `code`, and [a link](https://example.com)
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
-  :root{--navy:#132a43;--bg:#f5f7f9;--paper:#fff;--accent:#1f9d6b;--accent-dk:#167a53;--line:#e2e6ea;--text:#1a2733;--text-dim:#4c5460;--on-navy-dim:#9fb2c2;--serif:'Lora',Georgia,serif;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;--wrap:680px}
+  :root{--navy:#20222c;--bg:#f5f7f9;--paper:#fff;--accent:#6f56e6;--accent-dk:#5636c9;--line:#e2e6ea;--text:#1a2733;--text-dim:#4c5460;--on-navy-dim:#9fb2c2;--serif:'Lora',Georgia,serif;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;--wrap:680px}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7}
   a{color:var(--accent-dk)}
@@ -291,9 +291,21 @@ Inline you can use **bold**, *italic*, `code`, and [a link](https://example.com)
     URL.revokeObjectURL(url);
     $('saved').textContent='Downloaded '+slug+'.html — drop it in your blog/ folder';
   });
-  $('copy').addEventListener('click', async ()=>{
-    try{ await navigator.clipboard.writeText(buildPostHTML()); $('saved').textContent='Full HTML copied to clipboard'; }
-    catch(e){ $('saved').textContent='Copy failed — use Download instead'; }
+  function currentPost(){ const title=$('title').value.trim(); return { slug:slugify(title), title, category:$('cat').value.trim(), date:$('date').value, read:$('read').value.trim(), body:$('body').value, excerpt:excerptOf($('body').value) }; }
+  function excerptOf(body){ const line=(body||'').split(/\n/).map(s=>s.trim()).find(s=>s && !s.startsWith('#') && !s.startsWith('>'))||''; return line.replace(/[*`_]/g,'').slice(0,180); }
+
+  // Publish → save the post and open it on the blog right away (no setup needed)
+  $('publishLocal').addEventListener('click', ()=>{
+    const title=$('title').value.trim();
+    if(!title){ alert('Add a title first.'); return; }
+    if(!$('body').value.trim()){ alert('Write some body text first.'); return; }
+    const p=currentPost();
+    let arr=[]; try{ arr=JSON.parse(localStorage.getItem('aw_posts')||'[]'); }catch(e){}
+    if(!Array.isArray(arr)) arr=[];
+    arr=arr.filter(x=>x.slug!==p.slug); arr.unshift(p);
+    try{ localStorage.setItem('aw_posts', JSON.stringify(arr)); }
+    catch(e){ alert('Could not save the post in this browser.'); return; }
+    location.href='blog.html?p='+encodeURIComponent(p.slug);
   });
   $('clear').addEventListener('click', ()=>{
     if(!confirm('Clear all fields? This removes the saved draft.')) return;
@@ -331,29 +343,25 @@ Inline you can use **bold**, *italic*, `code`, and [a link](https://example.com)
     if(!o||!r||!tok){ alert('Fill in your GitHub user, repository and access token.'); return; }
     try{ if($('ghRemember').checked) localStorage.setItem('aw_gh', JSON.stringify({ghOwner:o,ghRepo:r,ghBranch:br,ghToken:tok})); else localStorage.removeItem('aw_gh'); }catch(e){}
 
-    const slug=slugify(title), postPath='blog/'+slug+'.html';
+    const p=currentPost();
     const btn=$('publish'), label=btn.textContent; btn.disabled=true; btn.textContent='Publishing…'; log.textContent='';
     try{
-      logline('Checking '+postPath+' …');
-      const existing=await ghGet(o,r,postPath,tok,br);
-      if(existing && !confirm('A post with this name already exists. Overwrite it?')) throw new Error('Cancelled.');
-      logline('Committing the post …');
-      await ghPut(o,r,postPath,tok,br,b64(buildPostHTML()),(existing?'Update':'Add')+' blog post: '+title, existing&&existing.sha);
-      logline('Updating the blog index …');
+      logline('Reading the blog index …');
       let posts=[], sha;
       const pj=await ghGet(o,r,'blog/posts.json',tok,br);
       if(pj){ sha=pj.sha; try{ posts=JSON.parse(unb64(pj.content)); }catch(e){ posts=[]; } }
       if(!Array.isArray(posts)) posts=[];
-      posts=posts.filter(p=>p.slug!==slug);
-      posts.unshift({slug,title,category:$('cat').value.trim(),date:$('date').value,excerpt:excerpt($('body').value)});
-      await ghPut(o,r,'blog/posts.json',tok,br,b64(JSON.stringify(posts,null,2)),'Update blog index: '+title, sha);
+      posts=posts.filter(x=>x.slug!==p.slug); posts.unshift(p);
+      logline('Publishing "'+title+'" …');
+      await ghPut(o,r,'blog/posts.json',tok,br,b64(JSON.stringify(posts,null,2)),'Publish post: '+title, sha);
+      try{ let arr=JSON.parse(localStorage.getItem('aw_posts')||'[]'); if(!Array.isArray(arr))arr=[]; arr=arr.filter(x=>x.slug!==p.slug); arr.unshift(p); localStorage.setItem('aw_posts',JSON.stringify(arr)); }catch(e){}
       logline('');
-      logline('✓ Published. Live in ~1 minute at:');
-      logline('https://'+o+'.github.io/blog/'+slug+'.html');
-      $('saved').textContent='Published to your site';
+      logline('✓ Live for everyone in ~1 minute:');
+      logline('https://'+o+'.github.io/blog.html?p='+p.slug);
+      $('saved').textContent='Published live';
     }catch(err){
       logline('✕ '+err.message);
-      logline('Tip: the token needs Contents: Read and write on this repo, and the branch name must match (usually main).');
+      logline('Tip: the token needs Contents: Read and write on this repo, and the branch must match (usually main).');
     }finally{ btn.disabled=false; btn.textContent=label; }
   });
 </script>
