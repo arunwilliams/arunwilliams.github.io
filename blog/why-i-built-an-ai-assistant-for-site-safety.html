@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>"Why I built an AI assistant for site safety" — Arun Williams</title>
+<meta name="description" content=" Why I Built Guardian: An AI Assistant for Site Safety" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://arunwilliams.github.io/blog/why-i-built-an-ai-assistant-for-site-safety.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content=""Why I built an AI assistant for site safety"" />
+<meta property="og:description" content=" Why I Built Guardian: An AI Assistant for Site Safety" />
+<meta property="og:url" content="https://arunwilliams.github.io/blog/why-i-built-an-ai-assistant-for-site-safety.html" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"\"Why I built an AI assistant for site safety\"","author":{"@type":"Person","name":"Arun Williams","url":"https://arunwilliams.github.io/"},"datePublished":"2026-07-27","mainEntityOfPage":"https://arunwilliams.github.io/blog/why-i-built-an-ai-assistant-for-site-safety.html"}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--navy:#20222c;--bg:#f5f7f9;--paper:#fff;--accent:#6f56e6;--accent-dk:#5636c9;--line:#e2e6ea;--text:#1a2733;--text-dim:#4c5460;--on-navy-dim:#9fb2c2;--serif:'Lora',Georgia,serif;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;--wrap:680px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7}
+  a{color:var(--accent-dk)}
+  .bar{background:var(--navy)}
+  .bar-in{max-width:var(--wrap);margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:var(--serif);font-weight:700;color:#eaf0f4;display:flex;align-items:center;gap:10px}
+  .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--accent)}
+  .bar a.back{font-family:var(--mono);font-size:.8rem;color:var(--on-navy-dim)}
+  article{max-width:var(--wrap);margin:0 auto;padding:64px 24px 80px}
+  .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-dk);margin-bottom:16px}
+  h1{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,5vw,2.9rem);letter-spacing:-.02em;line-height:1.05;color:var(--navy);margin-bottom:16px}
+  .byline{font-family:var(--mono);font-size:.8rem;color:var(--text-dim);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+  article p{font-size:1.08rem;color:var(--text-dim);margin-bottom:22px}
+  article h2{font-family:var(--serif);font-weight:600;font-size:1.5rem;margin:40px 0 14px;color:var(--navy)}
+  article blockquote{border-left:3px solid var(--accent);padding-left:18px;margin:26px 0;color:var(--navy);font-style:italic}
+  article code{font-family:var(--mono);font-size:.9em;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:2px 6px}
+  footer{background:var(--navy);color:var(--on-navy-dim);padding:24px 0;text-align:center;font-family:var(--mono);font-size:.74rem}
+  footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+  <div class="bar"><div class="bar-in"><a href="../index.html" class="brand"><span class="dot"></span>Arun Williams</a><a href="../blog.html" class="back">← All writing</a></div></div>
+  <article>
+    <div class="kicker">EHSXAI</div>
+    <h1>"Why I built an AI assistant for site safety"</h1>
+    <div class="byline">Arun Williams · 27 July 2026</div>
+    <p># Why I Built Guardian: An AI Assistant for Site Safety</p>
+    <blockquote><em>Technology should never replace a safety professional—it should empower them to make faster, better-informed decisions.</em></blockquote>
+    <p>---</p>
+    <h2>Introduction</h2>
+    <p>Construction is one of the most complex industries in the world. Every project involves hundreds of workers, multiple contractors, changing work environments, heavy machinery, hazardous energy sources, and strict compliance requirements.</p>
+    <p>A single day on a construction site can involve:</p>
+    <p><em> Working at height<br></em> Hot work<br><em> Confined space entry<br></em> Electrical isolation (LOTO)<br><em> Crane operations<br></em> Excavation<br><em> Material handling<br></em> Simultaneous operations (SIMOPS)</p>
+    <p>Each activity introduces unique risks that require planning, coordination, competent supervision, and continuous monitoring.</p>
+    <p>As Health, Safety &amp; Environment (HSE) professionals, we spend our days reviewing permits, conducting inspections, identifying hazards, investigating incidents, delivering toolbox talks, maintaining compliance, and ensuring that every worker returns home safely.</p>
+    <p>After several years working across commercial fit-outs, industrial facilities, hospitality projects, corporate offices, and high-value technology campuses, I realised something important:</p>
+    <p><strong>The biggest challenge isn't creating safety procedures—it's making them instantly accessible when people need them most.</strong></p>
+    <p>That observation became the inspiration behind <strong>Guardian</strong>.</p>
+    <p>---</p>
+    <p># The Problem Every Safety Professional Understands</p>
+    <p>Imagine a supervisor asks:</p>
+    <blockquote>"Can we start hot work near combustible materials?"</blockquote>
+    <p>An engineer asks:</p>
+    <blockquote>"What inspections are required before energising this panel?"</blockquote>
+    <p>A contractor asks:</p>
+    <blockquote>"What PPE is mandatory for this activity?"</blockquote>
+    <p>A new Safety Officer asks:</p>
+    <blockquote>"Can you help me prepare a JSA before today's work begins?"</blockquote>
+    <p>The answers exist.</p>
+    <p>They're usually hidden inside:</p>
+    <p><em> Company procedures<br></em> Client requirements<br><em> Risk assessments<br></em> SWMS documents<br><em> Standards<br></em> Lessons learned<br><em> Incident reports<br></em> Permit systems</p>
+    <p>Finding the right document often takes longer than finding the right answer should.</p>
+    <p>Meanwhile, construction doesn't stop.</p>
+    <p>Workers are waiting.</p>
+    <p>Schedules continue.</p>
+    <p>Decisions need to be made.</p>
+    <p>---</p>
+    <h2>Why Traditional Safety Management Needs Help</h2>
+    <p>Modern construction projects generate thousands of documents.</p>
+    <p>These include:</p>
+    <p><em> HSE Plans<br></em> Emergency Response Plans<br><em> Method Statements<br></em> Risk Assessments<br><em> Permit Records<br></em> Audit Reports<br><em> Inspection Checklists<br></em> Incident Investigations<br><em> Toolbox Talks<br></em> Regulatory Standards<br>* Client Requirements</p>
+    <p>Even experienced professionals sometimes spend more time searching than solving.</p>
+    <p>Guardian was built to change that.</p>
+    <p>Instead of searching through folders...</p>
+    <p>You simply ask.</p>
+    <p>---</p>
+    <h2>What Is Guardian?</h2>
+    <p>Guardian is an AI-powered assistant built specifically for construction Health, Safety &amp; Environment professionals.</p>
+    <p>It combines artificial intelligence with practical construction knowledge to help users access information, prepare documentation, and improve decision-making.</p>
+    <p>Guardian is designed for:</p>
+    <p><em> HSE Managers<br></em> Safety Officers<br><em> Project Managers<br></em> Site Engineers<br><em> Contractors<br></em> Consultants<br><em> Client Representatives<br></em> Facility Managers</p>
+    <p>Rather than replacing experience, Guardian acts like a knowledgeable colleague who is available 24 hours a day.</p>
+    <p>---</p>
+    <p># Why I Decided to Build It</p>
+    <p>The idea wasn't born in a software company.</p>
+    <p>It was born on construction sites.</p>
+    <p>Every project presented similar challenges:</p>
+    <p><em> Workers asking repetitive safety questions.<br></em> Engineers needing help with permits.<br><em> Contractors struggling with documentation.<br></em> Safety teams preparing the same reports repeatedly.<br>* Valuable lessons from previous projects becoming difficult to retrieve.</p>
+    <p>I realised that AI could become a central knowledge hub—one that learns from approved procedures and presents relevant guidance instantly.</p>
+    <p>That is what Guardian is designed to become.</p>
+    <p>---</p>
+    <p># What Guardian Can Do</p>
+    <p>Guardian is being developed as an intelligent safety companion capable of supporting day-to-day construction activities.</p>
+    <p>### Instant Safety Guidance</p>
+    <p>Ask questions like:</p>
+    <p><em> What PPE is required for electrical work?<br></em> What precautions are needed before excavation?<br><em> How do I inspect a scaffold?<br></em> What should I verify before issuing a confined space permit?</p>
+    <p>Guardian provides structured, easy-to-understand guidance in seconds.</p>
+    <p>---</p>
+    <p>### Intelligent Risk Assessment</p>
+    <p>Guardian can assist with:</p>
+    <p><em> Hazard Identification<br></em> Risk Assessment<br><em> Hierarchy of Controls<br></em> Residual Risk Evaluation<br>* Control Measure Recommendations</p>
+    <p>Instead of starting from a blank page, safety professionals can build upon structured AI-generated drafts that they review and validate.</p>
+    <p>---</p>
+    <p>### Permit-to-Work Assistance</p>
+    <p>Guardian supports Permit-to-Work workflows by helping prepare documentation for activities such as:</p>
+    <p><em> Hot Work<br></em> Work at Height<br><em> Confined Space Entry<br></em> Excavation<br><em> Lifting Operations<br></em> Electrical Isolation<br>* Energised Electrical Work</p>
+    <p>It can also explain permit requirements, prerequisites, and common precautions.</p>
+    <p>---</p>
+    <p>### Safety Documentation</p>
+    <p>Guardian helps generate:</p>
+    <p><em> Job Safety Analysis (JSA)<br></em> Safe Work Method Statements (SWMS)<br><em> Toolbox Talks<br></em> Safety Alerts<br><em> Inspection Reports<br></em> Incident Summaries<br><em> Observation Reports<br></em> Audit Checklists</p>
+    <p>This reduces administrative effort while allowing professionals to focus on verification and site engagement.</p>
+    <p>---</p>
+    <p>### Learning from Previous Incidents</p>
+    <p>Guardian aims to become a searchable knowledge base of lessons learned.</p>
+    <p>Instead of asking:</p>
+    <p><em>"Has this happened before?"</em></p>
+    <p>Users can ask:</p>
+    <p><em>"Show similar incidents involving ladder falls."</em></p>
+    <p>Or:</p>
+    <p><em>"What corrective actions were successful in previous electrical incidents?"</em></p>
+    <p>Learning becomes immediate and practical.</p>
+    <p>---</p>
+    <p># Beyond AI Chat</p>
+    <p>Guardian is designed to evolve into a complete digital safety ecosystem.</p>
+    <p>Planned capabilities include:</p>
+    <p><em> AI-powered document search<br></em> Voice assistant for field workers<br><em> Mobile inspections<br></em> QR-code safety information<br><em> Digital permit approvals<br></em> Safety analytics dashboards<br><em> Near-miss trend analysis<br></em> Contractor performance monitoring<br><em> Predictive risk analysis<br></em> Integration with BIM and project management tools<br><em> Offline mobile support<br></em> Multilingual communication</p>
+    <p>The vision extends beyond answering questions—it is about creating a connected safety platform that supports every stage of a construction project.</p>
+    <p>---</p>
+    <p># Responsible AI</p>
+    <p>Guardian is built around a simple principle:</p>
+    <p><strong>AI supports people—it does not replace them.</strong></p>
+    <p>Every recommendation should be reviewed by competent personnel and aligned with:</p>
+    <p><em> Project-specific requirements<br></em> Client standards<br><em> Applicable legislation<br></em> Company procedures</p>
+    <p>Professional judgement will always remain essential.</p>
+    <p>Guardian's purpose is to improve access to information, reduce repetitive administrative work, and promote informed decision-making.</p>
+    <p>---</p>
+    <p># Why the Name "Guardian"?</p>
+    <p>A guardian protects.</p>
+    <p>A guardian guides.</p>
+    <p>A guardian remains alert.</p>
+    <p>Those qualities define effective safety leadership.</p>
+    <p>The platform's name reflects its purpose: to stand alongside construction professionals by providing timely, relevant, and practical safety assistance whenever it's needed.</p>
+    <p>---</p>
+    <p># The Road Ahead</p>
+    <p>This is only the first step.</p>
+    <p>My vision is to make Guardian the most comprehensive AI-powered safety platform for the construction industry.</p>
+    <p>Future enhancements include:</p>
+    <p><em> Private company knowledge bases<br></em> Integration with project documentation<br><em> AI-generated compliance reports<br></em> Wearable safety device integration<br><em> Real-time hazard notifications<br></em> Computer vision for PPE detection<br><em> Predictive analytics for recurring risks<br></em> Personalised safety learning pathways<br><em> Cross-project benchmarking<br></em> Sustainability and environmental compliance modules</p>
+    <p>As AI continues to evolve, Guardian will continue evolving with it—always focused on one goal: helping people work more safely.</p>
+    <p>---</p>
+    <p># Final Thoughts</p>
+    <p>Guardian isn't just a software project.</p>
+    <p>It's the result of years spent working on construction sites, solving real safety challenges, and asking how technology could make a meaningful difference.</p>
+    <p>If Guardian helps a Safety Officer prepare a better risk assessment, enables a supervisor to issue a safer permit, or allows a worker to recognise a hazard before work begins, then it has already made a positive impact.</p>
+    <p>Because every successful project shares one common objective:</p>
+    <p><strong>Everyone goes home safely.</strong></p>
+    <p>And if technology can help make that happen, then building Guardian has been worth every step of the journey.</p>
+  </article>
+  <footer>© <span id="y"></span> Arun Williams · <a href="../index.html">Portfolio</a></footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
