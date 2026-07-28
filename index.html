@@ -314,10 +314,19 @@
   .logo-group+.logo-group{margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}
   .lg-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-dk);margin-bottom:14px}
   .logos{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
-  .logo{aspect-ratio:16/9;background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;padding:14px;transition:transform .16s,box-shadow .16s}
+  .logo{aspect-ratio:16/9;background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:14px;transition:transform .16s,box-shadow .16s}
   .logo:hover{transform:translateY(-3px);box-shadow:0 12px 24px -18px rgba(20,18,32,.4)}
-  .logo img{max-height:36px;max-width:100%;object-fit:contain}
-  .logo .mono{font-family:var(--mono);font-weight:600;color:#2a2f3a;font-size:.92rem}
+  .logo img{max-height:34px;max-width:100%;object-fit:contain}
+  .logo .name{display:flex;flex-direction:column;align-items:center;gap:7px;font-weight:600;color:#22262e;font-size:.92rem;text-align:center;line-height:1.2}
+  .logo .name::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .marquee{overflow:hidden;position:relative;-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .mtrack{display:flex;gap:12px;width:max-content;animation:logoscroll 30s linear infinite}
+  .mtrack.rev{animation-direction:reverse;animation-duration:36s}
+  .marquee:hover .mtrack{animation-play-state:paused}
+  .marquee .logo{width:154px;flex:none;aspect-ratio:auto;height:80px}
+  @keyframes logoscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(max-width:620px){.marquee .logo{width:134px;height:72px}}
+  @media(prefers-reduced-motion:reduce){.mtrack{animation:none;flex-wrap:wrap;width:auto}.marquee{overflow:visible;-webkit-mask:none;mask:none}}
 
   @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.faq-a{transition:none}}
 </style>
@@ -447,20 +456,20 @@
         <div class="logo-group">
           <div class="lg-label">Employers</div>
           <div class="logos">
-            <div class="logo" title="Cushman &amp; Wakefield"><img src="https://logo.clearbit.com/cushmanwakefield.com" alt="Cushman &amp; Wakefield" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">C&amp;W</span></div>
-            <div class="logo" title="M Moser Associates"><img src="https://logo.clearbit.com/mmoser.com" alt="M Moser Associates" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">M Moser</span></div>
-            <div class="logo" title="Bangalore International Airport"><img src="https://logo.clearbit.com/bengaluruairport.com" alt="Bangalore International Airport" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">BIAL</span></div>
-            <div class="logo" title="Shell"><img src="https://logo.clearbit.com/shell.com" alt="Shell" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">Shell</span></div>
+            <div class="logo" title="Cushman &amp; Wakefield"><img src="https://logo.clearbit.com/cushmanwakefield.com" alt="Cushman &amp; Wakefield" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">Cushman &amp; Wakefield</span></div>
+            <div class="logo" title="M Moser Associates"><img src="https://logo.clearbit.com/mmoser.com" alt="M Moser Associates" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">M Moser</span></div>
+            <div class="logo" title="Bangalore International Airport"><img src="https://logo.clearbit.com/bengaluruairport.com" alt="Bangalore International Airport" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">BIAL</span></div>
+            <div class="logo" title="Shell"><img src="https://logo.clearbit.com/shell.com" alt="Shell" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">Shell</span></div>
           </div>
         </div>
         <div class="logo-group">
           <div class="lg-label">Project clients</div>
           <div class="logos">
-            <div class="logo" title="Google"><img src="https://logo.clearbit.com/google.com" alt="Google" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">Google</span></div>
-            <div class="logo" title="Qualcomm"><img src="https://logo.clearbit.com/qualcomm.com" alt="Qualcomm" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">Qualcomm</span></div>
-            <div class="logo" title="Databricks"><img src="https://logo.clearbit.com/databricks.com" alt="Databricks" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">Databricks</span></div>
-            <div class="logo" title="Stripe"><img src="https://logo.clearbit.com/stripe.com" alt="Stripe" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">Stripe</span></div>
-            <div class="logo" title="Dufry"><img src="https://logo.clearbit.com/dufry.com" alt="Dufry" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="mono" style="display:none">Dufry</span></div>
+            <div class="logo" title="Google"><img src="https://logo.clearbit.com/google.com" alt="Google" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">Google</span></div>
+            <div class="logo" title="Qualcomm"><img src="https://logo.clearbit.com/qualcomm.com" alt="Qualcomm" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">Qualcomm</span></div>
+            <div class="logo" title="Databricks"><img src="https://logo.clearbit.com/databricks.com" alt="Databricks" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">Databricks</span></div>
+            <div class="logo" title="Stripe"><img src="https://logo.clearbit.com/stripe.com" alt="Stripe" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">Stripe</span></div>
+            <div class="logo" title="Dufry"><img src="https://logo.clearbit.com/dufry.com" alt="Dufry" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="name" style="display:none">Dufry</span></div>
           </div>
         </div>
       </section>
@@ -626,6 +635,18 @@
   const spy=new IntersectionObserver((es)=>{es.forEach(e=>{ const a=map[e.target.id]; if(!a) return;
     if(e.isIntersecting){ Object.values(map).forEach(x=>x.classList.remove('active')); a.classList.add('active'); } })},{rootMargin:'-40% 0px -55% 0px'});
   ['top','about','experience','companies','project','interests','contact'].forEach(id=>{ const s=document.getElementById(id); if(s) spy.observe(s); });
+
+  // Animated logo marquees
+  (function(){
+    const reduceMo = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    document.querySelectorAll('#companies .logos').forEach((grid,i)=>{
+      const wrap=document.createElement('div'); wrap.className='marquee';
+      const track=document.createElement('div'); track.className='mtrack'+(i%2?' rev':'');
+      while(grid.firstChild) track.appendChild(grid.firstChild);
+      if(!reduceMo) track.innerHTML += track.innerHTML;
+      wrap.appendChild(track); grid.replaceWith(wrap);
+    });
+  })();
 
   // FAQ
   document.querySelectorAll('.faq-item .faq-q').forEach(q=>q.addEventListener('click', ()=>q.parentElement.classList.toggle('open')));
